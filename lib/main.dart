@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zephyr/common/screens/splash_screen.dart';
+import 'package:zephyr/features/login/screens/login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,10 +15,11 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue, secondary: Colors.blue),
         useMaterial3: true,
       ),
-      home: const MyHomePage(),
+      // home: const MyHomePage(),
+      home: Login(),
     );
   }
 }
