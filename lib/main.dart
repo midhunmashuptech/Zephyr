@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zephyr/common/screens/splash_screen.dart';
+import 'package:zephyr/features/login/screens/forgot_password_screen.dart';
 import 'package:zephyr/features/login/screens/login.dart';
 
 void main() {
@@ -18,8 +19,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue, secondary: Colors.blue),
         useMaterial3: true,
       ),
-      // home: const MyHomePage(),
-      home: Login(),
+      home: const MyHomePage(),
+      // home: Login(),
+      // home: ForgotPasswordScreen(),
     );
   }
 }
