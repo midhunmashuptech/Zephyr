@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zephyr/common/screens/splash_screen.dart';
+import 'package:zephyr/features/login/screens/forgot_password_screen.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/login/screens/login.dart';
 import 'package:zephyr/features/registration/screens/registration_screen.dart';
@@ -20,9 +21,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryGreen, secondary: AppColors.primaryBlue),
         useMaterial3: true,
       ),
-      // home: const MyHomePage(),
+      home: const MyHomePage(),
       // home: Login(),
-      home: RegistrationScreen(),
+      // home: ForgotPasswordScreen(),
+      // home: RegistrationScreen(),
     );
   }
 }

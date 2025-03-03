@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:zephyr/common/screens/onboarding_screen.dart';
+import 'package:zephyr/constants/app_constants.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -48,7 +49,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue, // Set background color to blue
+      backgroundColor: AppColors.primaryBlue, // Set background color to blue
       body: Center(
         child: FadeTransition(
           opacity: _animation,
