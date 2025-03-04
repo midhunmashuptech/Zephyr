@@ -21,10 +21,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryGreen, secondary: AppColors.primaryBlue),
         useMaterial3: true,
       ),
-      home: const MyHomePage(),
+      // home: const MyHomePage(),
       // home: Login(),
       // home: ForgotPasswordScreen(),
-      // home: RegistrationScreen(),
+      home: RegistrationScreen(),
     );
   }
 }
