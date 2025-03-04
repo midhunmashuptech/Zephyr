@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/common/screens/splash_screen.dart';
 import 'package:zephyr/features/login/screens/forgot_password_screen.dart';
 import 'package:zephyr/constants/app_constants.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       // home: const MyHomePage(),
       // home: Login(),
       // home: ForgotPasswordScreen(),
-      home: RegistrationScreen(),
+      home: BottomNavScreen(),
     );
   }
 }
