@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/login/screens/forgot_password_screen.dart';
 import 'package:zephyr/features/login/widgets/custom_textfeild.dart';
 
 class Login extends StatefulWidget {
@@ -35,7 +36,7 @@ class _LoginState extends State<Login> {
                 ),
               ),
               SizedBox(height: 20),
-              
+
               /// Mobile Number Field
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -45,7 +46,7 @@ class _LoginState extends State<Login> {
                 ),
               ),
               SizedBox(height: 20),
-        
+
               /// Password Field
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -56,21 +57,31 @@ class _LoginState extends State<Login> {
                 ),
               ),
               SizedBox(height: 20),
-              
+
               Padding(
                 padding: const EdgeInsets.only(right: 16.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
-                      "Forgot Password?",
-                      style: TextStyle(color: AppColors.primaryBlue),
-                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ForgotPasswordScreen()
+                          )
+                        );
+                      },
+                      child: Text(
+                        "Forgot Password?",
+                        style: TextStyle(color: AppColors.primaryBlue),
+                      ),
+                    )
                   ],
                 ),
               ),
               SizedBox(height: 20),
-              
+
               /// Login Button
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -82,7 +93,7 @@ class _LoginState extends State<Login> {
                 ),
               ),
               SizedBox(height: 20),
-              
+
               /// Sign Up Option
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

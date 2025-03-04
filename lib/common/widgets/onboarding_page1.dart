@@ -43,7 +43,7 @@ class OnboardingPage1 extends StatelessWidget {
             angle: 0.1,
             child: FloatingCard(
               imgIcon: "assets/icons/react_vector.png", 
-              color: AppColors.primaryOrange,
+              color: AppColors.primaryBlue,
               size: 70,
             ),
           ),
