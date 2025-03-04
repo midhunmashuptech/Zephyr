@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/constants/widgets/layout_gradient.dart';
+import 'package:zephyr/features/login/widgets/custom_textfeild.dart';
 
 class NewPasswordScreen extends StatefulWidget {
   const NewPasswordScreen({super.key});
@@ -11,6 +13,35 @@ class NewPasswordScreen extends StatefulWidget {
 }
 
 class _NewPasswordScreenState extends State<NewPasswordScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _cPasswordController = TextEditingController();
+  bool isChecked = false;
+  bool isPwdVisible = false;
+  bool isCPwdVisible = false;
+
+  @override
+  void dispose() {
+    _passwordController.dispose();
+    _cPasswordController.dispose();
+    super.dispose();
+  }
+
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
+    } else if (value.length < 8) {
+      return 'Password must be at least 8 characters';
+    } else if (!RegExp(r"[A-Z]").hasMatch(value)) {
+      return 'Password must contain at least one uppercase letter';
+    } else if (!RegExp(r"[a-z]").hasMatch(value)) {
+      return 'Password must contain at least one lowercase letter';
+    } else if (!RegExp(r"[0-9]").hasMatch(value)) {
+      return 'Password must contain at least one digit';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,47 +50,107 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
           // Gradient for the screen
           LayoutGradient(gradient: AppColors.greenGradient),
 
-          SingleChildScrollView(
-            child: SafeArea(
-                child: Padding(
-              padding: const EdgeInsets.all(40.0),
-              child: Column(
-                children: [
-                  RichText(
-                    text: const TextSpan(
-                      children: [
-                        TextSpan(
-                          text: 'Create a  ',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24,
+          SafeArea(
+              child: Padding(
+            padding: const EdgeInsets.all(40.0),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    RichText(
+                      text: const TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Create a  ',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24,
+                            ),
                           ),
-                        ),
-                        TextSpan(
-                          text: 'Secured Password',
-                          style: TextStyle(
-                            color: AppColors.primaryGreen,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24,
+                          TextSpan(
+                            text: 'Secured Password',
+                            style: TextStyle(
+                              color: AppColors.primaryGreen,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                      "Please enter your new password below. Your password must be at least 8 characters long.", textAlign: TextAlign.center,),
-                  Lottie.asset('assets/lottie/password_lottie.json',
-                      height: 300, width: 300),
-                  SizedBox(height: 30),
-                  
-                  SizedBox(height: 10),
-                  
-                ],
+                    SizedBox(height: 10),
+                    Text(
+                        "Please enter your new password below. Your password must be at least 8 characters long.", textAlign: TextAlign.center,),
+                    Lottie.asset('assets/lottie/password_lottie.json',
+                        height: 300, width: 300),
+                    SizedBox(height: 30),
+                    CustomTextField(
+                      controller: _passwordController, 
+                      hintText: "Enter your New Password",
+                      prefixIcon: Icon(Icons.lock),
+                      suffixIcon: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                        child: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                isPwdVisible = !isPwdVisible;
+                              });
+                            },
+                            icon: isPwdVisible
+                                ? const Icon(Icons.visibility)
+                                : const Icon(Icons.visibility_off),
+                          ),
+                      ),
+                        obscureText: !isPwdVisible,
+                        validator: _validatePassword,
+                    ),
+                    SizedBox(height: 10),
+                    CustomTextField(
+                      controller: _cPasswordController, 
+                      hintText: "Re-Enter your New Password",
+                      prefixIcon: Icon(Icons.lock),
+                      suffixIcon: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                        child: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                isCPwdVisible = !isCPwdVisible;
+                              });
+                            },
+                            icon: isCPwdVisible
+                                ? const Icon(Icons.visibility)
+                                : const Icon(Icons.visibility_off),
+                          ),
+                      ),
+                        obscureText: !isCPwdVisible,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Confirm Password is required';
+                          } else if (value != _passwordController.text) {
+                            return 'Passwords do not match';
+                          }
+                          return null;
+                        },
+                    ),
+                    SizedBox(height: 10),
+                    CustomButton(
+                      text: "Reset Password",
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                            Navigator.pop(context);
+                        }
+                      },
+                      color: AppColors.primaryGreen,
+                      textcolor: AppColors.white,
+                    )
+                  ],
+                ),
               ),
-            )),
-          ),
+            ),
+          )),
         ],
       ),
     );
