@@ -13,11 +13,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String? _selectgender;
    final TextEditingController fnameController = TextEditingController();
    final TextEditingController snameController = TextEditingController();
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController mobController = TextEditingController();
-    final TextEditingController dobController = TextEditingController();
-    final TextEditingController classController = TextEditingController();
-    final TextEditingController schoolController = TextEditingController();
+   final TextEditingController emailController = TextEditingController();
+   final TextEditingController mobController = TextEditingController();
+   final TextEditingController dobController = TextEditingController();
+   final TextEditingController classController = TextEditingController();
+   final TextEditingController schoolController = TextEditingController();
     
 
   @override
@@ -182,7 +182,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ],
               ),
             ),
-
             
           ],
           ),
