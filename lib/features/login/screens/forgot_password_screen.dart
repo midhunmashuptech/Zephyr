@@ -6,6 +6,7 @@ import 'package:zephyr/common/widgets/phone_textfield.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/constants/widgets/layout_gradient.dart';
 import 'package:zephyr/features/login/screens/login.dart';
+import 'package:zephyr/features/login/screens/new_password_screen.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -29,11 +30,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     height: 56,
     textStyle: const TextStyle(
         fontSize: 20,
-        color: AppColors.primaryBlue,
+        color: AppColors.black,
         fontWeight: FontWeight.w600),
     decoration: BoxDecoration(
       color: AppColors.white,
-      border: Border.all(color: AppColors.primaryBlue),
+      border: Border.all(color: AppColors.primaryGreen),
       borderRadius: BorderRadius.circular(10),
       boxShadow: const [
         BoxShadow(
@@ -80,9 +81,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 15),
+                  SizedBox(height: 10),
                   Text(
-                      "Enter your Phone Number and we'll send you an OTP to reset your password."),
+                      "Enter your Phone Number and we'll send you an OTP to reset your password.", textAlign: TextAlign.center),
                   Lottie.asset('assets/lottie/forget_password.json',
                       height: 300, width: 300),
                   SizedBox(height: 30),
@@ -129,7 +130,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             SizedBox(height: 15),
                             CustomButton(
                               text: "Verify OTP",
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const NewPasswordScreen()
+                                  )
+                                );
+                              },
                               color: AppColors.primaryGreen,
                               textcolor: AppColors.white,
                             ),
