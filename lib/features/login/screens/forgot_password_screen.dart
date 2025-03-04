@@ -57,100 +57,103 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             child: SafeArea(
                 child: Padding(
               padding: const EdgeInsets.all(40.0),
-              child: Column(
-                children: [
-                  RichText(
-                    text: const TextSpan(
-                      children: [
-                        TextSpan(
-                          text: 'Trouble  ',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24,
-                          ),
-                        ),
-                        TextSpan(
-                          text: 'Logging In?',
-                          style: TextStyle(
-                            color: AppColors.primaryGreen,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                      "Enter your Phone Number and we'll send you an OTP to reset your password.", textAlign: TextAlign.center),
-                  Lottie.asset('assets/lottie/forget_password.json',
-                      height: 300, width: 300),
-                  SizedBox(height: 30),
-                  PhoneTextfield(),
-                  SizedBox(height: 10),
-                  AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 500),
-                    child:
-                  _otpStatus
-                      ? Column(
-                          children: [
-                            Text("Provide the OTP send to your mobile number"),
-                            SizedBox(height: 10),
-                            Pinput(
-                              length: 6,
-                              keyboardType: TextInputType.number,
-                              defaultPinTheme: defaultPinTheme,
-                              validator: (value) {
-                                // print(value ?? "Nil");
-                                return value == _otp ? null : "Invalid OTP";
-                              },
-                              onCompleted: (value) {
-                                if (value == _otp) {
-                                  //print("OTP Verified");
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => const Login()));
-                                }
-                              },
-                              errorBuilder: (errorText, pin) {
-                                return Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 8),
-                                    child: Text(
-                                      errorText ?? "",
-                                      style: const TextStyle(
-                                          color: AppColors.primaryBlue),
-                                    ),
-                                  ),
-                                );
-                              },
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: Column(
+                  children: [
+                    RichText(
+                      text: const TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Trouble  ',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24,
                             ),
-                            SizedBox(height: 15),
-                            CustomButton(
-                              text: "Verify OTP",
-                              onPressed: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const NewPasswordScreen()
-                                  )
-                                );
-                              },
+                          ),
+                          TextSpan(
+                            text: 'Logging In?',
+                            style: TextStyle(
                               color: AppColors.primaryGreen,
-                              textcolor: AppColors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24,
                             ),
-                          ],
-                        )
-                      : CustomButton(
-                          text: "Send OTP",
-                          onPressed: otpSent,
-                          color: AppColors.primaryGreen,
-                          textcolor: AppColors.white,
-                        ),
-                  )
-                ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                        "Enter your Phone Number and we'll send you an OTP to reset your password.", textAlign: TextAlign.center),
+                    Lottie.asset('assets/lottie/forget_password.json',
+                        height: 300, width: 300),
+                    SizedBox(height: 30),
+                    PhoneTextfield(),
+                    SizedBox(height: 10),
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 500),
+                      child:
+                    _otpStatus
+                        ? Column(
+                            children: [
+                              Text("Provide the OTP send to your mobile number"),
+                              SizedBox(height: 10),
+                              Pinput(
+                                length: 6,
+                                keyboardType: TextInputType.number,
+                                defaultPinTheme: defaultPinTheme,
+                                validator: (value) {
+                                  // print(value ?? "Nil");
+                                  return value == _otp ? null : "Invalid OTP";
+                                },
+                                onCompleted: (value) {
+                                  if (value == _otp) {
+                                    //print("OTP Verified");
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => const Login()));
+                                  }
+                                },
+                                errorBuilder: (errorText, pin) {
+                                  return Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 8),
+                                      child: Text(
+                                        errorText ?? "",
+                                        style: const TextStyle(
+                                            color: AppColors.primaryBlue),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                              SizedBox(height: 15),
+                              CustomButton(
+                                text: "Verify OTP",
+                                onPressed: () {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const NewPasswordScreen()
+                                    )
+                                  );
+                                },
+                                color: AppColors.primaryGreen,
+                                textcolor: AppColors.white,
+                              ),
+                            ],
+                          )
+                        : CustomButton(
+                            text: "Send OTP",
+                            onPressed: otpSent,
+                            color: AppColors.primaryGreen,
+                            textcolor: AppColors.white,
+                          ),
+                    )
+                  ],
+                ),
               ),
             )),
           ),
