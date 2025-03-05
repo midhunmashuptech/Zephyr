@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:zephyr/features/coursedetails/widgets/chapter_card.dart';
+import 'package:zephyr/features/login/screens/login.dart';
 
 class CourseChapters extends StatefulWidget {
   const CourseChapters({super.key});
@@ -8,18 +10,38 @@ class CourseChapters extends StatefulWidget {
 }
 
 class _CourseChaptersState extends State<CourseChapters> {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Text("overview")
+            Text("overview"),
+            CustomDropdownCard(
+  title: "Mathematics",
+  items: ["chap 1", "chap 2", "chap 3"],
+  onSelected: (value) {
+    
+  },
+),
+      CustomDropdownCard(
+  title: "Physics",
+  items: ["chap 1", "chap 2", "chap 3"],
+  onSelected: (value) {
+    
+  },
+),      CustomDropdownCard(
+  title: "biology",
+  items: ["chap 1", "chap 2", "chap 3"],
+  onSelected: (value) {
+    
+  },
+),
           ],
 
         ),
       ),
-      
     );
   }
 }
