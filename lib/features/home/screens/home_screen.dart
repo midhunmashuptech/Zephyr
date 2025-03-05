@@ -108,7 +108,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
             
                     SizedBox(height: 20),
-                    CustomSearchBar(),
+
+                    CustomSearchBar(color: AppColors.primaryBlue),
+
                     SizedBox(height: 20),
             
                     /// Course Categories
@@ -135,6 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       "Recommended for you",
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
+                    SizedBox(height: 10,),
             
                     Center(
                       child: Wrap(

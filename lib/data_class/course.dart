@@ -80,7 +80,7 @@ class Course {
       ),
       Course(
         name: 'Dart Programming',
-        description: 'Learn Dart Programming from scratch',
+        description: 'Learn Basics of Dart Programming from scratch',
         image: 'assets/images/course_bg2.jpg',
         instructor: 'Jane Doe',
         duration: '1 month',
