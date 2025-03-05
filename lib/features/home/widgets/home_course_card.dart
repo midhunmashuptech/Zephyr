@@ -1,0 +1,119 @@
+import 'package:flutter/material.dart';
+import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
+import 'package:iconify_flutter_plus/icons/bxs.dart';
+import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/data_class/course.dart';
+import 'package:zephyr/features/coursedetails/screens/course_details_screen.dart';
+
+class HomeCourseCard extends StatelessWidget {
+  final int index;
+  final Course course;
+  const HomeCourseCard({super.key, required this.course, required this.index});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context,
+          MaterialPageRoute(builder: (context) => CourseDetailsScreen())
+        );
+      },
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.45,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Card(
+            color: AppColors.white,
+            clipBehavior: Clip.hardEdge,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Stack(
+                  children: [
+                    Image.asset(course.image ?? "", fit: BoxFit.cover),
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        height: 100,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                            colors: [
+                              switch (index % 3) {
+                                0 => AppColors.primaryBlue,
+                                1 => AppColors.primaryGreen,
+                                2 => AppColors.primaryOrange,
+                                int() => AppColors.black,
+                              },
+                              Colors.transparent,
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 10,
+                      right: 20,
+                      child: Row(
+                        children: [
+                          Icon(Icons.star,
+                              size: 18, color: AppColors.rating_yellow),
+                          Icon(Icons.star,
+                              size: 18, color: AppColors.rating_yellow),
+                          Icon(Icons.star,
+                              size: 18, color: AppColors.rating_yellow),
+                          Icon(Icons.star,
+                              size: 18, color: AppColors.rating_yellow),
+                          Icon(Icons.star,
+                              size: 18, color: AppColors.rating_yellow),
+                          SizedBox(width: 5),
+                          Text(course.rating ?? "",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.white))
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(course.name ?? "",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1),
+                      Text(course.description ?? "",
+                          style: TextStyle(fontSize: 13),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2),
+                      SizedBox(height: 15),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Iconify(Bxs.videos, size: 20),
+                            SizedBox(width: 5),
+                            Text("${course.video_count} Videos",
+                                style: TextStyle(fontSize: 13)),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
