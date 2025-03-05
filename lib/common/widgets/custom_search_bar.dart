@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:zephyr/constants/app_constants.dart';
 
 class CustomSearchBar extends StatelessWidget {
-  CustomSearchBar({super.key});
-  
+  final Color color;
+  CustomSearchBar({super.key, required this.color});
+
   final TextEditingController _textController = TextEditingController();
 
   @override
@@ -11,16 +12,15 @@ class CustomSearchBar extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 0),
       decoration: BoxDecoration(
-        color: AppColors.white, // Light green background
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.black.withAlpha(30),
-            blurRadius: 10,
-            spreadRadius: 3
-          )
-        ]
-      ),
+          color: AppColors.white, // Light green background
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+                color: AppColors.black.withAlpha(30),
+                blurRadius: 10,
+                spreadRadius: 3)
+          ]
+        ),
       child: TextField(
         controller: _textController,
         decoration: InputDecoration(
@@ -33,7 +33,7 @@ class CustomSearchBar extends StatelessWidget {
             height: 50,
             width: 50,
             decoration: BoxDecoration(
-              color: AppColors.primaryBlue, // Button background color
+              color: color,
               borderRadius: BorderRadius.horizontal(
                 right: Radius.circular(10),
               ),
