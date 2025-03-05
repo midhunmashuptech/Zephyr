@@ -97,12 +97,13 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                color: AppColors.white,
+                decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(10)),
                 child: TabBar(
                   controller: _tabController,
                   labelColor: AppColors.primaryBlue,
                   indicatorColor: AppColors.primaryOrange,
-                  dividerColor: AppColors.primaryGreen,
+                  dividerColor: AppColors.white,
                   tabs: const [
                     Tab(text: 'Overview'),
                     Tab(text: 'Chapters'),
@@ -119,8 +120,6 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                   CourseOverview(),
                   CourseChapters(),
                   CourseReviews()
-
-
                 ],
               ),
             ),
