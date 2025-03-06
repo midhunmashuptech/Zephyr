@@ -31,7 +31,7 @@ class _CustomDropdownCardState extends State<CustomDropdownCard> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 3,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: ExpansionTile(
           title: Text(
             selectedValue ?? widget.title,

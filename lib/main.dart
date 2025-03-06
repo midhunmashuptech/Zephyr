@@ -27,10 +27,10 @@ class MyApp extends StatelessWidget {
       ),
       // home: const MyHomePage(),
       // home: Login(),
-      home: ChapterDetailsScreen(),
+      // home: ChapterDetailsScreen(),
       // home: RegistrationScreen(),
       // home: BottomNavScreen()
-      // home: CourseDetailsScreen(),
+      home: CourseDetailsScreen(),
     );
   }
 }

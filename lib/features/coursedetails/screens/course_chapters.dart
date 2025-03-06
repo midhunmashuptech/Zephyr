@@ -14,9 +14,10 @@ class _CourseChaptersState extends State<CourseChapters> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             children: [
+              SizedBox(height: 10),
               CustomDropdownCard(
                 title: "Mathematics",
                 items: ["chap 1", "chap 2", "chap 3"],
