@@ -18,47 +18,51 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-          child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                      child: ContentCard(
-                    color: AppColors.primaryBlue,
-                    icon: HugeIcons.strokeRoundedStudyLamp,
-                    label: "Study Materials",
-                  )),
-                  SizedBox(width: 20),
-                  Expanded(
-                      child: ContentCard(
-                    color: AppColors.primaryOrange,
-                    icon: HugeIcons.strokeRoundedTestTube,
-                    label: "Practice Tests",
-                  ))
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  SizedBox(width: 10),
-                  Iconify(Bxs.videos, size: 20),
-                  SizedBox(width: 10),
-                  Text(
-                    'Chapter Videos',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              SizedBox(height: 10),
-
-              ChapterVideoCard()
-            ],
-          ),
-        ),
-      )),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+            child: Column(
+              children: [
+                SizedBox(height: 30,),
+                Row(
+                  children: [
+                    Expanded(
+                        child: ContentCard(
+                      color: AppColors.primaryBlue,
+                      icon: HugeIcons.strokeRoundedStudyLamp,
+                      label: "Study Materials",
+                    )),
+                    SizedBox(width: 20),
+                    Expanded(
+                        child: ContentCard(
+                      color: AppColors.primaryOrange,
+                      icon: HugeIcons.strokeRoundedTestTube,
+                      label: "Practice Tests",
+                    ))
+                  ],
+                ),
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    SizedBox(width: 10),
+                    Iconify(Bxs.videos, size: 20),
+                    SizedBox(width: 10),
+                    Text(
+                      'Chapter Videos',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: 10,
+                      itemBuilder: (context, index) {
+                        return ChapterVideoCard();
+                      }),
+                )
+              ],
+            ),
+          )),
     );
   }
 }
