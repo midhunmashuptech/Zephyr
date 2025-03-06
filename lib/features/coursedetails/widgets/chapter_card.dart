@@ -12,7 +12,7 @@ class CustomDropdownCard extends StatefulWidget {
     super.key,
     required this.title,
     required this.items,
-    required this.onSelected,
+     required this.onSelected,
   });
 
   @override
