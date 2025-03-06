@@ -107,11 +107,20 @@ class _LoginState extends State<Login> {
                               MaterialPageRoute(
                                   builder: (context) => RegistrationScreen()));
                         },
-                        child: Text(
-                          "Sign Up",
-                          style: TextStyle(
-                              color: AppColors.primaryBlue,
-                              fontWeight: FontWeight.bold),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        RegistrationScreen()));
+                          },
+                          child: Text(
+                            "Sign Up",
+                            style: TextStyle(
+                                color: AppColors.primaryBlue,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       )
                     ],

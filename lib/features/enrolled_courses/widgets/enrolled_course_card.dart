@@ -110,7 +110,7 @@ class EnrolledCourseCard extends StatelessWidget {
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                       Text(
-                                        course.description ?? "",
+                                        "by ${course.instructor}",
                                         style: TextStyle(
                                             fontSize: 14, color: Colors.grey),
                                         maxLines: 1,
