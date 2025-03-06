@@ -28,7 +28,8 @@ class MyApp extends StatelessWidget {
       // home: Login(),
       // home: ForgotPasswordScreen(),
       // home: RegistrationScreen(),
-      home: BottomNavScreen()
+      // home: BottomNavScreen()
+         home: CourseDetailsScreen(),
     );
   }
 }

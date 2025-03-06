@@ -11,6 +11,7 @@ class AppColors {
   static const Color black = Color.fromARGB(255, 0, 0, 0);
   static const Color dropdownblue = Color.fromRGBO(227, 242, 253, 1);
   static const Color rating_yellow = Color.fromARGB(255, 255, 242, 0);
+  static const Color rating_grey = Color.fromARGB(255, 78, 77, 77); 
 
   static const Color lightBlue = Color(0xFFDEE9FF);
   static const Color lightGreen = Color(0xFFE5FFD8);
