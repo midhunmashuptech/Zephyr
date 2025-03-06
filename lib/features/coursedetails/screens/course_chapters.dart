@@ -13,25 +13,27 @@ class _CourseChaptersState extends State<CourseChapters> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Text("overview"),
-            CustomDropdownCard(
-              title: "Mathematics",
-              items: ["chap 1", "chap 2", "chap 3"],
-              onSelected: (value) {},
-            ),
-            CustomDropdownCard(
-              title: "Physics",
-              items: ["chap 1", "chap 2", "chap 3"],
-              onSelected: (value) {},
-            ),
-            CustomDropdownCard(
-              title: "biology",
-              items: ["chap 1", "chap 2", "chap 3"],
-              onSelected: (value) {},
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              CustomDropdownCard(
+                title: "Mathematics",
+                items: ["chap 1", "chap 2", "chap 3"],
+                onSelected: (value) {},
+              ),
+              CustomDropdownCard(
+                title: "Physics",
+                items: ["chap 1", "chap 2", "chap 3"],
+                onSelected: (value) {},
+              ),
+              CustomDropdownCard(
+                title: "biology",
+                items: ["chap 1", "chap 2", "chap 3"],
+                onSelected: (value) {},
+              ),
+            ],
+          ),
         ),
       ),
     );
