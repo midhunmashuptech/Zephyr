@@ -117,8 +117,57 @@ class _LoginState extends State<Login> {
                         )
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 10),
+
+                  /// Login Button
+                  CustomButton(
+                    text: "Next",
+                    color: AppColors.primaryBlue,
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BottomNavScreen()));
+                    },
+                    textcolor: AppColors.white,
+                  ),
+                  SizedBox(height: 20),
+
+                  /// Sign Up Option
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Don’t have an account?  ",
+                        style: TextStyle(color: AppColors.black),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => RegistrationScreen()));
+                        },
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        RegistrationScreen()));
+                          },
+                          child: Text(
+                            "Sign Up",
+                            style: TextStyle(
+                                color: AppColors.primaryBlue,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
               ),
             ),
           ),

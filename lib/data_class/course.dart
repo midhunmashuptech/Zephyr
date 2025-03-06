@@ -126,6 +126,48 @@ class Course {
         reviews: '80',
         discount: '18',
       ),
+      Course(
+        name: 'Flutter Development',
+        description: 'Learn Flutter Development from scratch',
+        image: 'assets/images/course_bg1.jpg',
+        instructor: 'John Doe',
+        duration: '2 months',
+        level: 'Beginner',
+        students: '1000',
+        chapters: [
+          'Introduction',
+          'Widgets',
+          'State Management',
+          'API Integration'
+        ],
+        video_count: '40',
+        quizzes: '10',
+        price: '100',
+        rating: '4.5',
+        reviews: '100',
+        discount: '20',
+      ),
+      Course(
+        name: 'Flutter Development',
+        description: 'Learn Flutter Development from scratch',
+        image: 'assets/images/course_bg1.jpg',
+        instructor: 'John Doe',
+        duration: '2 months',
+        level: 'Beginner',
+        students: '1000',
+        chapters: [
+          'Introduction',
+          'Widgets',
+          'State Management',
+          'API Integration'
+        ],
+        video_count: '40',
+        quizzes: '10',
+        price: '100',
+        rating: '4.5',
+        reviews: '100',
+        discount: '20',
+      ),
     ];
   }
 }

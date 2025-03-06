@@ -48,17 +48,19 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
       body: Stack(
         children: [
           // Gradient for the screen
-          LayoutGradient(gradient: AppColors.greenGradient),
+          SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: LayoutGradient(gradient: AppColors.greenGradient)),
 
           SafeArea(
               child: Padding(
-            padding: const EdgeInsets.all(40.0),
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height,
+            padding: const EdgeInsets.symmetric(horizontal: 40.0),
+            child: SingleChildScrollView(
               child: Form(
                 key: _formKey,
                 child: Column(
                   children: [
+                    SizedBox(height: 40),
                     RichText(
                       text: const TextSpan(
                         children: [
@@ -145,7 +147,8 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                       },
                       color: AppColors.primaryGreen,
                       textcolor: AppColors.white,
-                    )
+                    ),
+                    SizedBox(height: 40,)
                   ],
                 ),
               ),
