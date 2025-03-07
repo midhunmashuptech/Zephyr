@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/chapter_details/screens/chapter_details_screen.dart';
-import 'package:zephyr/features/login/screens/login.dart';
 
 class CustomDropdownCard extends StatefulWidget {
   final String title;
