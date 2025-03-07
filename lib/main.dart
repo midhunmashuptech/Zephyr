@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/common/screens/splash_screen.dart';
 import 'package:zephyr/features/chapter_details/screens/chapter_details_screen.dart';
+import 'package:zephyr/features/chapter_details/screens/study_materials_screen.dart';
 import 'package:zephyr/features/coursedetails/screens/course_chapters.dart';
 import 'package:zephyr/features/coursedetails/screens/course_details_screen.dart';
 import 'package:zephyr/features/login/screens/forgot_password_screen.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
       // home: ChapterDetailsScreen(),
       // home: RegistrationScreen(),
       // home: BottomNavScreen()
-      home: CourseDetailsScreen(),
+      home: StudyMaterialsScreen(),
     );
   }
 }
