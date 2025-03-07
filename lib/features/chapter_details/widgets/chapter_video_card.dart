@@ -10,7 +10,7 @@ class ChapterVideoCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => VideoPlayScreen()));
+            MaterialPageRoute(builder: (context) => SamplePlayer()));
       },
       child: Padding(
         padding: const EdgeInsets.all(5.0),

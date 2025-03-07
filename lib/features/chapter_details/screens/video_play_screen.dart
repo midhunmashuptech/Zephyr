@@ -1,43 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import 'package:chewie/chewie.dart';
 
-class VideoPlayScreen extends StatefulWidget {
-  const VideoPlayScreen({super.key});
-
+class SamplePlayer extends StatefulWidget {
   @override
-  State<VideoPlayScreen> createState() => _VideoPlayScreenState();
+  _SamplePlayerState createState() => _SamplePlayerState();
 }
 
-class _VideoPlayScreenState extends State<VideoPlayScreen> {
-  late VideoPlayerController _controller;
+class _SamplePlayerState extends State<SamplePlayer> {
+  late VideoPlayerController _videoPlayerController;
+  late ChewieController _chewieController;
 
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.networkUrl(Uri.parse(
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'))
-      ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {});
-      });
+
+    _videoPlayerController = VideoPlayerController.networkUrl(
+      Uri.parse("https://cdn.pixabay.com/video/2024/06/09/215926_tiny.mp4"),
+    );
+
+    _videoPlayerController.initialize().then((_) {
+      setState(() {});
+
+      _chewieController = ChewieController(
+        videoPlayerController: _videoPlayerController,
+        autoPlay: true,
+        looping: true,
+        showControls: true,
+        aspectRatio: _videoPlayerController.value.aspectRatio,
+        materialProgressColors: ChewieProgressColors(
+          playedColor: Colors.blue,
+          handleColor: Colors.blueAccent,
+          bufferedColor: Colors.grey,
+          backgroundColor: Colors.black38,
+        ),
+      );
+    }).catchError((error) {
+      print("Error initializing video: $error");
+    });
+  }
+
+  @override
+  void dispose() {
+    _videoPlayerController.dispose();
+    _chewieController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-          child: Column(
-        children: [
-          Center(
-            child: _controller.value.isInitialized
-                ? AspectRatio(
-                    aspectRatio: _controller.value.aspectRatio,
-                    child: VideoPlayer(_controller),
-                  )
-                : Container(),
-          ),
-        ],
-      )),
+      appBar: AppBar(title: Text("Video Player")),
+      body: Container(
+        height: 250,
+        child: _videoPlayerController.value.isInitialized
+            ? Chewie(controller: _chewieController)
+            : Center(child: CircularProgressIndicator()),
+      ),
     );
   }
 }
