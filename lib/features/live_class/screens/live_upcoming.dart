@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/live_class/widgets/live_class_card.dart';
 
 class LiveUpcoming extends StatefulWidget {
@@ -16,20 +17,23 @@ class _LiveUpcomingState extends State<LiveUpcoming> {
         child: Column(
           children: [
             LiveClassCard(
-              className: "Maths",    
-              tutorName: "John Doe",
-              date: "12/12/2021",
-              duration: "2 hours",
+              className: "Foundation of class 10",    
+              tutorName: "By Ankitha Sasikumar",
+              date: "Feb 20",
+              year: "2025",
+              duration: "10:00 AM - 11:00 AM",
               imageUrl: "assets/images/course_bg1.jpg",
-              imageColor: AppColors.grey,
-            ),
-            LiveClassCard(
-              className: "Maths",    
-              tutorName: "John Doe",
-              date: "12/12/2021",
-              duration: "2 hours",
-              imageUrl: "assets/images/course_bg2.jpg",
-              imageColor: Appcolors.grey,
+              imageColor: AppColors.lightGreen,
+              
+            ), LiveClassCard(
+              className: "Foundation of class 10",    
+              tutorName: "By Ankitha Sasikumar",
+              date: "Feb 20",
+              year: "2025",
+              duration: "10:00 AM - 11:00 AM",
+              imageUrl: "assets/images/course_bg1.jpg",
+              imageColor: AppColors.lightGreen,
+              
             ),
 
           ],
