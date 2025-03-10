@@ -8,7 +8,7 @@ import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/assignments/screens/assignments_screen.dart';
 import 'package:zephyr/features/enrolled_courses/screens/enrolled_courses.dart';
 import 'package:zephyr/features/home/screens/home_screen.dart';
-import 'package:zephyr/features/live_class/screens/live_class_screen.dart';
+import 'package:zephyr/features/live_class/screens/live_recording_screen.dart';
 
 class BottomNavScreen extends StatefulWidget {
   const BottomNavScreen({super.key});
@@ -23,7 +23,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   final _pages = [
     HomeScreen(),
     EnrolledCourses(),
-    LiveClassScreen(),
+    LiveRecordingScreen(),
     AssignmentsScreen()
   ];
 

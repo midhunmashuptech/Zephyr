@@ -32,8 +32,8 @@ class MyApp extends StatelessWidget {
       // home: BottomNavScreen()
       // home: StudyMaterialsScreen(),
       // home: CourseDetailsScreen(),
-      // home: LiveTabviewDetails(),
-      home: LiveOngoing(),
+      home: LiveTabviewDetails(),
+      // home: LiveOngoing(),
     );
   }
 }
