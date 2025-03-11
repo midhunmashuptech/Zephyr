@@ -46,6 +46,9 @@ dependencies:
   flick_video_player: ^0.9.0
   chewie: ^1.7.4
   fluentui_system_icons: ^1.1.273
+  better_player: ^0.0.84
+  youtube_player_flutter: ^9.1.1
+  tpstreams_player_sdk: ^2.1.7
 
 dev_dependencies:
   flutter_test:

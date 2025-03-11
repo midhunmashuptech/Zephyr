@@ -60,7 +60,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    SizedBox(height: 40),
+                    SizedBox(height: 50),
                     RichText(
                       text: const TextSpan(
                         children: [

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/live_class/widgets/live_class_card.dart';
 
 class LiveUpcoming extends StatefulWidget {
+  
   const LiveUpcoming({super.key});
 
   @override
@@ -29,9 +31,8 @@ class _LiveUpcomingState extends State<LiveUpcoming> {
               date: "12/12/2021",
               duration: "2 hours",
               imageUrl: "assets/images/course_bg2.jpg",
-              imageColor: Appcolors.grey,
+              imageColor: AppColors.grey,
             ),
-
           ],
         )
       ),

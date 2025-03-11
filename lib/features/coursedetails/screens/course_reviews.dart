@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/coursedetails/widgets/rating_widget.dart';
 import 'package:zephyr/features/coursedetails/widgets/review_card.dart';
 
 class CourseReviews extends StatefulWidget {
@@ -18,114 +19,42 @@ class _CourseReviewsState extends State<CourseReviews> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white, borderRadius: BorderRadius.circular(10)),
-                  child: Column(
+              SizedBox(height: 10),
+              Container(
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
+                      Column(
                         children: [
-                          SizedBox(width: 7),
-                           Text("5"),
-                           SizedBox(width: 7),
-                          const Icon(Icons.star, color: AppColors.primaryOrange,size: 15,),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width*0.5,
-                            child: LinearProgressIndicator(
-                              borderRadius: BorderRadius.circular(10),
-                              value: 0.9,
-                              backgroundColor: AppColors.grey,
-                              color: AppColors.primaryGreen,
-                              minHeight: 7,
-                            ),
-                          )
+                          RatingWidget(number: "5", value: 0.9),
+                          RatingWidget(number: "4", value: 0.7),
+                          RatingWidget(number: "3", value: 0.6),
+                          RatingWidget(number: "2", value: 0.5),
+                          RatingWidget(number: "1", value: 0.4),
                         ],
                       ),
-                      Row(
-                        children: [
-                          SizedBox(width: 7),
-                          Text("4"),
-                          SizedBox(width: 7),
-                          const Icon(Icons.star, color: AppColors.primaryOrange,size: 15,),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width*0.5,
-                            child: LinearProgressIndicator(
-                              borderRadius: BorderRadius.circular(10),
-                              value: 0.8,
-                              backgroundColor: AppColors.grey,
-                              color: AppColors.primaryGreen,
-                              minHeight: 7,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Column(
+                          children: [
+                            Text("4.8", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+                            Row(
+                              children: [
+                                const Icon(Icons.star, color: AppColors.primaryOrange,size: 15,),
+                                const Icon(Icons.star, color: AppColors.primaryOrange,size: 15,),
+                                const Icon(Icons.star, color: AppColors.primaryOrange,size: 15,),
+                                const Icon(Icons.star, color: AppColors.primaryOrange,size: 15,),
+                                const Icon(Icons.star, color: AppColors.primaryOrange,size: 15,),
+                              ],
                             ),
-                          ),
-                          SizedBox(width: 70),
-                          Text("4.8",style: TextStyle(color:AppColors.black,fontWeight: FontWeight.bold,),)
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(width: 7),
-                          Text("3"),
-                          SizedBox(width: 7),
-                          const Icon(Icons.star, color: AppColors.primaryOrange,size: 15,),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width*0.5,
-                            child: LinearProgressIndicator(
-                              borderRadius: BorderRadius.circular(10),
-                              value: 0.8,
-                              backgroundColor: AppColors.grey,
-                              color: AppColors.primaryGreen,
-                              minHeight: 7,
-                            ),
-                          ),
-                           SizedBox(width: 60),
-                          const Icon(Icons.star, color: AppColors.primaryOrange,size: 15,),
-                          const Icon(Icons.star, color: AppColors.primaryOrange,size: 15,),
-                          const Icon(Icons.star, color: AppColors.primaryOrange,size: 15,),
-                          const Icon(Icons.star, color: AppColors.primaryOrange,size: 15,),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(width: 7),
-                          Text("2"),
-                          SizedBox(width: 7),
-                          const Icon(Icons.star, color: AppColors.primaryOrange,size: 15,),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width*0.5,
-                            child: LinearProgressIndicator(
-                              borderRadius: BorderRadius.circular(10),
-                              value: 0.4,
-                              backgroundColor: AppColors.grey,
-                              color: AppColors.primaryGreen,
-                              minHeight: 7,
-                            ),
-                          ),
-                          
-                          SizedBox(width: 60 ),
-                          Text("70 reviews",style: TextStyle(color:AppColors.rating_grey),)
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          SizedBox(width: 7),
-                          Text("1"),
-                          SizedBox(width: 7),
-                          const Icon(Icons.star, color: AppColors.primaryOrange,size: 15,),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width*0.5,
-                            child: LinearProgressIndicator(
-                              borderRadius: BorderRadius.circular(10),
-                              value: 0.1,
-                              backgroundColor: AppColors.grey,
-                              color: AppColors.primaryGreen,
-                              minHeight: 7,
-                            ),
-                          )
-                        ],
-                      ),
+                            Text("70 reviews")
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),
