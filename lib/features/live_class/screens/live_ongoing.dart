@@ -23,8 +23,8 @@ class _LiveOngoingState extends State<LiveOngoing> {
               year: "2025",
               duration: "10:00 AM - 11:00 AM",
               imageUrl: "assets/images/course_bg1.jpg",
-              imageColor: AppColors.lightGreen,
-              
+              imageColor: AppColors.lightGreen, 
+              currenttab: "Ongoing",
             ),
             LiveClassCard(
               className: "Foundation of class 10",    
@@ -34,17 +34,7 @@ class _LiveOngoingState extends State<LiveOngoing> {
               duration: "10:00 AM - 11:00 AM",
               imageUrl: "assets/images/course_bg3.jpg",
               imageColor: AppColors.lightGreen,
-              
-            ),
-            LiveClassCard(
-              className: "Foundation of class 10",    
-              tutorName: "By Ankitha Sasikumar",
-              date: "Feb 20",
-              year: "2025",
-              duration: "10:00 AM - 11:00 AM",
-              imageUrl: "assets/images/course_bg4.jpg",
-              imageColor: AppColors.lightGreen,
-              
+              currenttab: "Ongoing",
             ),
           ],
         )
