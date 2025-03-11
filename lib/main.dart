@@ -5,6 +5,7 @@ import 'package:zephyr/features/assignments/screens/assignments_screen.dart';
 import 'package:zephyr/features/assignments/widgets/assignment_card.dart';
 import 'package:zephyr/features/coursedetails/screens/course_details_screen.dart';
 import 'package:zephyr/features/live_class/screens/live_tabview_details.dart';
+import 'package:zephyr/features/drawer/screens/profile_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,7 +24,6 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryGreen, secondary: AppColors.primaryBlue),
         useMaterial3: true,
       ),
-      
       // home: const MyHomePage(),
       // home: Login(),
       // home: ChapterDetailsScreen(),
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       // home: BottomNavScreen(),
       // home: StudyMaterialsScreen(),
       // home: CourseDetailsScreen(),
-      // home: LiveTabviewDetails(),
+      // home: ProfileScreen(),
       // home: LiveOngoing(),
       home: AssignmentsScreen(),
       // home: AssignmentCard(),

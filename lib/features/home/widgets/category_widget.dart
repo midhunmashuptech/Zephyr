@@ -4,8 +4,8 @@ import 'package:iconify_flutter_plus/icons/entypo.dart';
 import 'package:zephyr/constants/app_constants.dart';
 
 class CategoryWidget extends StatelessWidget {
-  final category_name;
-  const CategoryWidget({super.key, this.category_name});
+  final String categoryName;
+  const CategoryWidget({super.key, required this.categoryName});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class CategoryWidget extends StatelessWidget {
               ),
               Expanded(
                 child: Text(
-                  category_name,
+                  categoryName,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),

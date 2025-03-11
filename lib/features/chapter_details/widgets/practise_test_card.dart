@@ -1,11 +1,12 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
+import 'package:iconify_flutter_plus/icons/healthicons.dart';
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/data_class/study_material.dart';
+import 'package:zephyr/data_class/practise_test.dart';
 
-class StudyMaterialCard extends StatelessWidget {
-  final StudyMaterial studyMaterial;
-  const StudyMaterialCard({super.key, required this.studyMaterial});
+class PractiseTestCard extends StatelessWidget {
+  final PractiseTest practiseTest;
+  const PractiseTestCard({super.key, required this.practiseTest});
 
   @override
   Widget build(BuildContext context) {
@@ -35,18 +36,17 @@ class StudyMaterialCard extends StatelessWidget {
                     : MediaQuery.of(context).size.width * 0.16,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4),
-                  color: studyMaterial.type == "image"
-                      ? AppColors.primaryBlue
-                      : AppColors.primaryRed,
+                  color: practiseTest.status == "Complete"
+                      ? AppColors.primaryGreen
+                      : AppColors.primaryOrange,
                 ),
-                child: Icon(
-                  studyMaterial.type == "image"
-                      ? FluentIcons.image_28_regular
-                      : FluentIcons.document_pdf_24_regular,
-                  size: MediaQuery.of(context).size.width * 0.1 > 70
-                      ? 70
-                      : MediaQuery.of(context).size.width * 0.1,
-                  color: AppColors.white,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Iconify(
+                    Healthicons.i_exam_multiple_choice_outline,
+                    size: 16,
+                    color: AppColors.white,
+                  ),
                 ),
               ),
               SizedBox(width: 15),
@@ -63,7 +63,7 @@ class StudyMaterialCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          studyMaterial.name ?? "No Title",
+                          practiseTest.name ?? "No Title",
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -73,23 +73,37 @@ class StudyMaterialCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         Text(
-                          studyMaterial.chapter ?? "No Chapter",
+                          practiseTest.chapter ?? "No Chapter",
                           style:
                               TextStyle(fontSize: 12, color: AppColors.black),
                         ),
                       ],
                     ),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.schedule_rounded,
-                          size: 18,
-                        ),
-                        SizedBox(width: 5),
-                        Text("uploaded on ${studyMaterial.uploadDate}",
-                            style: TextStyle(fontSize: 12))
-                      ],
-                    )
+                    if (practiseTest.status == "Incomplete")
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.schedule_rounded,
+                            size: 18,
+                          ),
+                          SizedBox(width: 5),
+                          Text("due date ${practiseTest.dueDate}",
+                              style: TextStyle(fontSize: 12))
+                        ],
+                      )
+                    else if (practiseTest.status == "Complete")
+                      Row(
+                        children: [
+                          Text("Completed",
+                              style: TextStyle(
+                                  fontSize: 12, color: AppColors.primaryGreen)),
+                          SizedBox(
+                            width: 2,
+                          ),
+                          Icon(Icons.check_rounded,
+                              size: 14, color: AppColors.primaryGreen)
+                        ],
+                      )
                   ],
                 ),
               )

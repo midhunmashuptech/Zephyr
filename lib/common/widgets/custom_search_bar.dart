@@ -41,7 +41,7 @@ class CustomSearchBar extends StatelessWidget {
             child: IconButton(
               icon: Icon(Icons.search, color: Colors.white),
               onPressed: () {
-                print("Search button pressed");
+                // Searching Part
               },
             ),
           ),

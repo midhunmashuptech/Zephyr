@@ -134,7 +134,7 @@ class _VideoPlayScreenState extends State<VideoPlayScreen>
                     child: TabBarView(
                       controller: _tabController,
                       children: [
-                        VideosListingTab(),
+                        videosListingTab(),
                         CommentsListingScreen(),
                       ],
                     ),
@@ -145,7 +145,7 @@ class _VideoPlayScreenState extends State<VideoPlayScreen>
     );
   }
 
-  Widget VideosListingTab() {
+  Widget videosListingTab() {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(10.0),

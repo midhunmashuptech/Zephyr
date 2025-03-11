@@ -21,7 +21,6 @@ class CustomDropdownCard extends StatefulWidget {
 }
 
 class _CustomDropdownCardState extends State<CustomDropdownCard> {
-  String? selectedValue;
 
   @override
   Widget build(BuildContext context) {
@@ -33,16 +32,14 @@ class _CustomDropdownCardState extends State<CustomDropdownCard> {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: ExpansionTile(
           title: Text(
-            selectedValue ?? widget.title,
+            widget.title,
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
           ),
           children: widget.items.map((item) {
             return ListTile(
+              tileColor: AppColors.white,
               title: Text(item, style: const TextStyle(fontSize: 16)),
               onTap: () {
-                setState(() {
-                  selectedValue = item;
-                });
                 widget.onSelected(item);
                 Navigator.push(context, MaterialPageRoute(builder: (context) => ChapterDetailsScreen())); 
               },

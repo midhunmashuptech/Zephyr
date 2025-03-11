@@ -7,7 +7,7 @@ class Course {
   final String? level;
   final String? students;
   final List<String>? chapters;
-  final String? video_count;
+  final String? videoCount;
   final String? quizzes;
   final String? price;
   final String? rating;
@@ -23,7 +23,7 @@ class Course {
     this.level,
     this.students,
     this.chapters,
-    this.video_count,
+    this.videoCount,
     this.quizzes,
     this.price,
     this.rating,
@@ -41,7 +41,7 @@ class Course {
       level: json['level'],
       students: json['students'],
       chapters: json['lessons'],
-      video_count: json['video_count'],
+      videoCount: json['videoCount'],
       quizzes: json['quizzes'],
       price: json['price'],
       rating: json['rating'],
@@ -71,7 +71,7 @@ class Course {
           'State Management',
           'API Integration'
         ],
-        video_count: '40',
+        videoCount: '40',
         quizzes: '10',
         price: '100',
         rating: '4.5',
@@ -87,7 +87,7 @@ class Course {
         level: 'Beginner',
         students: '500',
         chapters: ['Introduction', 'Variables', 'Functions', 'Classes'],
-        video_count: '21',
+        videoCount: '21',
         quizzes: '5',
         price: '50',
         rating: '4.0',
@@ -103,7 +103,7 @@ class Course {
         level: 'Intermediate',
         students: '750',
         chapters: ['Introduction', 'Authentication', 'Firestore', 'Storage'],
-        video_count: '32',
+        videoCount: '32',
         quizzes: '7',
         price: '75',
         rating: '4.2',
@@ -119,7 +119,7 @@ class Course {
         level: 'Intermediate',
         students: '800',
         chapters: ['Introduction', 'Widgets', 'Layouts', 'Animations'],
-        video_count: '44',
+        videoCount: '44',
         quizzes: '8',
         price: '80',
         rating: '4.3',
@@ -140,7 +140,7 @@ class Course {
           'State Management',
           'API Integration'
         ],
-        video_count: '40',
+        videoCount: '40',
         quizzes: '10',
         price: '100',
         rating: '4.5',
@@ -161,7 +161,7 @@ class Course {
           'State Management',
           'API Integration'
         ],
-        video_count: '40',
+        videoCount: '40',
         quizzes: '10',
         price: '100',
         rating: '4.5',
