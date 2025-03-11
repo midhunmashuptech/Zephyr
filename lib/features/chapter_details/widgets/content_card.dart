@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/chapter_details/screens/practise_test_screen.dart';
 import 'package:zephyr/features/chapter_details/screens/study_materials_screen.dart';
 
 class ContentCard extends StatelessWidget {
@@ -22,7 +23,7 @@ class ContentCard extends StatelessWidget {
             MaterialPageRoute(
                 builder: (context) => switch (label) {
                       "Study Materials" => StudyMaterialsScreen(),
-                      "Practice Tests" => StudyMaterialsScreen(),
+                      "Practice Tests" => PractiseTestScreen(),
                       // TODO: Handle this case.
                       String() => StudyMaterialsScreen(),
                     }));

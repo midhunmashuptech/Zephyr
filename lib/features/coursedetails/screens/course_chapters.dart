@@ -20,17 +20,17 @@ class _CourseChaptersState extends State<CourseChapters> {
               SizedBox(height: 10),
               CustomDropdownCard(
                 title: "Mathematics",
-                items: ["chap 1", "chap 2", "chap 3"],
+                items: ["Chapter 1", "Chapter 2", "Chapter 3"],
                 onSelected: (value) {},
               ),
               CustomDropdownCard(
                 title: "Physics",
-                items: ["chap 1", "chap 2", "chap 3"],
+                items: ["Chapter 1", "Chapter 2", "Chapter 3"],
                 onSelected: (value) {},
               ),
               CustomDropdownCard(
-                title: "biology",
-                items: ["chap 1", "chap 2", "chap 3"],
+                title: "Biology",
+                items: ["Chapter 1", "Chapter 2", "Chapter 3"],
                 onSelected: (value) {},
               ),
             ],
