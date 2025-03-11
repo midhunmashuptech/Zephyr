@@ -6,7 +6,6 @@ import 'package:zephyr/common/widgets/onboarding_page2.dart';
 import 'package:zephyr/common/widgets/onboarding_page3.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/constants/widgets/layout_gradient.dart';
-import 'package:zephyr/features/login/screens/forgot_password_screen.dart';
 import 'package:zephyr/features/login/screens/login.dart';
 
 class OnboardingScreen extends StatefulWidget {

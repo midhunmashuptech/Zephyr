@@ -10,7 +10,7 @@ import 'package:zephyr/features/home/widgets/category_widget.dart';
 import 'package:zephyr/features/home/widgets/home_course_card.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
     courses = Course.getSampleCourses();
   }
 
-  TextEditingController _textController = TextEditingController();
+  final TextEditingController _textController = TextEditingController();
 
   final border = OutlineInputBorder(
       borderRadius: BorderRadius.horizontal(left: Radius.circular(5)));

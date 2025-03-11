@@ -10,7 +10,7 @@ class CategoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.3,
+      width: MediaQuery.of(context).size.width * 0.3 - 2,
       child: Card(
         color: AppColors.white,
         shape: RoundedRectangleBorder(
