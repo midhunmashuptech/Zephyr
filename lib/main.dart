@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:zephyr/common/screens/splash_screen.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/assignments/screens/assignments_screen.dart';
+import 'package:zephyr/features/assignments/widgets/assignment_card.dart';
+import 'package:zephyr/features/coursedetails/screens/course_details_screen.dart';
+import 'package:zephyr/features/live_class/screens/live_tabview_details.dart';
 import 'package:zephyr/features/drawer/screens/profile_screen.dart';
 
 void main() {
@@ -16,6 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        fontFamily: 'Poppins',
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryGreen, secondary: AppColors.primaryBlue),
         useMaterial3: true,
       ),
@@ -26,8 +31,10 @@ class MyApp extends StatelessWidget {
       // home: BottomNavScreen(),
       // home: StudyMaterialsScreen(),
       // home: CourseDetailsScreen(),
-      home: ProfileScreen(),
+      // home: ProfileScreen(),
       // home: LiveOngoing(),
+      home: AssignmentsScreen(),
+      // home: AssignmentCard(),
     );
   }
 }
