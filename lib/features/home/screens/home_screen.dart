@@ -30,12 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     courses = Course.getSampleCourses();
   }
-
-  final TextEditingController _textController = TextEditingController();
 
   final border = OutlineInputBorder(
       borderRadius: BorderRadius.horizontal(left: Radius.circular(5)));
@@ -59,13 +56,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         Row(
                           children: [
-                            IconButton(onPressed: () {}, icon: Iconify(Mi.menu)),
+                            IconButton(
+                                onPressed: () {}, icon: Iconify(Mi.menu)),
                             Container(
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(0.2),
+                                    color: AppColors.black.withAlpha(
+                                        50), // changed this - withOpacity(0.2)
                                     blurRadius: 6,
                                     spreadRadius: 2,
                                     offset: Offset(0, 3),
@@ -79,8 +78,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   padding: const EdgeInsets.all(2.0),
                                   child: CircleAvatar(
                                     radius: 25,
-                                    foregroundImage:
-                                        AssetImage("assets/images/kim_shin.webp"),
+                                    foregroundImage: AssetImage(
+                                        "assets/images/kim_shin.webp"),
                                   ),
                                 ),
                               ),
@@ -95,7 +94,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Text(
                                   "Kim Shin",
                                   style: TextStyle(
-                                      fontSize: 18, fontWeight: FontWeight.bold),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ],
                             )
@@ -106,39 +106,43 @@ class _HomeScreenState extends State<HomeScreen> {
                             icon: Iconify(Mdi.bell_notification, size: 30))
                       ],
                     ),
-            
+
                     SizedBox(height: 20),
 
                     CustomSearchBar(color: AppColors.primaryBlue),
 
                     SizedBox(height: 20),
-            
+
                     /// Course Categories
                     Text(
                       "Courses",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 10),
-            
+
                     Center(
                       child: Wrap(
                         children: categories
                             .map((category) => CategoryWidget(
-                                category_name:
+                                categoryName:
                                     category)) // Assuming CategoryWidget fits dynamically
                             .toList(),
                       ),
                     ),
-            
+
                     SizedBox(height: 20),
-            
+
                     /// Recommended Section
                     Text(
                       "Recommended for you",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 10,),
-            
+                    SizedBox(
+                      height: 10,
+                    ),
+
                     Center(
                       child: Wrap(
                         children: courses.asMap().entries.map((entry) {
@@ -148,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         }).toList(),
                       ),
                     ),
-            
+
                     // GridView.builder(
                     //   shrinkWrap: true,
                     //   physics: NeverScrollableScrollPhysics(), // Prevent nested scrolling

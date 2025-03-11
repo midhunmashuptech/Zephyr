@@ -15,8 +15,7 @@ class HomeCourseCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(context,
-          MaterialPageRoute(builder: (context) => CourseDetailsScreen())
-        );
+            MaterialPageRoute(builder: (context) => CourseDetailsScreen()));
       },
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.448,
@@ -60,15 +59,15 @@ class HomeCourseCard extends StatelessWidget {
                       child: Row(
                         children: [
                           Icon(Icons.star,
-                              size: 18, color: AppColors.rating_yellow),
+                              size: 18, color: AppColors.ratingYellow),
                           Icon(Icons.star,
-                              size: 18, color: AppColors.rating_yellow),
+                              size: 18, color: AppColors.ratingYellow),
                           Icon(Icons.star,
-                              size: 18, color: AppColors.rating_yellow),
+                              size: 18, color: AppColors.ratingYellow),
                           Icon(Icons.star,
-                              size: 18, color: AppColors.rating_yellow),
+                              size: 18, color: AppColors.ratingYellow),
                           Icon(Icons.star,
-                              size: 18, color: AppColors.rating_yellow),
+                              size: 18, color: AppColors.ratingYellow),
                           SizedBox(width: 5),
                           Text(course.rating ?? "",
                               style: TextStyle(
@@ -101,7 +100,7 @@ class HomeCourseCard extends StatelessWidget {
                           children: [
                             Iconify(Bxs.videos, size: 20),
                             SizedBox(width: 5),
-                            Text("${course.video_count} Videos",
+                            Text("${course.videoCount} Videos",
                                 style: TextStyle(fontSize: 13)),
                           ],
                         ),

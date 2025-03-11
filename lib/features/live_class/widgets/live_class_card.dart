@@ -66,7 +66,7 @@ class LiveClassCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "$tutorName",
+                          "by $tutorName",
                           style: TextStyle(
                               color: AppColors.black,
                               fontSize: 15,

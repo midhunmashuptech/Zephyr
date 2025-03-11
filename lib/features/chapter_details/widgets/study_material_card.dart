@@ -27,22 +27,34 @@ class StudyMaterialCard extends StatelessWidget {
           child: Row(
             children: [
               Container(
-                width: MediaQuery.of(context).size.width * 0.16 > 120 ? 120 : MediaQuery.of(context).size.width * 0.16,
-                height: MediaQuery.of(context).size.width * 0.16 > 120 ? 120 : MediaQuery.of(context).size.width * 0.16,
+                width: MediaQuery.of(context).size.width * 0.16 > 120
+                    ? 120
+                    : MediaQuery.of(context).size.width * 0.16,
+                height: MediaQuery.of(context).size.width * 0.16 > 120
+                    ? 120
+                    : MediaQuery.of(context).size.width * 0.16,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4),
-                  color: studyMaterial.type == "image" ? AppColors.primaryBlue : AppColors.primaryRed,
+                  color: studyMaterial.type == "image"
+                      ? AppColors.primaryBlue
+                      : AppColors.primaryRed,
                 ),
                 child: Icon(
-                  studyMaterial.type == "image" ? FluentIcons.image_28_regular : FluentIcons.document_pdf_24_regular,
-                  size: MediaQuery.of(context).size.width * 0.1 > 70 ? 70 : MediaQuery.of(context).size.width * 0.1,
+                  studyMaterial.type == "image"
+                      ? FluentIcons.image_28_regular
+                      : FluentIcons.document_pdf_24_regular,
+                  size: MediaQuery.of(context).size.width * 0.1 > 70
+                      ? 70
+                      : MediaQuery.of(context).size.width * 0.1,
                   color: AppColors.white,
                 ),
               ),
               SizedBox(width: 15),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.61,
-                height: MediaQuery.of(context).size.width * 0.14 > 100 ? 100 : MediaQuery.of(context).size.width * 0.15,
+                height: MediaQuery.of(context).size.width * 0.14 > 100
+                    ? 100
+                    : MediaQuery.of(context).size.width * 0.15,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -74,7 +86,7 @@ class StudyMaterialCard extends StatelessWidget {
                           size: 18,
                         ),
                         SizedBox(width: 5),
-                        Text("uploaded on ${studyMaterial.upload_date}",
+                        Text("uploaded on ${studyMaterial.uploadDate}",
                             style: TextStyle(fontSize: 12))
                       ],
                     )
