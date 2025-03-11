@@ -1,9 +1,9 @@
 // import 'package:flutter/material.dart';
 // import 'package:zephyr/features/chapter_details/widgets/chapter_video_card.dart';
 
-// class VideosListingTab extends StatelessWidget {
+// class videosListingTab extends StatelessWidget {
 //   final void Function()? onPressed;
-//   const VideosListingTab({super.key, this.onPressed});
+//   const videosListingTab({super.key, this.onPressed});
 
 //   @override
 //   Widget build(BuildContext context) {

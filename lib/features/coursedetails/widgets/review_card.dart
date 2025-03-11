@@ -38,14 +38,18 @@ class ReviewCard extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(Icons.star, color: AppColors.primaryOrange, size: 15),
-                      Icon(Icons.star, color: AppColors.primaryOrange, size: 15),
-                      Icon(Icons.star, color: AppColors.primaryOrange, size: 15),
-                      Icon(Icons.star, color: AppColors.primaryOrange, size: 15),
+                      Icon(Icons.star,
+                          color: AppColors.primaryOrange, size: 15),
+                      Icon(Icons.star,
+                          color: AppColors.primaryOrange, size: 15),
+                      Icon(Icons.star,
+                          color: AppColors.primaryOrange, size: 15),
+                      Icon(Icons.star,
+                          color: AppColors.primaryOrange, size: 15),
                       SizedBox(width: 7),
                       Text(
                         timeAgo,
-                        style: TextStyle(color: AppColors.rating_grey),
+                        style: TextStyle(color: AppColors.ratingGrey),
                       ),
                     ],
                   ),
@@ -56,7 +60,7 @@ class ReviewCard extends StatelessWidget {
           SizedBox(height: 10),
           Text(
             reviewText,
-            style: TextStyle(color: AppColors.rating_grey),
+            style: TextStyle(color: AppColors.ratingGrey),
           ),
           SizedBox(height: 10),
         ],

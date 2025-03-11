@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zephyr/common/screens/splash_screen.dart';
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/features/coursedetails/screens/course_details_screen.dart';
 import 'package:zephyr/features/drawer/screens/profile_screen.dart';
 
 void main() {

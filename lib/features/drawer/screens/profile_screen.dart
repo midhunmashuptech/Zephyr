@@ -14,7 +14,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  File? selectedImage = null;
+  File? selectedImage;
 
   Future<void> pickImage() async {
     final picker = ImagePicker();
@@ -57,8 +57,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     CircleAvatar(
                       backgroundImage: selectedImage == null
-                      ? AssetImage("assets/images/kim_shin.webp")
-                      : FileImage(selectedImage!),
+                          ? AssetImage("assets/images/kim_shin.webp")
+                          : FileImage(selectedImage!),
                       radius: 80,
                     ),
                     Positioned(
@@ -85,7 +85,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(height: 10),
                     Text(
                       "Firstname",
-                      style: TextStyle(color: AppColors.rating_grey),
+                      style: TextStyle(color: AppColors.ratingGrey),
                     ),
                     Text("Kim",
                         style: TextStyle(
@@ -94,7 +94,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(height: 10),
                     Text(
                       "Lastname",
-                      style: TextStyle(color: AppColors.rating_grey),
+                      style: TextStyle(color: AppColors.ratingGrey),
                     ),
                     Text("Shin",
                         style: TextStyle(
@@ -103,7 +103,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(height: 10),
                     Text(
                       "Email Address",
-                      style: TextStyle(color: AppColors.rating_grey),
+                      style: TextStyle(color: AppColors.ratingGrey),
                     ),
                     Text("kimshin@gmail.com",
                         style: TextStyle(
@@ -112,7 +112,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(height: 5),
                     Text(
                       "Mobile Number",
-                      style: TextStyle(color: AppColors.rating_grey),
+                      style: TextStyle(color: AppColors.ratingGrey),
                     ),
                     Text("9992226661",
                         style: TextStyle(

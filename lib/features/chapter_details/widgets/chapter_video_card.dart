@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/features/chapter_details/screens/video_play_screen.dart';
 
+// ignore: must_be_immutable
 class ChapterVideoCard extends StatelessWidget {
   final void Function()? onPressed;
   bool? currentlySelected = false;

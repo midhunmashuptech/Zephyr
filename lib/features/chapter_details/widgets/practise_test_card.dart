@@ -1,4 +1,3 @@
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/healthicons.dart';
@@ -88,7 +87,7 @@ class PractiseTestCard extends StatelessWidget {
                             size: 18,
                           ),
                           SizedBox(width: 5),
-                          Text("due date ${practiseTest.due_date}",
+                          Text("due date ${practiseTest.dueDate}",
                               style: TextStyle(fontSize: 12))
                         ],
                       )
@@ -96,9 +95,13 @@ class PractiseTestCard extends StatelessWidget {
                       Row(
                         children: [
                           Text("Completed",
-                            style: TextStyle(fontSize: 12, color: AppColors.primaryGreen)),
-                          SizedBox(width: 2,),
-                          Icon(Icons.check_rounded, size: 14, color: AppColors.primaryGreen)
+                              style: TextStyle(
+                                  fontSize: 12, color: AppColors.primaryGreen)),
+                          SizedBox(
+                            width: 2,
+                          ),
+                          Icon(Icons.check_rounded,
+                              size: 14, color: AppColors.primaryGreen)
                         ],
                       )
                   ],

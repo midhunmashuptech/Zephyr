@@ -24,7 +24,6 @@ class ContentCard extends StatelessWidget {
                 builder: (context) => switch (label) {
                       "Study Materials" => StudyMaterialsScreen(),
                       "Practice Tests" => PractiseTestScreen(),
-                      // TODO: Handle this case.
                       String() => StudyMaterialsScreen(),
                     }));
       },
