@@ -23,7 +23,8 @@ class _LiveUpcomingState extends State<LiveUpcoming> {
               year: "2025",
               duration: "10:00 AM - 11:00 AM",
               imageUrl: "assets/images/course_bg1.jpg",
-              imageColor: AppColors.lightGreen,
+              imageColor: AppColors.lightGreen, 
+              currenttab: "Upcoming",
               
             ), LiveClassCard(
               className: "Foundation of class 10",    
@@ -33,7 +34,7 @@ class _LiveUpcomingState extends State<LiveUpcoming> {
               duration: "10:00 AM - 11:00 AM",
               imageUrl: "assets/images/course_bg1.jpg",
               imageColor: AppColors.lightGreen,
-              
+              currenttab: "Upcoming", 
             ),
 
           ],

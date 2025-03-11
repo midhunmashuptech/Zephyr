@@ -55,8 +55,6 @@ class _LiveTabviewDetailsState extends State<LiveTabviewDetails>
            LiveOngoing(),
            LiveUpcoming(),
            LiveRecordingScreen()
-
-           
           ],
         ),
       ),

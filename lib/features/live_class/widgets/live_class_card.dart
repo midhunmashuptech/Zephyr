@@ -10,6 +10,7 @@ class LiveClassCard extends StatelessWidget {
   final String duration;
   final String imageUrl;
   final Color imageColor;
+  final String currenttab;
 
   const LiveClassCard({
     super.key,
@@ -20,15 +21,16 @@ class LiveClassCard extends StatelessWidget {
     required this.duration,
     required this.imageUrl,
     required this.imageColor,
+    required this.currenttab
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
+      padding: const EdgeInsets.symmetric(vertical: 3,horizontal: 10),
       child: Card(
         color: AppColors.white,
-        elevation: 4,
+        elevation: 3,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -121,6 +123,7 @@ class LiveClassCard extends StatelessWidget {
                             ),
                           ],
                         ),
+                        if (currenttab == "Ongoing")
                         Padding(
                           padding: const EdgeInsets.only(right: 8.0),
                           child: Row(
@@ -135,7 +138,12 @@ class LiveClassCard extends StatelessWidget {
                                       fontSize: 16)),
                             ],
                           ),
-                        ),
+                        )
+                        else if (currenttab == "Recordings")
+                         IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.download,color: AppColors.primaryBlue,)
+                          )
                       ],
                     ),
                   ],
