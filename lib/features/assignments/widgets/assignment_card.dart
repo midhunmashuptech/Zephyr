@@ -4,7 +4,6 @@ import 'package:zephyr/constants/app_constants.dart' show AppColors;
 class AssignmentCard extends StatelessWidget {
   final String heading;
   final String author;
-  // final String dateText;
   final String date;
   final String time;
 
@@ -12,7 +11,6 @@ class AssignmentCard extends StatelessWidget {
       {super.key,
       required this.heading,
       required this.author,
-      // required this.dateText,
       required this.date,
       required this.time});
 
