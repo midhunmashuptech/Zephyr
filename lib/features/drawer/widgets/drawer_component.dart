@@ -4,22 +4,19 @@ import 'package:zephyr/constants/app_constants.dart';
 class DrawerComponent extends StatelessWidget {
   final String item;
   final IconData icon;
-  final Color color;
-  const DrawerComponent({super.key, required this.item, required this.icon, required this.color});
+  final void Function()? onTap;
+  const DrawerComponent(
+      {super.key, required this.item, required this.icon, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(
-          icon,
-          color: color,
-        ),
-        SizedBox(
-          width: 10,
-        ),
-        Text(item)
-      ],
+    return ListTile(
+      title: Text(
+        item,
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+      ),
+      leading: Icon(icon),
+      onTap: onTap,
     );
   }
 }

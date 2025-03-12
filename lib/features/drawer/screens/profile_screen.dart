@@ -118,7 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.w600)),
                     SizedBox(
-                      height: 20,
+                      height: 30,
                     ),
                     CustomButton(
                       text: "Update Password",
@@ -126,7 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       textcolor: AppColors.white,
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 15,
                     ),
                     CustomButton(
                       text: "Logout",

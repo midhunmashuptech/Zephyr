@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryGreen, secondary: AppColors.primaryBlue),
         useMaterial3: true,
       ),
-      // home: const MyHomePage(),
+      home: const MyHomePage(),
       // home: Login(),
       // home: ChapterDetailsScreen(),
       // home: RegistrationScreen(),
@@ -37,8 +37,8 @@ class MyApp extends StatelessWidget {
       // home: ProfileScreen(),
       // home: LiveTabviewDetails(),
       // home: AssignmentsScreen(),
-      // home: AssignmentUploadScreen() ,
-      home: DrawerWidget(),
+      // home: DrawerWidget(),
+      // home: AssignmentUploadScreen(),
     );
   }
 }

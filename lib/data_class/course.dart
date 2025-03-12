@@ -58,7 +58,7 @@ class Course {
   static List<Course> getSampleCourses() {
     return [
       Course(
-        name: 'Flutter Development',
+        name: 'Flutter Development Flutter Development',
         description: 'Learn Flutter Development from scratch',
         image: 'assets/images/course_bg1.jpg',
         instructor: 'John Doe',
@@ -80,7 +80,7 @@ class Course {
       ),
       Course(
         name: 'Dart Programming',
-        description: 'Learn Basics of Dart Programming from scratch',
+        description: 'Learn Basics of Dart Programming from scratch itself',
         image: 'assets/images/course_bg2.jpg',
         instructor: 'Jane Doe',
         duration: '1 month',
