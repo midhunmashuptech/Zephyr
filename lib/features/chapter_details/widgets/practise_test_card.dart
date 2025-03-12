@@ -50,11 +50,11 @@ class PractiseTestCard extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 15),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.61,
-                height: MediaQuery.of(context).size.width * 0.14 > 100
-                    ? 100
-                    : MediaQuery.of(context).size.width * 0.15,
+              Expanded(
+                // width: MediaQuery.of(context).size.width * 0.61,
+                // height: MediaQuery.of(context).size.width * 0.14 > 100
+                //     ? 100
+                //     : MediaQuery.of(context).size.width * 0.15,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -66,7 +66,7 @@ class PractiseTestCard extends StatelessWidget {
                           practiseTest.name ?? "No Title",
                           style: TextStyle(
                             fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w600,
                             height: 1.2,
                           ),
                           maxLines: 1,
@@ -79,6 +79,7 @@ class PractiseTestCard extends StatelessWidget {
                         ),
                       ],
                     ),
+                    SizedBox(height: 8),
                     if (practiseTest.status == "Incomplete")
                       Row(
                         children: [

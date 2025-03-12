@@ -63,9 +63,7 @@ class ChapterVideoCard extends StatelessWidget {
                               ],
                             ))),
                     SizedBox(width: 10),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.width * 0.15,
-                      width: MediaQuery.of(context).size.width * 0.47,
+                    Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -78,7 +76,7 @@ class ChapterVideoCard extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize:
                                       MediaQuery.of(context).size.width * 0.035,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w600,
                                   height: 1.2,
                                 ),
                                 maxLines: 2,
@@ -117,7 +115,7 @@ class ChapterVideoCard extends StatelessWidget {
                                   Text(
                                     "12:45",
                                     style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                        TextStyle(fontWeight: FontWeight.w600),
                                   ),
                                 ],
                               )
@@ -147,9 +145,17 @@ class ChapterVideoCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.play_arrow_rounded, color: AppColors.white,),
+                        Icon(
+                          Icons.play_arrow_rounded,
+                          color: AppColors.white,
+                        ),
                         SizedBox(width: 10),
-                        Text("Currently Playing...", style: TextStyle(color: AppColors.white, fontWeight: FontWeight.bold),)
+                        Text(
+                          "Currently Playing...",
+                          style: TextStyle(
+                              color: AppColors.white,
+                              fontWeight: FontWeight.w600),
+                        )
                       ],
                     )
                   ],

@@ -38,7 +38,7 @@ class _LoginState extends State<Login> {
                     ),
                     Text(
                       "Login",
-                      style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600),
                     ),
                     SizedBox(height: 20),
         
@@ -120,7 +120,7 @@ class _LoginState extends State<Login> {
                               "Sign Up",
                               style: TextStyle(
                                   color: AppColors.primaryBlue,
-                                  fontWeight: FontWeight.bold),
+                                  fontWeight: FontWeight.w600),
                             ),
                           ),
                         )

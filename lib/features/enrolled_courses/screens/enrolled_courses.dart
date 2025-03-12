@@ -51,7 +51,7 @@ class _EnrolledCoursesState extends State<EnrolledCourses> {
                       Text(
                         'My Subscribed Courses',
                         style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold),
+                            fontSize: 22, fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),

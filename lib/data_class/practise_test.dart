@@ -11,7 +11,7 @@ class PractiseTest {
   static List<PractiseTest> getSampleTests() {
     return [
       PractiseTest(
-          name: "Test on Photosynthesis",
+          name: "Test on Photosynthesis Test on Photosynthesis",
           chapter: "Chapter 1",
           uploadDate: "22/10/2024",
           dueDate: "22/10/2024",

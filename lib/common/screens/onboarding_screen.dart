@@ -75,7 +75,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               Text(
                                 "Education is the best learn ever",
                                 style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                    fontSize: 20, fontWeight: FontWeight.w600),
                               ),
                               SizedBox(height: 5),
                               Text(

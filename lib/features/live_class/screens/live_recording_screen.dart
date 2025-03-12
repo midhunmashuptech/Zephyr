@@ -31,7 +31,7 @@
 //                   Row(
 //                     children: [
 //                     Column(children: [
-//                       Text("Aug 27,2025",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+//                       Text("Aug 27,2025",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),),
 //                       Text("Today,Tuesday"),
 //                     ],
 //                     ),
@@ -55,18 +55,18 @@
 //               ),
 //             ),
 //             LiveClassCard(
-//               className: "Foundation of class 10",    
-//               tutorName: "By Ankitha Sasikumar",
+//               className: "Foundation of class 10",
+//               tutorName: "Ankitha Sasikumar",
 //               date: "Feb 20",
 //               year: "2025",
 //               duration: "10:00 AM - 11:00 AM",
 //               imageUrl: "assets/images/course_bg1.jpg",
-//               imageColor: AppColors.lightGreen, 
+//               imageColor: AppColors.lightGreen,
 //               currenttab: "Recordings",
 //             ),
 //             LiveClassCard(
-//               className: "Foundation of class 10",    
-//               tutorName: "By Ankitha Sasikumar",
+//               className: "Foundation of class 10",
+//               tutorName: "Ankitha Sasikumar",
 //               date: "Feb 20",
 //               year: "2025",
 //               duration: "10:00 AM - 11:00 AM",
@@ -80,7 +80,6 @@
 //     );
 //   }
 // }
-
 
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
@@ -97,12 +96,41 @@ class LiveRecordingScreen extends StatefulWidget {
 }
 
 class _LiveRecordingScreenState extends State<LiveRecordingScreen> {
-  DateTime selectedDate = DateTime.now(); 
+  DateTime selectedDate = DateTime.now();
+  final currentDate = DateTime.now();
+
+  // Function to get the label for Today, Tomorrow, Yesterday
+  String getDayLabel(DateTime date) {
+    // Check if it's today
+    if (isSameDay(date, currentDate)) {
+      return "Today, ${DateFormat('EEEE').format(date)}";
+    }
+
+    // Check if it's tomorrow
+    if (isSameDay(date, currentDate.add(Duration(days: 1)))) {
+      return "Tomorrow, ${DateFormat('EEEE').format(date)}";
+    }
+
+    // Check if it's yesterday
+    if (isSameDay(date, currentDate.subtract(Duration(days: 1)))) {
+      return "Yesterday, ${DateFormat('EEEE').format(date)}";
+    }
+
+    // Return the formatted day if it's not Today, Tomorrow, or Yesterday
+    return DateFormat('EEEE').format(date);
+  }
+
+  // Helper function to check if two dates are on the same day
+  bool isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
+  }
 
   @override
   Widget build(BuildContext context) {
     String formattedDate = DateFormat('MMM d, yyyy').format(selectedDate);
-    String formattedDay = DateFormat('EEEE').format(selectedDate);
+    String formattedDay = getDayLabel(selectedDate);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -128,14 +156,27 @@ class _LiveRecordingScreenState extends State<LiveRecordingScreen> {
                           Text(
                             formattedDate,
                             style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              height: 0.95, // Reduces the line height
+                            ),
                           ),
-                          Text(formattedDay,style:TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.normal)),
+                          Text(
+                            formattedDay,
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.normal,
+                              height: 0.95, // Reduces the line height
+                            ),
+                          ),
                         ],
                       ),
                       IconButton(
-                        icon: Icon(Icons.calendar_month, color: AppColors.black),
+                        icon: Icon(
+                          Icons.calendar_month,
+                          color: AppColors.black,
+                          size: 30,
+                        ),
                         onPressed: () async {
                           DateTime? pickedDate = await showDatePicker(
                             context: context,
@@ -143,9 +184,11 @@ class _LiveRecordingScreenState extends State<LiveRecordingScreen> {
                             firstDate: DateTime(2000),
                             lastDate: DateTime(2101),
                           );
-                          if (pickedDate != null && pickedDate != selectedDate) {
+                          if (pickedDate != null &&
+                              pickedDate != selectedDate) {
                             setState(() {
                               selectedDate = pickedDate;
+                              formattedDay = getDayLabel(pickedDate);
                             });
                           }
                         },
@@ -155,10 +198,14 @@ class _LiveRecordingScreenState extends State<LiveRecordingScreen> {
                 ],
               ),
             ),
-            Divider(),
+            Opacity(
+                opacity: 0.5,
+                child: Divider(
+                  color: AppColors.grey,
+                )),
             LiveClassCard(
               className: "Foundation of class 10",
-              tutorName: "By Ankitha Sasikumar",
+              tutorName: "Ankitha Sasikumar",
               date: "Feb 20",
               year: "2025",
               duration: "10:00 AM - 11:00 AM",
@@ -168,7 +215,7 @@ class _LiveRecordingScreenState extends State<LiveRecordingScreen> {
             ),
             LiveClassCard(
               className: "Foundation of class 10",
-              tutorName: "By Ankitha Sasikumar",
+              tutorName: "Ankitha Sasikumar",
               date: "Feb 20",
               year: "2025",
               duration: "10:00 AM - 11:00 AM",

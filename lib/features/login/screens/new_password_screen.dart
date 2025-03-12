@@ -63,24 +63,26 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                     SizedBox(height: 50),
                     RichText(
                       text: const TextSpan(
-                        children: [
-                          TextSpan(
-                            text: 'Create a  ',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24,
-                            ),
-                          ),
-                          TextSpan(
-                            text: 'Secured Password',
-                            style: TextStyle(
-                              color: AppColors.primaryGreen,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24,
-                            ),
-                          ),
-                        ],
+                      children: [
+                        TextSpan(
+                        text: 'Create a  ',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 24,
+                          fontFamily: 'Poppins',
+                        ),
+                        ),
+                        TextSpan(
+                        text: 'Secured Password',
+                        style: TextStyle(
+                          color: AppColors.primaryGreen,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 24,
+                          fontFamily: 'Poppins',
+                        ),
+                        ),
+                      ],
                       ),
                     ),
                     SizedBox(height: 10),

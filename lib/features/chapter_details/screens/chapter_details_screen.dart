@@ -51,7 +51,7 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
                 SizedBox(width: 10),
                 Text(
                   'Chapter Videos',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                 ),
               ],
             ),

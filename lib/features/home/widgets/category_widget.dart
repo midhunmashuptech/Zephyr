@@ -29,7 +29,7 @@ class CategoryWidget extends StatelessWidget {
                 child: Text(
                   categoryName,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.w600),
                 ),
               ),
               SizedBox(width: 10)

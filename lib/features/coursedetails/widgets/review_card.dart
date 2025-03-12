@@ -33,7 +33,7 @@ class ReviewCard extends StatelessWidget {
                 children: [
                   Text(
                     userName,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(fontWeight: FontWeight.w600),
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,

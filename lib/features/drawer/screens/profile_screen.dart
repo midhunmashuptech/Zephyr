@@ -47,7 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(width: 10),
                   Text(
                     'Profile Page',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
@@ -89,7 +89,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Text("Kim",
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold)),
+                            fontSize: 20, fontWeight: FontWeight.w600)),
                     Divider(),
                     SizedBox(height: 10),
                     Text(
@@ -98,7 +98,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Text("Shin",
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold)),
+                            fontSize: 20, fontWeight: FontWeight.w600)),
                     Divider(),
                     SizedBox(height: 10),
                     Text(
@@ -107,7 +107,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Text("kimshin@gmail.com",
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold)),
+                            fontSize: 20, fontWeight: FontWeight.w600)),
                     Divider(),
                     SizedBox(height: 5),
                     Text(
@@ -116,7 +116,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Text("9992226661",
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold)),
+                            fontSize: 20, fontWeight: FontWeight.w600)),
                     SizedBox(
                       height: 20,
                     ),
