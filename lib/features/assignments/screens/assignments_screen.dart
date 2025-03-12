@@ -25,21 +25,27 @@ class AssignmentsScreen extends StatelessWidget {
                   ),
                   SizedBox(width: 10),
                   Text(
-                    'Live Classes',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    'Assignments',
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w400),
                   ),
                 ],
               ),
               AssignmentCard(
                   heading:
-                      "Write note on Photosynthesis Write note on Photosynthesis",
+                  "Write note on Photosynthesis",
                   author: "By Athulya Ajay",
-                  dateText: "Duedate",
                   date: " August 27, 2025",
                   time: "10:00PM "),
+                  AssignmentCard(
+                  heading:
+                  "Upload your CV",
+                  author: "By Athulya Ajay",
+                  date: " August 27, 2025",
+                  time: "12:00PM "),
             ],
           ),
-        )),
+        )
+        ),
       ),
     );
   }
