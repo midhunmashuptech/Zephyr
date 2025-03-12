@@ -6,6 +6,8 @@ import 'package:zephyr/common/widgets/custom_search_bar.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/constants/widgets/layout_gradient.dart';
 import 'package:zephyr/data_class/course.dart';
+import 'package:zephyr/features/drawer/screens/drawer.dart';
+import 'package:zephyr/features/drawer/screens/profile_screen.dart';
 import 'package:zephyr/features/home/widgets/category_widget.dart';
 import 'package:zephyr/features/home/widgets/home_course_card.dart';
 
@@ -17,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<String> categories = [
     "All",
     "NEET",
@@ -40,6 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: DrawerWidget(),
       body: SafeArea(
         child: Stack(
           children: [
@@ -57,48 +62,67 @@ class _HomeScreenState extends State<HomeScreen> {
                         Row(
                           children: [
                             IconButton(
-                                onPressed: () {}, icon: Iconify(Mi.menu, color: AppColors.primaryBlue,)),
-                            Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: AppColors.black.withAlpha(
-                                        50), // changed this - withOpacity(0.2)
-                                    blurRadius: 6,
-                                    spreadRadius: 2,
-                                    offset: Offset(0, 3),
+                                onPressed: () {
+                                  _scaffoldKey.currentState!.openDrawer();
+                                },
+                                icon: Iconify(
+                                  Mi.menu,
+                                  color: AppColors.primaryBlue,
+                                )),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ProfileScreen()));
+                              },
+                              child: Row(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: AppColors.black.withAlpha(
+                                              50), // changed this - withOpacity(0.2)
+                                          blurRadius: 6,
+                                          spreadRadius: 2,
+                                          offset: Offset(0, 3),
+                                        ),
+                                      ],
+                                    ),
+                                    child: CircleAvatar(
+                                      radius: 25,
+                                      backgroundColor: AppColors.white,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(2.0),
+                                        child: CircleAvatar(
+                                          radius: 25,
+                                          foregroundImage: AssetImage(
+                                              "assets/images/kim_shin.webp"),
+                                        ),
+                                      ),
+                                    ),
                                   ),
+                                  SizedBox(width: 10),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text("Hello, Welcome",
+                                          style: TextStyle(fontSize: 13)),
+                                      Text(
+                                        "Kim Shin",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ],
+                                  )
                                 ],
                               ),
-                              child: CircleAvatar(
-                                radius: 25,
-                                backgroundColor: AppColors.white,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: CircleAvatar(
-                                    radius: 25,
-                                    foregroundImage: AssetImage(
-                                        "assets/images/kim_shin.webp"),
-                                  ),
-                                ),
-                              ),
                             ),
-                            SizedBox(width: 10),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("Hello, Welcome",
-                                    style: TextStyle(fontSize: 13)),
-                                Text(
-                                  "Kim Shin",
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ],
-                            )
                           ],
                         ),
                         IconButton(

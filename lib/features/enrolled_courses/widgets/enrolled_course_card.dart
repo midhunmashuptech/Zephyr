@@ -58,11 +58,16 @@ class EnrolledCourseCard extends StatelessWidget {
                     right: 20,
                     child: Row(
                       children: [
-                        Icon(Icons.star, size: 18, color: AppColors.ratingYellow),
-                        Icon(Icons.star, size: 18, color: AppColors.ratingYellow),
-                        Icon(Icons.star, size: 18, color: AppColors.ratingYellow),
-                        Icon(Icons.star, size: 18, color: AppColors.ratingYellow),
-                        Icon(Icons.star, size: 18, color: AppColors.ratingYellow),
+                        Icon(Icons.star,
+                            size: 18, color: AppColors.ratingYellow),
+                        Icon(Icons.star,
+                            size: 18, color: AppColors.ratingYellow),
+                        Icon(Icons.star,
+                            size: 18, color: AppColors.ratingYellow),
+                        Icon(Icons.star,
+                            size: 18, color: AppColors.ratingYellow),
+                        Icon(Icons.star,
+                            size: 18, color: AppColors.ratingYellow),
                         SizedBox(width: 5),
                         Text(course.rating ?? "",
                             style: TextStyle(
@@ -81,50 +86,56 @@ class EnrolledCourseCard extends StatelessWidget {
                     LayoutBuilder(
                       builder: (context, constraints) {
                         return SizedBox(
-                          width: MediaQuery.of(context)
-                              .size
-                              .width, // Adjust padding as needed
+                          width: constraints.maxWidth,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
-                                children: [
-                                  CircleAvatar(
-                                    radius: 20,
-                                    backgroundColor:
-                                        AppColors.primaryBlue.withAlpha(30),
-                                    child: Iconify(
-                                      Fa.graduation_cap,
-                                      size: 18,
-                                      color: AppColors.primaryBlue,
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 20,
+                                      backgroundColor:
+                                          AppColors.primaryBlue.withAlpha(30),
+                                      child: Iconify(
+                                        Fa.graduation_cap,
+                                        size: 18,
+                                        color: AppColors.primaryBlue,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(width: 10),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        course.name ?? "",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w600),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
+                                    SizedBox(width: 10),
+                                    Expanded(
+                                      // Ensure text gets the max available space
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            course.name ?? "",
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w600),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          Text(
+                                            "by ${course.instructor}",
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.grey),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
                                       ),
-                                      Text(
-                                        "by ${course.instructor}",
-                                        style: TextStyle(
-                                            fontSize: 14, color: Colors.grey),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                    ),
+                                  ],
+                                ),
                               ),
                               IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(Icons.arrow_forward_ios_rounded))
+                                onPressed: () {},
+                                icon: Icon(Icons.arrow_forward_ios_rounded),
+                                iconSize: 24,
+                              ),
                             ],
                           ),
                         );

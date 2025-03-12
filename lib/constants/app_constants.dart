@@ -16,6 +16,7 @@ class AppColors {
   static const Color lightBlue = Color(0xFFDEE9FF);
   static const Color lightGreen = Color(0xFFE5FFD8);
   static const Color lightOrange = Color.fromARGB(255, 253, 248, 227);
+  static const Color lightRed = Color.fromARGB(255, 255, 231, 231);
 
   static const Gradient blueGradient = LinearGradient(
     colors: [
@@ -38,6 +39,15 @@ class AppColors {
   static const Gradient orangeGradient = LinearGradient(
     colors: [
       lightOrange,
+      Color(0xFFFFFFFF),
+    ],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+  );
+
+  static const Gradient redGradient = LinearGradient(
+    colors: [
+      lightRed,
       Color(0xFFFFFFFF),
     ],
     begin: Alignment.topCenter,
