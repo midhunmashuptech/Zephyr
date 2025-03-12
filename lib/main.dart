@@ -5,6 +5,7 @@ import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/assignments/screens/assignments_screen.dart';
 import 'package:zephyr/features/assignments/widgets/assignment_card.dart';
 import 'package:zephyr/features/coursedetails/screens/course_details_screen.dart';
+import 'package:zephyr/features/drawer/screens/drawer.dart';
 import 'package:zephyr/features/live_class/screens/live_tabview_details.dart';
 import 'package:zephyr/features/drawer/screens/profile_screen.dart';
 
@@ -29,13 +30,13 @@ class MyApp extends StatelessWidget {
       // home: Login(),
       // home: ChapterDetailsScreen(),
       // home: RegistrationScreen(),
-      home: BottomNavScreen(),
+      // home: BottomNavScreen(),
       // home: StudyMaterialsScreen(),
       // home: CourseDetailsScreen(),
       // home: ProfileScreen(),
       // home: LiveTabviewDetails(),
       // home: AssignmentsScreen(),
-      // home: AssignmentCard(),
+      home: DrawerWidget(),
     );
   }
 }

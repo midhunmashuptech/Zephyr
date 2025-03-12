@@ -25,7 +25,10 @@ class _LoginState extends State<Login> {
       body: SingleChildScrollView(
         child: Stack(
           children: [
-            LayoutGradient(gradient: AppColors.blueGradient),
+            SizedBox(
+              height: MediaQuery.of(context).size.height, 
+              child: LayoutGradient(gradient: AppColors.blueGradient)
+            ),
             SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(40.0),
@@ -46,6 +49,7 @@ class _LoginState extends State<Login> {
                     CustomTextField(
                       hintText: 'Enter your mobile number',
                       controller: mobileController,
+                      color: AppColors.primaryBlue,
                     ),
                     SizedBox(height: 10),
         
@@ -54,6 +58,7 @@ class _LoginState extends State<Login> {
                       hintText: 'Enter your password',
                       obscureText: true,
                       controller: passwordController,
+                      color: AppColors.primaryBlue,
                     ),
         
                     Padding(

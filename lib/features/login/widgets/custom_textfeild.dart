@@ -10,6 +10,7 @@ class CustomTextField extends StatelessWidget {
   final VoidCallback? onTap;
   final FocusNode? focusNode;
   final bool obscureText;
+  final Color? color;
   final String? Function(String?)? validator;
 
   const CustomTextField({
@@ -20,6 +21,7 @@ class CustomTextField extends StatelessWidget {
     this.prefixIcon,
     this.onTap,
     this.obscureText = false,
+    this.color,
     this.validator,
     super.key, this.focusNode,
   });
@@ -38,7 +40,7 @@ class CustomTextField extends StatelessWidget {
             border: OutlineInputBorder(),
             focusedBorder: OutlineInputBorder(
               borderSide:
-                  const BorderSide(color: AppColors.primaryGreen, width: 1.5),
+                  BorderSide(color: color ?? AppColors.primaryGreen, width: 1.5),
             ),
             suffixIcon: suffixIcon,
             prefixIcon: prefixIcon),
