@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Row(
                           children: [
                             IconButton(
-                                onPressed: () {}, icon: Iconify(Mi.menu)),
+                                onPressed: () {}, icon: Iconify(Mi.menu, color: AppColors.primaryBlue,)),
                             Container(
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
@@ -95,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   "Kim Shin",
                                   style: TextStyle(
                                       fontSize: 18,
-                                      fontWeight: FontWeight.bold),
+                                      fontWeight: FontWeight.w600),
                                 ),
                               ],
                             )
@@ -117,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       "Courses",
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
                     SizedBox(height: 10),
 
@@ -137,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       "Recommended for you",
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
                     SizedBox(
                       height: 10,

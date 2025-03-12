@@ -97,7 +97,7 @@ class _VideoPlayScreenState extends State<VideoPlayScreen>
                               "Foundation of Mathematics",
                               style: TextStyle(
                                 fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w600,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),

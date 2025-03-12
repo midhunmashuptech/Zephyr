@@ -19,7 +19,7 @@ class _LiveUpcomingState extends State<LiveUpcoming> {
           children: [
             LiveClassCard(
               className: "Foundation of class 10",    
-              tutorName: "By Ankitha Sasikumar",
+              tutorName: "Ankitha Sasikumar",
               date: "Feb 20",
               year: "2025",
               duration: "10:00 AM - 11:00 AM",
@@ -29,7 +29,7 @@ class _LiveUpcomingState extends State<LiveUpcoming> {
               
             ), LiveClassCard(
               className: "Foundation of class 10",    
-              tutorName: "By Ankitha Sasikumar",
+              tutorName: "Ankitha Sasikumar",
               date: "Feb 20",
               year: "2025",
               duration: "10:00 AM - 11:00 AM",

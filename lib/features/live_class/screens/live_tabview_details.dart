@@ -35,7 +35,7 @@ class _LiveTabviewDetailsState extends State<LiveTabviewDetails>
         appBar: AppBar(
           title: const Text(
             'Live Classes',
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
           ),
           leading: const Icon(FluentIcons.live_20_filled),
           bottom: TabBar(
@@ -52,13 +52,12 @@ class _LiveTabviewDetailsState extends State<LiveTabviewDetails>
         body: TabBarView(
           controller: _tabController,
           children: const [
-           LiveOngoing(),
-           LiveUpcoming(),
-           LiveRecordingScreen()
+            LiveOngoing(),
+            LiveUpcoming(),
+            LiveRecordingScreen()
           ],
         ),
       ),
     );
   }
 }
-

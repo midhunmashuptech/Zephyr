@@ -51,12 +51,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           style: TextStyle(
                               fontSize: 25,
                               color: AppColors.black,
-                              fontWeight: FontWeight.bold)),
+                              fontWeight: FontWeight.w600)),
                       Text("Journey",
                           style: TextStyle(
                               fontSize: 25,
                               color: AppColors.primaryGreen,
-                              fontWeight: FontWeight.bold))
+                              fontWeight: FontWeight.w600))
                     ],
                   ),
                   Row(
@@ -66,7 +66,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           style: TextStyle(
                               fontSize: 25,
                               color: AppColors.black,
-                              fontWeight: FontWeight.bold)),
+                              fontWeight: FontWeight.w600)),
                     ],
                   ),
                   SizedBox(height: 20),

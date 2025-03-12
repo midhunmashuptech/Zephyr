@@ -64,7 +64,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                       children: [
                         const Text('Foundation of class 10',
                             style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold)),
+                                fontSize: 20, fontWeight: FontWeight.w600)),
                         const SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -79,14 +79,16 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                             ),
                             Row(
                               children: [
-                                Icon(Icons.people, color: AppColors.primaryBlue),
+                                Icon(Icons.people,
+                                    color: AppColors.primaryBlue),
                                 const SizedBox(width: 5),
                                 const Text("50.6k"),
                               ],
                             ),
                             Row(
                               children: [
-                                Icon(Icons.star, color: AppColors.primaryOrange),
+                                Icon(Icons.star,
+                                    color: AppColors.primaryOrange),
                                 const SizedBox(width: 5),
                                 const Text("4.8"),
                               ],
@@ -141,31 +143,31 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                   Padding(
                     padding: const EdgeInsets.all(30.0),
                     child: Positioned(
-                          bottom: 10,
-                          left: 0,
-                          right: 0,
-                          child: SwipeableButtonView(
-                            buttonText: "Enroll at 599/-",
-                            buttonWidget: const Icon(Icons.arrow_forward,
-                                color: AppColors.primaryOrange),
-                            activeColor: AppColors.primaryOrange,
-                            isFinished: isFinished,
-                            onWaitingProcess: () {
-                              // Simulate a delay for the button action
-                              Future.delayed(const Duration(seconds: 1), () {
-                                setState(() {
-                                  isFinished = true;
-                                });
-                              });
-                            },
-                            onFinish: () {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => CourseReviews()));
-                            },
-                          ),
-                        ),
+                      bottom: 10,
+                      left: 0,
+                      right: 0,
+                      child: SwipeableButtonView(
+                        buttonText: "Enroll at 599/-",
+                        buttonWidget: const Icon(Icons.arrow_forward,
+                            color: AppColors.primaryOrange),
+                        activeColor: AppColors.primaryOrange,
+                        isFinished: isFinished,
+                        onWaitingProcess: () {
+                          // Simulate a delay for the button action
+                          Future.delayed(const Duration(seconds: 1), () {
+                            setState(() {
+                              isFinished = true;
+                            });
+                          });
+                        },
+                        onFinish: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CourseReviews()));
+                        },
+                      ),
+                    ),
                   ),
                 ],
               ),

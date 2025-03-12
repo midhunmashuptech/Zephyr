@@ -71,7 +71,7 @@ class HomeCourseCard extends StatelessWidget {
                           SizedBox(width: 5),
                           Text(course.rating ?? "",
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w600,
                                   color: AppColors.white))
                         ],
                       ),
@@ -86,7 +86,7 @@ class HomeCourseCard extends StatelessWidget {
                     children: [
                       Text(course.name ?? "",
                           style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                              fontSize: 16, fontWeight: FontWeight.w600),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1),
                       Text(course.description ?? "",

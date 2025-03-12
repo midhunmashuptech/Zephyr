@@ -21,8 +21,9 @@ class _CourseReviewsState extends State<CourseReviews> {
             children: [
               SizedBox(height: 10),
               Container(
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
@@ -41,14 +42,38 @@ class _CourseReviewsState extends State<CourseReviews> {
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Column(
                           children: [
-                            Text("4.8", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+                            Text(
+                              "4.8",
+                              style: TextStyle(
+                                  fontSize: 25, fontWeight: FontWeight.w600),
+                            ),
                             Row(
                               children: [
-                                const Icon(Icons.star, color: AppColors.primaryOrange,size: 15,),
-                                const Icon(Icons.star, color: AppColors.primaryOrange,size: 15,),
-                                const Icon(Icons.star, color: AppColors.primaryOrange,size: 15,),
-                                const Icon(Icons.star, color: AppColors.primaryOrange,size: 15,),
-                                const Icon(Icons.star, color: AppColors.primaryOrange,size: 15,),
+                                const Icon(
+                                  Icons.star,
+                                  color: AppColors.primaryOrange,
+                                  size: 15,
+                                ),
+                                const Icon(
+                                  Icons.star,
+                                  color: AppColors.primaryOrange,
+                                  size: 15,
+                                ),
+                                const Icon(
+                                  Icons.star,
+                                  color: AppColors.primaryOrange,
+                                  size: 15,
+                                ),
+                                const Icon(
+                                  Icons.star,
+                                  color: AppColors.primaryOrange,
+                                  size: 15,
+                                ),
+                                const Icon(
+                                  Icons.star,
+                                  color: AppColors.primaryOrange,
+                                  size: 15,
+                                ),
                               ],
                             ),
                             Text("70 reviews")
@@ -60,16 +85,35 @@ class _CourseReviewsState extends State<CourseReviews> {
                 ),
               ),
               SizedBox(height: 30),
-              ReviewCard(userName: "Athulya Ajayakumar", userImage: "assets/images/yaami.jpg", reviewText: "The course is very informative and the instructor is very knowledgeable. I would recommend this course to anyone who wants to learn more about the subject.", timeAgo: "15 min ago"),
-              ReviewCard(userName: "Anaswara Venu", userImage: "assets/images/yaami.jpg", reviewText: "The course is very informative and the instructor is very knowledgeable. I would recommend this course to anyone who wants to learn more about the subject.", timeAgo: "50 min ago"),
-              ReviewCard(userName: "Midhun Murali", userImage: "assets/images/yaami.jpg", reviewText: "The course is very informative and the instructor is very knowledgeable. I would recommend this course to anyone who wants to learn more about the subject.", timeAgo: "1hr ago"),
-              ReviewCard(userName: "Dony Baby", userImage: "assets/images/yaami.jpg", reviewText: "The course is very informative and the instructor is very knowledgeable. I would recommend this course to anyone who wants to learn more about the subject.", timeAgo: "1hr 30 min ago"),
+              ReviewCard(
+                  userName: "Athulya Ajayakumar",
+                  userImage: "assets/images/yaami.jpg",
+                  reviewText:
+                      "The course is very informative and the instructor is very knowledgeable. I would recommend this course to anyone who wants to learn more about the subject.",
+                  timeAgo: "15 min ago"),
+              ReviewCard(
+                  userName: "Anaswara Venu",
+                  userImage: "assets/images/yaami.jpg",
+                  reviewText:
+                      "The course is very informative and the instructor is very knowledgeable. I would recommend this course to anyone who wants to learn more about the subject.",
+                  timeAgo: "50 min ago"),
+              ReviewCard(
+                  userName: "Midhun Murali",
+                  userImage: "assets/images/yaami.jpg",
+                  reviewText:
+                      "The course is very informative and the instructor is very knowledgeable. I would recommend this course to anyone who wants to learn more about the subject.",
+                  timeAgo: "1hr ago"),
+              ReviewCard(
+                  userName: "Dony Baby",
+                  userImage: "assets/images/yaami.jpg",
+                  reviewText:
+                      "The course is very informative and the instructor is very knowledgeable. I would recommend this course to anyone who wants to learn more about the subject.",
+                  timeAgo: "1hr 30 min ago"),
               SizedBox(height: 20),
             ],
           ),
         ),
       ),
-      
     );
   }
 }

@@ -52,20 +52,15 @@ class EnrolledCourseCard extends StatelessWidget {
                   right: 20,
                   child: Row(
                     children: [
-                      Icon(Icons.star,
-                          size: 18, color: AppColors.ratingYellow),
-                      Icon(Icons.star,
-                          size: 18, color: AppColors.ratingYellow),
-                      Icon(Icons.star,
-                          size: 18, color: AppColors.ratingYellow),
-                      Icon(Icons.star,
-                          size: 18, color: AppColors.ratingYellow),
-                      Icon(Icons.star,
-                          size: 18, color: AppColors.ratingYellow),
+                      Icon(Icons.star, size: 18, color: AppColors.ratingYellow),
+                      Icon(Icons.star, size: 18, color: AppColors.ratingYellow),
+                      Icon(Icons.star, size: 18, color: AppColors.ratingYellow),
+                      Icon(Icons.star, size: 18, color: AppColors.ratingYellow),
+                      Icon(Icons.star, size: 18, color: AppColors.ratingYellow),
                       SizedBox(width: 5),
                       Text(course.rating ?? "",
                           style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w600,
                               color: AppColors.white))
                     ],
                   ),
@@ -100,14 +95,13 @@ class EnrolledCourseCard extends StatelessWidget {
                                 ),
                                 SizedBox(width: 10),
                                 Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       course.name ?? "",
                                       style: TextStyle(
                                           fontSize: 18,
-                                          fontWeight: FontWeight.bold),
+                                          fontWeight: FontWeight.w600),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                     ),

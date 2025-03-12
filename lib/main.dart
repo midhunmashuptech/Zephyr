@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/common/screens/splash_screen.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/assignments/screens/assignments_screen.dart';
@@ -28,12 +29,12 @@ class MyApp extends StatelessWidget {
       // home: Login(),
       // home: ChapterDetailsScreen(),
       // home: RegistrationScreen(),
-      // home: BottomNavScreen(),
+      home: BottomNavScreen(),
       // home: StudyMaterialsScreen(),
       // home: CourseDetailsScreen(),
       // home: ProfileScreen(),
-      // home: LiveOngoing(),
-      home: AssignmentsScreen(),
+      // home: LiveTabviewDetails(),
+      // home: AssignmentsScreen(),
       // home: AssignmentCard(),
     );
   }

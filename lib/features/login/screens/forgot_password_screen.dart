@@ -63,25 +63,28 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(height: 20),
-                  RichText(
+                    RichText(
                     text: const TextSpan(
+                      style: TextStyle(
+                      fontFamily: 'Poppins', // Ensure Poppins font is applied
+                      ),
                       children: [
-                        TextSpan(
-                          text: 'Trouble  ',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24,
-                          ),
+                      TextSpan(
+                        text: 'Trouble  ',
+                        style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 24,
                         ),
-                        TextSpan(
-                          text: 'Logging In?',
-                          style: TextStyle(
-                            color: AppColors.primaryGreen,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24,
-                          ),
+                      ),
+                      TextSpan(
+                        text: 'Logging In?',
+                        style: TextStyle(
+                        color: AppColors.primaryGreen,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 24,
                         ),
+                      ),
                       ],
                     ),
                   ),

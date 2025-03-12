@@ -9,7 +9,7 @@ class StudyMaterial {
   static List<StudyMaterial> getSampleFiles() {
     return [
       StudyMaterial(
-          name: "Note on Photosynthesis",
+          name: "Note on Photosynthesis Note on Photosynthesis",
           chapter: "Chapter 1",
           uploadDate: "22/10/2024",
           type: "pdf"),
