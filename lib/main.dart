@@ -8,6 +8,7 @@ import 'package:zephyr/features/assignments/widgets/assignment_card.dart';
 import 'package:zephyr/features/chapter_details/screens/video_play_screen.dart';
 import 'package:zephyr/features/coursedetails/screens/course_details_screen.dart';
 import 'package:zephyr/features/drawer/screens/drawer.dart';
+import 'package:zephyr/features/drawer/screens/timeline_screen.dart';
 import 'package:zephyr/features/live_class/screens/live_tabview_details.dart';
 import 'package:zephyr/features/drawer/screens/profile_screen.dart';
 import 'package:zephyr/features/test/screens/test_completion_screen.dart';
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
       // home: BottomNavScreen(),
       // home: StudyMaterialsScreen(),
       // home: CourseDetailsScreen(),
-      home: TestCompletionScreen(),
+      home: TimelineScreen(),
       // home: LiveTabviewDetails(),
       // home: AssignmentsScreen(),
       // home: VideoPlayScreen(),

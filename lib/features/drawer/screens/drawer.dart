@@ -3,6 +3,7 @@ import 'package:zephyr/common/screens/error_screen.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/constants/widgets/layout_gradient.dart';
 import 'package:zephyr/features/drawer/screens/profile_screen.dart';
+import 'package:zephyr/features/drawer/screens/timeline_screen.dart';
 import 'package:zephyr/features/drawer/widgets/drawer_component.dart';
 
 class DrawerWidget extends StatelessWidget {
@@ -80,7 +81,12 @@ class DrawerWidget extends StatelessWidget {
                         MaterialPageRoute(
                         builder: (context) => const ProfileScreen()));
               }),
-              DrawerComponent(item: "Timeline", icon: Icons.timeline),
+              DrawerComponent(item: "Timeline", icon: Icons.timeline, onTap: () {
+                Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                        builder: (context) => const TimelineScreen()));
+              },),
               DrawerComponent(item: "Terms & Conditions", icon: Icons.badge),
               DrawerComponent(item: "Help & Support", icon: Icons.help),
               DrawerComponent(item: "About Us", icon: Icons.info),
