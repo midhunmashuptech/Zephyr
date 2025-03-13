@@ -9,6 +9,8 @@ import 'package:zephyr/features/coursedetails/screens/course_details_screen.dart
 import 'package:zephyr/features/drawer/screens/drawer.dart';
 import 'package:zephyr/features/live_class/screens/live_tabview_details.dart';
 import 'package:zephyr/features/drawer/screens/profile_screen.dart';
+import 'package:zephyr/features/notification/screens/notifications.dart';
+import 'package:zephyr/features/notification/widgets/notification_card.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryGreen, secondary: AppColors.primaryBlue),
         useMaterial3: true,
       ),
-      home: const MyHomePage(),
+      // home: const MyHomePage(),
       // home: Login(),
       // home: ChapterDetailsScreen(),
       // home: RegistrationScreen(),
@@ -39,6 +41,7 @@ class MyApp extends StatelessWidget {
       // home: AssignmentsScreen(),
       // home: DrawerWidget(),
       // home: AssignmentUploadScreen(),
+         home: Notifications(),
     );
   }
 }
