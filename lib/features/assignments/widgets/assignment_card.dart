@@ -62,13 +62,13 @@ class AssignmentCard extends StatelessWidget {
                       Text(
                         heading,
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600),
+                        fontSize: 16, fontWeight: FontWeight.w600),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(author,
                           style: TextStyle(
-                              fontSize: 13, fontWeight: FontWeight.w400)),
+                          fontSize: 13, fontWeight: FontWeight.w400)),
                       Row(
                         children: [
                           Text(
@@ -92,7 +92,8 @@ class AssignmentCard extends StatelessWidget {
                 )
               ],
             ),
-          )),
+          )
+          ),
     );
   }
 }
