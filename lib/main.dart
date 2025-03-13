@@ -8,6 +8,7 @@ import 'package:zephyr/features/assignments/widgets/assignment_card.dart';
 import 'package:zephyr/features/chapter_details/screens/video_play_screen.dart';
 import 'package:zephyr/features/coursedetails/screens/course_details_screen.dart';
 import 'package:zephyr/features/drawer/screens/drawer.dart';
+import 'package:zephyr/features/drawer/screens/timeline_screen.dart';
 import 'package:zephyr/features/live_class/screens/live_tabview_details.dart';
 import 'package:zephyr/features/drawer/screens/profile_screen.dart';
 import 'package:zephyr/features/notification/screens/notifications.dart';
@@ -32,19 +33,20 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryGreen, secondary: AppColors.primaryBlue),
         useMaterial3: true,
       ),
-      // home: const MyHomePage(),
+      home: const MyHomePage(),
       // home: Login(),
       // home: ChapterDetailsScreen(),
       // home: RegistrationScreen(),
       // home: BottomNavScreen(),
       // home: StudyMaterialsScreen(),
       // home: CourseDetailsScreen(),
+      // home: TimelineScreen(),
       // home: TestCompletionScreen(),
       // home: LiveTabviewDetails(),
       // home: AssignmentsScreen(),
       // home: VideoPlayScreen(),
       // home: AssignmentUploadScreen(),
-         home: Notifications(),
+      // home: Notifications(),
     );
   }
 }
