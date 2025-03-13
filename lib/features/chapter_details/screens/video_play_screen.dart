@@ -21,8 +21,8 @@ class _VideoPlayScreenState extends State<VideoPlayScreen>
   final List<String> videoUrls = [
     "https://media.istockphoto.com/id/1854905414/video/speed-ramp-male-player-in-red-outfit-outplaying-his-opponents-in-a-football-game.mp4?s=mp4-640x640-is&k=20&c=lFRmcGTDZxlqP6cBnJguufewDafJXljQscbPwVRcHuQ=",
     "https://cdn.pixabay.com/video/2020/06/17/42420-431511648_large.mp4",
-    "https://media.istockphoto.com/id/1854905414/video/speed-ramp-male-player-in-red-outfit-outplaying-his-opponents-in-a-football-game.mp4?s=mp4-640x640-is&k=20&c=lFRmcGTDZxlqP6cBnJguufewDafJXljQscbPwVRcHuQ=",
-    "https://cdn.pixabay.com/video/2020/06/17/42420-431511648_large.mp4",
+    "https://d3sigpa2r6yn5i.cloudfront.net/transcoded/85DRa92D54G/video.m3u8",
+    "https://d3sigpa2r6yn5i.cloudfront.net/transcoded/9SkEnE92d42/video.m3u8",
   ];
 
   @override
