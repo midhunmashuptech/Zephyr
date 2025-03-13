@@ -14,6 +14,9 @@ class AppColors {
   static const Color ratingGrey = Color.fromARGB(255, 78, 77, 77);
   static const Color darkred = Color(0xFFC00000);
 
+  static const Color darkBlue = Color(0xFF4A2CD0);
+  static const Color secondaryViolet = Color(0xFF5E22A2);
+  static const Color secondaryCyan = Color(0xFF16DBCC);
   static const Color lightBlue = Color(0xFFDEE9FF);
   static const Color lightGreen = Color(0xFFE5FFD8);
   static const Color lightOrange = Color.fromARGB(255, 253, 248, 227);
