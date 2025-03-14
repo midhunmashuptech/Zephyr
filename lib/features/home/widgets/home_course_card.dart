@@ -18,7 +18,7 @@ class HomeCourseCard extends StatelessWidget {
             MaterialPageRoute(builder: (context) => CourseDetailsScreen()));
       },
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.448,
+        width: MediaQuery.of(context).size.width * 0.5 - 20,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: Card(
@@ -89,10 +89,13 @@ class HomeCourseCard extends StatelessWidget {
                               fontSize: 16, fontWeight: FontWeight.w600),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1),
-                      Text(course.description ?? "",
-                          style: TextStyle(fontSize: 13),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2),
+                      SizedBox(
+                        height: 40,
+                        child: Text(course.description ?? "",
+                            style: TextStyle(fontSize: 13),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,),
+                      ),
                       SizedBox(height: 15),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
