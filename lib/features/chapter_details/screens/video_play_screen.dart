@@ -22,8 +22,8 @@ class _VideoPlayScreenState extends State<VideoPlayScreen>
     "https://media.istockphoto.com/id/1854905414/video/speed-ramp-male-player-in-red-outfit-outplaying-his-opponents-in-a-football-game.mp4?s=mp4-640x640-is&k=20&c=lFRmcGTDZxlqP6cBnJguufewDafJXljQscbPwVRcHuQ=",
     "https://cdn.pixabay.com/video/2020/06/17/42420-431511648_large.mp4",
     "https://d3sigpa2r6yn5i.cloudfront.net/transcoded/85DRa92D54G/video.m3u8",
-    "https://d3sigpa2r6yn5i.cloudfront.net/transcoded/9SkEnE92d42/video.m3u8",
-    "https://player.vimeo.com/external/931461126.m3u8?s=8d81b0a23217e40cc7904c52db9c607be07691c5&logging=false"
+    // "https://d3sigpa2r6yn5i.cloudfront.net/transcoded/9SkEnE92d42/video.m3u8",
+    // "https://player.vimeo.com/external/931461126.m3u8?s=8d81b0a23217e40cc7904c52db9c607be07691c5&logging=false"
   ];
 
   @override
@@ -39,6 +39,8 @@ class _VideoPlayScreenState extends State<VideoPlayScreen>
         autoPlay: true,
         looping: false,
         aspectRatio: 16 / 9,
+        fullScreenAspectRatio: 16 / 9, // Ensure proper fullscreen aspect ratio
+        allowedScreenSleep: false, // Prevents screen from sleeping
       ),
       betterPlayerDataSource: BetterPlayerDataSource(
         BetterPlayerDataSourceType.network,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/test/widget/confirm_test_submit_overlay.dart';
 
 class TestCompletionScreen extends StatelessWidget {
   const TestCompletionScreen({super.key});
@@ -13,8 +14,9 @@ class TestCompletionScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(30.0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 10),
+              SizedBox(height: 20),
               Text(
                 "Bravo, Kim Shin!",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
@@ -95,7 +97,11 @@ class TestCompletionScreen extends StatelessWidget {
                 height: 10,
               ),
               CustomButton(
-                  text: "Close Text",
+                  text: "Close Test",
+                  onPressed: () {
+                    // Navigator.pop(context);
+                    showQuizSummary(context);
+                  },
                   color: AppColors.secondaryViolet,
                   textcolor: AppColors.white),
               SizedBox(height: 10),
@@ -103,6 +109,19 @@ class TestCompletionScreen extends StatelessWidget {
           ),
         ),
       )),
+    );
+  }
+
+  void showQuizSummary(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      backgroundColor: Colors.white,
+      builder: (context) {
+        return ConfirmTestSubmitOverlay();
+      },
     );
   }
 }

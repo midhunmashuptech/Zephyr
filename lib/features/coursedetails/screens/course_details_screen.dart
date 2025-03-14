@@ -161,10 +161,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                           });
                         },
                         onFinish: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CourseReviews()));
+                          Navigator.pop(context);
                         },
                       ),
                     ),

@@ -2,6 +2,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/data_class/study_material.dart';
+import 'package:zephyr/features/chapter_details/screens/image_viewer.dart';
 import 'package:zephyr/features/chapter_details/screens/pdf_viewer.dart';
 
 class StudyMaterialCard extends StatelessWidget {
@@ -14,7 +15,7 @@ class StudyMaterialCard extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => PdfViewer())
+          MaterialPageRoute(builder: (context) => studyMaterial.type == "image" ? ImageViewer() : PdfViewer())
         );
       },
       child: Padding(
