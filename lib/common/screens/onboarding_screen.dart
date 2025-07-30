@@ -7,6 +7,7 @@ import 'package:zephyr/common/widgets/onboarding_page3.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/constants/widgets/layout_gradient.dart';
 import 'package:zephyr/features/login/screens/login.dart';
+import 'package:zephyr/features/login/screens/mobile_number_verification.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -105,7 +106,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        const Login()));
+                                                        const MobileNumberVerification()));
                                           },
                                           color: AppColors.primaryBlue,
                                           textcolor: AppColors.white,

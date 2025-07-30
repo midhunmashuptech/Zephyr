@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pinput/pinput.dart';
+import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
-import 'package:zephyr/common/widgets/phone_textfield.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/constants/widgets/layout_gradient.dart';
-import 'package:zephyr/features/login/screens/login.dart';
-import 'package:zephyr/features/login/screens/new_password_screen.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
-  const ForgotPasswordScreen({super.key});
+  final String phoneNumber;
+  final String countryCode;
+  const ForgotPasswordScreen({
+    required this.phoneNumber,
+    required this.countryCode,
+    super.key});
 
   @override
   State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
@@ -18,6 +22,9 @@ class ForgotPasswordScreen extends StatefulWidget {
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   var _otpStatus = false;
   final String _otp = "123456";
+  String _countryCode = '';
+  String _phoneNumber = '';
+  String _errorText = '';
 
   void otpSent() {
     setState(() {
@@ -50,118 +57,102 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: LayoutGradient(gradient: AppColors.greenGradient)),
-          SingleChildScrollView(
-            child: SafeArea(
-                child: Padding(
-              padding: const EdgeInsets.all(40.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: 20),
-                    RichText(
-                    text: const TextSpan(
-                      style: TextStyle(
-                      fontFamily: 'Poppins', // Ensure Poppins font is applied
+      backgroundColor: AppColors.white,
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: LayoutGradient(gradient: AppColors.blueGradient)),
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(40.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Lottie.asset('assets/lottie/login.json',
+                          height: 300, width: 300),
+                    ),
+                    Text(
+                      "Forgot Password",
+                      style:
+                          TextStyle(fontSize: 23, fontWeight: FontWeight.w600),
+                    ),
+                    SizedBox(height: 20),
+
+                    IntlPhoneField(
+                      enabled: false,
+                      initialValue: widget.phoneNumber,
+                      decoration: InputDecoration(
+                        labelText: 'Mobile Number',
+                        errorText: _errorText.isNotEmpty ? _errorText : null,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: const BorderSide(),
+                        ),
                       ),
+                      onChanged: (value) {
+                        setState(() {
+                          _countryCode = value.countryCode;
+                          _phoneNumber = value.number;
+                          _errorText = '';
+                        });
+                      },
+                      initialCountryCode: widget.countryCode,
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                      TextSpan(
-                        text: 'Trouble  ',
-                        style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 24,
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'Logging In?',
-                        style: TextStyle(
-                        color: AppColors.primaryGreen,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 24,
-                        ),
-                      ),
+                        Pinput(
+                            length: 6,
+                            defaultPinTheme: PinTheme(
+                              width: 56,
+                              height: 56,
+                              textStyle: const TextStyle(
+                                  fontSize: 20,
+                                  color: AppColors.primaryBlue,
+                                  fontWeight: FontWeight.w600),
+                              decoration: BoxDecoration(
+                                color: AppColors.white,
+                                border: Border.all(
+                                    color:
+                                        const Color.fromRGBO(234, 239, 243, 1)),
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Color.fromARGB(25, 0, 0, 0),
+                                    spreadRadius: 2,
+                                    blurRadius: 3,
+                                    offset: Offset(-2, 3),
+                                  ),
+                                ],
+                              ),
+                            )),
                       ],
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                      "Enter your Phone Number and we'll send you an OTP to reset your password.", textAlign: TextAlign.center),
-                  Lottie.asset('assets/lottie/forget_password.json',
-                      height: 300, width: 300),
-                  SizedBox(height: 30),
-                  PhoneTextfield(),
-                  SizedBox(height: 10),
-                  AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 500),
-                    child:
-                  _otpStatus
-                      ? Column(
-                          children: [
-                            Text("Provide the OTP send to your mobile number"),
-                            SizedBox(height: 10),
-                            Pinput(
-                              length: 6,
-                              keyboardType: TextInputType.number,
-                              defaultPinTheme: defaultPinTheme,
-                              validator: (value) {
-                                // print(value ?? "Nil");
-                                return value == _otp ? null : "Invalid OTP";
-                              },
-                              onCompleted: (value) {
-                                if (value == _otp) {
-                                  //print("OTP Verified");
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => const Login()));
-                                }
-                              },
-                              errorBuilder: (errorText, pin) {
-                                return Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 8),
-                                    child: Text(
-                                      errorText ?? "",
-                                      style: const TextStyle(
-                                          color: AppColors.primaryBlue),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                            SizedBox(height: 15),
-                            CustomButton(
-                              text: "Verify OTP",
-                              onPressed: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const NewPasswordScreen()
-                                  )
-                                );
-                              },
-                              color: AppColors.primaryGreen,
-                              textcolor: AppColors.white,
-                            ),
-                          ],
-                        )
-                      : CustomButton(
-                          text: "Send OTP",
-                          onPressed: otpSent,
-                          color: AppColors.primaryGreen,
-                          textcolor: AppColors.white,
-                        ),
-                  )
-                ],
+                    SizedBox(height: 20),
+
+                    /// Login Button
+                    CustomButton(
+                      text: "Next",
+                      color: AppColors.primaryBlue,
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BottomNavScreen()));
+                      },
+                      textcolor: AppColors.white,
+                    ),
+                    SizedBox(height: 20),
+                  ],
+                ),
               ),
-            )),
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }

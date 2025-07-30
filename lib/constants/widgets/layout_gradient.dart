@@ -10,7 +10,7 @@ class LayoutGradient extends StatelessWidget {
       top: 0,
       child: Container(
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
+        // height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           gradient: gradient,
         ),
