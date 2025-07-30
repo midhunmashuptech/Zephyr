@@ -7,6 +7,7 @@ import 'package:zephyr/features/assignments/screens/assignments_screen.dart';
 import 'package:zephyr/features/assignments/widgets/assignment_card.dart';
 import 'package:zephyr/features/chapter_details/screens/chapter_details_screen.dart';
 import 'package:zephyr/features/chapter_details/screens/pdf_viewer.dart';
+import 'package:zephyr/features/chapter_details/screens/study_materials_screen.dart';
 import 'package:zephyr/features/chapter_details/screens/video_play_screen.dart';
 import 'package:zephyr/features/coursedetails/screens/course_chapters.dart';
 import 'package:zephyr/features/coursedetails/screens/course_details_screen.dart';
