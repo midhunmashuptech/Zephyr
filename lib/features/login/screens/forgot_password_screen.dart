@@ -108,7 +108,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         Pinput(
                             length: 6,
                             defaultPinTheme: PinTheme(
-                              width: 56,
+                              width: MediaQuery.of(context).size.width * 0.12 - 2,
                               height: 56,
                               textStyle: const TextStyle(
                                   fontSize: 20,

@@ -4,12 +4,24 @@ import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/login/widgets/custom_textfeild.dart';
 import 'package:zephyr/features/registration/screens/registration_syllabus.dart';
 import 'package:zephyr/features/registration/widgets/dropdown_widget.dart';
+import 'package:zephyr/features/registration/widgets/gender_widget.dart';
 
 class RegistrationScreen extends StatefulWidget {
-  const RegistrationScreen({super.key});
+  final String phoneNumber;
+  final String countryCode;
+  const RegistrationScreen(
+      {required this.countryCode, required this.phoneNumber, super.key});
 
   @override
   State<RegistrationScreen> createState() => _RegistrationScreenState();
+}
+
+class Gender {
+  final String label;
+  final IconData icon;
+  final Color color;
+
+  const Gender({required this.label, required this.icon, required this.color});
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
@@ -26,141 +38,182 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController gaddressController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   List<String> classNames = [
+    "class 6",
     "class 7",
     "class 8",
     "class 9",
     "class 10",
   ];
 
+  List<Gender> genderOptions = [
+    Gender(
+        label: "Male", icon: Icons.male_rounded, color: AppColors.primaryBlue),
+    Gender(
+        label: "Female",
+        icon: Icons.female_rounded,
+        color: AppColors.primaryOrange)
+  ];
+
+  int? selectedGender;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+        child: Center(
           child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Your ",
-                          style: TextStyle(
-                              fontSize: 25,
-                              color: AppColors.black,
-                              fontWeight: FontWeight.w600)),
-                      Text("Journey",
-                          style: TextStyle(
-                              fontSize: 25,
-                              color: AppColors.primaryGreen,
-                              fontWeight: FontWeight.w600))
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Begins Here ",
-                          style: TextStyle(
-                              fontSize: 25,
-                              color: AppColors.black,
-                              fontWeight: FontWeight.w600)),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  CustomTextField(
-                    hintText: 'Enter your Name',
-                    controller: fnameController,
-                    suffixIcon: Icon(Icons.person),
-                  ),
-                  SizedBox(height: 20),
-                  GestureDetector(
-                    onTap: () async {
-                      DateTime? pickedDate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(1900),
-                        lastDate: DateTime.now(),
-                      );
-                      if (pickedDate != null) {
-                        setState(() {
-                          dobController.text =
-                              "${pickedDate.toLocal()}".split(' ')[0];
-                        });
-                      }
-                    },
-                    // child: AbsorbPointer(
-                    child: CustomTextField(
-                      hintText: 'Enter your Date of Birth',
-                      controller: dobController,
-                      suffixIcon: Icon(Icons.calendar_month),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 40),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Your ",
+                            style: TextStyle(
+                                fontSize: 25,
+                                color: AppColors.black,
+                                fontWeight: FontWeight.w600)),
+                        Text("Journey",
+                            style: TextStyle(
+                                fontSize: 25,
+                                color: AppColors.primaryGreen,
+                                fontWeight: FontWeight.w600))
+                      ],
                     ),
-                  ),
-                  SizedBox(height: 20),
-                  CustomTextField(
-                    hintText: 'Enter your Email',
-                    obscureText: true,
-                    controller: emailController,
-                    suffixIcon: Icon(Icons.email),
-                  ),
-                  SizedBox(height: 20),
-                  CustomTextField(
-                    hintText: 'Enter your Mobile Number',
-                    obscureText: true,
-                    controller: mobController,
-                    suffixIcon: Icon(Icons.call),
-                  ),
-                  SizedBox(height: 20),
-                  CustomTextField(
-                    hintText: 'Enter your School Name',
-                    obscureText: true,
-                    controller: schoolController,
-                    suffixIcon: Icon(Icons.school),
-                  ),
-                  SizedBox(height: 20),
-                  DropdownWidget(
-                    label: 'Enter your Class',
-                    items: classNames,
-                    controller: classController,
-                  ),
-                  SizedBox(height: 20),
-                  Builder(
-                    builder: (context) {
-                      return CustomButton(
-                        text: "Next",
-                        color: AppColors.primaryGreen,
-                        textcolor: AppColors.white,
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      RegistrationSyllabus()));
-                        },
-                      );
-                    },
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Already have an account? "),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          "Login",
-                          style: TextStyle(
-                              color: AppColors.primaryGreen,
-                              fontWeight: FontWeight.normal),
-                        ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Begins Here ",
+                            style: TextStyle(
+                                fontSize: 25,
+                                color: AppColors.black,
+                                fontWeight: FontWeight.w600)),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    CustomTextField(
+                      hintText: 'Enter your Full Name',
+                      controller: fnameController,
+                      suffixIcon: Icon(Icons.person),
+                    ),
+                    SizedBox(height: 5),
+                    GestureDetector(
+                      onTap: () async {
+                        DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(1900),
+                          lastDate: DateTime.now(),
+                        );
+                        if (pickedDate != null) {
+                          setState(() {
+                            dobController.text =
+                                "${pickedDate.toLocal()}".split(' ')[0];
+                          });
+                        }
+                      },
+                      // child: AbsorbPointer(
+                      child: CustomTextField(
+                        hintText: 'Enter your Date of Birth',
+                        controller: dobController,
+                        suffixIcon: Icon(Icons.calendar_month),
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                    SizedBox(height: 5),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15.0),
+                      child: Text("Gender"),
+                    ),
+                    SizedBox(height: 5),
+                    Row(
+                      spacing: 10,
+                      children: [
+                        ...List.generate(
+                            genderOptions.length,
+                            (index) => Expanded(
+                                child: GestureDetector(
+                                  onTap: () => setState(() {
+                                selectedGender = index;
+                              }),
+                                  child: GenderWidget(
+                                      index: index,
+                                      selectedIndex: selectedGender,
+                                      label: genderOptions[index].label,
+                                      icon: genderOptions[index].icon,
+                                      color: genderOptions[index].color),
+                                )))
+                      ],
+                    ),
+                    SizedBox(height: 15),
+                    CustomTextField(
+                      hintText: 'Enter your Email',
+                      obscureText: true,
+                      controller: emailController,
+                      suffixIcon: Icon(Icons.email),
+                    ),
+                    SizedBox(height: 5),
+                    CustomTextField(
+                      hintText: 'Enter your Mobile Number',
+                      obscureText: true,
+                      controller: mobController,
+                      suffixIcon: Icon(Icons.call),
+                    ),
+                    SizedBox(height: 5),
+                    CustomTextField(
+                      hintText: 'Enter your School Name',
+                      obscureText: true,
+                      controller: schoolController,
+                      suffixIcon: Icon(Icons.school),
+                    ),
+                    SizedBox(height: 5),
+                    DropdownWidget(
+                      label: 'Enter your Class',
+                      items: classNames,
+                      controller: classController,
+                    ),
+                    SizedBox(height: 20),
+                    Builder(
+                      builder: (context) {
+                        return CustomButton(
+                          text: "Next",
+                          color: AppColors.primaryGreen,
+                          textcolor: AppColors.white,
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        RegistrationSyllabus()));
+                          },
+                        );
+                      },
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Already have an account? "),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            "Login",
+                            style: TextStyle(
+                                color: AppColors.primaryGreen,
+                                fontWeight: FontWeight.normal),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 30),
+                  ],
+                ),
               ),
             ),
           ),

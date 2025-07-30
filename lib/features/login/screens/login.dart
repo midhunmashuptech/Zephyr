@@ -11,10 +11,8 @@ import 'package:zephyr/features/login/screens/forgot_password_screen.dart';
 class Login extends StatefulWidget {
   final String phoneNumber;
   final String countryCode;
-  const Login({
-    required this.phoneNumber,
-    required this.countryCode,
-    super.key});
+  const Login(
+      {required this.phoneNumber, required this.countryCode, super.key});
 
   @override
   State<Login> createState() => _LoginState();
@@ -35,9 +33,9 @@ class _LoginState extends State<Login> {
       body: SingleChildScrollView(
         child: Stack(
           children: [
-            SizedBox(
-                height: MediaQuery.of(context).size.height,
-                child: LayoutGradient(gradient: AppColors.blueGradient)),
+            Positioned.fill(
+              child: LayoutGradient(gradient: AppColors.blueGradient),
+            ),
             SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(40.0),
@@ -75,65 +73,42 @@ class _LoginState extends State<Login> {
                       },
                       initialCountryCode: widget.countryCode,
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 15),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        errorText: _errorText.isNotEmpty ? _errorText : null,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: const BorderSide(),
+                        ),
+                      ),
+                    ),
+
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Pinput(
-                            length: 6,
-                            defaultPinTheme: PinTheme(
-                              width: 56,
-                              height: 56,
-                              textStyle: const TextStyle(
-                                  fontSize: 20,
-                                  color: AppColors.primaryBlue,
-                                  fontWeight: FontWeight.w600),
-                              decoration: BoxDecoration(
-                                color: AppColors.white,
-                                border: Border.all(
-                                    color:
-                                        const Color.fromRGBO(234, 239, 243, 1)),
-                                borderRadius: BorderRadius.circular(12),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Color.fromARGB(25, 0, 0, 0),
-                                    spreadRadius: 2,
-                                    blurRadius: 3,
-                                    offset: Offset(-2, 3),
-                                  ),
-                                ],
-                              ),
-                            )),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ForgotPasswordScreen(
+                                          phoneNumber: widget.phoneNumber,
+                                          countryCode: widget.countryCode,
+                                        )));
+                          },
+                          child: Text(
+                            "Forgot Password?",
+                            style: TextStyle(color: AppColors.primaryBlue),
+                          ),
+                        )
                       ],
                     ),
-                    SizedBox(height: 20),
-
-                    Padding(
-                      padding: const EdgeInsets.only(right: 16.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    ForgotPasswordScreen(phoneNumber: _phoneNumber, countryCode: _countryCode,)));
-                      },
-                      child: Text(
-                        "Forgot Password?",
-                        style: TextStyle(color: AppColors.primaryBlue),
-                      ),
-                    )
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 10),
 
                     /// Login Button
                     CustomButton(
-                      text: "Next",
+                      text: "Login",
                       color: AppColors.primaryBlue,
                       onPressed: () {
                         Navigator.push(
