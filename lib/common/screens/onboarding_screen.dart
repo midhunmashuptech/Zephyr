@@ -40,7 +40,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               SizedBox(height: 50),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.6,
+                height: MediaQuery.of(context).size.height * 0.8,
                 child: PageView(
                   controller: _controller,
                   onPageChanged: (value) {
