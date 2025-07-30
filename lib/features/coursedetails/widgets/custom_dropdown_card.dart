@@ -33,6 +33,12 @@ class _CustomDropdownCardState extends State<CustomDropdownCard> {
             widget.title,
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
           ),
+          shape: RoundedRectangleBorder(
+            side: BorderSide.none, // Removes the border
+          ),
+          collapsedShape: RoundedRectangleBorder(
+            side: BorderSide.none, // Removes the border when collapsed
+          ),
           children: widget.items.map((item) {
             return Padding(
               padding: const EdgeInsets.all(2.0),
@@ -52,12 +58,6 @@ class _CustomDropdownCardState extends State<CustomDropdownCard> {
               ),
             );
           }).toList(),
-          shape: RoundedRectangleBorder(
-            side: BorderSide.none, // Removes the border
-          ),
-          collapsedShape: RoundedRectangleBorder(
-            side: BorderSide.none, // Removes the border when collapsed
-          ),
         ),
       ),
     );

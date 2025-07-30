@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zephyr/features/coursedetails/widgets/chapter_card.dart';
+import 'package:zephyr/features/coursedetails/widgets/custom_dropdown_card.dart';
 
 class CourseChapters extends StatefulWidget {
   const CourseChapters({super.key});

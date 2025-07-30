@@ -5,8 +5,11 @@ import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/assignments/screens/assignment_upload_screen.dart';
 import 'package:zephyr/features/assignments/screens/assignments_screen.dart';
 import 'package:zephyr/features/assignments/widgets/assignment_card.dart';
+import 'package:zephyr/features/chapter_details/screens/chapter_details_screen.dart';
+import 'package:zephyr/features/chapter_details/screens/pdf_viewer.dart';
 import 'package:zephyr/features/chapter_details/screens/study_materials_screen.dart';
 import 'package:zephyr/features/chapter_details/screens/video_play_screen.dart';
+import 'package:zephyr/features/coursedetails/screens/course_chapters.dart';
 import 'package:zephyr/features/coursedetails/screens/course_details_screen.dart';
 import 'package:zephyr/features/drawer/screens/drawer.dart';
 import 'package:zephyr/features/drawer/screens/timeline_screen.dart';
@@ -34,7 +37,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryGreen, secondary: AppColors.primaryBlue),
         useMaterial3: true,
       ),
-      home: const MyHomePage(),
+      // home: const MyHomePage(),
       // home: Login(),
       // home: ChapterDetailsScreen(),
       // home: RegistrationScreen(),
@@ -48,6 +51,9 @@ class MyApp extends StatelessWidget {
       // home: VideoPlayScreen(),
       // home: AssignmentUploadScreen(),
       // home: Notifications(),
+      // home: TestInstructionsScreen(),
+      //  home: CourseChapters(),
+      home: PdfViewer(),
     );
   }
 }
