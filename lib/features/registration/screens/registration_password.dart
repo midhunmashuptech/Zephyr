@@ -63,6 +63,7 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
                     hintText: "Enter your Password",
                     obscureText: isPwdVisible,
                     controller: gpwdController,
+                    prefixIcon: Icon(Icons.lock_rounded),
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
@@ -79,6 +80,7 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
                     hintText: "Confirm your Password",
                     obscureText: isCPwdVisible,
                     controller: gcpwdController,
+                    prefixIcon: Icon(Icons.lock_rounded),
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {

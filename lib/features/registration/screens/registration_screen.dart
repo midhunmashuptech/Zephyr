@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/login/widgets/custom_textfeild.dart';
@@ -37,6 +38,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController gmobController = TextEditingController();
   final TextEditingController gaddressController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  String _errorText = '';
   List<String> classNames = [
     "class 6",
     "class 7",
@@ -117,12 +119,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           });
                         }
                       },
-                      // child: AbsorbPointer(
+                      child: AbsorbPointer(
                       child: CustomTextField(
                         hintText: 'Enter your Date of Birth',
                         controller: dobController,
                         suffixIcon: Icon(Icons.calendar_month),
-                      ),
+                      )
+                      )
                     ),
                     SizedBox(height: 5),
                     Padding(
@@ -157,13 +160,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       suffixIcon: Icon(Icons.email),
                     ),
                     SizedBox(height: 5),
-                    CustomTextField(
-                      hintText: 'Enter your Mobile Number',
-                      obscureText: true,
-                      controller: mobController,
-                      suffixIcon: Icon(Icons.call),
+                    IntlPhoneField(
+                      enabled: false,
+                      initialValue: widget.phoneNumber,
+                      decoration: InputDecoration(
+                        labelText: 'Mobile Number',
+                        errorText: _errorText.isNotEmpty ? _errorText : null,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: const BorderSide(),
+                        ),
+                      ),
+                      initialCountryCode: widget.countryCode,
                     ),
-                    SizedBox(height: 5),
+                    SizedBox(height: 10),
                     CustomTextField(
                       hintText: 'Enter your School Name',
                       obscureText: true,

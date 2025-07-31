@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
       // home: Login(),
       // home: RegistrationScreen(),
       // home: RegistrationPassword(),
-      home: MobileNumberVerification(),
+      home: SplashScreen(),
     );
   }
 }

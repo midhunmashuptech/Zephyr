@@ -17,7 +17,7 @@ class MobileNumberVerification extends StatefulWidget {
 
 class _MobileNumberVerificationState extends State<MobileNumberVerification> {
   bool otpStatus = false;
-  String _countryCode = '';
+  String _countryCode = 'IN';
   String _phoneNumber = '';
   String _errorText = '';
 
