@@ -24,8 +24,8 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
     return Scaffold(
       body: SafeArea(
           child: Center(
-            child: SingleChildScrollView(
-                    child: Form(
+        child: SingleChildScrollView(
+          child: Form(
             key: _formKey,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0),
@@ -34,22 +34,22 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Your ",
-                          style: TextStyle(
-                              fontSize: 25,
-                              color: AppColors.black,
-                              fontWeight: FontWeight.w600)),
-                      Text("Journey",
+                      Text("Protect ",
                           style: TextStyle(
                               fontSize: 25,
                               color: AppColors.primaryGreen,
+                              fontWeight: FontWeight.w600)),
+                      Text("Your",
+                          style: TextStyle(
+                              fontSize: 25,
+                              color: AppColors.black,
                               fontWeight: FontWeight.w600))
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Begins Here ",
+                      Text("Learning Journey",
                           style: TextStyle(
                               fontSize: 25,
                               color: AppColors.black,
@@ -57,7 +57,7 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
                     ],
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   CustomTextField(
                     hintText: "Enter your Password",
@@ -131,9 +131,9 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
                 ],
               ),
             ),
-                    ),
-                  ),
-          )),
+          ),
+        ),
+      )),
     );
   }
 }
