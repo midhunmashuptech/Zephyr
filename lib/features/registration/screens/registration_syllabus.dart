@@ -43,27 +43,25 @@ class _RegistrationSyllabusState extends State<RegistrationSyllabus> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Your ",
+                        Text("Customize ",
                             style: TextStyle(
                                 fontSize: 25,
                                 color: AppColors.black,
                                 fontWeight: FontWeight.w600)),
-                        Text("Journey",
+                        Text("Your Learning",
                             style: TextStyle(
                                 fontSize: 25,
                                 color: AppColors.primaryGreen,
                                 fontWeight: FontWeight.w600))
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Begins Here ",
-                            style: TextStyle(
-                                fontSize: 25,
-                                color: AppColors.black,
-                                fontWeight: FontWeight.w600)),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                      child: Text("Choose the board you’re studying under to continue. ",
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: AppColors.black,
+                              fontWeight: FontWeight.w400),textAlign: TextAlign.center,),
                     ),
                     SizedBox(height: 20),
                     Column(

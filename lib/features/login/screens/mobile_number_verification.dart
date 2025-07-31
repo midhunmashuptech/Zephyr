@@ -46,12 +46,12 @@ class _MobileNumberVerificationState extends State<MobileNumberVerification> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          "Mobile Number Verification",
+                          "Verify Your Mobile Number",
                           style: TextStyle(
                               fontSize: 23, fontWeight: FontWeight.w600),
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       // Mobile number field
                       IntlPhoneField(
                         enabled: !otpStatus,
