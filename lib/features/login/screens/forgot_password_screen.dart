@@ -59,99 +59,98 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     return Scaffold(
       backgroundColor: AppColors.white,
       body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            SizedBox(
-                height: MediaQuery.of(context).size.height,
-                child: LayoutGradient(gradient: AppColors.blueGradient)),
-            SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(40.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(40.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Lottie.asset('assets/lottie/login.json',
+                    height: 300, width: 300),
+                Text(
+                  "Trouble Logging In?",
+                  style:
+                      TextStyle(fontSize: 23, fontWeight: FontWeight.w600),textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Text(
+                    "We’have sent you a verification code to the given number to login",
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w400),textAlign: TextAlign.center,
+                  ),
+                ),
+                SizedBox(height: 20),
+                IntlPhoneField(
+                  enabled: false,
+                  initialValue: widget.phoneNumber,
+                  decoration: InputDecoration(
+                    labelText: 'Mobile Number',
+                    errorText: _errorText.isNotEmpty ? _errorText : null,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: const BorderSide(),
+                    ),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _countryCode = value.countryCode;
+                      _phoneNumber = value.number;
+                      _errorText = '';
+                    });
+                  },
+                  initialCountryCode: widget.countryCode,
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Center(
-                      child: Lottie.asset('assets/lottie/login.json',
-                          height: 300, width: 300),
-                    ),
-                    Text(
-                      "Forgot Password",
-                      style:
-                          TextStyle(fontSize: 23, fontWeight: FontWeight.w600),
-                    ),
-                    SizedBox(height: 20),
-
-                    IntlPhoneField(
-                      enabled: false,
-                      initialValue: widget.phoneNumber,
-                      decoration: InputDecoration(
-                        labelText: 'Mobile Number',
-                        errorText: _errorText.isNotEmpty ? _errorText : null,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          borderSide: const BorderSide(),
-                        ),
-                      ),
-                      onChanged: (value) {
-                        setState(() {
-                          _countryCode = value.countryCode;
-                          _phoneNumber = value.number;
-                          _errorText = '';
-                        });
-                      },
-                      initialCountryCode: widget.countryCode,
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Pinput(
-                            length: 6,
-                            defaultPinTheme: PinTheme(
-                              width: MediaQuery.of(context).size.width * 0.12 - 2,
-                              height: 56,
-                              textStyle: const TextStyle(
-                                  fontSize: 20,
-                                  color: AppColors.primaryBlue,
-                                  fontWeight: FontWeight.w600),
-                              decoration: BoxDecoration(
-                                color: AppColors.white,
-                                border: Border.all(
-                                    color:
-                                        const Color.fromRGBO(234, 239, 243, 1)),
-                                borderRadius: BorderRadius.circular(12),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Color.fromARGB(25, 0, 0, 0),
-                                    spreadRadius: 2,
-                                    blurRadius: 3,
-                                    offset: Offset(-2, 3),
-                                  ),
-                                ],
+                    Pinput(
+                        length: 6,
+                        defaultPinTheme: PinTheme(
+                          width: MediaQuery.of(context).size.width * 0.12 - 2,
+                          height: 56,
+                          textStyle: const TextStyle(
+                              fontSize: 20,
+                              color: AppColors.primaryBlue,
+                              fontWeight: FontWeight.w600),
+                          decoration: BoxDecoration(
+                            color: AppColors.white,
+                            border: Border.all(
+                                color:
+                                    const Color.fromRGBO(234, 239, 243, 1)),
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color.fromARGB(25, 0, 0, 0),
+                                spreadRadius: 2,
+                                blurRadius: 3,
+                                offset: Offset(-2, 3),
                               ),
-                            )),
-                      ],
-                    ),
-                    SizedBox(height: 20),
-
-                    /// Login Button
-                    CustomButton(
-                      text: "Next",
-                      color: AppColors.primaryBlue,
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => BottomNavScreen()));
-                      },
-                      textcolor: AppColors.white,
-                    ),
-                    SizedBox(height: 20),
+                            ],
+                          ),
+                        )),
                   ],
                 ),
-              ),
+                SizedBox(height: 20),
+        
+                /// Login Button
+                CustomButton(
+                  text: "Next",
+                  color: AppColors.primaryBlue,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => BottomNavScreen()));
+                  },
+                  textcolor: AppColors.white,
+                ),
+                SizedBox(height: 20),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

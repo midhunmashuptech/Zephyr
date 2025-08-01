@@ -84,19 +84,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     SizedBox(height: 10),
                     Text(
-                      "Firstname",
+                      "Fullname",
                       style: TextStyle(color: AppColors.ratingGrey),
                     ),
-                    Text("Kim",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w600)),
-                    Divider(),
-                    SizedBox(height: 10),
-                    Text(
-                      "Lastname",
-                      style: TextStyle(color: AppColors.ratingGrey),
-                    ),
-                    Text("Shin",
+                    Text("John Wick",
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.w600)),
                     Divider(),

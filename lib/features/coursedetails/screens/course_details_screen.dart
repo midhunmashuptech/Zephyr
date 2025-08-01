@@ -142,28 +142,23 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(30.0),
-                    child: Positioned(
-                      bottom: 10,
-                      left: 0,
-                      right: 0,
-                      child: SwipeableButtonView(
-                        buttonText: "Enroll at 599/-",
-                        buttonWidget: const Icon(Icons.arrow_forward,
-                            color: AppColors.primaryOrange),
-                        activeColor: AppColors.primaryOrange,
-                        isFinished: isFinished,
-                        onWaitingProcess: () {
-                          // Simulate a delay for the button action
-                          Future.delayed(const Duration(seconds: 1), () {
-                            setState(() {
-                              isFinished = true;
-                            });
+                    child: SwipeableButtonView(
+                      buttonText: "Enroll at 599/-",
+                      buttonWidget: const Icon(Icons.arrow_forward,
+                          color: AppColors.primaryOrange),
+                      activeColor: AppColors.primaryOrange,
+                      isFinished: isFinished,
+                      onWaitingProcess: () {
+                        // Simulate a delay for the button action
+                        Future.delayed(const Duration(seconds: 1), () {
+                          setState(() {
+                            isFinished = true;
                           });
-                        },
-                        onFinish: () {
-                          Navigator.pop(context);
-                        },
-                      ),
+                        });
+                      },
+                      onFinish: () {
+                        Navigator.pop(context);
+                      },
                     ),
                   ),
                 ],
