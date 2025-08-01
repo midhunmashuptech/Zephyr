@@ -6,12 +6,16 @@ class CustomDropdownCard extends StatefulWidget {
   final String title;
   final List<String> items;
   final Function(String) onSelected;
+  final void Function() onTap;
+  final bool isExpanded;
 
   const CustomDropdownCard({
     super.key,
     required this.title,
     required this.items,
     required this.onSelected,
+    required this.onTap,
+    required this.isExpanded,
   });
 
   @override
@@ -29,6 +33,15 @@ class _CustomDropdownCardState extends State<CustomDropdownCard> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: ExpansionTile(
+          key: Key("${widget.title}_${widget.isExpanded}"),
+          initiallyExpanded: widget.isExpanded,
+          onExpansionChanged: (expanded) {
+          if (expanded && !widget.isExpanded) {
+            widget.onTap();
+          } else if (!expanded && widget.isExpanded) {
+            widget.onTap();
+          }
+        },
           title: Text(
             widget.title,
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
