@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/common/screens/splash_screen.dart';
+import 'package:zephyr/common/screens/test_screen.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/assignments/screens/assignment_upload_screen.dart';
 import 'package:zephyr/features/assignments/screens/assignments_screen.dart';
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
       // home: Login(),
       // home: RegistrationScreen(),
       // home: RegistrationPassword(),
-      home: SplashScreen(),
+      home: TestScreen(),
     );
   }
 }
