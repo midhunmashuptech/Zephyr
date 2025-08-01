@@ -114,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Text("Hello, Welcome",
                                           style: TextStyle(fontSize: 13)),
                                       Text(
-                                        "Kim Shin",
+                                        "John Wick",
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w600),
