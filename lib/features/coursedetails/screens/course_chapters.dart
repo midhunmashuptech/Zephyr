@@ -9,6 +9,8 @@ class CourseChapters extends StatefulWidget {
 }
 
 class _CourseChaptersState extends State<CourseChapters> {
+  int? expandedSectionIndex;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,16 +24,34 @@ class _CourseChaptersState extends State<CourseChapters> {
                 title: "Mathematics",
                 items: ["Chapter 1", "Chapter 2", "Chapter 3"],
                 onSelected: (value) {},
+                onTap: () {
+                  setState(() {
+                    expandedSectionIndex = expandedSectionIndex == 0 ? null : 0;
+                  });
+                },
+                isExpanded: expandedSectionIndex == 0,
               ),
               CustomDropdownCard(
                 title: "Physics",
                 items: ["Chapter 1", "Chapter 2", "Chapter 3"],
                 onSelected: (value) {},
+                onTap: () {
+                  setState(() {
+                    expandedSectionIndex = expandedSectionIndex == 1 ? null : 1;
+                  });
+                },
+                isExpanded: expandedSectionIndex == 1,
               ),
               CustomDropdownCard(
                 title: "Biology",
                 items: ["Chapter 1", "Chapter 2", "Chapter 3"],
                 onSelected: (value) {},
+                onTap: () {
+                  setState(() {
+                    expandedSectionIndex = expandedSectionIndex == 2 ? null : 2;
+                  });
+                },
+                isExpanded: expandedSectionIndex == 2,
               ),
             ],
           ),

@@ -31,99 +31,101 @@ class _LoginState extends State<Login> {
     return Scaffold(
       backgroundColor: AppColors.white,
       body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            Positioned.fill(
-              child: LayoutGradient(gradient: AppColors.blueGradient),
-            ),
-            SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(40.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(40.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Center(
+                  child: Lottie.asset('assets/lottie/login.json',
+                      height: 300, width: 300),
+                ),
+                Text(
+                  "Welcome Back!",
+                  style:
+                      TextStyle(fontSize: 23, fontWeight: FontWeight.w600),
+                ),
+                SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Text(
+                    "Log in to continue your personalized learning experience.",
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w400),textAlign: TextAlign.center,
+                  ),
+                ),
+                SizedBox(height: 20),
+        
+                IntlPhoneField(
+                  enabled: false,
+                  initialValue: widget.phoneNumber,
+                  decoration: InputDecoration(
+                    labelText: 'Mobile Number',
+                    errorText: _errorText.isNotEmpty ? _errorText : null,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: const BorderSide(),
+                    ),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _countryCode = value.countryCode;
+                      _phoneNumber = value.number;
+                      _errorText = '';
+                    });
+                  },
+                  initialCountryCode: widget.countryCode,
+                ),
+                const SizedBox(height: 15),
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    errorText: _errorText.isNotEmpty ? _errorText : null,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: const BorderSide(),
+                    ),
+                  ),
+                ),
+        
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Center(
-                      child: Lottie.asset('assets/lottie/login.json',
-                          height: 300, width: 300),
-                    ),
-                    Text(
-                      "Login",
-                      style:
-                          TextStyle(fontSize: 23, fontWeight: FontWeight.w600),
-                    ),
-                    SizedBox(height: 20),
-
-                    IntlPhoneField(
-                      enabled: false,
-                      initialValue: widget.phoneNumber,
-                      decoration: InputDecoration(
-                        labelText: 'Mobile Number',
-                        errorText: _errorText.isNotEmpty ? _errorText : null,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          borderSide: const BorderSide(),
-                        ),
-                      ),
-                      onChanged: (value) {
-                        setState(() {
-                          _countryCode = value.countryCode;
-                          _phoneNumber = value.number;
-                          _errorText = '';
-                        });
-                      },
-                      initialCountryCode: widget.countryCode,
-                    ),
-                    const SizedBox(height: 15),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        errorText: _errorText.isNotEmpty ? _errorText : null,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          borderSide: const BorderSide(),
-                        ),
-                      ),
-                    ),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ForgotPasswordScreen(
-                                          phoneNumber: widget.phoneNumber,
-                                          countryCode: widget.countryCode,
-                                        )));
-                          },
-                          child: Text(
-                            "Forgot Password?",
-                            style: TextStyle(color: AppColors.primaryBlue),
-                          ),
-                        )
-                      ],
-                    ),
-
-                    /// Login Button
-                    CustomButton(
-                      text: "Login",
-                      color: AppColors.primaryBlue,
+                    TextButton(
                       onPressed: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => BottomNavScreen()));
+                                builder: (context) => ForgotPasswordScreen(
+                                      phoneNumber: widget.phoneNumber,
+                                      countryCode: widget.countryCode,
+                                    )));
                       },
-                      textcolor: AppColors.white,
-                    ),
-                    SizedBox(height: 20),
+                      child: Text(
+                        "Forgot Password?",
+                        style: TextStyle(color: AppColors.primaryBlue),
+                      ),
+                    )
                   ],
                 ),
-              ),
+        
+                /// Login Button
+                CustomButton(
+                  text: "Login",
+                  color: AppColors.primaryBlue,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => BottomNavScreen()));
+                  },
+                  textcolor: AppColors.white,
+                ),
+                SizedBox(height: 20),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
