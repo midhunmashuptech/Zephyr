@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/features/chapter_details/screens/chapter_details_screen.dart';
 
-class CustomDropdownCard extends StatefulWidget {
+class EnrolledChapterCard extends StatefulWidget {
   final String title;
   final List<String> items;
   final Function(String) onSelected;
   final void Function() onTap;
   final bool isExpanded;
 
-  const CustomDropdownCard({
+  const EnrolledChapterCard({
     super.key,
     required this.title,
     required this.items,
@@ -19,12 +18,11 @@ class CustomDropdownCard extends StatefulWidget {
   });
 
   @override
-  // ignore: library_private_types_in_public_api
-  _CustomDropdownCardState createState() => _CustomDropdownCardState();
+  State<EnrolledChapterCard> createState() => _EnrolledChapterCardState();
 }
 
-class _CustomDropdownCardState extends State<CustomDropdownCard> {
-  @override
+class _EnrolledChapterCardState extends State<EnrolledChapterCard> {
+   @override
   Widget build(BuildContext context) {
     return Card(
       color: AppColors.dropdownblue,
@@ -60,10 +58,10 @@ class _CustomDropdownCardState extends State<CustomDropdownCard> {
                 title: Text(item, style: const TextStyle(fontSize: 16)),
                 onTap: () {
                   widget.onSelected(item);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ChapterDetailsScreen()));
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => ChapterDetailsScreen()));
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),

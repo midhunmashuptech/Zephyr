@@ -6,7 +6,7 @@ import 'package:iconify_flutter_plus/icons/ri.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/assignments/screens/assignments_screen.dart';
-import 'package:zephyr/features/enrolled_courses/screens/enrolled_courses.dart';
+import 'package:zephyr/features/enrolled_courses/screens/my_course_screen.dart';
 import 'package:zephyr/features/home/screens/home_screen.dart';
 import 'package:zephyr/features/live_class/screens/live_tabview_details.dart';
 
@@ -22,7 +22,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
 
   final _pages = [
     HomeScreen(),
-    EnrolledCourses(),
+    MyCourseScreen(),
     LiveTabviewDetails(),
     AssignmentsScreen()
   ];

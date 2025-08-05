@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:zephyr/features/coursedetails/widgets/custom_dropdown_card.dart';
-
+import 'package:zephyr/features/chapter_details/screens/video_play_screen.dart';
+import 'package:zephyr/features/coursedetails/widgets/course_chapter_card.dart';
 class CourseChapters extends StatefulWidget {
   const CourseChapters({super.key});
 
@@ -11,6 +11,46 @@ class CourseChapters extends StatefulWidget {
 class _CourseChaptersState extends State<CourseChapters> {
   int? expandedSectionIndex;
 
+  void _showSubscribePopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text("Start Learning Today"),
+        content: Text("Subscribe to gain unlimited access to all lessons and resources."),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context), child: Text("Cancel")),
+          ElevatedButton(onPressed: () {}, child: Text("Subscribe")),
+        ],
+      ),
+    );
+  }
+
+  void _navigateToVideoPlayer() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => VideoPlayScreen()),
+    );
+  }
+
+  Widget _buildDropdownCard(
+    String subject, 
+    int index
+    ) {
+    return CourseChapterCard(
+      title: subject,
+      items: ["Chapter 1", "Chapter 2", "Chapter 3"],
+      onSelected: (value) {},
+      onTap: () {
+        setState(() {
+          expandedSectionIndex = expandedSectionIndex == index ? null : index;
+        });
+      },
+      isExpanded: expandedSectionIndex == index,
+      onFreeItemTap: _navigateToVideoPlayer,
+      onLockedTap: (index) => _showSubscribePopup(context),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,40 +59,10 @@ class _CourseChaptersState extends State<CourseChapters> {
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             children: [
-              SizedBox(height: 10),
-              CustomDropdownCard(
-                title: "Mathematics",
-                items: ["Chapter 1", "Chapter 2", "Chapter 3"],
-                onSelected: (value) {},
-                onTap: () {
-                  setState(() {
-                    expandedSectionIndex = expandedSectionIndex == 0 ? null : 0;
-                  });
-                },
-                isExpanded: expandedSectionIndex == 0,
-              ),
-              CustomDropdownCard(
-                title: "Physics",
-                items: ["Chapter 1", "Chapter 2", "Chapter 3"],
-                onSelected: (value) {},
-                onTap: () {
-                  setState(() {
-                    expandedSectionIndex = expandedSectionIndex == 1 ? null : 1;
-                  });
-                },
-                isExpanded: expandedSectionIndex == 1,
-              ),
-              CustomDropdownCard(
-                title: "Biology",
-                items: ["Chapter 1", "Chapter 2", "Chapter 3"],
-                onSelected: (value) {},
-                onTap: () {
-                  setState(() {
-                    expandedSectionIndex = expandedSectionIndex == 2 ? null : 2;
-                  });
-                },
-                isExpanded: expandedSectionIndex == 2,
-              ),
+              const SizedBox(height: 10),
+              _buildDropdownCard("Mathematics", 0),
+              _buildDropdownCard("Physics", 1),
+              _buildDropdownCard("Biology", 2),
             ],
           ),
         ),

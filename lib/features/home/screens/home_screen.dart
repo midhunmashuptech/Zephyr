@@ -50,153 +50,156 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Stack(
           children: [
             LayoutGradient(gradient: AppColors.greenGradient),
-            SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    /// Top Section with Profile and Menu
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            IconButton(
-                                onPressed: () {
-                                  _scaffoldKey.currentState!.openDrawer();
+            SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      /// Top Section with Profile and Menu
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              IconButton(
+                                  onPressed: () {
+                                    _scaffoldKey.currentState!.openDrawer();
+                                  },
+                                  icon: Iconify(
+                                    Mi.menu,
+                                    color: AppColors.primaryBlue,
+                                  )),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ProfileScreen()));
                                 },
-                                icon: Iconify(
-                                  Mi.menu,
-                                  color: AppColors.primaryBlue,
-                                )),
-                            GestureDetector(
-                              onTap: () {
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: AppColors.black.withAlpha(
+                                                50), // changed this - withOpacity(0.2)
+                                            blurRadius: 6,
+                                            spreadRadius: 2,
+                                            offset: Offset(0, 3),
+                                          ),
+                                        ],
+                                      ),
+                                      child: CircleAvatar(
+                                        radius: 25,
+                                        backgroundColor: AppColors.white,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(2.0),
+                                          child: CircleAvatar(
+                                            radius: 25,
+                                            foregroundImage: AssetImage(
+                                                "assets/images/kim_shin.webp"),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text("Hello, Welcome",
+                                            style: TextStyle(fontSize: 13)),
+                                        Text(
+                                          "John Wick",
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          IconButton(
+                              onPressed: () {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => ProfileScreen()));
+                                        builder: (context) => Notifications()));
                               },
-                              child: Row(
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: AppColors.black.withAlpha(
-                                              50), // changed this - withOpacity(0.2)
-                                          blurRadius: 6,
-                                          spreadRadius: 2,
-                                          offset: Offset(0, 3),
-                                        ),
-                                      ],
-                                    ),
-                                    child: CircleAvatar(
-                                      radius: 25,
-                                      backgroundColor: AppColors.white,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(2.0),
-                                        child: CircleAvatar(
-                                          radius: 25,
-                                          foregroundImage: AssetImage(
-                                              "assets/images/kim_shin.webp"),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(width: 10),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text("Hello, Welcome",
-                                          style: TextStyle(fontSize: 13)),
-                                      Text(
-                                        "John Wick",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
+                              icon: Iconify(Mdi.bell_notification, size: 30))
+                        ],
+                      ),
+              
+                      SizedBox(height: 20),
+              
+                      CustomSearchBar(color: AppColors.primaryBlue),
+              
+                      SizedBox(height: 20),
+              
+                      /// Course Categories
+                      Text(
+                        "Courses",
+                        style:
+                            TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(height: 10),
+              
+                      Center(
+                        child: Wrap(
+                          children: categories
+                              .map((category) => CategoryWidget(
+                                  categoryName:
+                                      category)) // Assuming CategoryWidget fits dynamically
+                              .toList(),
                         ),
-                        IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Notifications()));
-                            },
-                            icon: Iconify(Mdi.bell_notification, size: 30))
-                      ],
-                    ),
-
-                    SizedBox(height: 20),
-
-                    CustomSearchBar(color: AppColors.primaryBlue),
-
-                    SizedBox(height: 20),
-
-                    /// Course Categories
-                    Text(
-                      "Courses",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                    ),
-                    SizedBox(height: 10),
-
-                    Center(
-                      child: Wrap(
-                        children: categories
-                            .map((category) => CategoryWidget(
-                                categoryName:
-                                    category)) // Assuming CategoryWidget fits dynamically
-                            .toList(),
                       ),
-                    ),
-
-                    SizedBox(height: 20),
-
-                    /// Recommended Section
-                    Text(
-                      "Recommended for you",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-
-                    Center(
-                      child: Wrap(
-                        children: courses.asMap().entries.map((entry) {
-                          int index = entry.key; // Get the index
-                          Course course = entry.value; // Get the course
-                          return HomeCourseCard(course: course, index: index);
-                        }).toList(),
+              
+                      SizedBox(height: 20),
+              
+                      /// Recommended Section
+                      Text(
+                        "Recommended for you",
+                        style:
+                            TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                       ),
-                    ),
-
-                    // GridView.builder(
-                    //   shrinkWrap: true,
-                    //   physics: NeverScrollableScrollPhysics(), // Prevent nested scrolling
-                    //   itemCount: courses.length,
-                    //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    //     crossAxisCount: 2, // 2 cards per row
-                    //     crossAxisSpacing: 10,
-                    //     mainAxisSpacing: 10, // Adjust height vs width ratio
-                    //   ),
-                    //   itemBuilder: (context, index) {
-                    //     return HomeCourseCard(course: courses[index]);
-                    //   },
-                    // ),
-                  ],
+                      SizedBox(
+                        height: 10,
+                      ),
+              
+                      Center(
+                        child: Wrap(
+                          children: courses.asMap().entries.map((entry) {
+                            int index = entry.key; // Get the index
+                            Course course = entry.value; // Get the course
+                            return HomeCourseCard(course: course, index: index);
+                          }).toList(),
+                        ),
+                      ),
+              
+                      // GridView.builder(
+                      //   shrinkWrap: true,
+                      //   physics: NeverScrollableScrollPhysics(), // Prevent nested scrolling
+                      //   itemCount: courses.length,
+                      //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      //     crossAxisCount: 2, // 2 cards per row
+                      //     crossAxisSpacing: 10,
+                      //     mainAxisSpacing: 10, // Adjust height vs width ratio
+                      //   ),
+                      //   itemBuilder: (context, index) {
+                      //     return HomeCourseCard(course: courses[index]);
+                      //   },
+                      // ),
+                    ],
+                  ),
                 ),
               ),
             ),
