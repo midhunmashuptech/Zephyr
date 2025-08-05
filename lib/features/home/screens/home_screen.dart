@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:iconify_flutter_plus/icons/mi.dart';
@@ -11,6 +12,7 @@ import 'package:zephyr/features/drawer/screens/profile_screen.dart';
 import 'package:zephyr/features/home/widgets/category_widget.dart';
 import 'package:zephyr/features/home/widgets/home_course_card.dart';
 import 'package:zephyr/features/notification/screens/notifications.dart';
+import 'package:zephyr/features/test/screens/make_your_test_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -31,11 +33,20 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   List<Course> courses = [];
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    courses = Course.getSampleCourses();
+    loadCourses();
+  }
+
+  void loadCourses() async {
+    await Future.delayed(Duration(seconds: 2));
+    setState(() {
+      courses = Course.getSampleCourses();
+      isLoading = false;
+    });
   }
 
   final border = OutlineInputBorder(
@@ -138,21 +149,21 @@ class _HomeScreenState extends State<HomeScreen> {
                               icon: Iconify(Mdi.bell_notification, size: 30))
                         ],
                       ),
-              
+
                       SizedBox(height: 20),
-              
+
                       CustomSearchBar(color: AppColors.primaryBlue),
-              
+
                       SizedBox(height: 20),
-              
+
                       /// Course Categories
                       Text(
                         "Courses",
-                        style:
-                            TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       SizedBox(height: 10),
-              
+
                       Center(
                         child: Wrap(
                           children: categories
@@ -162,29 +173,39 @@ class _HomeScreenState extends State<HomeScreen> {
                               .toList(),
                         ),
                       ),
-              
+
                       SizedBox(height: 20),
-              
+
                       /// Recommended Section
                       Text(
                         "Recommended for you",
-                        style:
-                            TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       SizedBox(
                         height: 10,
                       ),
-              
-                      Center(
-                        child: Wrap(
-                          children: courses.asMap().entries.map((entry) {
-                            int index = entry.key; // Get the index
-                            Course course = entry.value; // Get the course
-                            return HomeCourseCard(course: course, index: index);
-                          }).toList(),
-                        ),
-                      ),
-              
+
+                      isLoading
+                          ? Container(
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Center(child: CircularProgressIndicator()),
+                                ],
+                              ))
+                          : Center(
+                              child: Wrap(
+                                children: courses.asMap().entries.map((entry) {
+                                  int index = entry.key; // Get the index
+                                  Course course = entry.value; // Get the course
+                                  return HomeCourseCard(
+                                      course: course, index: index);
+                                }).toList(),
+                              ),
+                            ),
                       // GridView.builder(
                       //   shrinkWrap: true,
                       //   physics: NeverScrollableScrollPhysics(), // Prevent nested scrolling
@@ -206,6 +227,14 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+          backgroundColor: AppColors.primaryGreen,
+          onPressed: () => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => MakeYourTestScreen())),
+          child: HugeIcon(
+            icon: HugeIcons.strokeRoundedStudyLamp,
+            color: AppColors.white,
+          )),
     );
   }
 }
