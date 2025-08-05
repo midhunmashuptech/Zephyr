@@ -88,8 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              ProfileScreen()));
+                                          builder: (context) => ProfileScreen()));
                                 },
                                 child: Row(
                                   children: [
@@ -123,8 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Text("Hello, Welcome",
                                             style: TextStyle(fontSize: 13)),
@@ -208,7 +206,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 }).toList(),
                               ),
                             ),
-
                       // GridView.builder(
                       //   shrinkWrap: true,
                       //   physics: NeverScrollableScrollPhysics(), // Prevent nested scrolling
