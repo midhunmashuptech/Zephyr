@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:zephyr/common/screens/onboarding_screen.dart';
+import 'package:zephyr/common/screens/test_widget';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/common/widgets/onboarding_page1.dart';
 
@@ -24,7 +26,22 @@ class _TestScreenState extends State<TestScreen> {
                   onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => OnboardingScreen())))
+                          builder: (context) => OnboardingScreen()))),
+              RatingBar.builder(
+                initialRating: 0,
+                minRating: 1,
+                direction: Axis.horizontal,
+                allowHalfRating: true,
+                itemCount: 5,
+                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                itemBuilder: (context, _) => Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                ),
+                onRatingUpdate: (rating) {
+                  print(rating);
+                },
+              ),
             ],
           ),
         ),
