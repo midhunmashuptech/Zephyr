@@ -6,15 +6,16 @@ import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/constants/widgets/layout_gradient.dart';
 import 'package:zephyr/data_class/course.dart';
 import 'package:zephyr/features/enrolled_courses/widgets/enrolled_course_card.dart';
+import 'package:zephyr/features/enrolled_courses/widgets/my_course_card.dart';
 
-class EnrolledCourses extends StatefulWidget {
-  const EnrolledCourses({super.key});
+class MyCourseScreen extends StatefulWidget {
+  const MyCourseScreen({super.key});
 
   @override
-  State<EnrolledCourses> createState() => _EnrolledCoursesState();
+  State<MyCourseScreen> createState() => _MyCourseScreenState();
 }
 
-class _EnrolledCoursesState extends State<EnrolledCourses> {
+class _MyCourseScreenState extends State<MyCourseScreen>{
   List<Course> courses = [];
 
   @override
@@ -67,7 +68,7 @@ class _EnrolledCoursesState extends State<EnrolledCourses> {
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: courses.length,
                     itemBuilder: (context, index) {
-                      return EnrolledCourseCard(
+                      return MyCourseCard(
                           index: index, course: courses[index]);
                     },
                   ),

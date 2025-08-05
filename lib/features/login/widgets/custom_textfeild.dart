@@ -11,6 +11,7 @@ class CustomTextField extends StatelessWidget {
   final FocusNode? focusNode;
   final bool obscureText;
   final Color? color;
+  final int? maxLines;
   final String? Function(String?)? validator;
 
   const CustomTextField({
@@ -22,8 +23,10 @@ class CustomTextField extends StatelessWidget {
     this.onTap,
     this.obscureText = false,
     this.color,
+    this.maxLines,
     this.validator,
-    super.key, this.focusNode,
+    super.key,
+    this.focusNode,
   });
 
   @override
@@ -32,6 +35,7 @@ class CustomTextField extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 10.0),
       child: TextFormField(
         controller: controller,
+        maxLines: maxLines == 3 ? null : maxLines,
         keyboardType: keyboardType,
         obscureText: obscureText,
         focusNode: focusNode,
@@ -39,8 +43,8 @@ class CustomTextField extends StatelessWidget {
             hintText: hintText,
             border: OutlineInputBorder(),
             focusedBorder: OutlineInputBorder(
-              borderSide:
-                  BorderSide(color: color ?? AppColors.primaryGreen, width: 1.5),
+              borderSide: BorderSide(
+                  color: color ?? AppColors.primaryGreen, width: 1.5),
             ),
             suffixIcon: suffixIcon,
             prefixIcon: prefixIcon),

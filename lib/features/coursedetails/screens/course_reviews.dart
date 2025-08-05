@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/common/widgets/rating_star_widget.dart';
 import 'package:zephyr/features/coursedetails/widgets/rating_widget.dart';
 import 'package:zephyr/features/coursedetails/widgets/review_card.dart';
 
@@ -10,108 +10,138 @@ class CourseReviews extends StatefulWidget {
   State<CourseReviews> createState() => _CourseReviewsState();
 }
 
+class ReviewDetails {
+  final String userName;
+  final String userImage;
+  final String reviewText;
+  final String timeAgo;
+  final double rating;
+
+  ReviewDetails(
+      {required this.userName,
+      required this.userImage,
+      required this.reviewText,
+      required this.timeAgo,
+      required this.rating
+      });
+}
+
 class _CourseReviewsState extends State<CourseReviews> {
+  List<ReviewDetails> reviewDetails = [
+    ReviewDetails(
+        userName: "Alankara Nair",
+        userImage: "assets/images/yaami.jpg",
+        reviewText:
+            "The foundation course made science and math so easy to understand. The videos are fun, and the quizzes really help me test what I learned!",
+        timeAgo: "3 day ago", 
+        rating: 4.0),
+    ReviewDetails(
+        userName: "Meenakshi KS",
+        userImage: "assets/images/yaami.jpg",
+        reviewText:
+            "Helped improve my marks!”.My marks improved in all subjects after I joined this course. The foundation it builds is perfect for Class 9 and beyond.",
+        timeAgo: "30 min ago",
+        rating: 3.7),
+    ReviewDetails(
+        userName: "Suresh Krishna",
+        userImage: "assets/images/yaami.jpg",
+        reviewText:
+            "Best Online class ever!.I was struggling with algebra and physics, but this course explained everything so clearly. Now, I feel more confident before exams.",
+        timeAgo: "8 day ago",
+        rating: 2.9),
+    ReviewDetails(
+        userName: "Meenakshi",
+        userImage: "assets/images/yaami.jpg",
+        reviewText:
+            "Great support and material.The notes, video lessons, and practice tests are excellent. I also love how I can go back and watch lessons again whenever I want.",
+        timeAgo: "8 day ago",
+        rating: 5.0),
+    ReviewDetails(
+        userName: "Alankara Nair",
+        userImage: "assets/images/yaami.jpg",
+        reviewText:
+            "The foundation course made science and math so easy to understand. The videos are fun, and the quizzes really help me test what I learned!",
+        timeAgo: "3 day ago",
+        rating: 4.3),
+    ReviewDetails(
+        userName: "Meenakshi KS",
+        userImage: "assets/images/yaami.jpg",
+        reviewText:
+            "Helped improve my marks!”.My marks improved in all subjects after I joined this course. The foundation it builds is perfect for Class 9 and beyond.",
+        timeAgo: "30 min ago",
+        rating: 3.5),
+    ReviewDetails(
+        userName: "Suresh Krishna",
+        userImage: "assets/images/yaami.jpg",
+        reviewText:
+            "Best Online class ever!.I was struggling with algebra and physics, but this course explained everything so clearly. Now, I feel more confident before exams.",
+        timeAgo: "8 day ago",
+        rating: 4.8),
+    ReviewDetails(
+        userName: "Meenakshi",
+        userImage: "assets/images/yaami.jpg",
+        reviewText:
+            "Great support and material.The notes, video lessons, and practice tests are excellent. I also love how I can go back and watch lessons again whenever I want.",
+        timeAgo: "8 day ago",
+        rating: 4.9),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              SizedBox(height: 10),
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Column(
+          children: [
+            SizedBox(height: 10),
+            Container(
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        RatingWidget(number: "5", value: 0.9),
+                        RatingWidget(number: "4", value: 0.7),
+                        RatingWidget(number: "3", value: 0.6),
+                        RatingWidget(number: "2", value: 0.5),
+                        RatingWidget(number: "1", value: 0.4),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Column(
                         children: [
-                          RatingWidget(number: "5", value: 0.9),
-                          RatingWidget(number: "4", value: 0.7),
-                          RatingWidget(number: "3", value: 0.6),
-                          RatingWidget(number: "2", value: 0.5),
-                          RatingWidget(number: "1", value: 0.4),
+                          Text(
+                            "4.8",
+                            style: TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.w600),
+                          ),
+                          RatingStarWidget(rating: 4.8,),
+                          Text("70 reviews")
                         ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: Column(
-                          children: [
-                            Text(
-                              "4.8",
-                              style: TextStyle(
-                                  fontSize: 25, fontWeight: FontWeight.w600),
-                            ),
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.star,
-                                  color: AppColors.primaryOrange,
-                                  size: 15,
-                                ),
-                                const Icon(
-                                  Icons.star,
-                                  color: AppColors.primaryOrange,
-                                  size: 15,
-                                ),
-                                const Icon(
-                                  Icons.star,
-                                  color: AppColors.primaryOrange,
-                                  size: 15,
-                                ),
-                                const Icon(
-                                  Icons.star,
-                                  color: AppColors.primaryOrange,
-                                  size: 15,
-                                ),
-                                const Icon(
-                                  Icons.star,
-                                  color: AppColors.primaryOrange,
-                                  size: 15,
-                                ),
-                              ],
-                            ),
-                            Text("70 reviews")
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
+                    )
+                  ],
                 ),
               ),
-              SizedBox(height: 30),
-              ReviewCard(
-                  userName: "Athulya Ajayakumar",
-                  userImage: "assets/images/yaami.jpg",
-                  reviewText:
-                      "The course is very informative and the instructor is very knowledgeable. I would recommend this course to anyone who wants to learn more about the subject.",
-                  timeAgo: "15 min ago"),
-              ReviewCard(
-                  userName: "Anaswara Venu",
-                  userImage: "assets/images/yaami.jpg",
-                  reviewText:
-                      "The course is very informative and the instructor is very knowledgeable. I would recommend this course to anyone who wants to learn more about the subject.",
-                  timeAgo: "50 min ago"),
-              ReviewCard(
-                  userName: "Midhun Murali",
-                  userImage: "assets/images/yaami.jpg",
-                  reviewText:
-                      "The course is very informative and the instructor is very knowledgeable. I would recommend this course to anyone who wants to learn more about the subject.",
-                  timeAgo: "1hr ago"),
-              ReviewCard(
-                  userName: "Dony Baby",
-                  userImage: "assets/images/yaami.jpg",
-                  reviewText:
-                      "The course is very informative and the instructor is very knowledgeable. I would recommend this course to anyone who wants to learn more about the subject.",
-                  timeAgo: "1hr 30 min ago"),
-              SizedBox(height: 20),
-            ],
-          ),
+            ),
+            // SizedBox(height: 10),
+            Expanded(
+              child: ListView.builder(
+                  itemCount: reviewDetails.length,
+                  itemBuilder: (context, index) => ReviewCard(
+                        userName: reviewDetails[index].userName,
+                        userImage: reviewDetails[index].userImage,
+                        reviewText: reviewDetails[index].reviewText,
+                        timeAgo: reviewDetails[index].timeAgo,
+                        rating: reviewDetails[index].rating,
+                      )),
+            ),
+            // SizedBox(height: 20),
+          ],
         ),
       ),
     );

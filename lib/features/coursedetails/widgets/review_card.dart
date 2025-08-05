@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zephyr/common/widgets/rating_star_widget.dart';
 import 'package:zephyr/constants/app_constants.dart';
 
 class ReviewCard extends StatelessWidget {
@@ -6,6 +7,7 @@ class ReviewCard extends StatelessWidget {
   final String userImage;
   final String reviewText;
   final String timeAgo;
+  final double rating;
 
   const ReviewCard({
     super.key,
@@ -13,6 +15,7 @@ class ReviewCard extends StatelessWidget {
     required this.userImage,
     required this.reviewText,
     required this.timeAgo,
+    required this.rating,
   });
 
   @override
@@ -38,14 +41,7 @@ class ReviewCard extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(Icons.star,
-                          color: AppColors.primaryOrange, size: 15),
-                      Icon(Icons.star,
-                          color: AppColors.primaryOrange, size: 15),
-                      Icon(Icons.star,
-                          color: AppColors.primaryOrange, size: 15),
-                      Icon(Icons.star,
-                          color: AppColors.primaryOrange, size: 15),
+                      RatingStarWidget(rating: rating),
                       SizedBox(width: 7),
                       Text(
                         timeAgo,

@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/ic.dart';
-import 'package:swipeable_button_view/swipeable_button_view.dart';
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/features/coursedetails/screens/course_chapters.dart';
-import 'package:zephyr/features/coursedetails/screens/course_overview.dart';
-import 'package:zephyr/features/coursedetails/screens/course_reviews.dart';
+import 'package:zephyr/features/enrolled_courses/screens/enrolled_course_chapter.dart';
+import 'package:zephyr/features/enrolled_courses/screens/enrolled_courses_review.dart';
 
-class CourseDetailsScreen extends StatefulWidget {
-  const CourseDetailsScreen({super.key});
+class EnrolledCourseDetailScreen extends StatefulWidget {
+  const EnrolledCourseDetailScreen({super.key});
 
   @override
-  State<CourseDetailsScreen> createState() => _CourseDetailsScreenState();
+  State<EnrolledCourseDetailScreen> createState() => _EnrolledCourseDetailScreenState();
 }
 
-class _CourseDetailsScreenState extends State<CourseDetailsScreen>
+class _EnrolledCourseDetailScreenState extends State<EnrolledCourseDetailScreen> 
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   bool isFinished = false;
@@ -22,7 +20,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -62,7 +60,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Text('Foundation of class 10',
+                        const Text('Foundation of class 8',
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.w600)),
                         const SizedBox(height: 10),
@@ -113,61 +111,23 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                     indicatorColor: AppColors.primaryOrange,
                     dividerColor: AppColors.white,
                     tabs: const [
-                      Tab(text: 'Overview'),
                       Tab(text: 'Chapters'),
                       Tab(text: 'Reviews'),
                     ],
                   ),
                 ),
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height - 520,
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: TabBarView(
-                    controller: _tabController,
-                    children: const [
-                      CourseOverview(),
-                      CourseChapters(),
-                      CourseReviews()
-                    ],
-                  ),
+              Expanded(
+                child: TabBarView(
+                  controller: _tabController,
+                  children: const [
+                    EnrolledCourseChapter(),
+                   EnrolledCoursesReview()
+                  ],
                 ),
               ),
             ],
           ),
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 500),
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: SwipeableButtonView(
-                      buttonText: "Enroll at 599/-",
-                      buttonWidget: const Icon(Icons.arrow_forward,
-                          color: AppColors.primaryOrange),
-                      activeColor: AppColors.primaryOrange,
-                      isFinished: isFinished,
-                      onWaitingProcess: () {
-                        // Simulate a delay for the button action
-                        Future.delayed(const Duration(seconds: 1), () {
-                          setState(() {
-                            isFinished = true;
-                          });
-                        });
-                      },
-                      onFinish: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          )
         ],
       ),
     );
