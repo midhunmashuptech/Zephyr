@@ -46,7 +46,7 @@ class _MyReviewCardState extends State<MyReviewCard> {
               ),
             ],
           ),
-          Text("3.5")
+          Text(widget.rating.toString())
         ],
       ),
       SizedBox(height: 10,),

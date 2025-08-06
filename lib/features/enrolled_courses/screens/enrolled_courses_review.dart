@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/common/widgets/rating_star_widget.dart';
 import 'package:zephyr/constants/app_constants.dart';
@@ -39,7 +40,7 @@ class _EnrolledCoursesReviewState extends State<EnrolledCoursesReview> {
       userImage: "assets/images/yaami.jpg",
       reviewText: "",
       timeAgo: "",
-      rating: 4.0);
+      rating: 0.0);
   List<ReviewDetails> reviewDetails = [
     ReviewDetails(
         userName: "Alankara Nair",
@@ -118,11 +119,11 @@ class _EnrolledCoursesReviewState extends State<EnrolledCoursesReview> {
                     children: [
                       Column(
                         children: [
-                          RatingWidget(number: "5", value: 0.9),
-                          RatingWidget(number: "4", value: 0.7),
-                          RatingWidget(number: "3", value: 0.6),
-                          RatingWidget(number: "2", value: 0.5),
-                          RatingWidget(number: "1", value: 0.4),
+                          RatingBarWidget(number: "5", value: 0.9),
+                          RatingBarWidget(number: "4", value: 0.7),
+                          RatingBarWidget(number: "3", value: 0.6),
+                          RatingBarWidget(number: "2", value: 0.5),
+                          RatingBarWidget(number: "1", value: 0.4),
                         ],
                       ),
                       Padding(
@@ -162,16 +163,43 @@ class _EnrolledCoursesReviewState extends State<EnrolledCoursesReview> {
                       : Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Center(child: Text("Rate this course")),
+                            Center(
+                                child: Text("Rate this course",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500))),
+                            SizedBox(height: 10),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                RatingStarWidget(rating: 4.5),
-                                Text("4.5")
+                                RatingBar.builder(
+                                  initialRating: 0,
+                                  minRating: 1,
+                                  direction: Axis.horizontal,
+                                  allowHalfRating: true,
+                                  itemCount: 5,
+                                  itemPadding:
+                                      EdgeInsets.symmetric(horizontal: 4.0),
+                                  itemBuilder: (context, _) => Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                  ),
+                                  onRatingUpdate: (rating) {
+                                    print(rating);
+                                    setState(() {
+                                      myReviews.rating = rating;
+                                    });
+                                  },
+                                ),
+                                Text(myReviews.rating.toString(), style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),)
                               ],
                             ),
                             SizedBox(height: 10),
-                            Text("Write the review"),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Text("Write your review"),
+                            ),
                             SizedBox(
                               height: 5,
                             ),
@@ -185,7 +213,9 @@ class _EnrolledCoursesReviewState extends State<EnrolledCoursesReview> {
                               text: "Submit your review",
                               color: AppColors.primaryGreen,
                               textcolor: AppColors.white,
-                              onPressed: () {
+                              onPressed: myReviews.rating == 0.0
+                              ? null
+                              : () {
                                 showDialog(
                                     context: context,
                                     builder: (context) {
