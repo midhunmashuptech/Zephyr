@@ -23,6 +23,7 @@ class AppColors {
   static const Color lightRed = Color.fromARGB(255, 255, 231, 231);
   static const Color lightGrey = Color(0xFFEEEEEE);
 
+
   static const Gradient blueGradient = LinearGradient(
     colors: [
       lightBlue,

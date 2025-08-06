@@ -14,7 +14,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       body: SafeArea(
           child: Column(
         children: [
-          // Course Detail
+          // Course Details
           ClipRect(
             child: Row(
               children: [
