@@ -9,15 +9,16 @@ import 'package:zephyr/features/enrolled_courses/screens/enrolled_course_detail_
 class MyCourseCard extends StatelessWidget {
   final int index;
   final Course course;
-  const MyCourseCard(
-      {super.key, required this.index, required this.course});
+  const MyCourseCard({super.key, required this.index, required this.course});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => EnrolledCourseDetailScreen()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => EnrolledCourseDetailScreen()));
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
@@ -53,29 +54,7 @@ class MyCourseCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Positioned(
-                    bottom: 10,
-                    right: 20,
-                    child: Row(
-                      children: [
-                        Icon(Icons.star,
-                            size: 18, color: AppColors.ratingYellow),
-                        Icon(Icons.star,
-                            size: 18, color: AppColors.ratingYellow),
-                        Icon(Icons.star,
-                            size: 18, color: AppColors.ratingYellow),
-                        Icon(Icons.star,
-                            size: 18, color: AppColors.ratingYellow),
-                        Icon(Icons.star,
-                            size: 18, color: AppColors.ratingYellow),
-                        SizedBox(width: 5),
-                        Text(course.rating ?? "",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.white))
-                      ],
-                    ),
-                  )
+                  Positioned(bottom: 10, right: 20, child: courseStarRating())
                 ],
               ),
               Padding(
@@ -187,6 +166,34 @@ class MyCourseCard extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget courseStarRating() {
+    double rating = double.parse(course.rating ?? "0.0");
+    final fullStarCount = rating.floor();
+    final decimalPart = rating - fullStarCount;
+    final halfStarCount = decimalPart >= 0.5 ? 1 : 0;
+    final emptyStarCount = 5 - fullStarCount - halfStarCount;
+
+    return Row(
+      children: [
+        ...List.generate(fullStarCount, (index) {
+          return Icon(Icons.star, size: 18, color: AppColors.ratingYellow);
+        }),
+
+        ...List.generate(halfStarCount, (index) {
+          return Icon(Icons.star_half, size: 18, color: AppColors.ratingYellow);
+        }),
+
+        ...List.generate(emptyStarCount, (index) {
+          return Icon(Icons.star_outline, size: 18, color: AppColors.ratingYellow);
+        }),
+        SizedBox(width: 5),
+        Text(course.rating ?? "",
+            style:
+                TextStyle(fontWeight: FontWeight.w600, color: AppColors.white))
+      ],
     );
   }
 }

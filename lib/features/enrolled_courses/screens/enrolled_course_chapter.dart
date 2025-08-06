@@ -53,6 +53,7 @@ class _EnrolledCourseChapterState extends State<EnrolledCourseChapter> {
                 },
                 isExpanded: expandedSectionIndex == 2,
               ),
+              SizedBox(height: 20)
             ],
           ),
         ),

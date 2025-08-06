@@ -103,11 +103,11 @@ class _CourseReviewsState extends State<CourseReviews> {
                   children: [
                     Column(
                       children: [
-                        RatingWidget(number: "5", value: 0.9),
-                        RatingWidget(number: "4", value: 0.7),
-                        RatingWidget(number: "3", value: 0.6),
-                        RatingWidget(number: "2", value: 0.5),
-                        RatingWidget(number: "1", value: 0.4),
+                        RatingBarWidget(number: "5", value: 0.9),
+                        RatingBarWidget(number: "4", value: 0.7),
+                        RatingBarWidget(number: "3", value: 0.6),
+                        RatingBarWidget(number: "2", value: 0.5),
+                        RatingBarWidget(number: "1", value: 0.4),
                       ],
                     ),
                     Padding(

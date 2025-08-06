@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:zephyr/constants/app_constants.dart';
 
-class RatingWidget extends StatelessWidget {
+class RatingBarWidget extends StatelessWidget {
   final String number;
   final double value;
-  const RatingWidget({super.key, required this.number, required this.value});
+  const RatingBarWidget({super.key, required this.number, required this.value});
 
   @override
   Widget build(BuildContext context) {

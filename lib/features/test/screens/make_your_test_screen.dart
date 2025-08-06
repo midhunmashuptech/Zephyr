@@ -81,6 +81,7 @@ class _MakeYourTestScreenState extends State<MakeYourTestScreen> {
               width: MediaQuery.of(context).size.width * 0.8,
               color: AppColors.primaryOrange,
               textcolor: AppColors.white,
+              onPressed: (){},
             )
           ],
         ),
