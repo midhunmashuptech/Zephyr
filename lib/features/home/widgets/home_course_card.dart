@@ -56,25 +56,7 @@ class HomeCourseCard extends StatelessWidget {
                     Positioned(
                       bottom: 10,
                       right: 20,
-                      child: Row(
-                        children: [
-                          Icon(Icons.star,
-                              size: 18, color: AppColors.ratingYellow),
-                          Icon(Icons.star,
-                              size: 18, color: AppColors.ratingYellow),
-                          Icon(Icons.star,
-                              size: 18, color: AppColors.ratingYellow),
-                          Icon(Icons.star,
-                              size: 18, color: AppColors.ratingYellow),
-                          Icon(Icons.star,
-                              size: 18, color: AppColors.ratingYellow),
-                          SizedBox(width: 5),
-                          Text(course.rating ?? "",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.white))
-                        ],
-                      ),
+                      child: courseStarRating()
                     )
                   ],
                 ),
@@ -116,6 +98,34 @@ class HomeCourseCard extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget courseStarRating() {
+    double rating = double.parse(course.rating ?? "0.0");
+    final fullStarCount = rating.floor();
+    final decimalPart = rating - fullStarCount;
+    final halfStarCount = decimalPart >= 0.5 ? 1 : 0;
+    final emptyStarCount = 5 - fullStarCount - halfStarCount;
+
+    return Row(
+      children: [
+        ...List.generate(fullStarCount, (index) {
+          return Icon(Icons.star, size: 18, color: AppColors.ratingYellow);
+        }),
+
+        ...List.generate(halfStarCount, (index) {
+          return Icon(Icons.star_half, size: 18, color: AppColors.ratingYellow);
+        }),
+
+        ...List.generate(emptyStarCount, (index) {
+          return Icon(Icons.star_outline, size: 18, color: AppColors.ratingYellow);
+        }),
+        SizedBox(width: 5),
+        Text(course.rating ?? "",
+            style:
+                TextStyle(fontWeight: FontWeight.w600, color: AppColors.white))
+      ],
     );
   }
 }

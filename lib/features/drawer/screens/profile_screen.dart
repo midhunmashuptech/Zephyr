@@ -115,6 +115,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       text: "Update Password",
                       color: AppColors.primaryOrange,
                       textcolor: AppColors.white,
+                      onPressed: (){},
                     ),
                     SizedBox(
                       height: 15,
@@ -123,6 +124,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       text: "Logout",
                       color: AppColors.primaryBlue,
                       textcolor: AppColors.white,
+                      onPressed: (){},
                     )
                   ],
                 ),
