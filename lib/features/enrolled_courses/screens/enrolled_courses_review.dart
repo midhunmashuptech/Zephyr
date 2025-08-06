@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/common/widgets/rating_star_widget.dart';
@@ -215,6 +216,65 @@ class _EnrolledCoursesReviewState extends State<EnrolledCoursesReview> {
                               onPressed: myReviews.rating == 0.0
                               ? null
                               : () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return Dialog(
+                                          child: Container(
+                                            width: MediaQuery.of(context).size.width,
+                                            // height: MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(
+                                            color: AppColors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(17)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical:12, horizontal: 26),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Lottie.asset(
+                                                  "assets/lottie/review.json",
+                                                  height: 300,
+                                                  width: 300),
+                                              Text(
+                                                "Thank You for Your Review!",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 24),
+                                              ),
+                                              Text(
+                                                "We appreciate you taking the time to share your feedback. Your input helps us improve and inspire more learners.",
+                                                textAlign: TextAlign.center,
+                                              ),
+                                              Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 32,
+                                                      vertical: 12),
+                                                  child: TextButton(
+                                                      // style: TextButton.styleFrom(
+                                                      //     backgroundColor:
+                                                      //         const Color.fromRGBO(229, 255, 216, 1)),
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Text(
+                                                          "OK",
+                                                          style: TextStyle(
+                                                              color: AppColors
+                                                                  .black),
+                                                        ),
+                                                      )))
+                                            ],
+                                          ),
+                                        ),
+                                      ));
+                                    });
                                 setState(() {
                                   isReviewSubmitted = true;
                                   myReviews.reviewText = reviewController.text;
@@ -224,6 +284,10 @@ class _EnrolledCoursesReviewState extends State<EnrolledCoursesReview> {
                           ],
                         ),
                 ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Divider(),
               ),
               ...List.generate(
                   reviewDetails.length,
