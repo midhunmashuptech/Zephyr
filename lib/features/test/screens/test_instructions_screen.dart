@@ -5,6 +5,7 @@ import 'package:iconify_flutter_plus/icons/fa_solid.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/test/screens/test_completion_screen.dart';
 import 'package:zephyr/features/test/widgets/instruction_card.dart';
 
 class TestInstructionsScreen extends StatelessWidget {
@@ -29,10 +30,10 @@ class TestInstructionsScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(9.0),
                 child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                     color: AppColors.white,
-                ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: AppColors.white,
+                    ),
                     child: Column(
                       children: [
                         InstructionCard(
@@ -60,36 +61,46 @@ class TestInstructionsScreen extends StatelessWidget {
                 "Instructions",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               Container(
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: AppColors.primaryGreen,
+                  borderRadius: BorderRadius.circular(10),
+                  color: AppColors.primaryGreen,
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Please read the text below carefully so you can understand it",
+                      Text(
+                        "Please read the text below carefully so you can understand it",
                         style: TextStyle(
                             height: 1.2,
                             color: AppColors.white,
                             fontSize: 15,
                             fontWeight: FontWeight.w400),
                       ),
-                      Divider(color: const Color.fromARGB(255, 217, 210, 210),),
+                      Divider(
+                        color: const Color.fromARGB(255, 217, 210, 210),
+                      ),
                       SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Iconify(Ci.play_arrow, size: 10, color: AppColors.white,),
+                          Iconify(
+                            Ci.play_arrow,
+                            size: 10,
+                            color: AppColors.white,
+                          ),
                           Expanded(
                             child: Text(
-                              "10 point awarded for a correct answer and no marks for a incorrect answer",maxLines: 2,
+                              "10 point awarded for a correct answer and no marks for a incorrect answer",
+                              maxLines: 2,
                               style: TextStyle(
                                   height: 1.2,
-                                   color: AppColors.white,
+                                  color: AppColors.white,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w400),
                             ),
@@ -99,13 +110,17 @@ class TestInstructionsScreen extends StatelessWidget {
                       SizedBox(height: 10),
                       Row(
                         children: [
-                          Iconify(Ci.play_arrow, size: 10, color: AppColors.white,),
+                          Iconify(
+                            Ci.play_arrow,
+                            size: 10,
+                            color: AppColors.white,
+                          ),
                           Expanded(
                             child: Text(
                               "Tap on options to select the correct answer",
                               style: TextStyle(
                                   height: 1.2,
-                                   color: AppColors.white,
+                                  color: AppColors.white,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w400),
                             ),
@@ -115,13 +130,17 @@ class TestInstructionsScreen extends StatelessWidget {
                       SizedBox(height: 10),
                       Row(
                         children: [
-                          Iconify(Ci.play_arrow, size: 10, color: AppColors.white,),
+                          Iconify(
+                            Ci.play_arrow,
+                            size: 10,
+                            color: AppColors.white,
+                          ),
                           Expanded(
                             child: Text(
                               "Tap on the bookmark icon to save interesting  questions.",
                               style: TextStyle(
                                   height: 1.2,
-                                   color: AppColors.white,
+                                  color: AppColors.white,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w400),
                             ),
@@ -131,13 +150,17 @@ class TestInstructionsScreen extends StatelessWidget {
                       SizedBox(height: 10),
                       Row(
                         children: [
-                          Iconify(Ci.play_arrow, size: 10, color: AppColors.white,),
+                          Iconify(
+                            Ci.play_arrow,
+                            size: 10,
+                            color: AppColors.white,
+                          ),
                           Expanded(
                             child: Text(
                               "Click submit if you are sure you want to complete all the quizzes.",
                               style: TextStyle(
                                   height: 1.2,
-                                   color: AppColors.white,
+                                  color: AppColors.white,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w400),
                             ),
@@ -149,12 +172,20 @@ class TestInstructionsScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20,),
-               CustomButton(text: "Start Quiz", onPressed: (){}, color: AppColors.primaryOrange, textcolor: AppColors.white),
+              SizedBox(
+                height: 20,
+              ),
+              CustomButton(
+                  text: "Start Quiz",
+                  onPressed: () => Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TestCompletionScreen())),
+                  color: AppColors.primaryOrange,
+                  textcolor: AppColors.white),
             ],
           ),
-        )
-        ),
+        )),
       ),
     );
   }

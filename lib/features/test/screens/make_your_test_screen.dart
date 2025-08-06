@@ -3,6 +3,7 @@ import 'package:lottie/lottie.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/login/widgets/custom_textfeild.dart';
+import 'package:zephyr/features/test/screens/test_loading.dart';
 
 class MakeYourTestScreen extends StatefulWidget {
   const MakeYourTestScreen({super.key});
@@ -81,7 +82,7 @@ class _MakeYourTestScreenState extends State<MakeYourTestScreen> {
               width: MediaQuery.of(context).size.width * 0.8,
               color: AppColors.primaryOrange,
               textcolor: AppColors.white,
-              onPressed: (){},
+              onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TestLoading())),
             )
           ],
         ),
