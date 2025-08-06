@@ -6,6 +6,7 @@ import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/coursedetails/screens/course_chapters.dart';
 import 'package:zephyr/features/coursedetails/screens/course_overview.dart';
 import 'package:zephyr/features/coursedetails/screens/course_reviews.dart';
+import 'package:zephyr/features/payment/checkout_screen.dart';
 
 class CourseDetailsScreen extends StatefulWidget {
   const CourseDetailsScreen({super.key});
@@ -160,7 +161,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                         });
                       },
                       onFinish: () {
-                        Navigator.pop(context);
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => CheckoutScreen()));
                       },
                     ),
                   ),
