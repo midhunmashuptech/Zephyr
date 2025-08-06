@@ -8,6 +8,7 @@ import 'package:zephyr/features/enrolled_courses/screens/enrolled_courses_review
 import 'package:zephyr/features/enrolled_courses/screens/my_course_screen.dart';
 import 'package:zephyr/features/enrolled_courses/screens/test_review.dart';
 import 'package:zephyr/features/home/screens/home_screen.dart';
+import 'package:zephyr/features/home/screens/loading.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
       ),
       // home: const MyHomePage(),
       //home: HomeScreen(),
+        // home: Loading(),
       home: BottomNavScreen(),
       // home: EnrolledCoursesReview(),
       
@@ -47,5 +49,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return SplashScreen();
+
   }
 }
