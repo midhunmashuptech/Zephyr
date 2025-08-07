@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/payment/screens/apply_coupon.dart';
 import 'package:zephyr/features/payment/widgets/payment_method_card.dart';
 import 'package:zephyr/features/payment/widgets/redeem_coupon_card.dart';
 import 'package:zephyr/features/payment/widgets/selected_coupon_card.dart';
@@ -160,23 +161,46 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   children: [
                     SizedBox(height: 20),
                     GestureDetector(
-                        onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (_) {
-                                return SizedBox(
-                                    height: 100,
-                                    child: Lottie.asset(
-                                        "assets/lottie/voucher.json"));
-                              });
+                      onTap: () async {
+                        // Wait for ApplyCoupon page to pop and return a value
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ApplyCoupon()),
+                        );
+
+                        // Check if a coupon was returned
+                        if (result != null) {
                           setState(() {
-                            offer = "Flat 149/1 OFF";
+                            offer = result; // Update offer
                           });
-                          Future.delayed(Duration(seconds: 3)).then((value) {
-                            Navigator.pop(context);
-                          });
-                        },
-                        child: RedeemCouponCard()),
+
+                          // Show success dialog
+                          showDialog(
+                            context: context,
+                            builder: (_) {
+                              return Dialog(
+                                backgroundColor: Colors.transparent,
+                                child:
+                                    Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        Lottie.asset("assets/lottie/voucher.json", repeat: false),
+                                        Text("Coupon\nApplied Succesfully!", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: AppColors.white), textAlign: TextAlign.center,)
+                                      ],
+                                    ),
+                              );
+                            },
+                          );
+
+                          // Optional: Auto dismiss logic
+                          await Future.delayed(Duration(seconds: 3));
+                          Navigator.pop(
+                              context); // This will pop the dialog if not dismissed already
+                        }
+                      },
+                      child: RedeemCouponCard(),
+                    ),
                   ],
                 )
               else
@@ -271,7 +295,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               groupValue: selectedMethod,
                               onChanged: (selected) {
                                 setState(() {
-                                  selectedMethod = selected ?? "";
+                                  selectedMethod = selected;
                                 });
                               }),
                           Row(
@@ -303,7 +327,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 text: "Make Payment",
                 color: AppColors.primaryBlue,
                 textcolor: AppColors.white,
-                onPressed: () {},
+                onPressed: selectedMethod==null ? null : () {},
               ),
 
               SizedBox(height: 10),
