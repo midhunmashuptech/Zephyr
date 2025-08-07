@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/data_class/timelinedata.dart';
 import 'package:zephyr/features/drawer/widgets/timeline_item.dart';
@@ -12,32 +13,82 @@ class TimelineScreen extends StatefulWidget {
 }
 
 class _TimelineScreenState extends State<TimelineScreen> {
-  final List<TimelineItemData> items = const [
-    TimelineItemData(
-      title: "Learn a New Language",
-      subtitle: "Video",
-      time: "06:48 PM",
-      color: Colors.blue,
-    ),
-    TimelineItemData(
-      title: "The Best Teachers",
-      subtitle: "Video",
-      time: "02:30 PM",
-      color: Colors.purple,
-    ),
-    TimelineItemData(
-      title: "Quantum Mechanics Questions",
-      subtitle: "Practice Test",
-      time: "11:20 AM",
-      color: Colors.green,
-    ),
-    TimelineItemData(
-      title: "Upload your CV",
-      subtitle: "Assignment",
-      time: "08:55 AM",
-      color: Colors.red,
-    ),
-  ];
+  final Map<String, List<TimelineItemData>> timelineData = {
+    DateFormat('dd-MM-yyyy').format(DateTime.now()): [
+      TimelineItemData(
+        title: "Learn a New Language",
+        subtitle: "Video",
+        time: "06:48 PM",
+        color: Colors.blue,
+      ),
+      TimelineItemData(
+        title: "The Best Teachers",
+        subtitle: "Video",
+        time: "02:30 PM",
+        color: Colors.purple,
+      ),
+      TimelineItemData(
+        title: "Quantum Mechanics Questions",
+        subtitle: "Practice Test",
+        time: "11:20 AM",
+        color: Colors.green,
+      ),
+      TimelineItemData(
+        title: "Upload your CV",
+        subtitle: "Assignment",
+        time: "08:55 AM",
+        color: Colors.red,
+      ),
+    ],
+    DateFormat('dd-MM-yyyy').format(DateTime.now().subtract(Duration(days: 1))):
+        [
+      TimelineItemData(
+        title: "Learn a New Language",
+        subtitle: "Video",
+        time: "06:48 PM",
+        color: Colors.blue,
+      ),
+      TimelineItemData(
+        title: "The Best Teachers",
+        subtitle: "Video",
+        time: "02:30 PM",
+        color: Colors.purple,
+      ),
+      TimelineItemData(
+        title: "Upload your CV",
+        subtitle: "Assignment",
+        time: "08:55 AM",
+        color: Colors.red,
+      ),
+    ]
+  };
+
+  // final List<TimelineItemData> items = const [
+  //   TimelineItemData(
+  //     title: "Learn a New Language",
+  //     subtitle: "Video",
+  //     time: "06:48 PM",
+  //     color: Colors.blue,
+  //   ),
+  //   TimelineItemData(
+  //     title: "The Best Teachers",
+  //     subtitle: "Video",
+  //     time: "02:30 PM",
+  //     color: Colors.purple,
+  //   ),
+  //   TimelineItemData(
+  //     title: "Quantum Mechanics Questions",
+  //     subtitle: "Practice Test",
+  //     time: "11:20 AM",
+  //     color: Colors.green,
+  //   ),
+  //   TimelineItemData(
+  //     title: "Upload your CV",
+  //     subtitle: "Assignment",
+  //     time: "08:55 AM",
+  //     color: Colors.red,
+  //   ),
+  // ];
 
   DateTime selectedDate = DateTime.now();
 
@@ -86,7 +137,8 @@ class _TimelineScreenState extends State<TimelineScreen> {
                     const SizedBox(width: 10),
                     const Text(
                       'Timeline',
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                     ),
                   ],
                 ),
@@ -114,7 +166,8 @@ class _TimelineScreenState extends State<TimelineScreen> {
                       ],
                     ),
                     IconButton(
-                      icon: const Icon(Icons.calendar_today, color: Colors.black),
+                      icon:
+                          const Icon(Icons.calendar_today, color: Colors.black),
                       onPressed: () => _selectDate(context),
                     ),
                   ],
@@ -129,19 +182,38 @@ class _TimelineScreenState extends State<TimelineScreen> {
             const Divider(thickness: 1),
 
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                child: ListView.builder(
-                  itemCount: items.length,
-                  itemBuilder: (context, index) {
-                    return TimelineItem(
-                      item: items[index],
-                      isFirst: index == 0,
-                      isLast: index == items.length - 1,
-                    );
-                  },
-                ),
-              ),
+              child:
+                  timelineData[DateFormat('dd-MM-yyyy').format(selectedDate)] ==
+                          null
+                      ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Lottie.asset("assets/lottie/empty_data.json", width: 200),
+                            SizedBox(height: 20),
+                            Text("No Activities!", style: TextStyle(fontSize: 20),),
+                          ],
+                        ),
+                      )
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                          child: ListView.builder(
+                            itemCount: (timelineData[DateFormat('dd-MM-yyyy')
+                                        .format(selectedDate)] ??
+                                    [])
+                                .length,
+                            itemBuilder: (context, index) {
+                              final item = timelineData[DateFormat('dd-MM-yyyy')
+                                      .format(selectedDate)] ??
+                                  [];
+                              return TimelineItem(
+                                item: item[index],
+                                isFirst: index == 0,
+                                isLast: index == item.length - 1,
+                              );
+                            },
+                          ),
+                        ),
             ),
           ],
         ),

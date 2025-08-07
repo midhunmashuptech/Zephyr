@@ -160,8 +160,17 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                           });
                         });
                       },
-                      onFinish: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => CheckoutScreen()));
+                      onFinish: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CheckoutScreen()),
+                        );
+
+                        // Reset button state after popping back
+                        setState(() {
+                          isFinished = false;
+                        });
                       },
                     ),
                   ),
