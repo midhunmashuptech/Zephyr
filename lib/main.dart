@@ -30,9 +30,9 @@ class MyApp extends StatelessWidget {
       ),
       // home: const MyHomePage(),
       //home: HomeScreen(),
-      // home: BottomNavScreen(),
+      home: BottomNavScreen(),
       // home: Test(),
-      home: ApplyCoupon(),
+      // home: ApplyCoupon(),
       
     );
   }

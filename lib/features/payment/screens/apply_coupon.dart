@@ -24,25 +24,25 @@ class _ApplyCouponState extends State<ApplyCoupon> {
     Coupons(couponText: "Flat 299/- OFF", couponCode: "#FLAT299OF"),
     Coupons(couponText: "Flat 99/- OFF", couponCode: "#FLAT99OF"),
   ];
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
           child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 13),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 13),
         child: Column(
           children: [
-              Row(
-                children: [
-                  BackButton(),
-                  SizedBox(width: 10),
-                  Text(
-                    'Profile Page',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
-                  ),
-                ],
-              ),
+            Row(
+              children: [
+                BackButton(),
+                SizedBox(width: 10),
+                Text(
+                  'Profile Page',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                ),
+              ],
+            ),
             Row(
               children: [
                 Expanded(
@@ -61,23 +61,33 @@ class _ApplyCouponState extends State<ApplyCoupon> {
                     ],
                   ),
                 ),
-                Lottie.asset("assets/lottie/coupon.json", width: MediaQuery.of(context).size.width * .3)
+                Lottie.asset("assets/lottie/coupon.json",
+                    width: MediaQuery.of(context).size.width * .3)
               ],
             ),
             SizedBox(height: 50),
             CustomSearchBar(color: AppColors.primaryBlue),
             SizedBox(height: 15),
             Expanded(
-              child: ListView.separated(padding: EdgeInsets.all(8),
-                separatorBuilder: (context, index) => SizedBox(height: 10,),
-                itemCount: coupons.length,
-                itemBuilder: (context,index)=> CouponCard(
-                couponText: coupons[index].couponText, 
-                couponCode: coupons[index].couponCode
-                )),
+              child: ListView.separated(
+                  padding: EdgeInsets.all(8),
+                  separatorBuilder: (context, index) => SizedBox(
+                        height: 10,
+                      ),
+                  itemCount: coupons.length,
+                  itemBuilder: (context, index) => CouponCard(
+                      couponText: coupons[index].couponText,
+                      couponCode: coupons[index].couponCode)),
             ),
             // SizedBox(height: 15),
-            CustomButton(text: "Apply Coupon",color: AppColors.primaryBlue,onPressed: (){},textcolor: AppColors.white,)
+            CustomButton(
+              text: "Apply Coupon",
+              color: AppColors.primaryBlue,
+              onPressed: () {
+                Navigator.pop(context, "Flat 149/1 OFF");
+              },
+              textcolor: AppColors.white,
+            )
           ],
         ),
       )),
