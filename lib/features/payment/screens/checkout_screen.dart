@@ -4,6 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/payment/screens/apply_coupon.dart';
+import 'package:zephyr/features/payment/screens/payment_successful.dart';
 import 'package:zephyr/features/payment/widgets/payment_method_card.dart';
 import 'package:zephyr/features/payment/widgets/redeem_coupon_card.dart';
 import 'package:zephyr/features/payment/widgets/selected_coupon_card.dart';
@@ -181,14 +182,21 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             builder: (_) {
                               return Dialog(
                                 backgroundColor: Colors.transparent,
-                                child:
-                                    Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        Lottie.asset("assets/lottie/voucher.json", repeat: false),
-                                        Text("Coupon\nApplied Succesfully!", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: AppColors.white), textAlign: TextAlign.center,)
-                                      ],
-                                    ),
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Lottie.asset("assets/lottie/voucher.json",
+                                        repeat: false),
+                                    Text(
+                                      "Coupon\nApplied Succesfully!",
+                                      style: TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.w600,
+                                          color: AppColors.white),
+                                      textAlign: TextAlign.center,
+                                    )
+                                  ],
+                                ),
                               );
                             },
                           );
@@ -234,6 +242,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             selectedMethod = value ?? "";
                           });
                         },
+                        onTap: () {
+                          setState(() {
+                            selectedMethod = paymentMethods[0][0];
+                          });
+                        },
                       )),
                       SizedBox(width: 10),
                       Expanded(
@@ -244,6 +257,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         onChanged: (String? value) {
                           setState(() {
                             selectedMethod = value ?? "";
+                          });
+                        },
+                        onTap: () {
+                          setState(() {
+                            selectedMethod = paymentMethods[1][0];
                           });
                         },
                       ))
@@ -262,6 +280,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             selectedMethod = value ?? "";
                           });
                         },
+                        onTap: () {
+                          setState(() {
+                            selectedMethod = paymentMethods[2][0];
+                          });
+                        },
                       )),
                       SizedBox(width: 10),
                       Expanded(
@@ -274,49 +297,61 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               selectedMethod = value ?? "";
                             });
                           },
+                          onTap: () {
+                            setState(() {
+                              selectedMethod = paymentMethods[3][0];
+                            });
+                          },
                         ),
                       )
                     ],
                   ),
                   SizedBox(height: 10),
-                  Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(width: 1, color: AppColors.grey),
-                        color: AppColors.grey.withAlpha(30)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(3.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Radio(
-                              value: "5",
-                              activeColor: AppColors.primaryGreen,
-                              groupValue: selectedMethod,
-                              onChanged: (selected) {
-                                setState(() {
-                                  selectedMethod = selected;
-                                });
-                              }),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.credit_card_rounded,
-                                color: AppColors.ratingGrey,
-                              ),
-                              SizedBox(width: 5),
-                              Text(
-                                "Debit/Credit Card",
-                                style: TextStyle(
-                                    color: AppColors.ratingGrey,
-                                    fontWeight: FontWeight.w600),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            width: 10,
-                          )
-                        ],
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedMethod = "5";
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(width: 1, color: AppColors.grey),
+                          color: AppColors.grey.withAlpha(30)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Radio(
+                                value: "5",
+                                activeColor: AppColors.primaryGreen,
+                                groupValue: selectedMethod,
+                                onChanged: (selected) {
+                                  setState(() {
+                                    selectedMethod = selected;
+                                  });
+                                }),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.credit_card_rounded,
+                                  color: AppColors.ratingGrey,
+                                ),
+                                SizedBox(width: 5),
+                                Text(
+                                  "Debit/Credit Card",
+                                  style: TextStyle(
+                                      color: AppColors.ratingGrey,
+                                      fontWeight: FontWeight.w600),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              width: 10,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   )
@@ -327,9 +362,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 text: "Make Payment",
                 color: AppColors.primaryBlue,
                 textcolor: AppColors.white,
-                onPressed: selectedMethod==null ? null : () {},
+                onPressed: selectedMethod == null
+                    ? null
+                    : () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PaymentSuccessful()));
+                      },
               ),
-
               SizedBox(height: 10),
               Text.rich(
                 TextSpan(
