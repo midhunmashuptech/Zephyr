@@ -92,7 +92,9 @@ class _ApplyCouponState extends State<ApplyCoupon> {
             CustomButton(
               text: "Apply Coupon",
               color: AppColors.primaryBlue,
-              onPressed: selectedValue == null ? null : () {},
+              onPressed: selectedValue == null ? null : () {
+                Navigator.pop(context, "Flat 149/1 OFF");
+              },
               textcolor: AppColors.white,
             )
           ],
