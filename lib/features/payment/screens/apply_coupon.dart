@@ -93,7 +93,7 @@ class _ApplyCouponState extends State<ApplyCoupon> {
               text: "Apply Coupon",
               color: AppColors.primaryBlue,
               onPressed: selectedValue == null ? null : () {
-                Navigator.pop(context, "Flat 149/1 OFF");
+                Navigator.pop(context, coupons[int.parse(selectedValue!)].couponText);
               },
               textcolor: AppColors.white,
             )
