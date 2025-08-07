@@ -24,6 +24,7 @@ class _ApplyCouponState extends State<ApplyCoupon> {
     Coupons(couponText: "Flat 299/- OFF", couponCode: "#FLAT299OF"),
     Coupons(couponText: "Flat 99/- OFF", couponCode: "#FLAT99OF"),
   ];
+  String? selectedValue;
 
   @override
   Widget build(BuildContext context) {
@@ -76,14 +77,22 @@ class _ApplyCouponState extends State<ApplyCoupon> {
                       ),
                   itemCount: coupons.length,
                   itemBuilder: (context, index) => CouponCard(
-                      couponText: coupons[index].couponText,
-                      couponCode: coupons[index].couponCode)),
+                        couponText: coupons[index].couponText,
+                        couponCode: coupons[index].couponCode,
+                        radioValue: index.toString(),
+                        radioGroupValue: selectedValue,
+                        onChanged: (String? value) {
+                          setState(() {
+                          selectedValue = value;
+                          });
+                        },
+                      )),
             ),
             // SizedBox(height: 15),
             CustomButton(
               text: "Apply Coupon",
               color: AppColors.primaryBlue,
-              onPressed: () {
+              onPressed: selectedValue == null ? null : () {
                 Navigator.pop(context, "Flat 149/1 OFF");
               },
               textcolor: AppColors.white,
