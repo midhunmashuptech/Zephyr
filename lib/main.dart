@@ -9,6 +9,7 @@ import 'package:zephyr/features/enrolled_courses/screens/my_course_screen.dart';
 import 'package:zephyr/features/enrolled_courses/screens/test_review.dart';
 import 'package:zephyr/features/home/screens/home_screen.dart';
 import 'package:zephyr/features/payment/screens/apply_coupon.dart';
+import 'package:zephyr/features/payment/screens/payment_successful.dart';
 import 'package:zephyr/features/payment/screens/test.dart';
 
 void main() {
@@ -30,10 +31,10 @@ class MyApp extends StatelessWidget {
       ),
       // home: const MyHomePage(),
       //home: HomeScreen(),
-      home: BottomNavScreen(),
+      // home: BottomNavScreen(),
+      home: PaymentSuccessful(),
       // home: Test(),
       // home: ApplyCoupon(),
-      
     );
   }
 }
