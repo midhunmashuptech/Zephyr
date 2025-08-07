@@ -6,9 +6,16 @@ import 'package:zephyr/constants/app_constants.dart';
 class CouponCard extends StatefulWidget {
   final String couponText;
   final String couponCode;
-  const CouponCard({
-    required this.couponText,
-    required this.couponCode,
+  final String radioValue;
+  final String? radioGroupValue;
+  final ValueChanged<String?> onChanged;
+  
+  const CouponCard(
+      {required this.couponText, 
+      required this.couponCode, 
+      required this.radioValue,
+      required this.radioGroupValue,
+      required this.onChanged,
     super.key});
 
   @override
@@ -37,23 +44,30 @@ class _CouponCardState extends State<CouponCard> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: AppColors.primaryBlue,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Iconify(
-                            Mdi.coupon,
-                            color: AppColors.white,
+                    Row(
+                      children: [
+                        Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: AppColors.primaryBlue,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Iconify(
+                                Mdi.coupon,
+                                color: AppColors.white,
+                              ),
+                            )
                           ),
-                        )),
-                    Text(widget.couponText,style: TextStyle(fontWeight: FontWeight.w700),),
+                          SizedBox(width: 15),
+                          Text(widget.couponText,style: TextStyle(fontWeight: FontWeight.w700),),
+                      ],
+                    ),
                     Radio(
-                        value: "rdc",
-                        groupValue: "groupValue",
-                        onChanged: (_) {})
+                      activeColor: AppColors.primaryBlue,
+                        value: widget.radioValue,
+                        groupValue: widget.radioGroupValue,
+                        onChanged: widget.onChanged)
                   ],
                 ),
               ),
@@ -76,7 +90,9 @@ class _CouponCardState extends State<CouponCard> {
                               color: AppColors.white,
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.all(12.0),
+                              padding: const EdgeInsets.all(
+                                12.0),
+                              
                               child: Text(widget.couponCode,style: TextStyle(fontWeight: FontWeight.w500),),
                             )),
                       )
