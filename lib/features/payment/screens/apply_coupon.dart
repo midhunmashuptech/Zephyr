@@ -83,7 +83,12 @@ class _ApplyCouponState extends State<ApplyCoupon> {
                         radioGroupValue: selectedValue,
                         onChanged: (String? value) {
                           setState(() {
-                          selectedValue = value;
+                            selectedValue = value;
+                          });
+                        },
+                        onTap: () {
+                          setState(() {
+                            selectedValue = index.toString();
                           });
                         },
                       )),
@@ -92,9 +97,11 @@ class _ApplyCouponState extends State<ApplyCoupon> {
             CustomButton(
               text: "Apply Coupon",
               color: AppColors.primaryBlue,
-              onPressed: selectedValue == null ? null : () {
-                Navigator.pop(context, "Flat 149/1 OFF");
-              },
+              onPressed: selectedValue == null
+                  ? null
+                  : () {
+                      Navigator.pop(context, "Flat 149/1 OFF");
+                    },
               textcolor: AppColors.white,
             )
           ],
