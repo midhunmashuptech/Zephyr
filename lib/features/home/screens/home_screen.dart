@@ -3,6 +3,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:iconify_flutter_plus/icons/mi.dart';
+import 'package:lottie/lottie.dart';
 import 'package:zephyr/common/widgets/custom_search_bar.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/constants/widgets/layout_gradient.dart';
@@ -228,6 +229,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: const EdgeInsets.symmetric(vertical: 40.0),
                             child: Column(
                               children: [
+                                Lottie.asset("assets/lottie/nodata.json", height: 200),
                                 Text("No Matching Courses found!"),
                               ],
                             ),
