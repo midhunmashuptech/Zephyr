@@ -60,9 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
         .toList();
   }
 
-  final border = OutlineInputBorder(
-      borderRadius: BorderRadius.horizontal(left: Radius.circular(5)));
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -241,19 +238,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                     course: course, index: index);
                               }).toList(),
                             ),
-                      // GridView.builder(
-                      //   shrinkWrap: true,
-                      //   physics: NeverScrollableScrollPhysics(), // Prevent nested scrolling
-                      //   itemCount: courses.length,
-                      //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      //     crossAxisCount: 2, // 2 cards per row
-                      //     crossAxisSpacing: 10,
-                      //     mainAxisSpacing: 10, // Adjust height vs width ratio
-                      //   ),
-                      //   itemBuilder: (context, index) {
-                      //     return HomeCourseCard(course: courses[index]);
-                      //   },
-                      // ),
                     ],
                   ),
                 ),
