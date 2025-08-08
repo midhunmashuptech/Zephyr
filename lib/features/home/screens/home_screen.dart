@@ -223,6 +223,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Center(child: CircularProgressIndicator()),
                                 ],
                               ))
+                          : filteredCourses.isEmpty
+                          ? Center(child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 40.0),
+                            child: Column(
+                              children: [
+                                Text("No Matching Courses found!"),
+                              ],
+                            ),
+                          ))
                           : Wrap(
                               children:
                                   filteredCourses.asMap().entries.map((entry) {
