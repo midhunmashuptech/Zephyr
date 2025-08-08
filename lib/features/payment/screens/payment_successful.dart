@@ -18,7 +18,9 @@ class _PaymentSuccessfulState extends State<PaymentSuccessful> {
 
   Future<void> navigateBack() async {
     await Future.delayed(Duration(seconds: 3));
+   if (mounted && Navigator.canPop(context)) {
     Navigator.pop(context);
+  }
   }
 
   @override
@@ -31,9 +33,12 @@ class _PaymentSuccessfulState extends State<PaymentSuccessful> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Lottie.asset("assets/lottie/payment_success.json",
-                width: MediaQuery.of(context).size.width * .7, repeat: false),
-            Text("Payment Successful",
+            Lottie.asset(
+              "assets/lottie/payment_success.json",
+                width: MediaQuery.of(context).size.width * .7, 
+                repeat: false),
+            Text(
+              "Payment Successful",
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 22))
           ],
         ),
