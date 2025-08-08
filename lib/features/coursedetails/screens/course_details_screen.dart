@@ -149,7 +149,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                     child: SwipeableButtonView(
                       buttonText: "Enroll at 599/-",
                       buttonWidget: const Icon(Icons.arrow_forward,
-                          color: AppColors.primaryOrange),
+                       color: AppColors.primaryOrange),
                       activeColor: AppColors.primaryOrange,
                       isFinished: isFinished,
                       onWaitingProcess: () {
