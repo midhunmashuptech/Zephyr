@@ -22,7 +22,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  TextEditingController searchController = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<String> categories = [
     "All",
@@ -35,15 +34,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Course> courses = [];
   List<Course> filteredCourses = [];
+  String? searchValue;
   bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
     loadCourses();
-    searchController.addListener(() {
-      filterCourses;
-    });
   }
 
   void loadCourses() async {
@@ -59,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
     filteredCourses = courses
         .where((course) => (course.name ?? "")
             .toLowerCase()
-            .contains(searchController.text.toLowerCase()))
+            .contains((searchValue ?? "").toLowerCase()))
         .toList();
   }
 
@@ -172,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: AppColors.primaryBlue,
                         onChanged: (value) {
                           setState(() {
-                            searchController.text = value;
+                            searchValue = value;
                             filterCourses();
                           });
                         },
@@ -181,7 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(height: 20),
 
                       /// Course Categories
-                      searchController.text == ""
+                      (searchValue == "" || searchValue == null)
                           ? Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [

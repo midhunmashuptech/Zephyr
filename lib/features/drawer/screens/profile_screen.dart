@@ -56,27 +56,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 SizedBox(height: 20),
                 Center(
-                  child: Stack(
-                    children: [
-                      CircleAvatar(
-                        backgroundImage: selectedImage == null
-                            ? AssetImage("assets/images/kim_shin.webp")
-                            : FileImage(selectedImage!),
-                        radius: 80,
-                      ),
-                      Positioned(
-                        bottom: 10,
-                        right: 10,
-                        child: CircleAvatar(
-                          backgroundColor: AppColors.primaryOrange,
-                          child: IconButton(
-                            onPressed: () => pickImage(),
-                            icon: Icon(Icons.edit),
-                            color: AppColors.white,
-                          ),
-                        ),
-                      )
-                    ],
+                  child: CircleAvatar(
+                    backgroundImage: selectedImage == null
+                        ? AssetImage("assets/images/kim_shin.webp")
+                        : FileImage(selectedImage!),
+                    radius: 80,
                   ),
                 ),
                 SizedBox(height: 20),
@@ -124,6 +108,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               MaterialPageRoute(
                                   builder: (context) => NewPasswordScreen()));
                         },
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      CustomButton(
+                        text: "Edit Profile",
+                        color: AppColors.primaryGreen,
+                        textcolor: AppColors.white,
+                        onPressed: () {},
                       ),
                       SizedBox(
                         height: 15,

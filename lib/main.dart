@@ -32,11 +32,11 @@ class MyApp extends StatelessWidget {
       ),
       // home: const MyHomePage(),
       //home: HomeScreen(),
-      // home: BottomNavScreen(),
+      home: BottomNavScreen(),
       // home: PaymentSuccessful(),
       // home: Test(),
       // home: ApplyCoupon(),
-      home: EditProfile(),
+      // home: EditProfile(),
     );
   }
 }
