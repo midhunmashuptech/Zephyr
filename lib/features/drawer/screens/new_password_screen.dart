@@ -59,13 +59,15 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
               child: Form(
                 key: _formKey,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(height: 50),
                     RichText(
+                      textAlign: TextAlign.center,
                       text: const TextSpan(
                       children: [
                         TextSpan(
-                        text: 'Create a  ',
+                        text: 'Create a New',
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w600,
@@ -74,7 +76,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                         ),
                         ),
                         TextSpan(
-                        text: 'Secured Password',
+                        text: '\nSecured Password',
                         style: TextStyle(
                           color: AppColors.primaryGreen,
                           fontWeight: FontWeight.w600,
@@ -94,6 +96,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                     CustomTextField(
                       controller: _passwordController, 
                       hintText: "Enter your New Password",
+                      maxLines: 1,
                       prefixIcon: Icon(Icons.lock),
                       suffixIcon: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -116,6 +119,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                       controller: _cPasswordController, 
                       hintText: "Re-Enter your New Password",
                       prefixIcon: Icon(Icons.lock),
+                      maxLines: 1,
                       suffixIcon: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5.0),
                         child: IconButton(

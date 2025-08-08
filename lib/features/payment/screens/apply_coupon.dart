@@ -19,6 +19,7 @@ class Coupons {
 }
 
 class _ApplyCouponState extends State<ApplyCoupon> {
+  TextEditingController searchController = TextEditingController();
   List<Coupons> coupons = [
     Coupons(couponText: "Flat 149/- OFF", couponCode: "#FLAT50OF"),
     Coupons(couponText: "Flat 299/- OFF", couponCode: "#FLAT299OF"),
@@ -67,7 +68,12 @@ class _ApplyCouponState extends State<ApplyCoupon> {
               ],
             ),
             SizedBox(height: 50),
-            CustomSearchBar(color: AppColors.primaryBlue),
+            CustomSearchBar(color: AppColors.primaryBlue, 
+                        onChanged: (value) {
+                          setState(() {
+                            searchController.text = value ?? "";
+                          });
+                        },),
             SizedBox(height: 15),
             Expanded(
               child: ListView.separated(

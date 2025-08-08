@@ -22,6 +22,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  TextEditingController searchController = TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<String> categories = [
     "All",
@@ -33,20 +34,33 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   List<Course> courses = [];
+  List<Course> filteredCourses = [];
   bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
     loadCourses();
+    searchController.addListener(() {
+      filterCourses;
+    });
   }
 
   void loadCourses() async {
     await Future.delayed(Duration(seconds: 2));
     setState(() {
       courses = Course.getSampleCourses();
+      filteredCourses = courses;
       isLoading = false;
     });
+  }
+
+  void filterCourses() {
+    filteredCourses = courses
+        .where((course) => (course.name ?? "")
+            .toLowerCase()
+            .contains(searchController.text.toLowerCase()))
+        .toList();
   }
 
   final border = OutlineInputBorder(
@@ -88,7 +102,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => ProfileScreen()));
+                                          builder: (context) =>
+                                              ProfileScreen()));
                                 },
                                 child: Row(
                                   children: [
@@ -122,7 +137,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text("Hello, Welcome",
                                             style: TextStyle(fontSize: 13)),
@@ -152,29 +168,43 @@ class _HomeScreenState extends State<HomeScreen> {
 
                       SizedBox(height: 20),
 
-                      CustomSearchBar(color: AppColors.primaryBlue),
+                      CustomSearchBar(
+                        color: AppColors.primaryBlue,
+                        onChanged: (value) {
+                          setState(() {
+                            searchController.text = value;
+                            filterCourses();
+                          });
+                        },
+                      ),
 
                       SizedBox(height: 20),
 
                       /// Course Categories
-                      Text(
-                        "Courses",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w600),
-                      ),
-                      SizedBox(height: 10),
-
-                      Center(
-                        child: Wrap(
-                          children: categories
-                              .map((category) => CategoryWidget(
-                                  categoryName:
-                                      category)) // Assuming CategoryWidget fits dynamically
-                              .toList(),
-                        ),
-                      ),
-
-                      SizedBox(height: 20),
+                      searchController.text == ""
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Courses",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                SizedBox(height: 10),
+                                Center(
+                                  child: Wrap(
+                                    children: categories
+                                        .map((category) => CategoryWidget(
+                                            categoryName:
+                                                category)) // Assuming CategoryWidget fits dynamically
+                                        .toList(),
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+                              ],
+                            )
+                          : SizedBox(height: 0),
 
                       /// Recommended Section
                       Text(
@@ -196,15 +226,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Center(child: CircularProgressIndicator()),
                                 ],
                               ))
-                          : Center(
-                              child: Wrap(
-                                children: courses.asMap().entries.map((entry) {
-                                  int index = entry.key; // Get the index
-                                  Course course = entry.value; // Get the course
-                                  return HomeCourseCard(
-                                      course: course, index: index);
-                                }).toList(),
-                              ),
+                          : Wrap(
+                              children:
+                                  filteredCourses.asMap().entries.map((entry) {
+                                int index = entry.key;
+                                Course course = entry.value;
+                                return HomeCourseCard(
+                                    course: course, index: index);
+                              }).toList(),
                             ),
                       // GridView.builder(
                       //   shrinkWrap: true,

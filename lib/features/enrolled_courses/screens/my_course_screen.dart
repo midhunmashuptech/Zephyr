@@ -16,6 +16,7 @@ class MyCourseScreen extends StatefulWidget {
 }
 
 class _MyCourseScreenState extends State<MyCourseScreen>{
+  TextEditingController searchController = TextEditingController();
   List<Course> courses = [];
 
   @override
@@ -59,7 +60,12 @@ class _MyCourseScreenState extends State<MyCourseScreen>{
                   SizedBox(
                     height: 20,
                   ),
-                  CustomSearchBar(color: AppColors.primaryOrange),
+                  CustomSearchBar(color: AppColors.primaryOrange, 
+                        onChanged: (value) {
+                          setState(() {
+                            searchController.text = value ?? "";
+                          });
+                        },),
                   SizedBox(
                     height: 10,
                   ),

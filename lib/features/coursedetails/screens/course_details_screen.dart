@@ -124,7 +124,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
               SizedBox(
                 height: MediaQuery.of(context).size.height - 520,
                 child: Padding(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: TabBarView(
                     controller: _tabController,
                     children: const [
@@ -153,21 +153,21 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                       activeColor: AppColors.primaryOrange,
                       isFinished: isFinished,
                       onWaitingProcess: () {
-                        // Simulate a delay for the button action
-                        Future.delayed(const Duration(seconds: 1), () {
+                        Future.delayed(const Duration(seconds: 2), () {
                           setState(() {
                             isFinished = true;
                           });
                         });
                       },
                       onFinish: () async {
+                        // Navigate and wait for pop
                         await Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => CheckoutScreen()),
                         );
 
-                        // Reset button state after popping back
+                        // Reset state after returning WITHOUT triggering reverse animation
                         setState(() {
                           isFinished = false;
                         });

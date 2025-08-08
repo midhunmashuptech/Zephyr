@@ -39,6 +39,54 @@ class _TimelineScreenState extends State<TimelineScreen> {
         time: "08:55 AM",
         color: Colors.red,
       ),
+      TimelineItemData(
+        title: "Learn a New Language",
+        subtitle: "Video",
+        time: "06:48 PM",
+        color: Colors.blue,
+      ),
+      TimelineItemData(
+        title: "The Best Teachers",
+        subtitle: "Video",
+        time: "02:30 PM",
+        color: Colors.purple,
+      ),
+      TimelineItemData(
+        title: "Quantum Mechanics Questions",
+        subtitle: "Practice Test",
+        time: "11:20 AM",
+        color: Colors.green,
+      ),
+      TimelineItemData(
+        title: "Upload your CV",
+        subtitle: "Assignment",
+        time: "08:55 AM",
+        color: Colors.red,
+      ),
+      TimelineItemData(
+        title: "Learn a New Language",
+        subtitle: "Video",
+        time: "06:48 PM",
+        color: Colors.blue,
+      ),
+      TimelineItemData(
+        title: "The Best Teachers",
+        subtitle: "Video",
+        time: "02:30 PM",
+        color: Colors.purple,
+      ),
+      TimelineItemData(
+        title: "Quantum Mechanics Questions",
+        subtitle: "Practice Test",
+        time: "11:20 AM",
+        color: Colors.green,
+      ),
+      TimelineItemData(
+        title: "Upload your CV",
+        subtitle: "Assignment",
+        time: "08:55 AM",
+        color: Colors.red,
+      ),
     ],
     DateFormat('dd-MM-yyyy').format(DateTime.now().subtract(Duration(days: 1))):
         [

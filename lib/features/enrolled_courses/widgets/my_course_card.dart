@@ -111,7 +111,13 @@ class MyCourseCard extends StatelessWidget {
                                 ),
                               ),
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              EnrolledCourseDetailScreen()));
+                                },
                                 icon: Icon(Icons.arrow_forward_ios_rounded),
                                 iconSize: 24,
                               ),
@@ -181,13 +187,12 @@ class MyCourseCard extends StatelessWidget {
         ...List.generate(fullStarCount, (index) {
           return Icon(Icons.star, size: 18, color: AppColors.ratingYellow);
         }),
-
         ...List.generate(halfStarCount, (index) {
           return Icon(Icons.star_half, size: 18, color: AppColors.ratingYellow);
         }),
-
         ...List.generate(emptyStarCount, (index) {
-          return Icon(Icons.star_outline, size: 18, color: AppColors.ratingYellow);
+          return Icon(Icons.star_outline,
+              size: 18, color: AppColors.ratingYellow);
         }),
         SizedBox(width: 5),
         Text(course.rating ?? "",
