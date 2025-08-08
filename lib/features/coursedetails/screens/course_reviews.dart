@@ -88,60 +88,60 @@ class _CourseReviewsState extends State<CourseReviews> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Column(
-          children: [
-            SizedBox(height: 10),
-            Container(
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      children: [
-                        RatingBarWidget(number: "5", value: 0.9),
-                        RatingBarWidget(number: "4", value: 0.7),
-                        RatingBarWidget(number: "3", value: 0.6),
-                        RatingBarWidget(number: "2", value: 0.5),
-                        RatingBarWidget(number: "1", value: 0.4),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Column(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Column(
+            children: [
+              SizedBox(height: 10),
+              Container(
+                decoration: BoxDecoration(
+                    color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
                         children: [
-                          Text(
-                            "4.8",
-                            style: TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.w600),
-                          ),
-                          RatingStarWidget(rating: 4.8,),
-                          Text("70 reviews")
+                          RatingBarWidget(number: "5", value: 0.9),
+                          RatingBarWidget(number: "4", value: 0.7),
+                          RatingBarWidget(number: "3", value: 0.6),
+                          RatingBarWidget(number: "2", value: 0.5),
+                          RatingBarWidget(number: "1", value: 0.4),
                         ],
                       ),
-                    )
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Column(
+                          children: [
+                            Text(
+                              "4.8",
+                              style: TextStyle(
+                                  fontSize: 25, fontWeight: FontWeight.w600),
+                            ),
+                            RatingStarWidget(rating: 4.8,),
+                            Text("70 reviews")
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-            // SizedBox(height: 10),
-            Expanded(
-              child: ListView.builder(
-                  itemCount: reviewDetails.length,
-                  itemBuilder: (context, index) => ReviewCard(
-                        userName: reviewDetails[index].userName,
-                        userImage: reviewDetails[index].userImage,
-                        reviewText: reviewDetails[index].reviewText,
-                        timeAgo: reviewDetails[index].timeAgo,
-                        rating: reviewDetails[index].rating,
-                      )),
-            ),
-            // SizedBox(height: 20),
-          ],
+              // SizedBox(height: 10),
+              ...List.generate(
+                reviewDetails.length,
+                (index) => ReviewCard(
+                      userName: reviewDetails[index].userName,
+                      userImage: reviewDetails[index].userImage,
+                      reviewText: reviewDetails[index].reviewText,
+                      timeAgo: reviewDetails[index].timeAgo,
+                      rating: reviewDetails[index].rating,
+                    )),
+              // SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );

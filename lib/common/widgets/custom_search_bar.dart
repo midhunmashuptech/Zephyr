@@ -1,51 +1,65 @@
 import 'package:flutter/material.dart';
 import 'package:zephyr/constants/app_constants.dart';
 
-class CustomSearchBar extends StatelessWidget {
+class CustomSearchBar extends StatefulWidget {
   final Color color;
-  CustomSearchBar({super.key, required this.color});
+  final ValueChanged<String> onChanged;
 
+  const CustomSearchBar({
+    super.key,
+    required this.color,
+    required this.onChanged,
+  });
+
+  @override
+  State<CustomSearchBar> createState() => _CustomSearchBarState();
+}
+
+class _CustomSearchBarState extends State<CustomSearchBar> {
   final TextEditingController _textController = TextEditingController();
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 0),
       decoration: BoxDecoration(
-          color: AppColors.white, // Light green background
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-                color: AppColors.black.withAlpha(30),
-                blurRadius: 10,
-                spreadRadius: 3)
-          ]
-        ),
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.black.withAlpha(30),
+            blurRadius: 10,
+            spreadRadius: 1,
+          ),
+        ],
+      ),
       child: TextField(
         controller: _textController,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.all(15),
+          contentPadding: const EdgeInsets.all(15),
           hintText: 'Search',
           border: InputBorder.none,
-          enabledBorder: InputBorder.none,
-          focusedBorder: InputBorder.none,
           suffixIcon: Container(
-            height: 50,
-            width: 50,
             decoration: BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.horizontal(
+              color: widget.color,
+              borderRadius: const BorderRadius.horizontal(
                 right: Radius.circular(10),
               ),
             ),
             child: IconButton(
-              icon: Icon(Icons.search, color: Colors.white),
+              icon: const Icon(Icons.search, color: Colors.white),
               onPressed: () {
-                // Searching Part
+                // Handle search button click
               },
             ),
           ),
         ),
+        onChanged: widget.onChanged,
       ),
     );
   }
