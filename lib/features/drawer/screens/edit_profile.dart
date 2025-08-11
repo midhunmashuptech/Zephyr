@@ -29,8 +29,8 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController mobileController = TextEditingController();
   @override
   void initState() {
-    usernameController.text = "Nazriya Nazim";
-    emailController.text = "nazriyanazim@gmail.com";
+    usernameController.text = "Kim Shin";
+    emailController.text = "kimshin@gmail.com";
     mobileController.text = "9765433222";
     super.initState();
   }
@@ -81,20 +81,21 @@ class _EditProfileState extends State<EditProfile> {
             ),
             SizedBox(height: 10),
             TextField(
+              controller: emailController,
+              decoration: InputDecoration(hintText: "Enter email address"),
+            ),
+            TextField(
               style: TextStyle(color: AppColors.grey),
               readOnly: true,
               controller: mobileController,
               decoration: InputDecoration(
+                errorText: "Disclaimer: For mobile number changes, kindly contact our support team.",
                 focusedBorder: InputBorder.none,
                 border: InputBorder.none,
                 enabledBorder: InputBorder.none,
                 hintText: "Enter mobile number"),
             ),
             // SizedBox(height: 5),
-            TextField(
-              controller: emailController,
-              decoration: InputDecoration(hintText: "Enter email address"),
-            ),
             SizedBox(height: 20),
             CustomButton(
               text: "Update",
