@@ -83,13 +83,15 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
                     height: 10,
                   ),
                   filteredCourses.isEmpty 
-                  ? Column(
-                    children: [
-                      Lottie.asset("assets/lottie/nodata.json"
-                      ),
-                      SizedBox(height: 10,),
-                      Text("No Data Found")
-                    ],
+                  ? Center(
+                    child: Column(
+                      children: [
+                        Lottie.asset("assets/lottie/nodata.json",height: 200
+                        ),
+                        SizedBox(height: 10,),
+                        Text("No Data Found")
+                      ],
+                    ),
                   )
                   :ListView.builder(
                     shrinkWrap: true,

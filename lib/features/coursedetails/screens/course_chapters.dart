@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:zephyr/features/chapter_details/screens/video_play_screen.dart';
 import 'package:zephyr/features/coursedetails/widgets/course_chapter_card.dart';
+import 'package:zephyr/features/payment/screens/checkout_screen.dart';
+
 class CourseChapters extends StatefulWidget {
   const CourseChapters({super.key});
 
@@ -16,10 +18,17 @@ class _CourseChaptersState extends State<CourseChapters> {
       context: context,
       builder: (_) => AlertDialog(
         title: Text("Start Learning Today"),
-        content: Text("Subscribe to gain unlimited access to all lessons and resources."),
+        content: Text(
+            "Subscribe to gain unlimited access to all lessons and resources."),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: Text("Cancel")),
-          ElevatedButton(onPressed: () {}, child: Text("Subscribe")),
+          TextButton(
+              onPressed: () => Navigator.pop(context), child: Text("Cancel")),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (contex) => CheckoutScreen()));
+              },
+              child: Text("Subscribe")),
         ],
       ),
     );
@@ -32,10 +41,7 @@ class _CourseChaptersState extends State<CourseChapters> {
     );
   }
 
-  Widget _buildDropdownCard(
-    String subject, 
-    int index
-    ) {
+  Widget _buildDropdownCard(String subject, int index) {
     return CourseChapterCard(
       title: subject,
       items: ["Chapter 1", "Chapter 2", "Chapter 3"],
