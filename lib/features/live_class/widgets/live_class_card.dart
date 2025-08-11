@@ -1,5 +1,6 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:zephyr/common/service/notification_service.dart';
 import 'package:zephyr/constants/app_constants.dart';
 
 class LiveClassCard extends StatelessWidget {
@@ -111,10 +112,10 @@ class LiveClassCard extends StatelessWidget {
                         Text(
                           "by $tutorName",
                           style: TextStyle(
-                            color: AppColors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            height: 1.2),
+                              color: AppColors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              height: 1.2),
                         ),
                       ],
                     ),
@@ -180,6 +181,41 @@ class LiveClassCard extends StatelessWidget {
                                 Icons.download,
                                 color: AppColors.primaryBlue,
                               ))
+                        else if (currenttab == "Upcoming")
+                          Column(
+                            children: [
+                              // IconButton(
+                              //     onPressed: () {
+                              //       NotificationService().showNotification(
+                              //           title: "Title", body: "Body");
+                              //     },
+                              //     icon: Icon(
+                              //       Icons.alarm,
+                              //       color: AppColors.primaryOrange,
+                              //     )),
+                              IconButton(
+                                  onPressed: () {
+                                    NotificationService().scheduleNotification(
+                                        title: "Live Class Reminder",
+                                        body: "Your Live Class will begin in 15 minutes. Get ready to make your learning brighter!",
+                                        hour: 17,
+                                        minute: 31);
+                                  },
+                                  icon: Icon(
+                                    Icons.alarm,
+                                    color: AppColors.primaryGreen,
+                                  )),
+                              // IconButton(
+                              //     onPressed: () {
+                              //       NotificationService()
+                              //           .checkPendingNotifications();
+                              //     },
+                              //     icon: Icon(
+                              //       Icons.alarm,
+                              //       color: AppColors.primaryBlue,
+                              //     )),
+                            ],
+                          )
                       ],
                     ),
                   ],
