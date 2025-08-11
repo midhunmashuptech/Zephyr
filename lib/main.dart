@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/common/screens/splash_screen.dart';
+import 'package:zephyr/common/service/notification_service.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/coursedetails/screens/course_details_screen.dart';
 import 'package:zephyr/features/coursedetails/screens/course_reviews.dart';
@@ -13,7 +14,12 @@ import 'package:zephyr/features/payment/screens/apply_coupon.dart';
 import 'package:zephyr/features/payment/screens/payment_successful.dart';
 import 'package:zephyr/features/payment/screens/test.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize notification service (it handles timezone setup internally)
+  await NotificationService().initNotification();
+  
   runApp(const MyApp());
 }
 
@@ -27,16 +33,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Poppins',
-        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryGreen, secondary: AppColors.primaryBlue),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: AppColors.primaryGreen,
+            secondary: AppColors.primaryBlue),
         useMaterial3: true,
       ),
-      // home: const MyHomePage(),
-      //home: HomeScreen(),
       home: BottomNavScreen(),
-      // home: PaymentSuccessful(),
-      // home: Test(),
-      // home: ApplyCoupon(),
-      // home: EditProfile(),
     );
   }
 }
@@ -49,10 +51,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     return SplashScreen();
-
   }
 }
