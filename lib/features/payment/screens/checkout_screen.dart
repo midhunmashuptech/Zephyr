@@ -55,56 +55,66 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               ClipRRect(
                 clipBehavior: Clip.hardEdge,
                 borderRadius: BorderRadius.circular(10),
-                child: Row(
-                  children: [
-                    SizedBox(
-                        height: MediaQuery.of(context).size.width * 0.2,
-                        child: Image.asset("assets/images/course_bg1.jpg")),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: SizedBox(
-                          height: MediaQuery.of(context).size.width * 0.2 - 5,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "The Best Teachers",
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  Text(
-                                    "by Athulya Ajayakumar",
-                                    style: TextStyle(
-                                        fontSize: 14, color: Colors.grey),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("Course Fee:"),
-                                  Text(
-                                    "599/-",
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600),
-                                  )
-                                ],
-                              )
-                            ],
-                          )),
-                    )
-                  ],
+                child: IntrinsicHeight(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.35 > 200
+                          ? 200
+                          : MediaQuery.of(context).size.width * 0.35,
+                      height: double.infinity,
+                      child: Image.asset(
+                        "assets/images/course_bg1.jpg",
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: SizedBox(
+                            // height: MediaQuery.of(context).size.width * 0.2 - 5,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "The Best Teachers",
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    Text(
+                                      "by Athulya Ajayakumar",
+                                      style: TextStyle(
+                                          fontSize: 14, color: Colors.grey),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("Course Fee:"),
+                                    Text(
+                                      "599/-",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600),
+                                    )
+                                  ],
+                                )
+                              ],
+                            )),
+                      )
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: 10),

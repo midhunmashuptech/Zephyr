@@ -72,7 +72,7 @@ class HomeCourseCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1),
                       SizedBox(
-                        height: 40,
+                        height: 43,
                         child: Text(course.description ?? "",
                             style: TextStyle(fontSize: 13),
                             overflow: TextOverflow.ellipsis,

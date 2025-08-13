@@ -30,28 +30,20 @@ class SelectedCouponCard extends StatelessWidget {
                           color: AppColors.primaryOrange,
                         ),
                         SizedBox(width: 10),
-                        Text(
-                          offer,
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w500),
+                        Expanded(
+                          child: Text(
+                            offer,
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w500),
+                            // maxLines: 1,
+                          ),
                         )
                       ],
                     ),
                   ),
-                  Row(
-                    children: [
-                      Text(
-                        "Applied",
-                        style: TextStyle(
-                          color: AppColors.primaryGreen,
-                        ),
-                      ),
-                      SizedBox(width: 5),
-                      Icon(
-                        Icons.check_circle_outline_rounded,
-                        color: AppColors.primaryGreen,
-                      )
-                    ],
+                  Icon(
+                    Icons.check_circle_outline_rounded,
+                    color: AppColors.primaryGreen,
                   )
                 ],
               ),

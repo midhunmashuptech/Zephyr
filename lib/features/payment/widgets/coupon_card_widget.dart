@@ -45,36 +45,42 @@ class _CouponCardState extends State<CouponCard> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(12.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                color: AppColors.primaryBlue,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Iconify(
-                                  Mdi.coupon,
-                                  color: AppColors.white,
+                  child: Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    color: AppColors.primaryBlue,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Iconify(
+                                      Mdi.coupon,
+                                      color: AppColors.white,
+                                    ),
+                                  )),
+                              SizedBox(width: 15),
+                              Expanded(
+                                child: Text(
+                                  widget.couponText,
+                                  style: TextStyle(fontWeight: FontWeight.w700),
                                 ),
-                              )),
-                          SizedBox(width: 15),
-                          Text(
-                            widget.couponText,
-                            style: TextStyle(fontWeight: FontWeight.w700),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      Radio(
-                          activeColor: AppColors.primaryBlue,
-                          value: widget.radioValue,
-                          groupValue: widget.radioGroupValue,
-                          onChanged: widget.onChanged)
-                    ],
+                        ),
+                        Radio(
+                            activeColor: AppColors.primaryBlue,
+                            value: widget.radioValue,
+                            groupValue: widget.radioGroupValue,
+                            onChanged: widget.onChanged)
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(
