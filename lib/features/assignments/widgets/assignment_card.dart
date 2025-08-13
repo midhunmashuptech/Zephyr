@@ -20,7 +20,7 @@ class AssignmentCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => AssignmentUploadScreen()));
+            MaterialPageRoute(builder: (context) => AssignmentUploadScreen(date: date, time: time,)));
       },
       child: Card(
           color: AppColors.white,
