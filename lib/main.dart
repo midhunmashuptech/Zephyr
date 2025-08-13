@@ -3,6 +3,7 @@ import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/common/screens/splash_screen.dart';
 import 'package:zephyr/common/service/notification_service.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/assignments/screens/assignment_upload_screen.dart';
 import 'package:zephyr/features/coursedetails/screens/course_details_screen.dart';
 import 'package:zephyr/features/coursedetails/screens/course_reviews.dart';
 import 'package:zephyr/features/drawer/screens/edit_profile.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: BottomNavScreen(),
+      // home: AssignmentUploadScreen(),
     );
   }
 }
