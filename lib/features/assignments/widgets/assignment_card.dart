@@ -75,16 +75,15 @@ class AssignmentCard extends StatelessWidget {
                             "Due date:",
                             style: TextStyle(fontSize: 12),
                           ),
-                          Text(date,
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.primaryBlue)),
-                          Text(" | $time",
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.primaryBlue)),
+                          Expanded(
+                            child: Text("$date | $time",
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.primaryBlue),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,),
+                          ),
                         ],
                       ),
                     ],

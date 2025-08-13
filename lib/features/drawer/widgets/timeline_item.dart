@@ -28,24 +28,57 @@ class TimelineItem extends StatelessWidget {
         indicatorXY: 0.5,
       ),
       endChild: Card(
-        color: Colors.grey[100],
-        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        child: ListTile(
-          title: Text(
-            item.title,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: item.color),
+          color: Colors.grey[100],
+          margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          child: IntrinsicWidth(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    item.title,
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: item.color),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        item.subtitle,
+                        style:
+                            const TextStyle(fontSize: 14, color: Colors.grey),
+                      ),
+                      Text(
+                        item.time,
+                        style:
+                            const TextStyle(fontSize: 14, color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          )
+          // ListTile(
+          //   title: Text(
+          //     item.title,
+          //     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: item.color),
+          //   ),
+          //   subtitle: Text(
+          //     item.subtitle,
+          //     style: const TextStyle(fontSize: 14, color: Colors.grey),
+          //   ),
+          //   trailing: Text(
+          //     item.time,
+          //     style: const TextStyle(fontSize: 14, color: Colors.grey),
+          //   ),
+          // ),
           ),
-          subtitle: Text(
-            item.subtitle,
-            style: const TextStyle(fontSize: 14, color: Colors.grey),
-          ),
-          trailing: Text(
-            item.time,
-            style: const TextStyle(fontSize: 14, color: Colors.grey),
-          ),
-        ),
-      ),
     );
   }
 }

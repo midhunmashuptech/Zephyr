@@ -39,7 +39,7 @@ class _PaymentMethodCardState extends State<PaymentMethodCard> {
                   value: widget.value,
                   groupValue: widget.selectedMethod,
                   onChanged: widget.onChanged),
-              SizedBox(height: 30, child: Image.asset(widget.image)),
+              SizedBox(height: 30, width: 80, child: Image.asset(widget.image)),
               SizedBox(
                 width: 10,
               )

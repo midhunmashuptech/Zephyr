@@ -90,6 +90,7 @@ class _EditProfileState extends State<EditProfile> {
               controller: mobileController,
               decoration: InputDecoration(
                 errorText: "Disclaimer: For mobile number changes, kindly contact our support team.",
+                errorMaxLines: 2,
                 focusedBorder: InputBorder.none,
                 border: InputBorder.none,
                 enabledBorder: InputBorder.none,
