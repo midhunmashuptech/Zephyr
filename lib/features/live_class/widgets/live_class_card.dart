@@ -195,11 +195,12 @@ class LiveClassCard extends StatelessWidget {
                               //     )),
                               IconButton(
                                   onPressed: () {
-                                    NotificationService().scheduleNotification(
+                                    NotificationService().scheduleNotificationInMinutes(
                                         title: "Live Class Reminder",
                                         body: "Your Live Class will begin in 15 minutes. Get ready to make your learning brighter!",
-                                        hour: 17,
-                                        minute: 31);
+                                        // hour: 13,
+                                        // minute: 6
+                                        minutesFromNow: 3);
                                   },
                                   icon: Icon(
                                     Icons.alarm,

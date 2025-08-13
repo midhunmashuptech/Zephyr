@@ -61,7 +61,7 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
                       ),
                       SizedBox(width: 10),
                       Text(
-                        'My Subscribed Courses',
+                        'Subscribed Courses',
                         style: TextStyle(
                             fontSize: 22, fontWeight: FontWeight.w600),
                       ),

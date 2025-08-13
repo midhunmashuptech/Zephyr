@@ -15,10 +15,12 @@ import 'package:zephyr/features/payment/screens/payment_successful.dart';
 import 'package:zephyr/features/payment/screens/test.dart';
 
 void main() async {
+  print("App starting");
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize notification service (it handles timezone setup internally)
   await NotificationService().initNotification();
+  print("App started");
   
   runApp(const MyApp());
 }

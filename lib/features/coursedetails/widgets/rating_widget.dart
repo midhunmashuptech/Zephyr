@@ -19,7 +19,7 @@ class RatingBarWidget extends StatelessWidget {
           size: 15,
         ),
         SizedBox(
-          width: MediaQuery.of(context).size.width * 0.4,
+          width: MediaQuery.of(context).size.width * 0.3,
           child: LinearProgressIndicator(
             borderRadius: BorderRadius.circular(10),
             value: value,
