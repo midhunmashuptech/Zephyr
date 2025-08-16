@@ -7,12 +7,17 @@ import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/constants/widgets/layout_gradient.dart';
 import 'package:zephyr/features/login/screens/forgot_password_screen.dart';
+import 'package:zephyr/features/login/service/login_service.dart';
 
 class Login extends StatefulWidget {
   final String phoneNumber;
   final String countryCode;
+  final String isoCode;
   const Login(
-      {required this.phoneNumber, required this.countryCode, super.key});
+      {required this.phoneNumber,
+      required this.countryCode,
+      required this.isoCode,
+      super.key});
 
   @override
   State<Login> createState() => _LoginState();
@@ -25,6 +30,20 @@ class _LoginState extends State<Login> {
   String _countryCode = '';
   String _phoneNumber = '';
   String _errorText = '';
+
+  @override
+  void initState() {
+    _countryCode = widget.countryCode;
+    _phoneNumber = widget.phoneNumber;
+    super.initState();
+  }
+
+  Future<void> loginUser() async {
+    await LoginService().login(context,
+        countryCode: _countryCode,
+        phone: _phoneNumber,
+        password: passwordController.text);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,20 +62,19 @@ class _LoginState extends State<Login> {
                 ),
                 Text(
                   "Welcome Back!",
-                  style:
-                      TextStyle(fontSize: 23, fontWeight: FontWeight.w600),
+                  style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600),
                 ),
                 SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Text(
                     "Log in to continue your personalized learning experience.",
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.w400),textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                    textAlign: TextAlign.center,
                   ),
                 ),
                 SizedBox(height: 20),
-        
+
                 IntlPhoneField(
                   enabled: false,
                   initialValue: widget.phoneNumber,
@@ -75,10 +93,11 @@ class _LoginState extends State<Login> {
                       _errorText = '';
                     });
                   },
-                  initialCountryCode: widget.countryCode,
+                  initialCountryCode: widget.isoCode,
                 ),
                 const SizedBox(height: 15),
                 TextFormField(
+                  controller: passwordController,
                   decoration: InputDecoration(
                     labelText: 'Password',
                     errorText: _errorText.isNotEmpty ? _errorText : null,
@@ -88,7 +107,7 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
-        
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -109,16 +128,13 @@ class _LoginState extends State<Login> {
                     )
                   ],
                 ),
-        
+
                 /// Login Button
                 CustomButton(
                   text: "Login",
                   color: AppColors.primaryBlue,
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => BottomNavScreen()));
+                    loginUser();
                   },
                   textcolor: AppColors.white,
                 ),

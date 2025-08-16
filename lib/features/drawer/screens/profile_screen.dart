@@ -113,15 +113,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: 15,
                       ),
                       CustomButton(
-                        text: "Edit Profile",
-                        color: AppColors.primaryGreen,
-                        textcolor: AppColors.white,
-                        onPressed: () {},
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      CustomButton(
                         text: "Logout",
                         color: AppColors.primaryBlue,
                         textcolor: AppColors.white,

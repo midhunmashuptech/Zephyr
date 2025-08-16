@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/common/screens/splash_screen.dart';
 import 'package:zephyr/common/service/notification_service.dart';
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
             secondary: AppColors.primaryBlue),
         useMaterial3: true,
       ),
-      home: BottomNavScreen(),
+      home: SplashScreen(),
       // home: AssignmentUploadScreen(),
     );
   }
