@@ -35,7 +35,7 @@ class CustomTextField extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 10.0),
       child: TextFormField(
         controller: controller,
-        maxLines: maxLines == 3 ? null : maxLines,
+        maxLines: maxLines == 3 ? null : 1,
         keyboardType: keyboardType,
         obscureText: obscureText,
         focusNode: focusNode,

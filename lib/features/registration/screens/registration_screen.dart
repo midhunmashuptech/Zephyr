@@ -10,8 +10,9 @@ import 'package:zephyr/features/registration/widgets/gender_widget.dart';
 class RegistrationScreen extends StatefulWidget {
   final String phoneNumber;
   final String countryCode;
+  final String isoCode;
   const RegistrationScreen(
-      {required this.countryCode, required this.phoneNumber, super.key});
+      {required this.isoCode, required this.countryCode, required this.phoneNumber, super.key});
 
   @override
   State<RegistrationScreen> createState() => _RegistrationScreenState();
@@ -155,7 +156,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     SizedBox(height: 15),
                     CustomTextField(
                       hintText: 'Enter your Email',
-                      obscureText: true,
+                      keyboardType: TextInputType.emailAddress,
                       controller: emailController,
                       suffixIcon: Icon(Icons.email),
                     ),
@@ -171,7 +172,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           borderSide: const BorderSide(),
                         ),
                       ),
-                      initialCountryCode: widget.countryCode,
+                      initialCountryCode: widget.isoCode,
                     ),
                     SizedBox(height: 10),
                     CustomTextField(

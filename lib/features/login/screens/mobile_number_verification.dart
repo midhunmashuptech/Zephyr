@@ -5,6 +5,7 @@ import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/constants/widgets/layout_gradient.dart';
 import 'package:zephyr/features/login/screens/login.dart';
+import 'package:zephyr/features/login/service/login_service.dart';
 import 'package:zephyr/features/registration/screens/registration_screen.dart';
 
 class MobileNumberVerification extends StatefulWidget {
@@ -17,9 +18,39 @@ class MobileNumberVerification extends StatefulWidget {
 
 class _MobileNumberVerificationState extends State<MobileNumberVerification> {
   bool otpStatus = false;
-  String _countryCode = 'IN';
+  String _countryISOCode = 'IN';
+  String _countryCode = '';
   String _phoneNumber = '';
   String _errorText = '';
+
+  Future<void> checkMobileNumber() async {
+    await LoginService()
+        .mobileNumberCheck(context,
+            countryCode: _countryCode, phone: _phoneNumber)
+        .then((value) {
+      if (value.exists == true) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Login(
+                phoneNumber: _phoneNumber,
+                countryCode: _countryCode,
+                isoCode: _countryISOCode),
+          ),
+        );
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => RegistrationScreen(
+                phoneNumber: _phoneNumber,
+                countryCode: _countryCode,
+                isoCode: _countryISOCode),
+          ),
+        );
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +73,8 @@ class _MobileNumberVerificationState extends State<MobileNumberVerification> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       "Verify Your Mobile Number",
-                      style: TextStyle(
-                          fontSize: 23, fontWeight: FontWeight.w600),
+                      style:
+                          TextStyle(fontSize: 23, fontWeight: FontWeight.w600),
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -60,7 +91,8 @@ class _MobileNumberVerificationState extends State<MobileNumberVerification> {
                     ),
                     onChanged: (value) {
                       setState(() {
-                        _countryCode = value.countryISOCode;
+                        _countryISOCode = value.countryISOCode;
+                        _countryCode = value.countryCode;
                         _phoneNumber = value.number;
                         _errorText = '';
                       });
@@ -73,25 +105,7 @@ class _MobileNumberVerificationState extends State<MobileNumberVerification> {
                     color: AppColors.primaryBlue,
                     textcolor: AppColors.white,
                     onPressed: () {
-                      _phoneNumber == "9496370108"
-                      ? Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Login(
-                            phoneNumber: _phoneNumber,
-                            countryCode: _countryCode,
-                          ),
-                        ),
-                      )
-                      : Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RegistrationScreen(
-                            phoneNumber: _phoneNumber,
-                            countryCode: _countryCode,
-                          ),
-                        ),
-                      );
+                      checkMobileNumber();
                     },
                   ),
                 ],
