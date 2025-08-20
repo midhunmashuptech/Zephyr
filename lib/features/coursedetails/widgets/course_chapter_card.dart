@@ -5,6 +5,7 @@ import 'package:zephyr/constants/app_constants.dart';
 
 class CourseChapterCard extends StatelessWidget {
   final String title;
+  final String subtitle;
   final List<String> items;
   final void Function(String) onSelected;
   final VoidCallback onTap;
@@ -15,6 +16,7 @@ class CourseChapterCard extends StatelessWidget {
   const CourseChapterCard({
     super.key,
     required this.title,
+    required this.subtitle,
     required this.items,
     required this.onSelected,
     required this.onTap,
@@ -45,6 +47,7 @@ class CourseChapterCard extends StatelessWidget {
             title,
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
           ),
+          subtitle: Text(subtitle),
           shape: RoundedRectangleBorder(side: BorderSide.none),
           collapsedShape: RoundedRectangleBorder(side: BorderSide.none),
           children: List.generate(items.length, (index) {
@@ -60,9 +63,13 @@ class CourseChapterCard extends StatelessWidget {
                   items[index],
                   style: const TextStyle(fontSize: 16),
                 ),
+                subtitle: Text(subtitle,style: TextStyle(color: AppColors.primaryBlue),),
                 trailing: isFree
-                    ? Iconify(Mdi.lock_open,color: const Color.fromARGB(255, 27, 162, 15),)
-                    :  Iconify(Mdi.lock,color: AppColors.grey),
+                    ? Iconify(
+                        Mdi.lock_open,
+                        color: const Color.fromARGB(255, 27, 162, 15),
+                      )
+                    : Iconify(Mdi.lock, color: AppColors.grey),
                 onTap: () {
                   if (isFree && onFreeItemTap != null) {
                     onFreeItemTap!();
@@ -78,4 +85,3 @@ class CourseChapterCard extends StatelessWidget {
     );
   }
 }
-
