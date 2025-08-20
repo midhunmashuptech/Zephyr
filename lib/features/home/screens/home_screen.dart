@@ -67,185 +67,177 @@ class _HomeScreenState extends State<HomeScreen> {
       key: _scaffoldKey,
       drawer: DrawerWidget(),
       body: SafeArea(
-        child: Stack(
-          children: [
-            LayoutGradient(gradient: AppColors.greenGradient),
-            SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      /// Top Section with Profile and Menu
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                /// Top Section with Profile and Menu
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              _scaffoldKey.currentState!.openDrawer();
+                            },
+                            icon: Iconify(
+                              Mi.menu,
+                              color: AppColors.primaryBlue,
+                            )),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ProfileScreen()));
+                          },
+                          child: Row(
                             children: [
-                              IconButton(
-                                  onPressed: () {
-                                    _scaffoldKey.currentState!.openDrawer();
-                                  },
-                                  icon: Iconify(
-                                    Mi.menu,
-                                    color: AppColors.primaryBlue,
-                                  )),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ProfileScreen()));
-                                },
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: AppColors.black.withAlpha(
-                                                50), // changed this - withOpacity(0.2)
-                                            blurRadius: 6,
-                                            spreadRadius: 2,
-                                            offset: Offset(0, 3),
-                                          ),
-                                        ],
-                                      ),
-                                      child: CircleAvatar(
-                                        radius: 25,
-                                        backgroundColor: AppColors.white,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(2.0),
-                                          child: CircleAvatar(
-                                            radius: 25,
-                                            foregroundImage: AssetImage(
-                                                "assets/images/kim_shin.webp"),
-                                          ),
-                                        ),
-                                      ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppColors.black.withAlpha(
+                                          50), // changed this - withOpacity(0.2)
+                                      blurRadius: 6,
+                                      spreadRadius: 2,
+                                      offset: Offset(0, 3),
                                     ),
-                                    SizedBox(width: 10),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text("Hello, Welcome",
-                                            style: TextStyle(fontSize: 13)),
-                                        Text(
-                                          "John Wick",
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                      ],
-                                    )
                                   ],
                                 ),
-                              ),
-                            ],
-                          ),
-                          IconButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Notifications()));
-                              },
-                              icon: Iconify(Mdi.bell_notification, size: 30))
-                        ],
-                      ),
-
-                      SizedBox(height: 20),
-
-                      CustomSearchBar(
-                        color: AppColors.primaryBlue,
-                        onChanged: (value) {
-                          setState(() {
-                            searchValue = value;
-                            filterCourses();
-                          });
-                        },
-                      ),
-
-                      SizedBox(height: 20),
-
-                      /// Course Categories
-                      (searchValue == "" || searchValue == null)
-                          ? Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Courses",
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                SizedBox(height: 10),
-                                Center(
-                                  child: Wrap(
-                                    children: categories
-                                        .map((category) => CategoryWidget(
-                                            categoryName:
-                                                category)) // Assuming CategoryWidget fits dynamically
-                                        .toList(),
+                                child: CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: AppColors.white,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: CircleAvatar(
+                                      radius: 25,
+                                      foregroundImage: AssetImage(
+                                          "assets/images/kim_shin.webp"),
+                                    ),
                                   ),
                                 ),
-                                SizedBox(height: 20),
-                              ],
-                            )
-                          : SizedBox(height: 0),
-
-                      /// Recommended Section
-                      Text(
-                        "Recommended for you",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w600),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-
-                      isLoading
-                          ? Container(
-                              height: MediaQuery.of(context).size.height * 0.3,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
+                              ),
+                              SizedBox(width: 10),
+                              Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.center,
                                 children: [
-                                  Center(child: CircularProgressIndicator()),
+                                  Text("Hello, Welcome",
+                                      style: TextStyle(fontSize: 13)),
+                                  Text(
+                                    "John Wick",
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
+                                  ),
                                 ],
-                              ))
-                          : filteredCourses.isEmpty
-                          ? Center(child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 40.0),
-                            child: Column(
-                              children: [
-                                Lottie.asset("assets/lottie/nodata.json", height: 200),
-                                Text("No Matching Courses found!"),
-                              ],
-                            ),
-                          ))
-                          : Wrap(
-                              children:
-                                  filteredCourses.asMap().entries.map((entry) {
-                                int index = entry.key;
-                                Course course = entry.value;
-                                return HomeCourseCard(
-                                    course: course, index: index);
-                              }).toList(),
-                            ),
-                    ],
-                  ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Notifications()));
+                        },
+                        icon: Iconify(Mdi.bell_notification, size: 30))
+                  ],
                 ),
-              ),
+                
+                SizedBox(height: 20),
+                
+                CustomSearchBar(
+                  color: AppColors.primaryBlue,
+                  onChanged: (value) {
+                    setState(() {
+                      searchValue = value;
+                      filterCourses();
+                    });
+                  },
+                ),
+                
+                SizedBox(height: 20),
+                
+                /// Course Categories
+                (searchValue == "" || searchValue == null)
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Courses",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          SizedBox(height: 10),
+                          Center(
+                            child: Wrap(
+                              children: categories
+                                  .map((category) => CategoryWidget(
+                                      categoryName:
+                                          category)) // Assuming CategoryWidget fits dynamically
+                                  .toList(),
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                        ],
+                      )
+                    : SizedBox(height: 0),
+                
+                /// Recommended Section
+                Text(
+                  "Recommended for you",
+                  style: TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.w600),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                
+                isLoading
+                    ? Container(
+                        height: MediaQuery.of(context).size.height * 0.3,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Center(child: CircularProgressIndicator()),
+                          ],
+                        ))
+                    : filteredCourses.isEmpty
+                    ? Center(child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 40.0),
+                      child: Column(
+                        children: [
+                          Lottie.asset("assets/lottie/nodata.json", height: 200),
+                          Text("No Matching Courses found!"),
+                        ],
+                      ),
+                    ))
+                    : Wrap(
+                        children:
+                            filteredCourses.asMap().entries.map((entry) {
+                          int index = entry.key;
+                          Course course = entry.value;
+                          return HomeCourseCard(
+                              course: course, index: index);
+                        }).toList(),
+                      ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

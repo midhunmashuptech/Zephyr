@@ -51,11 +51,14 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
                 right: Radius.circular(10),
               ),
             ),
-            child: IconButton(
-              icon: const Icon(Icons.search, color: Colors.white),
-              onPressed: () {
-                // Handle search button click
-              },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 1.0),
+              child: IconButton(
+                icon: const Icon(Icons.search, color: Colors.white),
+                onPressed: () {
+                  // Handle search button click
+                },
+              ),
             ),
           ),
         ),

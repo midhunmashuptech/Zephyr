@@ -33,75 +33,47 @@ class _LiveTabviewDetailsState extends State<LiveTabviewDetails>
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // appBar: AppBar(
-        //   title: const Text(
-        //     'Live Classes',
-        //     style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
-        //   ),
-        //   leading: const Icon(FluentIcons.live_20_filled),
-        //   bottom: TabBar(
-        //     controller: _tabController,
-        //     labelColor: AppColors.primaryBlue,
-        //     indicatorColor: AppColors.primaryBlue,
-        //     tabs: const [
-        //       Tab(text: 'Ongoing'),
-        //       Tab(text: 'Upcoming'),
-        //       Tab(text: 'Recordings'),
-        //     ],
-        //   ),
-        // ),
-        body: Stack(
+        body: Column(
           children: [
-            Opacity(
-              opacity: 0.5,
-              child: SizedBox(
-                height: MediaQuery.of(context).size.width * 0.3,
-                child: LayoutGradient(gradient: AppColors.blueGradient)
+            SizedBox(
+              height: 30,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: Row(
+                children: [
+                  SizedBox(width: 10),
+                  const Icon(FluentIcons.live_20_filled),
+                  SizedBox(width: 10),
+                  Text(
+                    'Live Classes',
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                  ),
+                ],
               ),
             ),
-            Column(
-              children: [
-                SizedBox(
-                  height: 30,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Row(
-                    children: [
-                      SizedBox(width: 10),
-                      const Icon(FluentIcons.live_20_filled),
-                      SizedBox(width: 10),
-                      Text(
-                        'Live Classes',
-                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                TabBar(
-                  controller: _tabController,
-                  labelColor: AppColors.primaryBlue,
-                  indicatorColor: AppColors.primaryBlue,
-                  tabs: const [
-                    Tab(text: 'Ongoing'),
-                    Tab(text: 'Upcoming'),
-                    Tab(text: 'Recordings'),
-                  ],
-                ),
-                Expanded(
-                  child: TabBarView(
-                    controller: _tabController,
-                    children: const [
-                      LiveOngoing(),
-                      LiveUpcoming(),
-                      LiveRecordingScreen()
-                    ],
-                  ),
-                ),
+            SizedBox(
+              height: 10,
+            ),
+            TabBar(
+              controller: _tabController,
+              labelColor: AppColors.primaryBlue,
+              indicatorColor: AppColors.primaryBlue,
+              tabs: const [
+                Tab(text: 'Ongoing'),
+                Tab(text: 'Upcoming'),
+                Tab(text: 'Recordings'),
               ],
+            ),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: const [
+                  LiveOngoing(),
+                  LiveUpcoming(),
+                  LiveRecordingScreen()
+                ],
+              ),
             ),
           ],
         ),

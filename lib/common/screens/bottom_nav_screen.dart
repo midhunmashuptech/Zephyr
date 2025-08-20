@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/fa.dart';
+import 'package:iconify_flutter_plus/icons/healthicons.dart';
 import 'package:iconify_flutter_plus/icons/ic.dart';
 import 'package:iconify_flutter_plus/icons/ri.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
@@ -72,11 +73,11 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
           /// Profile
           SalomonBottomBarItem(
             icon: Iconify(
-              Ic.assignment,
+              Healthicons.i_exam_multiple_choice,
               size: 24,
               color: AppColors.primaryRed,
             ),
-            title: Text("Assignments"),
+            title: Text("Test Series"),
             selectedColor: AppColors.primaryRed,
           ),
         ],

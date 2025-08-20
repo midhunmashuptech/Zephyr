@@ -39,77 +39,72 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-      child: Stack(
-        children: [
-          LayoutGradient(gradient: AppColors.orangeGradient),
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 30,
+              ),
+              Row(
                 children: [
-                  SizedBox(
-                    height: 30,
+                  SizedBox(width: 10),
+                  Iconify(
+                    Fa.graduation_cap,
+                    size: 18,
+                    color: AppColors.black,
                   ),
-                  Row(
-                    children: [
-                      SizedBox(width: 10),
-                      Iconify(
-                        Fa.graduation_cap,
-                        size: 18,
-                        color: AppColors.black,
-                      ),
-                      SizedBox(width: 10),
-                      Text(
-                        'Subscribed Courses',
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.w600),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  CustomSearchBar(
-                    color: AppColors.primaryOrange,
-                    onChanged: (value) {
-                      setState(() {
-                        searchValue = value;
-                        filteredCourse();
-                      });
-                    },
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  filteredCourses.isEmpty 
-                  ? Center(
-                    child: Column(
-                      children: [
-                        Lottie.asset("assets/lottie/nodata.json",height: 200
-                        ),
-                        SizedBox(height: 10,),
-                        Text("No Data Found")
-                      ],
-                    ),
-                  )
-                  :ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: filteredCourses.length,
-                    itemBuilder: (context, index) {
-                      return MyCourseCard(
-                          index: index, course: filteredCourses[index]);
-                    },
-                  ),
-                  SizedBox(
-                    height: 15,
+                  SizedBox(width: 10),
+                  Text(
+                    'Subscribed Courses',
+                    style: TextStyle(
+                        fontSize: 22, fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
-            ),
+              SizedBox(
+                height: 20,
+              ),
+              CustomSearchBar(
+                color: AppColors.primaryOrange,
+                onChanged: (value) {
+                  setState(() {
+                    searchValue = value;
+                    filteredCourse();
+                  });
+                },
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              filteredCourses.isEmpty 
+              ? Center(
+                child: Column(
+                  children: [
+                    Lottie.asset("assets/lottie/nodata.json",height: 200
+                    ),
+                    SizedBox(height: 10,),
+                    Text("No Data Found")
+                  ],
+                ),
+              )
+              :ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: filteredCourses.length,
+                itemBuilder: (context, index) {
+                  return MyCourseCard(
+                      index: index, course: filteredCourses[index]);
+                },
+              ),
+              SizedBox(
+                height: 15,
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     ));
   }
