@@ -144,20 +144,25 @@ class _AssignmentUploadScreenState extends State<AssignmentUploadScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              children: [
-                                getFileIcon(file.name),
-                                SizedBox(width: 15),
-                                Text(
-                                  file.name,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black,
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  getFileIcon(file.name),
+                                  SizedBox(width: 15),
+                                  Expanded(
+                                    child: Text(
+                                      file.name,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                             IconButton(
                               onPressed: () => removeFile(index),

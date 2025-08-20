@@ -25,10 +25,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Poppins',
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: AppColors.primaryGreen,
-            secondary: AppColors.primaryBlue),
         useMaterial3: true,
+        scaffoldBackgroundColor: AppColors.white
       ),
       // home: SplashScreen(),
       home: BottomNavScreen(),

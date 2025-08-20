@@ -51,50 +51,43 @@ class _AssignmentsScreenState extends State<AssignmentsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Stack(
-          children: [
-            SizedBox(
-                height: MediaQuery.of(context).size.height,
-                child: LayoutGradient(gradient: AppColors.redGradient)),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 25),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 30,
+              ),
+              Row(
                 children: [
-                  SizedBox(
-                    height: 30,
+                  SizedBox(width: 10),
+                  HugeIcon(
+                    icon: HugeIcons.strokeRoundedAssignments,
+                    color: AppColors.black,
                   ),
-                  Row(
-                    children: [
-                      SizedBox(width: 10),
-                      HugeIcon(
-                        icon: HugeIcons.strokeRoundedAssignments,
-                        color: AppColors.black,
-                      ),
-                      SizedBox(width: 10),
-                      Text(
-                        'Assignments',
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.w600),
-                      ),
-                    ],
+                  SizedBox(width: 10),
+                  Text(
+                    'Assignments',
+                    style: TextStyle(
+                        fontSize: 22, fontWeight: FontWeight.w600),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                        itemCount: assignments.length,
-                        itemBuilder: (context, index) => AssignmentCard(
-                            heading: assignments[index].heading,
-                            author: assignments[index].author,
-                            date: assignments[index].date,
-                            time: assignments[index].time)),
-                  )
                 ],
               ),
-            ),
-          ],
+              SizedBox(
+                height: 20,
+              ),
+              Expanded(
+                child: ListView.builder(
+                    itemCount: assignments.length,
+                    itemBuilder: (context, index) => AssignmentCard(
+                        heading: assignments[index].heading,
+                        author: assignments[index].author,
+                        date: assignments[index].date,
+                        time: assignments[index].time)),
+              )
+            ],
+          ),
         ),
       ),
     );
