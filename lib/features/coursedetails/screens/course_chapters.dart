@@ -44,6 +44,7 @@ class _CourseChaptersState extends State<CourseChapters> {
   Widget _buildDropdownCard(String subject, int index) {
     return CourseChapterCard(
       title: subject,
+      subtitle: "Class 7",
       items: ["Chapter 1", "Chapter 2", "Chapter 3"],
       onSelected: (value) {},
       onTap: () {
