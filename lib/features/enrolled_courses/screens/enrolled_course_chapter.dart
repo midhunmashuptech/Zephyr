@@ -30,7 +30,7 @@ class _EnrolledCourseChapterState extends State<EnrolledCourseChapter> {
                   });
                 },
                 isExpanded: expandedSectionIndex == 0,
-                subtitle: 'class7',
+                subtitle: 'Class 7',
               ),
               EnrolledChapterCard(
                 title: "Physics",
@@ -42,7 +42,7 @@ class _EnrolledCourseChapterState extends State<EnrolledCourseChapter> {
                   });
                 },
                 isExpanded: expandedSectionIndex == 1,
-                subtitle: 'class7',
+                subtitle: 'Class 7',
               ),
               EnrolledChapterCard(
                 title: "Biology",
@@ -54,7 +54,7 @@ class _EnrolledCourseChapterState extends State<EnrolledCourseChapter> {
                   });
                 },
                 isExpanded: expandedSectionIndex == 2, 
-                subtitle: 'class7',
+                subtitle: 'Class 7',
               ),
               SizedBox(height: 20)
             ],

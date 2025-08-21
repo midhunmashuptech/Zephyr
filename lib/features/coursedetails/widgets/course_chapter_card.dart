@@ -47,7 +47,7 @@ class CourseChapterCard extends StatelessWidget {
             title,
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
           ),
-          subtitle: Text(subtitle),
+          // subtitle: Text(subtitle),
           shape: RoundedRectangleBorder(side: BorderSide.none),
           collapsedShape: RoundedRectangleBorder(side: BorderSide.none),
           children: List.generate(items.length, (index) {
