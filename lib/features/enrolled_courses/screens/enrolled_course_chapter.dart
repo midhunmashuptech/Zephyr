@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zephyr/features/enrolled_courses/widgets/enrolled_course_card.dart';
+import 'package:zephyr/features/enrolled_courses/widgets/enrolled_chapter_card.dart';
 
 class EnrolledCourseChapter extends StatefulWidget {
   const EnrolledCourseChapter({super.key});
@@ -20,7 +20,7 @@ class _EnrolledCourseChapterState extends State<EnrolledCourseChapter> {
           child: Column(
             children: [
               SizedBox(height: 10),
-              EnrolledCourseCard(
+              EnrolledChapterCard(
                 title: "Mathematics",
                 items: ["Chapter 1", "Chapter 2", "Chapter 3"],
                 onSelected: (value) {},
@@ -30,8 +30,9 @@ class _EnrolledCourseChapterState extends State<EnrolledCourseChapter> {
                   });
                 },
                 isExpanded: expandedSectionIndex == 0,
+                subtitle: 'class7',
               ),
-              EnrolledCourseCard(
+              EnrolledChapterCard(
                 title: "Physics",
                 items: ["Chapter 1", "Chapter 2", "Chapter 3"],
                 onSelected: (value) {},
@@ -41,8 +42,9 @@ class _EnrolledCourseChapterState extends State<EnrolledCourseChapter> {
                   });
                 },
                 isExpanded: expandedSectionIndex == 1,
+                subtitle: 'class7',
               ),
-              EnrolledCourseCard(
+              EnrolledChapterCard(
                 title: "Biology",
                 items: ["Chapter 1", "Chapter 2", "Chapter 3"],
                 onSelected: (value) {},
@@ -51,7 +53,8 @@ class _EnrolledCourseChapterState extends State<EnrolledCourseChapter> {
                     expandedSectionIndex = expandedSectionIndex == 2 ? null : 2;
                   });
                 },
-                isExpanded: expandedSectionIndex == 2,
+                isExpanded: expandedSectionIndex == 2, 
+                subtitle: 'class7',
               ),
               SizedBox(height: 20)
             ],
