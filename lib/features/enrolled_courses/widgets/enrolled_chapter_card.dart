@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/chapter_details/screens/chapter_details_screen.dart';
+import 'package:zephyr/features/chapter_details/screens/video_play_screen.dart';
 
 class EnrolledChapterCard extends StatefulWidget {
   final String title;
@@ -7,6 +9,7 @@ class EnrolledChapterCard extends StatefulWidget {
   final Function(String) onSelected;
   final void Function() onTap;
   final bool isExpanded;
+  final String subtitle;
 
   const EnrolledChapterCard({
     super.key,
@@ -15,6 +18,7 @@ class EnrolledChapterCard extends StatefulWidget {
     required this.onSelected,
     required this.onTap,
     required this.isExpanded,
+    required this.subtitle,
   });
 
   @override
@@ -56,12 +60,14 @@ class _EnrolledChapterCardState extends State<EnrolledChapterCard> {
               child: ListTile(
                 tileColor: AppColors.white,
                 title: Text(item, style: const TextStyle(fontSize: 16)),
+                subtitle: Text(widget.subtitle,style: TextStyle(color: AppColors.primaryBlue),),
+                trailing: Icon(Icons.arrow_forward_ios,color: AppColors.black,size: 18,),
                 onTap: () {
                   widget.onSelected(item);
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => ChapterDetailsScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => VideoPlayScreen()));
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
