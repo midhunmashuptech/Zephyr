@@ -71,4 +71,24 @@ class AppColors {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );
+
+  static const Gradient orangeCourseActionGradient = LinearGradient(
+  colors: [
+    Color(0xFFF5A101), // #F39E00 with 52% opacity
+    Color.fromARGB(255, 255, 232, 183), // transparent
+  ],
+  begin: Alignment.topLeft,
+  end: Alignment.bottomRight,
+);
+
+static const Gradient greenCourseActionGradient = LinearGradient(
+  colors: [
+   Color(0xFF68BD00), // #F39E00 with 52% opacity
+    Color.fromARGB(255, 214, 255, 183), // transparent
+  ],
+  
+  begin: Alignment.topLeft,
+  end: Alignment.bottomRight,
+);
+
 }
