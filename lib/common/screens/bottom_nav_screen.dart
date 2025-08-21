@@ -10,6 +10,7 @@ import 'package:zephyr/features/assignments/screens/assignments_screen.dart';
 import 'package:zephyr/features/enrolled_courses/screens/my_course_screen.dart';
 import 'package:zephyr/features/home/screens/home_screen.dart';
 import 'package:zephyr/features/live_class/screens/live_tabview_details.dart';
+import 'package:zephyr/features/test_series/screens/test_series_screen.dart';
 
 class BottomNavScreen extends StatefulWidget {
   const BottomNavScreen({super.key});
@@ -25,7 +26,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     HomeScreen(),
     MyCourseScreen(),
     LiveTabviewDetails(),
-    AssignmentsScreen()
+    TestSeriesScreen()
   ];
 
   @override
