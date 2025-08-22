@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/chapter_details/screens/chapter_details_screen.dart';
-import 'package:zephyr/features/chapter_details/screens/video_play_screen.dart';
 
 class EnrolledChapterCard extends StatefulWidget {
   final String title;
@@ -67,7 +66,7 @@ class _EnrolledChapterCardState extends State<EnrolledChapterCard> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => VideoPlayScreen()));
+                          builder: (context) => ChapterDetailsScreen()));
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),

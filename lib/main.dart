@@ -4,6 +4,7 @@ import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/common/screens/splash_screen.dart';
 import 'package:zephyr/common/service/notification_service.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/coursedetails/widgets/test.dart';
 void main() async {
   // print("App starting");
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,9 +30,9 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: AppColors.white
       ),
       // home: SplashScreen(),
-      home: BottomNavScreen(),
+      // home: BottomNavScreen(),
       // home: AssignmentUploadScreen(),
-      // home: Test(),
+      home: Test(),
       // home: MyCourseScreen(),
     );
   }
