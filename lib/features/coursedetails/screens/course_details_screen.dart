@@ -3,9 +3,11 @@ import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/ic.dart';
 import 'package:swipeable_button_view/swipeable_button_view.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/coursedetails/screens/chapter_navigator_observer.dart';
 import 'package:zephyr/features/coursedetails/screens/course_chapters.dart';
 import 'package:zephyr/features/coursedetails/screens/course_overview.dart';
 import 'package:zephyr/features/coursedetails/screens/course_reviews.dart';
+import 'package:zephyr/features/coursedetails/widgets/test.dart';
 import 'package:zephyr/features/payment/screens/checkout_screen.dart';
 
 class CourseDetailsScreen extends StatefulWidget {
@@ -17,19 +19,63 @@ class CourseDetailsScreen extends StatefulWidget {
 
 class _CourseDetailsScreenState extends State<CourseDetailsScreen>
     with SingleTickerProviderStateMixin {
+
+  final GlobalKey<NavigatorState> _chapterTabNavKey =
+      GlobalKey<NavigatorState>();
+  final ValueNotifier<bool> _chapterTabCanPop = ValueNotifier(false);
+
   late TabController _tabController;
   bool isFinished = false;
+  final List<Widget> _tabs = [];
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    _tabs.addAll([
+      CourseOverview(),
+      buildChapterTab(), // wrapped with internal navigator
+      CourseReviews(),
+    ]);
   }
 
   @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
+  }
+
+  Widget buildChapterTab() {
+    return Stack(
+      children: [
+        Navigator(
+          key: _chapterTabNavKey,
+          observers: [ChapterNavigatorObserver(_chapterTabCanPop)],
+          onGenerateRoute: (settings) {
+            return MaterialPageRoute(
+              builder: (context) => CourseChapters(),
+            );
+          },
+        ),
+        Positioned(
+          bottom: 20,
+          right: 20,
+          child: ValueListenableBuilder<bool>(
+            valueListenable: _chapterTabCanPop,
+            builder: (context, canPop, _) {
+              return canPop
+                  ? FloatingActionButton(
+                      onPressed: () {
+                        _chapterTabNavKey.currentState?.maybePop();
+                      },
+                      child: Icon(Icons.arrow_back),
+                    )
+                  : SizedBox.shrink();
+            },
+          ),
+        ),
+      ],
+    );
   }
 
   @override
@@ -127,11 +173,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: TabBarView(
                     controller: _tabController,
-                    children: const [
-                      CourseOverview(),
-                      CourseChapters(),
-                      CourseReviews()
-                    ],
+                    children: _tabs,
                   ),
                 ),
               ),
@@ -149,7 +191,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                     child: SwipeableButtonView(
                       buttonText: "Enroll at 599/-",
                       buttonWidget: const Icon(Icons.arrow_forward,
-                       color: AppColors.primaryOrange),
+                          color: AppColors.primaryOrange),
                       activeColor: AppColors.primaryOrange,
                       isFinished: isFinished,
                       onWaitingProcess: () {
