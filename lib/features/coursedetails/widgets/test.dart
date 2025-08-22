@@ -16,40 +16,42 @@ class _TestState extends State<Test> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              // child: Row(
-              //   children: [
-              //     Expanded(child: CourseActionCard(title: 'Assignments', bgcolor: AppColors.orangeCourseActionGradient, icon: HugeIcons.strokeRoundedAssignments, iconColor: AppColors.primaryOrange,)),
-              //     SizedBox(width: 15,),
-              //     Expanded(child: CourseActionCard(title: 'Make a Test', bgcolor: AppColors.greenCourseActionGradient, icon: HugeIcons.strokeRoundedTestTube01, iconColor: AppColors.primaryGreen,)),
-              //   ],
-              // ),
-            ),
-
-            CourseContentCard(
-              title: 'Video', 
-              subtitle: 'Tap to see the video',
-              icon: Icons.videocam, 
-              bgcolor: AppColors.primaryBlue, 
-              lockicon: Icons.lock,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                // child: Row(
+                //   children: [
+                //     Expanded(child: CourseActionCard(title: 'Assignments', bgcolor: AppColors.orangeCourseActionGradient, icon: HugeIcons.strokeRoundedAssignments, iconColor: AppColors.primaryOrange,)),
+                //     SizedBox(width: 15,),
+                //     Expanded(child: CourseActionCard(title: 'Make a Test', bgcolor: AppColors.greenCourseActionGradient, icon: HugeIcons.strokeRoundedTestTube01, iconColor: AppColors.primaryGreen,)),
+                //   ],
+                // ),
               ),
+          
               CourseContentCard(
-              title: 'Image', 
-              subtitle: 'Tap to see the image',
-              icon: Icons.image, 
-              bgcolor: AppColors.primaryGreen,
-              lockicon: Icons.lock,
-              ),CourseContentCard(
-              title: 'pdf', 
-              subtitle: 'Tap to see the pdf',
-              icon: Icons.picture_as_pdf, 
-              bgcolor: AppColors.primaryRed,
-              lockicon: Icons.lock,
-              ),
-          ],
+                title: 'Video', 
+                subtitle: 'Tap to see the video',
+                icon: Icons.videocam, 
+                bgcolor: AppColors.primaryBlue, 
+                lockicon: Icons.lock,
+                ),
+                CourseContentCard(
+                title: 'Image', 
+                subtitle: 'Tap to see the image',
+                icon: Icons.image, 
+                bgcolor: AppColors.primaryGreen,
+                lockicon: Icons.lock,
+                ),CourseContentCard(
+                title: 'pdf', 
+                subtitle: 'Tap to see the pdf',
+                icon: Icons.picture_as_pdf, 
+                bgcolor: AppColors.primaryRed,
+                lockicon: Icons.lock,
+                ),
+            ],
+          ),
         )
       ),
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/chapter_details/screens/video_play_screen.dart';
 import 'package:zephyr/features/coursedetails/widgets/course_chapter_card.dart';
+import 'package:zephyr/features/coursedetails/widgets/test.dart';
 import 'package:zephyr/features/payment/screens/checkout_screen.dart';
 
 class CourseChapters extends StatefulWidget {
@@ -35,10 +36,10 @@ class _CourseChaptersState extends State<CourseChapters> {
     );
   }
 
-  void _navigateToVideoPlayer() {
+  void _navigateToContents() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => VideoPlayScreen()),
+      MaterialPageRoute(builder: (_) => Test()),
     );
   }
 
@@ -54,7 +55,7 @@ class _CourseChaptersState extends State<CourseChapters> {
         });
       },
       isExpanded: expandedSectionIndex == index,
-      onFreeItemTap: _navigateToVideoPlayer,
+      onFreeItemTap: _navigateToContents,
       onLockedTap: (index) => _showSubscribePopup(context),
     );
   }
