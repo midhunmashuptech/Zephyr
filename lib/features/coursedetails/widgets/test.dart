@@ -20,15 +20,7 @@ class _TestState extends State<Test> {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              // child: Row(
-              //   children: [
-              //     Expanded(child: CourseActionCard(title: 'Assignments', bgcolor: AppColors.orangeCourseActionGradient, icon: HugeIcons.strokeRoundedAssignments, iconColor: AppColors.primaryOrange,)),
-              //     SizedBox(width: 15,),
-              //     Expanded(child: CourseActionCard(title: 'Make a Test', bgcolor: AppColors.greenCourseActionGradient, icon: HugeIcons.strokeRoundedTestTube01, iconColor: AppColors.primaryGreen,)),
-              //   ],
-              // ),
             ),
-
             CourseContentCard(
               title: 'Video', 
               subtitle: 'Tap to see the video',
