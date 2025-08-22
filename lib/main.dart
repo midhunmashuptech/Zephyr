@@ -5,7 +5,6 @@ import 'package:zephyr/common/screens/splash_screen.dart';
 import 'package:zephyr/common/service/notification_service.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/coursedetails/widgets/test.dart';
-import 'package:zephyr/features/enrolled_courses/screens/my_course_screen.dart';
 void main() async {
   // print("App starting");
   WidgetsFlutterBinding.ensureInitialized();
