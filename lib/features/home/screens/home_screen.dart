@@ -240,14 +240,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: AppColors.primaryGreen,
-          onPressed: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => MakeYourTestScreen())),
-          child: HugeIcon(
-            icon: HugeIcons.strokeRoundedStudyLamp,
-            color: AppColors.white,
-          )),
     );
   }
 }

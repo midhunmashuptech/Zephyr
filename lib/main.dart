@@ -31,10 +31,10 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: AppColors.white
       ),
       // home: SplashScreen(),
-      // home: BottomNavScreen(),
+      home: BottomNavScreen(),
       // home: AssignmentUploadScreen(),
       // home: Test(),
-      home: MyCourseScreen(),
+      // home: MyCourseScreen(),
     );
   }
 }
