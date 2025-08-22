@@ -46,7 +46,7 @@ class _CourseActionCardState extends State<CourseActionCard> {
                   child: HugeIcon(
                     icon: widget.icon,
                     color: widget.iconColor,
-                    size: 160,
+                    size: MediaQuery.of(context).size.width * .3,
                   )),
             ),
             Center(

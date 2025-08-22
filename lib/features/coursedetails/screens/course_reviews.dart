@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zephyr/common/widgets/rating_star_widget.dart';
+import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/coursedetails/widgets/rating_widget.dart';
 import 'package:zephyr/features/coursedetails/widgets/review_card.dart';
 
@@ -96,7 +97,8 @@ class _CourseReviewsState extends State<CourseReviews> {
               SizedBox(height: 10),
               Container(
                 decoration: BoxDecoration(
-                    color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                    color: Colors.white, borderRadius: BorderRadius.circular(10),
+                    boxShadow: [BoxShadow(color: AppColors.grey.withAlpha(70), spreadRadius: 3, blurRadius: 5)]),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
