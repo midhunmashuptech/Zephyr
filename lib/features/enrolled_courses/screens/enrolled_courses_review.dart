@@ -104,14 +104,15 @@ class _EnrolledCoursesReviewState extends State<EnrolledCoursesReview> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(12.0),
           child: Column(
             children: [
               SizedBox(height: 10),
               Container(
                 decoration: BoxDecoration(
                     color: AppColors.white,
-                    borderRadius: BorderRadius.circular(10)),
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [BoxShadow(color: AppColors.grey.withAlpha(70), spreadRadius: 3, blurRadius: 5)]),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
@@ -151,7 +152,8 @@ class _EnrolledCoursesReviewState extends State<EnrolledCoursesReview> {
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                     color: AppColors.white,
-                    borderRadius: BorderRadius.circular(10)),
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [BoxShadow(color: AppColors.grey.withAlpha(70), spreadRadius: 3, blurRadius: 5)]),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: isReviewSubmitted
