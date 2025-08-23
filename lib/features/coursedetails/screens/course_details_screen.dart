@@ -7,7 +7,6 @@ import 'package:zephyr/features/coursedetails/screens/chapter_navigator_observer
 import 'package:zephyr/features/coursedetails/screens/course_chapters.dart';
 import 'package:zephyr/features/coursedetails/screens/course_overview.dart';
 import 'package:zephyr/features/coursedetails/screens/course_reviews.dart';
-import 'package:zephyr/features/coursedetails/widgets/test.dart';
 import 'package:zephyr/features/payment/screens/checkout_screen.dart';
 
 class CourseDetailsScreen extends StatefulWidget {
@@ -57,23 +56,23 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
             );
           },
         ),
-        Positioned(
-          bottom: 20,
-          right: 20,
-          child: ValueListenableBuilder<bool>(
-            valueListenable: _chapterTabCanPop,
-            builder: (context, canPop, _) {
-              return canPop
-                  ? FloatingActionButton(
-                      onPressed: () {
-                        _chapterTabNavKey.currentState?.maybePop();
-                      },
-                      child: Icon(Icons.arrow_back),
-                    )
-                  : SizedBox.shrink();
-            },
-          ),
-        ),
+       Positioned(
+         top: 10,   
+         left: 0,  
+         child: ValueListenableBuilder<bool>(
+           valueListenable: _chapterTabCanPop,
+           builder: (context, canPop, _) {
+             return canPop
+          ? BackButton(
+              onPressed: () {
+                _chapterTabNavKey.currentState?.maybePop();
+              },
+            )
+          : const SizedBox.shrink();
+           },
+         ),
+       ),
+
       ],
     );
   }
@@ -208,7 +207,6 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                           MaterialPageRoute(
                               builder: (context) => CheckoutScreen()),
                         );
-
                         // Reset state after returning WITHOUT triggering reverse animation
                         setState(() {
                           isFinished = false;

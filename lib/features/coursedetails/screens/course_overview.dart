@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:zephyr/constants/app_constants.dart';
 
 class CourseOverview extends StatefulWidget {
   const CourseOverview({super.key});

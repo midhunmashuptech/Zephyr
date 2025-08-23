@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:hugeicons/hugeicons.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:iconify_flutter_plus/icons/mi.dart';
 import 'package:lottie/lottie.dart';
 import 'package:zephyr/common/widgets/custom_search_bar.dart';
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/constants/widgets/layout_gradient.dart';
 import 'package:zephyr/data_class/course.dart';
 import 'package:zephyr/features/drawer/screens/drawer.dart';
 import 'package:zephyr/features/drawer/screens/profile_screen.dart';
 import 'package:zephyr/features/home/widgets/category_widget.dart';
 import 'package:zephyr/features/home/widgets/home_course_card.dart';
 import 'package:zephyr/features/notification/screens/notifications.dart';
-import 'package:zephyr/features/test/screens/make_your_test_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
