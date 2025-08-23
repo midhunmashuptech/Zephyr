@@ -6,12 +6,10 @@ import 'package:lottie/lottie.dart';
 import 'package:zephyr/common/widgets/custom_search_bar.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/data_class/course.dart';
-import 'package:zephyr/features/assignments/screens/assignment_upload_screen.dart';
 import 'package:zephyr/features/assignments/screens/assignments_screen.dart';
 import 'package:zephyr/features/enrolled_courses/widgets/course_action_card.dart';
 import 'package:zephyr/features/enrolled_courses/widgets/my_course_card.dart';
 import 'package:zephyr/features/test/screens/make_your_test_screen.dart';
-import 'package:zephyr/features/test/screens/test_instructions_screen.dart';
 
 class MyCourseScreen extends StatefulWidget {
   const MyCourseScreen({super.key});

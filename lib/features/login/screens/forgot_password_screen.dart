@@ -5,7 +5,6 @@ import 'package:pinput/pinput.dart';
 import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/constants/widgets/layout_gradient.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   final String phoneNumber;

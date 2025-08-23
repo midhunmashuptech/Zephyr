@@ -3,7 +3,6 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lottie/lottie.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/constants/widgets/layout_gradient.dart';
 import 'package:zephyr/features/login/screens/login.dart';
 import 'package:zephyr/features/login/service/login_service.dart';
 import 'package:zephyr/features/registration/screens/registration_screen.dart';
