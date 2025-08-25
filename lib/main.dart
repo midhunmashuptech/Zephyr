@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/common/screens/splash_screen.dart';
 import 'package:zephyr/common/service/notification_service.dart';
 import 'package:zephyr/constants/app_constants.dart';
@@ -29,8 +30,8 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: AppColors.white
       ),
       // home: SplashScreen(),
-      // home: BottomNavScreen(),
-      home: ChapterDetailsScreen()
+      home: BottomNavScreen(),
+      // home: ChapterDetailsScreen()
     );
   }
 }
