@@ -63,7 +63,7 @@ class _CourseChaptersState extends State<CourseChapters> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Column(
             children: [
               const SizedBox(height: 10),

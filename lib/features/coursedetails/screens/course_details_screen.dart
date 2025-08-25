@@ -45,35 +45,14 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
   }
 
   Widget buildChapterTab() {
-    return Stack(
-      children: [
-        Navigator(
-          key: _chapterTabNavKey,
-          observers: [ChapterNavigatorObserver(_chapterTabCanPop)],
-          onGenerateRoute: (settings) {
-            return MaterialPageRoute(
-              builder: (context) => CourseChapters(),
-            );
-          },
-        ),
-       Positioned(
-         top: 10,   
-         left: 0,  
-         child: ValueListenableBuilder<bool>(
-           valueListenable: _chapterTabCanPop,
-           builder: (context, canPop, _) {
-             return canPop
-          ? BackButton(
-              onPressed: () {
-                _chapterTabNavKey.currentState?.maybePop();
-              },
-            )
-          : const SizedBox.shrink();
-           },
-         ),
-       ),
-
-      ],
+    return Navigator(
+      key: _chapterTabNavKey,
+      observers: [ChapterNavigatorObserver(_chapterTabCanPop)],
+      onGenerateRoute: (settings) {
+        return MaterialPageRoute(
+          builder: (context) => CourseChapters(),
+        );
+      },
     );
   }
 

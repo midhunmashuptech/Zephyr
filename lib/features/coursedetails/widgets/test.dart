@@ -29,18 +29,20 @@ class _TestState extends State<Test> {
                     SizedBox(
                       width: 10,
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Row(
                       children: [
-                        Text(
-                          "Trignometry",
-                          style: TextStyle(
-                              fontSize: 22, fontWeight: FontWeight.w600),
+                        BackButton(),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Trignometry",
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.w600),
+                            ),
+                            Text("The Mathematics of Angles and Triangles"),
+                          ],
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text("The Mathematics of Angles and Triangles"),
                       ],
                     ),
                   ],
