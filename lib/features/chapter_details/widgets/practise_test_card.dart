@@ -47,15 +47,17 @@ class PractiseTestCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(4),
                     color: practiseTest.status == "Complete"
-                        ? AppColors.primaryGreen
-                        : AppColors.primaryOrange,
+                        ? AppColors.primaryGreen.withAlpha(20)
+                        : AppColors.primaryOrange.withAlpha(20)
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Iconify(
                       Healthicons.i_exam_multiple_choice_outline,
                       size: 16,
-                      color: AppColors.white,
+                      color: practiseTest.status == "Complete"
+                        ? AppColors.primaryGreen
+                        : AppColors.primaryOrange
                     ),
                   ),
                 ),

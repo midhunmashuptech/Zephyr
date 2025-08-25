@@ -50,15 +50,15 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
       Content(
           label: "Practical\nTests",
           icon: HugeIcons.strokeRoundedTestTube01,
-          color: AppColors.lightBlue,
+          color: AppColors.primaryBlue,
           onpressed: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => PractiseTestScreen()));
           }),
       Content(
-          label: "Chapte\nAnalysis",
-          icon: HugeIcons.strokeRoundedTestTube01,
-          color: AppColors.lightBlue,
+          label: "Chapter\nAnalysis",
+          icon: HugeIcons.strokeRoundedPieChart,
+          color: AppColors.primaryRed,
           onpressed: () {
             Navigator.push(
                 context,
@@ -120,34 +120,40 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
                     color: content[index].color,
                     onPressed: content[index].onpressed)),
             SizedBox(height: 5),
-            Row(
-              children: [
-                SizedBox(width: 10),
-                Iconify(Bxs.videos, size: 20),
-                SizedBox(width: 10),
-                Text(
-                  'Videos',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Row(
+                children: [
+                  SizedBox(width: 10),
+                  Iconify(Bxs.videos, size: 20),
+                  SizedBox(width: 10),
+                  Text(
+                    'Videos',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                  ),
+                ],
+              ),
             ),
             SizedBox(height: 10),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return ChapterVideoCard(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const VideoPlayScreen(),
-                      ),
-                    );
-                  },
-                );
-              },
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return ChapterVideoCard(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const VideoPlayScreen(),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ],
         ),

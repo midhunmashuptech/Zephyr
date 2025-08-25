@@ -24,7 +24,7 @@ class ContentCard extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: color,
+            color: color.withAlpha(20),
           ),
           // width: MediaQuery.of(context).size.width,
           // height: MediaQuery.of(context).size.width * 0.5 - 40,
@@ -37,7 +37,7 @@ class ContentCard extends StatelessWidget {
                 HugeIcon(
                   icon: icon,
                   size: MediaQuery.of(context).size.width * 0.1,
-                  color: AppColors.white,
+                  color: color,
                 ),
                 SizedBox(height: 10),
                 Text(
@@ -45,7 +45,7 @@ class ContentCard extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: MediaQuery.of(context).size.width * 0.04,
-                      color: AppColors.white),
+                      color: color),
                 )
               ],
             ),

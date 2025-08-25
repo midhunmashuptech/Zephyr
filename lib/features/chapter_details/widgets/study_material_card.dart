@@ -45,8 +45,8 @@ class StudyMaterialCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(4),
                     color: studyMaterial.type == "image"
-                        ? AppColors.primaryBlue
-                        : AppColors.primaryRed,
+                        ? AppColors.primaryBlue.withAlpha(20)
+                        : AppColors.primaryRed.withAlpha(20),
                   ),
                   child: Icon(
                     studyMaterial.type == "image"
@@ -55,7 +55,9 @@ class StudyMaterialCard extends StatelessWidget {
                     size: MediaQuery.of(context).size.width * 0.1 > 70
                         ? 70
                         : MediaQuery.of(context).size.width * 0.1,
-                    color: AppColors.white,
+                    color: studyMaterial.type == "image"
+                        ? AppColors.primaryBlue
+                        : AppColors.primaryRed
                   ),
                 ),
                 SizedBox(width: 15),
