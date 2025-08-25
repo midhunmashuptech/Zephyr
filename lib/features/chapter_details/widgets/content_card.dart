@@ -19,30 +19,37 @@ class ContentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onPressed,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: color,
-        ),
-        width: MediaQuery.of(context).size.width,
-        // height: MediaQuery.of(context).size.width * 0.5 - 40,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            HugeIcon(
-              icon: icon,
-              size: MediaQuery.of(context).size.width * 0.15,
-              color: AppColors.white,
+      child: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: color,
+          ),
+          // width: MediaQuery.of(context).size.width,
+          // height: MediaQuery.of(context).size.width * 0.5 - 40,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                HugeIcon(
+                  icon: icon,
+                  size: MediaQuery.of(context).size.width * 0.1,
+                  color: AppColors.white,
+                ),
+                SizedBox(height: 10),
+                Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.04,
+                      color: AppColors.white),
+                )
+              ],
             ),
-            SizedBox(height: 10),
-            Text(
-              label,
-              style: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width * 0.04,
-                  color: AppColors.white),
-            )
-          ],
+          ),
         ),
       ),
     );

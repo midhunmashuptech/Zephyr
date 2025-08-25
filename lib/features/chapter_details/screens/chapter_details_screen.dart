@@ -38,9 +38,9 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
     super.initState();
     content = [
       Content(
-          label: "Study Materials",
+          label: "Study\nMaterials",
           icon: HugeIcons.strokeRoundedStudyLamp,
-          color: AppColors.lightGreen,
+          color: AppColors.primaryGreen,
           onpressed: () {
             Navigator.push(
                 context,
@@ -48,7 +48,7 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
                     builder: (context) => StudyMaterialsScreen()));
           }),
       Content(
-          label: "Practical Tests",
+          label: "Practical\nTests",
           icon: HugeIcons.strokeRoundedTestTube01,
           color: AppColors.lightBlue,
           onpressed: () {
@@ -56,7 +56,7 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
                 MaterialPageRoute(builder: (context) => PractiseTestScreen()));
           }),
       Content(
-          label: "Chapter Analysis",
+          label: "Chapte\nAnalysis",
           icon: HugeIcons.strokeRoundedTestTube01,
           color: AppColors.lightBlue,
           onpressed: () {
@@ -71,13 +71,10 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(
-            child: Column(
-                    children: [
-            SizedBox(
-              height: 30,
-            ),
+      body: SafeArea(
+          child: SingleChildScrollView(
+        child: Column(
+          children: [
             Container(
               height: 300,
               width: double.infinity,
@@ -87,39 +84,42 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
                     fit: BoxFit.cover),
               ),
             ),
+            SizedBox(height: 10),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              padding: const EdgeInsets.symmetric(horizontal: 22.0),
+              child: Row(
                 children: [
-                  const Text('Trignometry',
-                      style: TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.w600)),
-                  const SizedBox(height: 10),
-                  Text(
-                    "Class:7",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.primaryBlue),
-                  )
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('Trignometry',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w600)),
+                      Text(
+                        "Class:7",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.primaryBlue),
+                      )
+                    ],
+                  ),
                 ],
               ),
             ),
-            SizedBox(
-              height: 200,
-              child: GridView.builder(
-                shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3),
-                      itemCount: content.length,
-                  itemBuilder: (context, index) => ContentCard(
-                      icon: content[index].icon,
-                      label: content[index].label,
-                      color: content[index].color,
-                      onPressed: content[index].onpressed)),
-            ),
-            SizedBox(height: 20),
+            GridView.builder(
+              shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3),
+                itemCount: content.length,
+                padding: EdgeInsets.all(10),
+                itemBuilder: (context, index) => ContentCard(
+                    icon: content[index].icon,
+                    label: content[index].label,
+                    color: content[index].color,
+                    onPressed: content[index].onpressed)),
+            SizedBox(height: 5),
             Row(
               children: [
                 SizedBox(width: 10),
@@ -132,23 +132,26 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
               ],
             ),
             SizedBox(height: 10),
-            Expanded(
-              child: ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return ChapterVideoCard(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => VideoPlayScreen()));
-                      },
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                return ChapterVideoCard(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const VideoPlayScreen(),
+                      ),
                     );
-                  }),
-            )
-                    ],
-                  )),
-      ),
+                  },
+                );
+              },
+            ),
+          ],
+        ),
+      )),
     );
   }
 }
