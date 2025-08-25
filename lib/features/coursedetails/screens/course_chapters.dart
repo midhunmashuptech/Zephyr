@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zephyr/features/coursedetails/screens/course_chapter_content.dart';
 import 'package:zephyr/features/coursedetails/widgets/course_chapter_card.dart';
 import 'package:zephyr/features/coursedetails/widgets/test.dart';
 import 'package:zephyr/features/payment/screens/checkout_screen.dart';
@@ -22,10 +23,10 @@ class _CourseChaptersState extends State<CourseChapters> {
             "Subscribe to gain unlimited access to all lessons and resources."),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context), child: Text("Cancel")),
+              onPressed: () => Navigator.of(context,rootNavigator: true).pop(), child: Text("Cancel")),
           ElevatedButton(
               onPressed: () {
-                Navigator.push(context,
+                Navigator.of(context,rootNavigator: true).push(
                     MaterialPageRoute(builder: (contex) => CheckoutScreen()));
               },
               child: Text("Subscribe")),
@@ -37,7 +38,7 @@ class _CourseChaptersState extends State<CourseChapters> {
   void _navigateToContents() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => Test()),
+      MaterialPageRoute(builder: (_) => CourseChapterContent()),
     );
   }
 

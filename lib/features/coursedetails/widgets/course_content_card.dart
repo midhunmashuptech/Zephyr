@@ -8,6 +8,7 @@ class CourseContentCard extends StatefulWidget {
   Color bgcolor;
   IconData icon;
   IconData lockicon;
+
    CourseContentCard({
     required this.title,
     required this.subtitle,
@@ -49,22 +50,18 @@ class _CourseContentCardState extends State<CourseContentCard> {
                     : MediaQuery.of(context).size.width * 0.16,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4),
-                  color: widget.bgcolor,
+                  color: widget.bgcolor.withAlpha(20),
                 ),
                 child: Icon(widget.icon,
                   // FluentIcons.document_pdf_24_regular,
                   size: MediaQuery.of(context).size.width * 0.1 > 70
                       ? 70
                       : MediaQuery.of(context).size.width * 0.1,
-                  color: AppColors.white,
+                  color: widget.bgcolor,
                 ),
               ),
               SizedBox(width: 15),
               Expanded(
-                // width: MediaQuery.of(context).size.width * 0.61,
-                // height: MediaQuery.of(context).size.width * 0.14 > 100
-                //     ? 100
-                //     : MediaQuery.of(context).size.width * 0.15,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
