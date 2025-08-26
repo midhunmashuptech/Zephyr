@@ -48,13 +48,13 @@ class LoginService {
     }
   }
 
-  Future<MobileNumberCheckModel> mobileNumberCheck(
+  Future<MobileNumberCheckModel> verifyPhoneNumber(
     BuildContext context, {
     required String countryCode,
     required String phone,
   }) async {
     final responseJson = await _apiService.authPostRequest(
-      url: mobileNumberCheckUrl,
+      url: verifyPhoneUrl,
       fields: {
         "country_code": countryCode,
         "phone": phone,

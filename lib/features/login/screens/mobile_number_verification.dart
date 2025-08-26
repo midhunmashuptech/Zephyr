@@ -24,7 +24,7 @@ class _MobileNumberVerificationState extends State<MobileNumberVerification> {
 
   Future<void> checkMobileNumber() async {
     await LoginService()
-        .mobileNumberCheck(context,
+        .verifyPhoneNumber(context,
             countryCode: _countryCode, phone: _phoneNumber)
         .then((value) {
       if (value.exists == true) {

@@ -129,6 +129,40 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       )
                     ),
                     SizedBox(height: 5),
+                    CustomTextField(
+                      hintText: 'Enter your Email',
+                      keyboardType: TextInputType.emailAddress,
+                      controller: emailController,
+                      suffixIcon: Icon(Icons.email),
+                    ),
+                    SizedBox(height: 5),
+                    CustomTextField(
+                      hintText: 'Enter your School Name',
+                      obscureText: true,
+                      controller: schoolController,
+                      suffixIcon: Icon(Icons.school),
+                    ),
+                    SizedBox(height: 5),
+                    DropdownWidget(
+                      label: 'Enter your Class',
+                      items: classNames,
+                      controller: classController,
+                    ),
+                    SizedBox(height: 20),
+                    IntlPhoneField(
+                      enabled: false,
+                      initialValue: widget.phoneNumber,
+                      decoration: InputDecoration(
+                        labelText: 'Mobile Number',
+                        errorText: _errorText.isNotEmpty ? _errorText : null,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: const BorderSide(),
+                        ),
+                      ),
+                      initialCountryCode: widget.isoCode,
+                    ),
+                    SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.only(left: 15.0),
                       child: Text("Gender"),
@@ -152,40 +186,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       color: genderOptions[index].color),
                                 )))
                       ],
-                    ),
-                    SizedBox(height: 15),
-                    CustomTextField(
-                      hintText: 'Enter your Email',
-                      keyboardType: TextInputType.emailAddress,
-                      controller: emailController,
-                      suffixIcon: Icon(Icons.email),
-                    ),
-                    SizedBox(height: 5),
-                    IntlPhoneField(
-                      enabled: false,
-                      initialValue: widget.phoneNumber,
-                      decoration: InputDecoration(
-                        labelText: 'Mobile Number',
-                        errorText: _errorText.isNotEmpty ? _errorText : null,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          borderSide: const BorderSide(),
-                        ),
-                      ),
-                      initialCountryCode: widget.isoCode,
-                    ),
-                    SizedBox(height: 10),
-                    CustomTextField(
-                      hintText: 'Enter your School Name',
-                      obscureText: true,
-                      controller: schoolController,
-                      suffixIcon: Icon(Icons.school),
-                    ),
-                    SizedBox(height: 5),
-                    DropdownWidget(
-                      label: 'Enter your Class',
-                      items: classNames,
-                      controller: classController,
                     ),
                     SizedBox(height: 20),
                     Builder(

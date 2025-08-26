@@ -23,10 +23,12 @@ class _CourseChaptersState extends State<CourseChapters> {
             "Subscribe to gain unlimited access to all lessons and resources."),
         actions: [
           TextButton(
-              onPressed: () => Navigator.of(context,rootNavigator: true).pop(), child: Text("Cancel")),
+              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+              child: Text("Cancel")),
           ElevatedButton(
               onPressed: () {
-                Navigator.of(context,rootNavigator: true).push(
+                Navigator.of(context, rootNavigator: true).pop();
+                Navigator.of(context, rootNavigator: true).push(
                     MaterialPageRoute(builder: (contex) => CheckoutScreen()));
               },
               child: Text("Subscribe")),

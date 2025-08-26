@@ -29,8 +29,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         scaffoldBackgroundColor: AppColors.white
       ),
-      // home: SplashScreen(),
-      home: BottomNavScreen(),
+      home: SplashScreen(),
+      // home: BottomNavScreen(),
       // home: ChapterDetailsScreen()
     );
   }
