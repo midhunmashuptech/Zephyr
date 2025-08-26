@@ -4,6 +4,7 @@ import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/common/screens/splash_screen.dart';
 import 'package:zephyr/common/service/notification_service.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/chapter_details/screens/chapter_analysis_screen.dart';
 import 'package:zephyr/features/chapter_details/screens/chapter_details_screen.dart';
 void main() async {
   // print("App starting");
@@ -30,8 +31,9 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: AppColors.white
       ),
       // home: SplashScreen(),
-      home: BottomNavScreen(),
-      // home: ChapterDetailsScreen()
+      // home: BottomNavScreen(),
+      // home: ChapterDetailsScreen(),
+      home: ChapterAnalysisScreen()
     );
   }
 }
