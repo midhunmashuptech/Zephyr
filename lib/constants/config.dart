@@ -1,18 +1,20 @@
 //Base URL for  all API calls
-const apiBaseUrl = "https://inakal.com/api/";
-const authBaseUrl = "https://inakal.com/authapi/";
+const baseUrl = "https://zephyrdigital.in/api/";
 
-//API Endpoints
-const loginUrl = "${authBaseUrl}login";
-const mobileNumberCheckUrl = "${authBaseUrl}checkMobileNumberExists";
+// Authentication API Endpoints
+const verifyPhoneUrl = "${baseUrl}verify-phone";
+const loginUrl = "${baseUrl}login";
+const registerUrl = "${baseUrl}register";
 
-//Password rest API
-const resetPasswordUrl = "${apiBaseUrl}passwordReset";
+// Password rest API
+const resetPasswordUrl = "${baseUrl}reset-password";
 
-//Base URL for webview
+
+
+// Base URL for webview
 const webBaseUrl = "https://zephyrentrance.in/";
 
-//WebView endpoint
+// WebView endpoint
 const testUrl = "${webBaseUrl}events";
 const termsAndCondition = "${webBaseUrl}contact";
 const helpAndSupport = "${webBaseUrl}contact";

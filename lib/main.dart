@@ -30,10 +30,10 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         scaffoldBackgroundColor: AppColors.white
       ),
-      // home: SplashScreen(),
+      home: SplashScreen(),
       // home: BottomNavScreen(),
       // home: ChapterDetailsScreen(),
-      home: ChapterAnalysisScreen()
+      // home: ChapterAnalysisScreen()
     );
   }
 }

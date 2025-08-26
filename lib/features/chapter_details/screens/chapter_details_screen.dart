@@ -48,7 +48,7 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
                     builder: (context) => StudyMaterialsScreen()));
           }),
       Content(
-          label: "Practical\nTests",
+          label: "Practice\nTests",
           icon: HugeIcons.strokeRoundedTestTube01,
           color: AppColors.primaryBlue,
           onpressed: () {
@@ -75,14 +75,21 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
           child: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              height: 300,
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/images/course_bg1.jpg'),
-                    fit: BoxFit.cover),
-              ),
+            Stack(
+              children: [
+                Container(
+                  height: 300,
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage('assets/images/course_bg1.jpg'),
+                        fit: BoxFit.cover),
+                  ),
+                ),
+                Positioned(child: BackButton(),
+                top: 10,
+                left: 10,)
+              ],
             ),
             SizedBox(height: 10),
             Padding(
@@ -96,7 +103,7 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.w600)),
                       Text(
-                        "Class:7",
+                        "Class 7",
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
