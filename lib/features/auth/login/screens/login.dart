@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pinput/pinput.dart';
+import 'package:provider/provider.dart';
 import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/constants/widgets/layout_gradient.dart';
 import 'package:zephyr/features/auth/login/screens/forgot_password_screen.dart';
+import 'package:zephyr/features/auth/provider/auth_provider.dart';
 import 'package:zephyr/features/auth/service/login_service.dart';
 
 class Login extends StatefulWidget {
@@ -24,6 +26,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  AuthProvider authProvider = AuthProvider();
   final TextEditingController mobileController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool otpStatus = false;
@@ -38,15 +41,16 @@ class _LoginState extends State<Login> {
     super.initState();
   }
 
-  Future<void> loginUser() async {
-    await LoginService().login(context,
-        countryCode: _countryCode,
-        phone: _phoneNumber,
-        password: passwordController.text);
-  }
+  // Future<void> loginUser() async {
+  //   await LoginService().login(context,
+  //       countryCode: _countryCode,
+  //       phone: _phoneNumber,
+  //       password: passwordController.text);
+  // }
 
   @override
   Widget build(BuildContext context) {
+    authProvider = context.read<AuthProvider>();
     return Scaffold(
       backgroundColor: AppColors.white,
       body: SingleChildScrollView(
@@ -133,8 +137,10 @@ class _LoginState extends State<Login> {
                 CustomButton(
                   text: "Login",
                   color: AppColors.primaryBlue,
-                  onPressed: () {
-                    loginUser();
+                  onPressed: () async {
+                    // loginUser();
+                    await authProvider.userLogin(context, _phoneNumber, _countryCode,
+                        passwordController.text);
                   },
                   textcolor: AppColors.white,
                 ),

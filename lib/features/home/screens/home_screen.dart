@@ -3,6 +3,8 @@ import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:iconify_flutter_plus/icons/mi.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
+import 'package:zephyr/common/provider/user_details_provider.dart';
 import 'package:zephyr/common/widgets/custom_search_bar.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/data_class/course.dart';
@@ -20,6 +22,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  UserDetailsProvider userDetailsProvider = UserDetailsProvider();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<String> categories = [
     "All",
@@ -60,6 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    userDetailsProvider = context.watch<UserDetailsProvider>();
     return Scaffold(
       key: _scaffoldKey,
       drawer: DrawerWidget(),
@@ -89,8 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        ProfileScreen()));
+                                    builder: (context) => ProfileScreen()));
                           },
                           child: Row(
                             children: [
@@ -122,15 +125,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               SizedBox(width: 10),
                               Column(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text("Hello, Welcome",
                                       style: TextStyle(fontSize: 13)),
                                   Text(
-                                    "John Wick",
+                                    userDetailsProvider.userDetails.name ?? "User",
                                     style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600),
@@ -152,9 +153,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         icon: Iconify(Mdi.bell_notification, size: 30))
                   ],
                 ),
-                
+
                 SizedBox(height: 20),
-                
+
                 CustomSearchBar(
                   color: AppColors.primaryBlue,
                   onChanged: (value) {
@@ -164,9 +165,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     });
                   },
                 ),
-                
+
                 SizedBox(height: 20),
-                
+
                 /// Course Categories
                 (searchValue == "" || searchValue == null)
                     ? Column(
@@ -175,8 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Text(
                             "Courses",
                             style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600),
+                                fontSize: 18, fontWeight: FontWeight.w600),
                           ),
                           SizedBox(height: 10),
                           Center(
@@ -192,17 +192,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       )
                     : SizedBox(height: 0),
-                
+
                 /// Recommended Section
                 Text(
                   "Recommended for you",
-                  style: TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.w600),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                 ),
                 SizedBox(
                   height: 10,
                 ),
-                
+
                 isLoading
                     ? Container(
                         height: MediaQuery.of(context).size.height * 0.3,
@@ -214,24 +213,26 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ))
                     : filteredCourses.isEmpty
-                    ? Center(child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 40.0),
-                      child: Column(
-                        children: [
-                          Lottie.asset("assets/lottie/nodata.json", height: 200),
-                          Text("No Matching Courses found!"),
-                        ],
-                      ),
-                    ))
-                    : Wrap(
-                        children:
-                            filteredCourses.asMap().entries.map((entry) {
-                          int index = entry.key;
-                          Course course = entry.value;
-                          return HomeCourseCard(
-                              course: course, index: index);
-                        }).toList(),
-                      ),
+                        ? Center(
+                            child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 40.0),
+                            child: Column(
+                              children: [
+                                Lottie.asset("assets/lottie/nodata.json",
+                                    height: 200),
+                                Text("No Matching Courses found!"),
+                              ],
+                            ),
+                          ))
+                        : Wrap(
+                            children:
+                                filteredCourses.asMap().entries.map((entry) {
+                              int index = entry.key;
+                              Course course = entry.value;
+                              return HomeCourseCard(
+                                  course: course, index: index);
+                            }).toList(),
+                          ),
               ],
             ),
           ),

@@ -14,7 +14,7 @@ import 'package:zephyr/features/auth/login/screens/login.dart';
 class LoginService {
   final ApiService _apiService = ApiService();
 
-  Future<void> login(
+  Future<LoginModel?> login(
     BuildContext context, {
     required String countryCode,
     required String phone,
@@ -22,33 +22,53 @@ class LoginService {
   }) async {
     print(countryCode + " " + phone + " " + password);
 
-    final request = http.MultipartRequest('POST', Uri.parse(loginUrl));
-    request.fields.addAll({
-      "country_code": countryCode.substring(1),
-      "phone": phone,
-      "password": password,
-    });
+    // final request = http.MultipartRequest('POST', Uri.parse(loginUrl));
+    // request.fields.addAll({
+    //   "country_code": countryCode.substring(1),
+    //   "phone": phone,
+    //   "password": password,
+    // });
 
-    final response = await request.send();
+    // final response = await request.send();
 
-    if (response.statusCode == 200) {
-      final responseBody = await response.stream.bytesToString();
-      final responseJson = json.decode(responseBody);
+    final responseJson = await _apiService.authPostRequest(
+      url: loginUrl,
+      fields: {
+        "country_code": countryCode.substring(1),
+        "phone": phone,
+        "password": password,
+      },
+    );
 
+    if (responseJson == null || responseJson.isEmpty) {
+      showSnackBar("Error", "Json Error");
+      return null;
+    } else {
       final loginModel = LoginModel.fromJson(responseJson);
       if (loginModel.type == "success") {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => BottomNavScreen()));
-      } else {
-        showSnackBar("Invalid Credentials",
-            loginModel.message ?? "Your password is incorrect!");
+        return loginModel;
       }
-    } else if (response.statusCode == 401) {
-      showSnackBar("Invalid Credentials", "Your password is incorrect!");
+      return null;
     }
+
+    // if (response.statusCode == 200) {
+    //   final responseBody = await response.stream.bytesToString();
+    //   final responseJson = json.decode(responseBody);
+
+    //   final loginModel = LoginModel.fromJson(responseJson);
+    //   if (loginModel.type == "success") {
+    //     Navigator.pushReplacement(
+    //         context, MaterialPageRoute(builder: (_) => BottomNavScreen()));
+    //   } else {
+    //     showSnackBar("Invalid Credentials",
+    //         loginModel.message ?? "Your password is incorrect!");
+    //   }
+    // } else if (response.statusCode == 401) {
+    //   showSnackBar("Invalid Credentials", "Your password is incorrect!");
+    // }
   }
 
-  Future<VerifyPhoneNumberModel> verifyPhoneNumber(
+  Future<VerifyPhoneNumberModel?> verifyPhoneNumber(
     BuildContext context, {
     required String countryCode,
     required String phone,
@@ -61,8 +81,17 @@ class LoginService {
       },
     );
 
-    final verifyPhoneNumberModel =
-        VerifyPhoneNumberModel.fromJson(responseJson);
-    return verifyPhoneNumberModel;
+    if (responseJson == null || responseJson.isEmpty) {
+      showSnackBar("Error", "Json Error");
+      return null;
+    } else {
+      final verifyPhoneNumberModel =
+          VerifyPhoneNumberModel.fromJson(responseJson);
+      if (verifyPhoneNumberModel.type == "success") {
+        return verifyPhoneNumberModel;
+      } else {
+        return verifyPhoneNumberModel;
+      }
+    }
   }
 }
