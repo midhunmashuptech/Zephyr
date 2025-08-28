@@ -20,7 +20,7 @@ class _EnrolledCourseChapterState extends State<EnrolledCourseChapter> {
   }
 
   Future<void> loadChapters() async {
-    final loadProvider = Provider.of<EnrolledCourseProvider>(context);
+    final loadProvider = context.read<EnrolledCourseProvider>();
     await loadProvider.fetchEnrolledChapter(context, "1", "1");
   }
 
