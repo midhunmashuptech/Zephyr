@@ -5,9 +5,7 @@ import 'package:zephyr/constants/config.dart';
 import 'package:zephyr/features/drawer/models/password_reset_model.dart';
 
 class DrawerService {
-  final ApiService _apiService = ApiService(
-      authToken:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3NTUzMjg4ODUsImV4cCI6MTc1NTUwMTY4NSwiZGF0YSI6eyJpZCI6IjIxNDQiLCJwaG9uZSI6Ijk2NTY2MjI5OTkiLCJjb3VudHJ5X2NvZGUiOiI5MSJ9fQ.OLJRxyypAqgKilgbBelMbvpkFgYc1Xv7mTRCuBxNvns");
+  final ApiService _apiService = ApiService();
 
   Future<PasswordResetModel> resetPassword(
       BuildContext context, String newPassword) async {

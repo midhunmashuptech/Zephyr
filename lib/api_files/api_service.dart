@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:zephyr/constants/app_constants.dart';
@@ -6,10 +7,6 @@ import 'package:zephyr/features/auth/login/screens/mobile_number_verification.da
 import 'api_exceptions.dart';
 
 class ApiService {
-  final String? authToken;
-
-  ApiService({this.authToken});
-
   /// GET request
   Future<dynamic> authGetRequest({required String url}) async {
     try {
@@ -43,9 +40,15 @@ class ApiService {
   /// Authenticated GET request
   Future<dynamic> getRequest({required String url}) async {
     try {
+      final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+      final authToken = await secureStorage.read(key: "token");
+
       final response = await http.get(
         Uri.parse(url),
-        headers: _authHeaders(),
+        headers: {
+          "Authorization": "Bearer $authToken",
+          "Accept": "application/json",
+        },
       );
       return _handleResponse(response);
     } on http.ClientException {
@@ -58,9 +61,15 @@ class ApiService {
   Future<dynamic> postRequest(
       {required String url, required Map<String, String> fields}) async {
     try {
+      final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+      final authToken = await secureStorage.read(key: "token");
+
       final request = http.MultipartRequest('POST', Uri.parse(url));
       request.fields.addAll(fields);
-      request.headers.addAll(_authHeaders());
+      request.headers.addAll({
+        "Authorization": "Bearer $authToken",
+        "Accept": "application/json",
+      });
 
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
@@ -70,14 +79,6 @@ class ApiService {
       _showError("Client error. Please check your connection.");
       throw NetworkException("Client error. Please check your connection.");
     }
-  }
-
-  /// Auth headers helper
-  Map<String, String> _authHeaders() {
-    return {
-      "Authorization": "Bearer $authToken",
-      "Accept": "application/json",
-    };
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////

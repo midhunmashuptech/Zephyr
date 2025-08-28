@@ -34,7 +34,12 @@ class AuthProvider extends ChangeNotifier {
       if (response.type == "success" &&
           response.token != null &&
           response.token != "") {
+        
+
+        // Writing token to Flutter secure Storage
         await _secureStorage.write(key: "token", value: response.token);
+
+        // Reading token from Flutter secure Storage
         final token = await _secureStorage.read(key: "token");
 
         context.read<UserDetailsProvider>().setUserDetails(response.user ?? User());
