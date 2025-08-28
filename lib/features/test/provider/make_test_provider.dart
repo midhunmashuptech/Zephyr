@@ -1,23 +1,111 @@
 import 'package:flutter/cupertino.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
+import 'package:zephyr/features/test/model/chapter_options_model.dart';
 import 'package:zephyr/features/test/model/class_subject_options_model.dart';
+import 'package:zephyr/features/test/model/topic_options_model.dart';
 import 'package:zephyr/features/test/service/make_your_test_service.dart';
 
 class MakeTestProvider extends ChangeNotifier {
   bool _isOptionsLoading = false;
   bool get isOptionsLoading => _isOptionsLoading;
 
+  bool _isChapterOptionsLoading = false;
+  bool get isChapterOptionsLoading => _isChapterOptionsLoading;
+
+  bool _isTopicOptionsLoading = false;
+  bool get isTopicOptionsLoading => _isTopicOptionsLoading;
+
   List<Classes> _classes = [];
   List<Classes> get classes => _classes;
+
   List<Subjects> _subjects = [];
   List<Subjects> get subjects => _subjects;
+
+  List<Chapters> _chapters = [];
+  List<Chapters> get chapters => _chapters;
+
+  List<Topics> _topics = [];
+  List<Topics> get topics => _topics;
 
   List<String> _classOptions = [];
   List<String> get classOptions => _classOptions;
   List<String> _subjectOptions = [];
   List<String> get subjectOptions => _subjectOptions;
 
-  Future<void> fetchClassSubjectsOptions(BuildContext context) async {
+  int? selectedClass;
+  int? selectedSubject;
+  int? selectedChapter;
+  int? selectedTopic;
+  int? selectedQuesCount = 10;
+  String? selectedDifficultyLevel = "medium";
+
+  void printAllSelectedValues() {
+    print(selectedClass);
+    print(selectedSubject);
+    print(selectedSubject);
+    print(selectedTopic);
+    print(selectedQuesCount);
+    print(selectedDifficultyLevel);
+  }
+
+  void clearAllSelectedValues() {
+    selectedClass = null;
+    selectedSubject = null;
+    selectedSubject = null;
+    selectedTopic = null;
+    selectedQuesCount = 10;
+    selectedDifficultyLevel = "medium";
+    notifyListeners();
+  }
+
+  void setQuestionCount(int? option) async {
+    selectedQuesCount = option;
+    notifyListeners();
+  }
+
+  void setDifficltyevel(String? option) async {
+    selectedDifficultyLevel = (option ?? "").toLowerCase();
+    notifyListeners();
+  }
+
+  void setSelectedClass(int? option) async {
+    selectedClass = option;
+    notifyListeners();
+
+    if (selectedClass != null && selectedSubject != null) {
+      await fetchChapterOptions();
+      notifyListeners();
+    }
+  }
+
+  void setSelectedSubject(int? option) async {
+    selectedSubject = option;
+    notifyListeners();
+
+    if (selectedClass != null && selectedSubject != null) {
+      await fetchChapterOptions();
+      notifyListeners();
+    }
+  }
+
+  void setSelectedChapter(int? option) async {
+    selectedChapter = option;
+    notifyListeners();
+
+    if (selectedClass != null &&
+        selectedSubject != null &&
+        selectedChapter != null) {
+      await fetchTopicOptions();
+      notifyListeners();
+    }
+  }
+
+  void setSelectedTopic(int? option) {
+    selectedTopic = option;
+    notifyListeners();
+  }
+
+  Future<void> fetchClassSubjectsOptions() async {
     _isOptionsLoading = true;
     notifyListeners();
 
@@ -40,6 +128,48 @@ class MakeTestProvider extends ChangeNotifier {
     notifyListeners();
 
     _isOptionsLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> fetchChapterOptions() async {
+    _isChapterOptionsLoading = true;
+    notifyListeners();
+
+    final response = await MakeYourTestService().getChapterOptionsModel(
+        (selectedSubject ?? 1).toString(), (selectedClass ?? "11").toString());
+    if (response == null) {
+      showSnackBar("Error", "Something went wrong! please try again");
+    } else {
+      if (response.type == "success") {
+        _chapters = response.chapters ?? [];
+      } else {
+        _chapters = [];
+      }
+    }
+    notifyListeners();
+
+    _isChapterOptionsLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> fetchTopicOptions() async {
+    _isTopicOptionsLoading = true;
+    notifyListeners();
+
+    final response = await MakeYourTestService()
+        .getTopicOptionsModel((selectedChapter ?? 1).toString());
+    if (response == null) {
+      showSnackBar("Error", "Something went wrong! please try again");
+    } else {
+      if (response.type == "success") {
+        _topics = response.topics ?? [];
+      } else {
+        _topics = [];
+      }
+    }
+    notifyListeners();
+
+    _isTopicOptionsLoading = false;
     notifyListeners();
   }
 }
