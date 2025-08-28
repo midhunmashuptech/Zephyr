@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
+import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/auth/login/screens/login.dart';
+import 'package:zephyr/features/auth/provider/auth_provider.dart';
 import 'package:zephyr/features/auth/service/login_service.dart';
 import 'package:zephyr/features/auth/registration/screens/registration_screen.dart';
 
@@ -16,6 +19,8 @@ class MobileNumberVerification extends StatefulWidget {
 }
 
 class _MobileNumberVerificationState extends State<MobileNumberVerification> {
+  AuthProvider authProvider = AuthProvider();
+
   bool otpStatus = false;
   String _countryISOCode = 'IN';
   String _countryCode = '';
@@ -23,36 +28,36 @@ class _MobileNumberVerificationState extends State<MobileNumberVerification> {
   String _errorText = '';
 
   Future<void> checkMobileNumber() async {
-    await LoginService()
-        .verifyPhoneNumber(context,
-            countryCode: _countryCode, phone: _phoneNumber)
-        .then((value) {
-      if (value.exists == true) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Login(
-                phoneNumber: _phoneNumber,
-                countryCode: _countryCode,
-                isoCode: _countryISOCode),
-          ),
-        );
-      } else {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => RegistrationScreen(
-                phoneNumber: _phoneNumber,
-                countryCode: _countryCode,
-                isoCode: _countryISOCode),
-          ),
-        );
-      }
-    });
+    await authProvider.verifyPhoneNumber(context, _phoneNumber, _countryCode);
+
+    if (authProvider.userExist == "true") {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Login(
+              phoneNumber: _phoneNumber,
+              countryCode: _countryCode,
+              isoCode: _countryISOCode),
+        ),
+      );
+    } else if (authProvider.userExist == "false") {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => RegistrationScreen(
+              phoneNumber: _phoneNumber,
+              countryCode: _countryCode,
+              isoCode: _countryISOCode),
+        ),
+      );
+    } else {
+      showSnackBar("Error", "Something went wrong. Please try again");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    authProvider = context.watch<AuthProvider>();
     return Scaffold(
       backgroundColor: AppColors.white,
       body: SafeArea(
@@ -99,14 +104,25 @@ class _MobileNumberVerificationState extends State<MobileNumberVerification> {
                     initialCountryCode: 'IN',
                   ),
                   const SizedBox(height: 10),
-                  CustomButton(
-                    text: "Verify",
-                    color: AppColors.primaryBlue,
-                    textcolor: AppColors.white,
-                    onPressed: () {
-                      checkMobileNumber();
-                    },
-                  ),
+                  authProvider.isVerifyingPhone
+                      ? Center(child: CircularProgressIndicator())
+                      : CustomButton(
+                          text: "Verify",
+                          color: AppColors.primaryBlue,
+                          textcolor: AppColors.white,
+                          onPressed: () {
+                            // checkMobileNumber();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Login(
+                                    phoneNumber: _phoneNumber,
+                                    countryCode: _countryCode,
+                                    isoCode: _countryISOCode),
+                              ),
+                            );
+                          },
+                        ),
                 ],
               ),
             ),
