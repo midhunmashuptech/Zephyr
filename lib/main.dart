@@ -8,6 +8,7 @@ import 'package:zephyr/common/service/notification_service.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/auth/provider/auth_provider.dart';
 import 'package:zephyr/features/enrolled_courses/provider/enrolled_course_provider.dart';
+import 'package:zephyr/features/test/provider/make_test_provider.dart';
 import 'package:zephyr/features/test/screens/test_quiz_screen.dart';
 
 void main() async {
@@ -22,6 +23,7 @@ void main() async {
     ChangeNotifierProvider(create: (_) => AuthProvider()),
     ChangeNotifierProvider(create: (_) => UserDetailsProvider()),
     ChangeNotifierProvider(create: (_) => EnrolledCourseProvider()),
+    ChangeNotifierProvider(create: (_) => MakeTestProvider())
   ], child: const MyApp()));
 }
 

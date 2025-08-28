@@ -22,6 +22,7 @@ class EnrolledCourseProvider extends ChangeNotifier {
     if (response == null) {
       showSnackBar("Error", "Something went wrong! please try again");
     } else {
+    print(response.type ?? "None");
       if (response.type == "success") {
         _chapterList = (response.chapters ?? [])
             .map((chapter) => chapter.chapterTitle ?? "")

@@ -12,6 +12,8 @@ const resetPasswordUrl = "${baseUrl}reset-password";
 
 // Make Your Test API's
 const getClassSubjectOptionsUrl = "${baseUrl}get-class-and-subjects";
+const getChapterOptionsUrl = "${baseUrl}get-chapters";
+const getTopicOptionsUrl = "${baseUrl}get-topics";
 
 
 
