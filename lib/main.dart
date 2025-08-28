@@ -4,8 +4,7 @@ import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/common/screens/splash_screen.dart';
 import 'package:zephyr/common/service/notification_service.dart';
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/features/chapter_details/screens/chapter_analysis_screen.dart';
-import 'package:zephyr/features/chapter_details/screens/chapter_details_screen.dart';
+import 'package:zephyr/features/test_series/screens/test_quiz_screen.dart';
 void main() async {
   // print("App starting");
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,10 +29,11 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         scaffoldBackgroundColor: AppColors.white
       ),
-      home: SplashScreen(),
+      // home: SplashScreen(),
       // home: BottomNavScreen(),
       // home: ChapterDetailsScreen(),
-      // home: ChapterAnalysisScreen()
+      // home: ChapterAnalysisScreen(),
+      home: TestQuizScreen(),
     );
   }
 }
