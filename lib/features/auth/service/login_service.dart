@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
@@ -9,7 +7,6 @@ import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/constants/config.dart';
 import 'package:zephyr/features/auth/login/model/login_model.dart';
 import 'package:zephyr/features/auth/login/model/verify_phone_model.dart';
-import 'package:zephyr/features/auth/login/screens/login.dart';
 
 class LoginService {
   final ApiService _apiService = ApiService();

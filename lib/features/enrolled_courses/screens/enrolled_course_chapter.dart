@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:zephyr/features/enrolled_courses/provider/enrolled_course_provider.dart';
 import 'package:zephyr/features/enrolled_courses/widgets/enrolled_chapter_card.dart';
 
 class EnrolledCourseChapter extends StatefulWidget {
@@ -10,9 +12,21 @@ class EnrolledCourseChapter extends StatefulWidget {
 
 class _EnrolledCourseChapterState extends State<EnrolledCourseChapter> {
   int? expandedSectionIndex;
+  EnrolledCourseProvider enrolledCourseProvider = EnrolledCourseProvider();
+  @override
+  void initState() {
+    super.initState();
+    loadChapters();
+  }
+
+  Future<void> loadChapters() async {
+    final loadProvider = Provider.of<EnrolledCourseProvider>(context);
+    await loadProvider.fetchEnrolledChapter(context, "1", "1");
+  }
 
   @override
   Widget build(BuildContext context) {
+    enrolledCourseProvider = context.watch<EnrolledCourseProvider>();
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -22,7 +36,7 @@ class _EnrolledCourseChapterState extends State<EnrolledCourseChapter> {
               SizedBox(height: 10),
               EnrolledChapterCard(
                 title: "Mathematics",
-                items: ["Chapter 1", "Chapter 2", "Chapter 3"],
+                items: enrolledCourseProvider.chapterList ,
                 onSelected: (value) {},
                 onTap: () {
                   setState(() {
@@ -53,7 +67,7 @@ class _EnrolledCourseChapterState extends State<EnrolledCourseChapter> {
                     expandedSectionIndex = expandedSectionIndex == 2 ? null : 2;
                   });
                 },
-                isExpanded: expandedSectionIndex == 2, 
+                isExpanded: expandedSectionIndex == 2,
                 subtitle: 'Class 7',
               ),
               SizedBox(height: 20)
