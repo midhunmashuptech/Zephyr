@@ -20,7 +20,7 @@ class _EnrolledCourseChapterState extends State<EnrolledCourseChapter> {
   }
 
   Future<void> loadChapters() async {
-    final loadProvider = Provider.of<EnrolledCourseProvider>(context);
+    final loadProvider = context.read<EnrolledCourseProvider>();
     await loadProvider.fetchEnrolledChapter(context, "1", "1");
   }
 
@@ -35,8 +35,8 @@ class _EnrolledCourseChapterState extends State<EnrolledCourseChapter> {
             children: [
               SizedBox(height: 10),
               EnrolledChapterCard(
-                title: "Mathematics",
-                items: enrolledCourseProvider.chapterList ,
+                title: "Physics",
+                items: enrolledCourseProvider.chapterList,
                 onSelected: (value) {},
                 onTap: () {
                   setState(() {
@@ -46,30 +46,30 @@ class _EnrolledCourseChapterState extends State<EnrolledCourseChapter> {
                 isExpanded: expandedSectionIndex == 0,
                 subtitle: 'Class 7',
               ),
-              EnrolledChapterCard(
-                title: "Physics",
-                items: ["Chapter 1", "Chapter 2", "Chapter 3"],
-                onSelected: (value) {},
-                onTap: () {
-                  setState(() {
-                    expandedSectionIndex = expandedSectionIndex == 1 ? null : 1;
-                  });
-                },
-                isExpanded: expandedSectionIndex == 1,
-                subtitle: 'Class 7',
-              ),
-              EnrolledChapterCard(
-                title: "Biology",
-                items: ["Chapter 1", "Chapter 2", "Chapter 3"],
-                onSelected: (value) {},
-                onTap: () {
-                  setState(() {
-                    expandedSectionIndex = expandedSectionIndex == 2 ? null : 2;
-                  });
-                },
-                isExpanded: expandedSectionIndex == 2,
-                subtitle: 'Class 7',
-              ),
+              // EnrolledChapterCard(
+              //   title: "Mathematics",
+              //   items: ["Chapter 1", "Chapter 2", "Chapter 3"],
+              //   onSelected: (value) {},
+              //   onTap: () {
+              //     setState(() {
+              //       expandedSectionIndex = expandedSectionIndex == 1 ? null : 1;
+              //     });
+              //   },
+              //   isExpanded: expandedSectionIndex == 1,
+              //   subtitle: 'Class 7',
+              // ),
+              // EnrolledChapterCard(
+              //   title: "Biology",
+              //   items: ["Chapter 1", "Chapter 2", "Chapter 3"],
+              //   onSelected: (value) {},
+              //   onTap: () {
+              //     setState(() {
+              //       expandedSectionIndex = expandedSectionIndex == 2 ? null : 2;
+              //     });
+              //   },
+              //   isExpanded: expandedSectionIndex == 2,
+              //   subtitle: 'Class 7',
+              // ),
               SizedBox(height: 20)
             ],
           ),
