@@ -9,7 +9,35 @@ class TestQuizScreen extends StatefulWidget {
   State<TestQuizScreen> createState() => _TestQuizScreenState();
 }
 
+class TestQuiz {
+  String title;
+  String description;
+  String correctOption;
+  List<String> options;
+  TestQuiz({
+    required this.title,
+    required this.description,
+    required this.correctOption,
+    required this.options,
+  });
+}
+
 class _TestQuizScreenState extends State<TestQuizScreen> {
+  List<TestQuiz> testquiz = [
+    TestQuiz(
+        title:
+            "Which gas is primarily responsible for the greenhouse effect on Earth?",
+        description:
+            "The greenhouse effect is the process by which certain gases in Earth’s atmosphere trap heat, keeping the planet warm enough to support life. Among these gases, carbon dioxide (CO₂) is one of the most significant contributors, along with methane and water vapor.",
+        options: [
+          "Oxygen (O₂)",
+          "Carbon dioxide (CO₂)",
+          "Nitrogen (N₂)",
+          "Argon (Ar)",
+          
+        ], 
+        correctOption: 'Carbon dioxide (CO₂)')
+  ];
   String? _selectedOption;
   @override
   Widget build(BuildContext context) {
@@ -35,16 +63,15 @@ class _TestQuizScreenState extends State<TestQuizScreen> {
                   child: Column(
                     children: [
                       Text(
-                        "Which gas is primarily responsible for the greenhouse effect on Earth?",
+                        testquiz[0].title,
                         style: TextStyle(
                             fontSize: 22, fontWeight: FontWeight.w500),
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                      Text(
-                          "The greenhouse effect is the process by which certain gases in Earth’s atmosphere trap heat, keeping the planet warm enough to support life. Among these gases, carbon dioxide (CO₂) is one of the most significant contributors, along with methane and water vapor.",
-                          style: TextStyle(fontWeight: FontWeight.w400))
+                      Text(testquiz[0].description,
+                        style: TextStyle(fontWeight: FontWeight.w400))
                     ],
                   ),
                 ),
@@ -55,10 +82,10 @@ class _TestQuizScreenState extends State<TestQuizScreen> {
               Column(
                 // mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Row(
+                  ListView.builder(itemBuilder: (context,radio)=> Row(
                     children: [
                       Radio<String>(
-                        value: "Oxygen (O₂)",
+                        value: testquiz[0].options[radio],
                         groupValue: _selectedOption,
                         onChanged: (value) {
                           setState(() {
@@ -66,54 +93,17 @@ class _TestQuizScreenState extends State<TestQuizScreen> {
                           });
                         },
                       ),
-                      Text("Oxygen (O₂)"),
+                      Text(testquiz[0].options[radio]),
                     ],
-                  ),
-                  Row(
-                    children: [
-                      Radio<String>(
-                        value: "Carbon dioxide (CO₂)",
-                        groupValue: _selectedOption,
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedOption = value;
-                          });
-                        },
-                      ),
-                      Text("Carbon dioxide (CO₂)"),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Radio<String>(
-                        value: "Nitrogen (N₂)",
-                        groupValue: _selectedOption,
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedOption = value;
-                          });
-                        },
-                      ),
-                      Text("Nitrogen (N₂)"),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Radio<String>(
-                        value: "Argon (Ar)",
-                        groupValue: _selectedOption,
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedOption = value;
-                          });
-                        },
-                      ),
-                      Text("Argon (Ar)"),
-                    ],
-                  ),
+                  ),)
+                  
+
+                  
                 ],
               ),
-              SizedBox(height: 15,),
+              SizedBox(
+                height: 15,
+              ),
               Column(
                 children: [
                   Row(
