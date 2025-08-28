@@ -22,18 +22,19 @@ class _MakeYourTestScreenState extends State<MakeYourTestScreen> {
 
   Future loadClassSubjectOptions() async {
     final loadProvider = context.read<MakeTestProvider>();
-    await loadProvider.fetchClassSubjectsOptions(context);
+    loadProvider.clearAllSelectedValues();
+    await loadProvider.fetchClassSubjectsOptions();
   }
 
-  Future loadChapterOptions() async {
-    final loadProvider = context.read<MakeTestProvider>();
-    await loadProvider.fetchClassSubjectsOptions(context);
-  }
+  // Future loadChapterOptions() async {
+  //   final loadProvider = context.read<MakeTestProvider>();
+  //   await loadProvider.fetchChapterOptions();
+  // }
 
-  Future loadTopicOptions() async {
-    final loadProvider = context.read<MakeTestProvider>();
-    await loadProvider.fetchClassSubjectsOptions(context);
-  }
+  // Future loadTopicOptions() async {
+  //   final loadProvider = context.read<MakeTestProvider>();
+  //   await loadProvider.fetchClassSubjectsOptions();
+  // }
 
   @override
   void initState() {
@@ -86,6 +87,8 @@ class _MakeYourTestScreenState extends State<MakeYourTestScreen> {
                       children: [
                         DropdownMenu(
                             hintText: "Number of questions",
+                                onSelected: (value) =>
+                                    makeTestProvider.setQuestionCount(int.parse(value ?? "10")),
                             width: MediaQuery.of(context).size.width * 0.8,
                             dropdownMenuEntries: [
                               DropdownMenuEntry(value: "5", label: "5"),
@@ -95,39 +98,45 @@ class _MakeYourTestScreenState extends State<MakeYourTestScreen> {
                             ]),
                         SizedBox(
                             height: MediaQuery.of(context).size.width * 0.02),
-                        
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             DropdownMenu(
-                            hintText: "Course",
-                            width: MediaQuery.of(context).size.width * 0.39,
-                            dropdownMenuEntries: [
-                              ...List.generate(
-                                  makeTestProvider.classOptions.length,
-                                  (index) => DropdownMenuEntry(
-                                      value: makeTestProvider.classes[index].id,
-                                      label: makeTestProvider
-                                              .classes[index].title ??
-                                          "Option Value"))
-                              // DropdownMenuEntry(value: "1", label: "Course 1"),
-                              // DropdownMenuEntry(value: "2", label: "Course 2"),
-                              // DropdownMenuEntry(value: "3", label: "Course 3"),
-                              // DropdownMenuEntry(value: "4", label: "Course 4")
-                            ]),
+                                hintText: "Class",
+                                onSelected: (value) =>
+                                    makeTestProvider.setSelectedClass(value),
+                                width: MediaQuery.of(context).size.width * 0.39,
+                                dropdownMenuEntries: [
+                                  ...List.generate(
+                                    makeTestProvider.classOptions.length,
+                                    (index) => DropdownMenuEntry(
+                                        value:
+                                            makeTestProvider.classes[index].id,
+                                        label: makeTestProvider
+                                                .classes[index].title ??
+                                            "Option Value"),
+                                  )
+                                  // DropdownMenuEntry(value: "1", label: "Course 1"),
+                                  // DropdownMenuEntry(value: "2", label: "Course 2"),
+                                  // DropdownMenuEntry(value: "3", label: "Course 3"),
+                                  // DropdownMenuEntry(value: "4", label: "Course 4")
+                                ]),
                             SizedBox(
                                 width:
                                     MediaQuery.of(context).size.width * 0.02),
                             DropdownMenu(
                                 hintText: "Subject",
+                                onSelected: (value) =>
+                                    makeTestProvider.setSelectedSubject(value),
                                 width: MediaQuery.of(context).size.width * 0.39,
                                 dropdownMenuEntries: List.generate(
-                                  makeTestProvider.subjectOptions.length,
-                                  (index) => DropdownMenuEntry(
-                                      value: makeTestProvider.subjects[index].id,
-                                      label: makeTestProvider
-                                              .subjects[index].title ??
-                                          "Option Value"))
+                                    makeTestProvider.subjectOptions.length,
+                                    (index) => DropdownMenuEntry(
+                                        value:
+                                            makeTestProvider.subjects[index].id,
+                                        label: makeTestProvider
+                                                .subjects[index].title ??
+                                            "Option Value"))
                                 // [
                                 //   DropdownMenuEntry(
                                 //       value: "1", label: "Chemistry"),
@@ -144,43 +153,42 @@ class _MakeYourTestScreenState extends State<MakeYourTestScreen> {
                         SizedBox(
                             height: MediaQuery.of(context).size.width * 0.02),
                         DropdownMenu(
-                                hintText: "Chapter",
-                                width: MediaQuery.of(context).size.width * 0.8,
-                                dropdownMenuEntries: [
-                                  DropdownMenuEntry(
-                                      value: "1", label: "Chapter 1"),
-                                  DropdownMenuEntry(
-                                      value: "2", label: "Chapter 2"),
-                                  DropdownMenuEntry(
-                                      value: "3", label: "Chapter 3"),
-                                  DropdownMenuEntry(
-                                      value: "4", label: "Chapter 4")
-                                ]),
+                            hintText: "Chapter",
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            onSelected: (value) =>
+                                makeTestProvider.setSelectedChapter(value),
+                            dropdownMenuEntries: List.generate(
+                                makeTestProvider.chapters.length,
+                                (index) => DropdownMenuEntry(
+                                    value: makeTestProvider.chapters[index].id,
+                                    label: makeTestProvider
+                                            .chapters[index].title ??
+                                        "Option Value"))),
                         SizedBox(
                             height: MediaQuery.of(context).size.width * 0.02),
                         DropdownMenu(
                             hintText: "Topic",
                             width: MediaQuery.of(context).size.width * 0.8,
-                            dropdownMenuEntries: [
-                              DropdownMenuEntry(
-                                  value: "1", label: "Mental Ability"),
-                              DropdownMenuEntry(
-                                  value: "2",
-                                  label: "Foundation of Mahematics"),
-                              DropdownMenuEntry(
-                                  value: "3", label: "Critical Thinking"),
-                              DropdownMenuEntry(
-                                  value: "4", label: "General Knowledge")
-                            ]),
+                            onSelected: (value) =>
+                                makeTestProvider.setSelectedTopic(value),
+                            dropdownMenuEntries: List.generate(
+                                makeTestProvider.topics.length,
+                                (index) => DropdownMenuEntry(
+                                    value: makeTestProvider.topics[index].id,
+                                    label:
+                                        makeTestProvider.topics[index].title ??
+                                            "Option Value"))),
                         SizedBox(height: 10),
                         DropdownMenu(
                             hintText: "Difficulty Level",
+                                onSelected: (value) =>
+                                    makeTestProvider.setDifficltyevel(value),
                             width: MediaQuery.of(context).size.width * 0.8,
                             dropdownMenuEntries: [
-                              DropdownMenuEntry(value: "1", label: "Low"),
-                              DropdownMenuEntry(value: "2", label: "Medium"),
-                              DropdownMenuEntry(value: "3", label: "High"),
-                              DropdownMenuEntry(value: "4", label: "Mixed")
+                              DropdownMenuEntry(value: "low", label: "Low"),
+                              DropdownMenuEntry(value: "medium", label: "Medium"),
+                              DropdownMenuEntry(value: "high", label: "High"),
+                              DropdownMenuEntry(value: "mixed", label: "Mixed")
                             ]),
                         SizedBox(height: 10),
                         CustomButton(
@@ -188,10 +196,11 @@ class _MakeYourTestScreenState extends State<MakeYourTestScreen> {
                           width: MediaQuery.of(context).size.width * 0.8,
                           color: AppColors.primaryOrange,
                           textcolor: AppColors.white,
-                          onPressed: () => Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => TestLoading())),
+                          onPressed: () => makeTestProvider.printAllSelectedValues()
+                          // Navigator.pushReplacement(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => TestLoading())),
                         ),
                       ],
                     ),

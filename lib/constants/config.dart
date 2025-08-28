@@ -14,7 +14,7 @@ const resetPasswordUrl = "${baseUrl}reset-password";
 const getClassSubjectOptionsUrl = "${baseUrl}get-class-and-subjects";
 const getChapterOptionsUrl = "${baseUrl}get-chapters";
 const getTopicOptionsUrl = "${baseUrl}get-topics";
-
+const generateAiQuizUrl = "${baseUrl}generate-ai-practice-quiz";
 
 
 // Base URL for webview
