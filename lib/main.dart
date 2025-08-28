@@ -7,7 +7,7 @@ import 'package:zephyr/common/screens/splash_screen.dart';
 import 'package:zephyr/common/service/notification_service.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/auth/provider/auth_provider.dart';
-import 'package:zephyr/features/test_series/screens/test_quiz_screen.dart';
+import 'package:zephyr/features/test/screens/test_quiz_screen.dart';
 
 void main() async {
   // print("App starting");

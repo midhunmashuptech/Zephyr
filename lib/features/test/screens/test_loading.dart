@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:zephyr/features/test/screens/test_quiz_screen.dart';
 import 'package:zephyr/features/test/screens/test_webview.dart';
 
 class TestLoading extends StatefulWidget {
@@ -18,7 +19,7 @@ class _TestLoadingState extends State<TestLoading> {
 
   Future<void> _navigate() async {
     await Future.delayed(Duration(seconds: 5));
-    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> TestWebview()));
+    Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> TestQuizScreen()));
   }
 
   @override

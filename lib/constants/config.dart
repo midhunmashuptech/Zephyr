@@ -9,6 +9,9 @@ const registerUrl = "${baseUrl}register";
 // Password rest API
 const resetPasswordUrl = "${baseUrl}reset-password";
 
+// Make Your Test API's
+const getClassSubjectOptionsUrl = "${baseUrl}get-class-and-subjects";
+
 
 
 // Base URL for webview
