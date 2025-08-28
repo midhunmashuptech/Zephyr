@@ -45,6 +45,7 @@ class ContentCard extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: MediaQuery.of(context).size.width * 0.04,
+                      fontWeight: FontWeight.w500,
                       color: color),
                 )
               ],

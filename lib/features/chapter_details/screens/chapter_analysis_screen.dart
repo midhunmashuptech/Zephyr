@@ -20,7 +20,7 @@ class ChapterAnalysisScreen extends StatelessWidget {
             SizedBox(width: 8),
             Text(
               "Chapter Analysis",
-              style: TextStyle(color:AppColors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color:AppColors.black, fontWeight: FontWeight.w500),
             ),
           ],
         ),
@@ -33,10 +33,10 @@ class ChapterAnalysisScreen extends StatelessWidget {
             /// ------------------ Complete Analysis ------------------
             Center(
               child: const Text(
-                "Complete Analysis",
+                "Overall Analysis",
                 style: TextStyle(
                     fontSize: 16,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w600,
                     color: AppColors.black),
               ),
             ),
@@ -101,7 +101,7 @@ class ChapterAnalysisScreen extends StatelessWidget {
                 "Individual Analysis",
                 style: TextStyle(
                     fontSize: 16,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w600,
                     color: AppColors.black),
               ),
             ),
@@ -185,7 +185,7 @@ class ChapterAnalysisScreen extends StatelessWidget {
             children: [
               _LegendText(label: "Completed", value: "${completed.toInt()}%", color: completedColor),
               const SizedBox(height: 4),
-              _LegendText(label: "Not Completed", value: "${notCompleted.toInt()}%", color: AppColors.lightGrey),
+              _LegendText(label: "Incomplete", value: "${notCompleted.toInt()}%", color: AppColors.lightGrey),
             ],
           ),
         ],

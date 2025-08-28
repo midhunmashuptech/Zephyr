@@ -7,9 +7,9 @@ import 'package:zephyr/api_files/api_service.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/constants/config.dart';
-import 'package:zephyr/features/login/model/login_model.dart';
-import 'package:zephyr/features/login/model/mobile_number_check_model.dart';
-import 'package:zephyr/features/login/screens/login.dart';
+import 'package:zephyr/features/auth/login/model/login_model.dart';
+import 'package:zephyr/features/auth/login/model/verify_phone_model.dart';
+import 'package:zephyr/features/auth/login/screens/login.dart';
 
 class LoginService {
   final ApiService _apiService = ApiService();
@@ -48,7 +48,7 @@ class LoginService {
     }
   }
 
-  Future<MobileNumberCheckModel> verifyPhoneNumber(
+  Future<VerifyPhoneNumberModel> verifyPhoneNumber(
     BuildContext context, {
     required String countryCode,
     required String phone,
@@ -61,8 +61,8 @@ class LoginService {
       },
     );
 
-    final mobileNumberCheckModel =
-        MobileNumberCheckModel.fromJson(responseJson);
-    return mobileNumberCheckModel;
+    final verifyPhoneNumberModel =
+        VerifyPhoneNumberModel.fromJson(responseJson);
+    return verifyPhoneNumberModel;
   }
 }

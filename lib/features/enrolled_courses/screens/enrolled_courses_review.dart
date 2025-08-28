@@ -7,7 +7,7 @@ import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/coursedetails/widgets/rating_widget.dart';
 import 'package:zephyr/features/coursedetails/widgets/review_card.dart';
 import 'package:zephyr/features/enrolled_courses/widgets/my_review_card.dart';
-import 'package:zephyr/features/login/widgets/custom_textfeild.dart';
+import 'package:zephyr/features/auth/login/widgets/custom_textfeild.dart';
 
 class EnrolledCoursesReview extends StatefulWidget {
   const EnrolledCoursesReview({super.key});

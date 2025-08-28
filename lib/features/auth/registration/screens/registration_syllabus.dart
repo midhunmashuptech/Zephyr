@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/features/registration/screens/registration_password.dart';
-import 'package:zephyr/features/registration/widgets/syllabus_widget.dart';
+import 'package:zephyr/features/auth/registration/screens/registration_password.dart';
+import 'package:zephyr/features/auth/registration/widgets/syllabus_widget.dart';
 
 class RegistrationSyllabus extends StatefulWidget {
   const RegistrationSyllabus({super.key});

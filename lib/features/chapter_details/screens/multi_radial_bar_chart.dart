@@ -12,7 +12,6 @@ class AnswerStatusRadialChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: AppColors.white,
@@ -27,16 +26,6 @@ class AnswerStatusRadialChart extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Text(
-            "Practical Tests",
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: AppColors.black,
-            ),
-          ),
-          const SizedBox(height: 12),
-
           // Chart
           SizedBox(
             height: 220,
@@ -63,28 +52,39 @@ class AnswerStatusRadialChart extends StatelessWidget {
               ],
             ),
           ),
+          const SizedBox(height: 12),
+          
+           Text(
+            "Practice Tests",
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: AppColors.black,
+            ),
+          ),
 
           const SizedBox(height: 16),
 
           // Legend texts below chart
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: chartData.map((data) {
-              return Padding(
+          Wrap(
+            spacing: 30,
+            children: [
+              Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4),
                 child: Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                      width: 14,
-                      height: 14,
+                      width: 10,
+                      height: 10,
                       decoration: BoxDecoration(
-                        color: data.color,
+                        color: AppColors.grey,
                         shape: BoxShape.circle,
                       ),
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      "${data.label} : ${data.text}",
+                      "Total : ${100}",
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
@@ -93,8 +93,33 @@ class AnswerStatusRadialChart extends StatelessWidget {
                     ),
                   ],
                 ),
-              );
-            }).toList(),
+              ),
+              ...List.generate(chartData.length, (index) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 10,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        color: chartData[index].color,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      "${chartData[index].label} : ${chartData[index].text}",
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ))
+            ]
           ),
         ],
       ),
