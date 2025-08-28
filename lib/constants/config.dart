@@ -5,6 +5,7 @@ const baseUrl = "https://zephyrdigital.in/api/";
 const verifyPhoneUrl = "${baseUrl}verify-phone";
 const loginUrl = "${baseUrl}login";
 const registerUrl = "${baseUrl}register";
+const enrolledChapterUrl ="${baseUrl}get-enrollment-chapters";
 
 // Password rest API
 const resetPasswordUrl = "${baseUrl}reset-password";
