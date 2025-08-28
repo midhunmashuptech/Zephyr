@@ -3,6 +3,7 @@ import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/constants/config.dart';
 import 'package:zephyr/features/test/model/chapters_options_model.dart';
 import 'package:zephyr/features/test/model/class_subject_options_model.dart';
+import 'package:zephyr/features/test/model/topic_options_model.dart';
 
 class MakeYourTestService {
   Future<ClassSubjectOptionsModel?> getClassSubjectOptionsModel() async {
@@ -43,7 +44,7 @@ class MakeYourTestService {
     }
   }
 
-  Future<ClassSubjectOptionsModel?> getTopicOptionsModel() async {
+  Future<TopicOptionsModel?> getTopicOptionsModel() async {
     final responseJson = await ApiService()
         .postRequest(url: getClassSubjectOptionsUrl, fields: {});
 
@@ -51,13 +52,13 @@ class MakeYourTestService {
       showSnackBar("Error", "Json Error");
       return null;
     } else {
-      final classSubjectOptionsModel =
-          ClassSubjectOptionsModel.fromJson(responseJson);
-      if (classSubjectOptionsModel.type == "success") {
-        return classSubjectOptionsModel;
-      } else {
-        return classSubjectOptionsModel;
-      }
+      // final topicOptionsModel =
+      //     TopicOptionsModel.fromJson(responseJson);
+      // if (topicOptionsModel.type == "success") {
+      //   return topicOptionsModel;
+      // } else {
+      //   return topicOptionsModel;
+      // }
     }
   }
 }

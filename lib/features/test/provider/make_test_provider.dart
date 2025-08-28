@@ -7,6 +7,12 @@ class MakeTestProvider extends ChangeNotifier {
   bool _isOptionsLoading = false;
   bool get isOptionsLoading => _isOptionsLoading;
 
+  bool _isChapterOptionsLoading = false;
+  bool get isChapterOptionsLoading => _isChapterOptionsLoading;
+
+  bool _isSubjectOptionsLoading = false;
+  bool get isSubjectOptionsLoading => _isSubjectOptionsLoading;
+
   List<Classes> _classes = [];
   List<Classes> get classes => _classes;
   List<Subjects> _subjects = [];
@@ -40,6 +46,60 @@ class MakeTestProvider extends ChangeNotifier {
     notifyListeners();
 
     _isOptionsLoading = false;
+    notifyListeners();
+  }
+
+
+  Future<void> fetchChapterOptions(BuildContext context) async {
+    _isChapterOptionsLoading = true;
+    notifyListeners();
+
+    final response = await MakeYourTestService().getChapterOptionsModel();
+    if (response == null) {
+      showSnackBar("Error", "Something went wrong! please try again");
+    } else {
+      if (response.type == "success") {
+        _classes = response.classes ?? [];
+        _subjects = response.subjects ?? [];
+
+        _classOptions = classes.map((clas) => clas.title ?? "").toList();
+        _subjectOptions =
+            subjects.map((subject) => subject.title ?? "").toList();
+      } else {
+        _classOptions = [];
+        _subjectOptions = [];
+      }
+    }
+    notifyListeners();
+
+    _isChapterOptionsLoading = false;
+    notifyListeners();
+  }
+
+
+  Future<void> fetchTopicOptions(BuildContext context) async {
+    _isSubjectOptionsLoading = true;
+    notifyListeners();
+
+    final response = await MakeYourTestService().getTopicOptionsModel();
+    if (response == null) {
+      showSnackBar("Error", "Something went wrong! please try again");
+    } else {
+      if (response.type == "success") {
+        _classes = response.classes ?? [];
+        _subjects = response.subjects ?? [];
+
+        _classOptions = classes.map((clas) => clas.title ?? "").toList();
+        _subjectOptions =
+            subjects.map((subject) => subject.title ?? "").toList();
+      } else {
+        _classOptions = [];
+        _subjectOptions = [];
+      }
+    }
+    notifyListeners();
+
+    _isSubjectOptionsLoading = false;
     notifyListeners();
   }
 }
