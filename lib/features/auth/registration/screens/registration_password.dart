@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/features/login/widgets/custom_textfeild.dart';
+import 'package:zephyr/features/auth/login/widgets/custom_textfeild.dart';
 
 class RegistrationPassword extends StatefulWidget {
   const RegistrationPassword({super.key});

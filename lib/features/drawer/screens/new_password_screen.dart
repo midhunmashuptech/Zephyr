@@ -4,7 +4,7 @@ import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/constants/widgets/layout_gradient.dart';
 import 'package:zephyr/features/drawer/services/drawer_service.dart';
-import 'package:zephyr/features/login/widgets/custom_textfeild.dart';
+import 'package:zephyr/features/auth/login/widgets/custom_textfeild.dart';
 
 class NewPasswordScreen extends StatefulWidget {
   const NewPasswordScreen({super.key});

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/features/login/widgets/custom_textfeild.dart';
-import 'package:zephyr/features/registration/screens/registration_syllabus.dart';
-import 'package:zephyr/features/registration/widgets/dropdown_widget.dart';
-import 'package:zephyr/features/registration/widgets/gender_widget.dart';
+import 'package:zephyr/features/auth/login/widgets/custom_textfeild.dart';
+import 'package:zephyr/features/auth/registration/screens/registration_syllabus.dart';
+import 'package:zephyr/features/auth/registration/widgets/dropdown_widget.dart';
+import 'package:zephyr/features/auth/registration/widgets/gender_widget.dart';
 
 class RegistrationScreen extends StatefulWidget {
   final String phoneNumber;

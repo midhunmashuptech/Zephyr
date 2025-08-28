@@ -6,7 +6,7 @@ import 'package:zephyr/common/widgets/onboarding_page2.dart';
 import 'package:zephyr/common/widgets/onboarding_page3.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/constants/widgets/layout_gradient.dart';
-import 'package:zephyr/features/login/screens/mobile_number_verification.dart';
+import 'package:zephyr/features/auth/login/screens/mobile_number_verification.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});

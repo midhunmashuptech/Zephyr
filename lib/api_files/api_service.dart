@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/features/login/screens/mobile_number_verification.dart';
+import 'package:zephyr/features/auth/login/screens/mobile_number_verification.dart';
 import 'api_exceptions.dart';
 
 class ApiService {

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:zephyr/api_files/api_exceptions.dart';
-import 'package:zephyr/features/login/screens/mobile_number_verification.dart';
+import 'package:zephyr/features/auth/login/screens/mobile_number_verification.dart';
 
 class ApiErrorHandler {
   static void handleError(ApiException exception) {

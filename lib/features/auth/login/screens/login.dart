@@ -6,8 +6,8 @@ import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/constants/widgets/layout_gradient.dart';
-import 'package:zephyr/features/login/screens/forgot_password_screen.dart';
-import 'package:zephyr/features/login/service/login_service.dart';
+import 'package:zephyr/features/auth/login/screens/forgot_password_screen.dart';
+import 'package:zephyr/features/auth/service/login_service.dart';
 
 class Login extends StatefulWidget {
   final String phoneNumber;
