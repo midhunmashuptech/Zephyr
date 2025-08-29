@@ -47,10 +47,12 @@ class MakeTestProvider extends ChangeNotifier {
   List<Questions> _aiGeneratedQuiz = [];
   List<Questions> get aiGeneratedQuiz => _aiGeneratedQuiz;
   int currentQuestion = 0;
+  int? correctOption;
 
   void nextQuestion() {
     if (currentQuestion < (aiGeneratedQuiz.length - 1)) {
       currentQuestion++;
+      correctOption = aiGeneratedQuiz[currentQuestion].correctOption;
       notifyListeners();
     }
   }
@@ -58,6 +60,7 @@ class MakeTestProvider extends ChangeNotifier {
   void previousQuestion() {
     if (currentQuestion > 0) {
       currentQuestion--;
+      correctOption = aiGeneratedQuiz[currentQuestion].correctOption;
       notifyListeners();
     }
   }
@@ -214,7 +217,7 @@ class MakeTestProvider extends ChangeNotifier {
     currentQuestion = 0;
     _aiGeneratedQuiz = [];
     notifyListeners();
-    
+
     final response = await MakeYourTestService().generateAiQuiz(
         (subjects)
                 .firstWhere((subject) => subject.id == selectedSubject)
@@ -235,6 +238,9 @@ class MakeTestProvider extends ChangeNotifier {
       if (response.type == "success") {
         print("success ${(response.questions ?? []).length}");
         _aiGeneratedQuiz = response.questions ?? [];
+        currentQuestion = 0;
+        correctOption = aiGeneratedQuiz[0].correctOption;
+
         notifyListeners();
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => TestQuizScreen()));
