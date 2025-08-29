@@ -177,7 +177,7 @@ class MyCourseCard extends StatelessWidget {
   }
 
   Widget courseStarRating() {
-    double rating = double.parse("0.0");
+    double rating = double.parse("4.4");
     final fullStarCount = rating.floor();
     final decimalPart = rating - fullStarCount;
     final halfStarCount = decimalPart >= 0.5 ? 1 : 0;
