@@ -3,10 +3,12 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/fa.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import 'package:zephyr/common/widgets/custom_search_bar.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/data_class/course.dart';
 import 'package:zephyr/features/assignments/screens/assignments_screen.dart';
+import 'package:zephyr/features/enrolled_courses/provider/enrolled_course_provider.dart';
 import 'package:zephyr/features/enrolled_courses/widgets/course_action_card.dart';
 import 'package:zephyr/features/enrolled_courses/widgets/my_course_card.dart';
 import 'package:zephyr/features/test/screens/make_your_test_screen.dart';
@@ -19,27 +21,30 @@ class MyCourseScreen extends StatefulWidget {
 }
 
 class _MyCourseScreenState extends State<MyCourseScreen> {
-  List<Course> courses = [];
-  List<Course> filteredCourses = [];
-  String? searchValue;
+  EnrolledCourseProvider enrolledCourseProvider = EnrolledCourseProvider();
 
   @override
   void initState() {
     super.initState();
-    courses = Course.getSampleCourses();
-    filteredCourses = courses;
+    loadCourses();
   }
 
-  filteredCourse() {
-    filteredCourses = courses
-        .where((course) => (course.name ?? "")
-            .toLowerCase()
-            .contains((searchValue ?? "").toLowerCase()))
-        .toList();
+  Future<void> loadCourses() async {
+    final loadCourseProvider = context.read<EnrolledCourseProvider>();
+    loadCourseProvider.fetchEnrolledCourse(context);
   }
+
+  // filteredCourse() {
+  //   filteredCourses = courses
+  //       .where((course) => (course.name ?? "")
+  //           .toLowerCase()
+  //           .contains((searchValue ?? "").toLowerCase()))
+  //       .toList();
+  // }
 
   @override
   Widget build(BuildContext context) {
+    enrolledCourseProvider = context.watch<EnrolledCourseProvider>();
     return Scaffold(
         body: SafeArea(
       child: SingleChildScrollView(
@@ -120,16 +125,15 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
               CustomSearchBar(
                 color: AppColors.primaryOrange,
                 onChanged: (value) {
-                  setState(() {
-                    searchValue = value;
-                    filteredCourse();
-                  });
+                  enrolledCourseProvider.filterCourses(value);
                 },
               ),
               SizedBox(
                 height: 10,
               ),
-              filteredCourses.isEmpty
+              enrolledCourseProvider.isCourseLoading
+              ? Center(child: CircularProgressIndicator())
+             : enrolledCourseProvider.filteredCourses.isEmpty
                   ? Center(
                       child: Column(
                         children: [
@@ -145,10 +149,10 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
                   : ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: filteredCourses.length,
+                      itemCount: enrolledCourseProvider.filteredCourses.length,
                       itemBuilder: (context, index) {
                         return MyCourseCard(
-                            index: index, course: filteredCourses[index]);
+                            index: index, course: enrolledCourseProvider.filteredCourses[index]);
                       },
                     ),
               SizedBox(
