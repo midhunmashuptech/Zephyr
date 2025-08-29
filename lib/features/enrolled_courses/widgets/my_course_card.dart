@@ -4,11 +4,12 @@ import 'package:iconify_flutter_plus/icons/bxs.dart';
 import 'package:iconify_flutter_plus/icons/fa.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/data_class/course.dart';
+import 'package:zephyr/features/enrolled_courses/model/enrolled_course_model.dart';
 import 'package:zephyr/features/enrolled_courses/screens/enrolled_course_detail_screen.dart';
 
 class MyCourseCard extends StatelessWidget {
   final int index;
-  final Course course;
+  final Subscriptions course;
   const MyCourseCard({super.key, required this.index, required this.course});
 
   @override
@@ -30,7 +31,7 @@ class MyCourseCard extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  Image.asset(course.image ?? "", fit: BoxFit.cover),
+                  Image.network(course.courseThumbnail ?? "", fit: BoxFit.cover),
                   Positioned(
                     bottom: 0,
                     left: 0,
@@ -89,7 +90,7 @@ class MyCourseCard extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            course.name ?? "",
+                                            course.courseTitle ?? "",
                                             style: TextStyle(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w600),
@@ -97,7 +98,7 @@ class MyCourseCard extends StatelessWidget {
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                           Text(
-                                            "by ${course.instructor}",
+                                            "by John sk",
                                             style: TextStyle(
                                                 fontSize: 14,
                                                 color: Colors.grey),
@@ -140,7 +141,7 @@ class MyCourseCard extends StatelessWidget {
                                 children: [
                                   Iconify(Bxs.videos, size: 16),
                                   SizedBox(width: 5),
-                                  Text("${course.videoCount} Videos")
+                                  Text("10 Videos")
                                 ],
                               ),
                               Row(
@@ -176,7 +177,7 @@ class MyCourseCard extends StatelessWidget {
   }
 
   Widget courseStarRating() {
-    double rating = double.parse(course.rating ?? "0.0");
+    double rating = double.parse("0.0");
     final fullStarCount = rating.floor();
     final decimalPart = rating - fullStarCount;
     final halfStarCount = decimalPart >= 0.5 ? 1 : 0;
@@ -195,7 +196,7 @@ class MyCourseCard extends StatelessWidget {
               size: 18, color: AppColors.ratingYellow);
         }),
         SizedBox(width: 5),
-        Text(course.rating ?? "",
+        Text("4.4",
             style:
                 TextStyle(fontWeight: FontWeight.w600, color: AppColors.white))
       ],
