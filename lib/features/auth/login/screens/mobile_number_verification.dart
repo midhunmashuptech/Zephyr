@@ -111,16 +111,16 @@ class _MobileNumberVerificationState extends State<MobileNumberVerification> {
                           color: AppColors.primaryBlue,
                           textcolor: AppColors.white,
                           onPressed: () {
-                            // checkMobileNumber();
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Login(
-                                    phoneNumber: _phoneNumber,
-                                    countryCode: _countryCode,
-                                    isoCode: _countryISOCode),
-                              ),
-                            );
+                            checkMobileNumber();
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => Login(
+                            //         phoneNumber: _phoneNumber,
+                            //         countryCode: _countryCode,
+                            //         isoCode: _countryISOCode),
+                            //   ),
+                            // );
                           },
                         ),
                 ],
