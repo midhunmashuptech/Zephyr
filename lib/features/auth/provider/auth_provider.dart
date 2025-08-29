@@ -34,15 +34,15 @@ class AuthProvider extends ChangeNotifier {
       if (response.type == "success" &&
           response.token != null &&
           response.token != "") {
-        
-
         // Writing token to Flutter secure Storage
         await _secureStorage.write(key: "token", value: response.token);
 
         // Reading token from Flutter secure Storage
         final token = await _secureStorage.read(key: "token");
 
-        context.read<UserDetailsProvider>().setUserDetails(response.user ?? User());
+        context
+            .read<UserDetailsProvider>()
+            .setUserDetails(response.user ?? User());
 
         print(token);
         Navigator.push(
@@ -63,6 +63,7 @@ class AuthProvider extends ChangeNotifier {
     if (response == null) {
       userExist == "error";
     } else {
+      print(response.exists);
       if (response.exists == true) {
         userExist = "true";
       } else if (response.exists == false) {

@@ -73,7 +73,7 @@ class LoginService {
     final responseJson = await _apiService.authPostRequest(
       url: verifyPhoneUrl,
       fields: {
-        "country_code": countryCode,
+        "country_code": countryCode.substring(1),
         "phone": phone,
       },
     );

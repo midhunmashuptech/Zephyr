@@ -87,8 +87,8 @@ class _MakeYourTestScreenState extends State<MakeYourTestScreen> {
                       children: [
                         DropdownMenu(
                             hintText: "Number of questions",
-                                onSelected: (value) =>
-                                    makeTestProvider.setQuestionCount(int.parse(value ?? "10")),
+                            onSelected: (value) => makeTestProvider
+                                .setQuestionCount(int.parse(value ?? "10")),
                             width: MediaQuery.of(context).size.width * 0.8,
                             dropdownMenuEntries: [
                               DropdownMenuEntry(value: "5", label: "5"),
@@ -181,27 +181,26 @@ class _MakeYourTestScreenState extends State<MakeYourTestScreen> {
                         SizedBox(height: 10),
                         DropdownMenu(
                             hintText: "Difficulty Level",
-                                onSelected: (value) =>
-                                    makeTestProvider.setDifficltyevel(value),
+                            onSelected: (value) =>
+                                makeTestProvider.setDifficltyevel(value),
                             width: MediaQuery.of(context).size.width * 0.8,
                             dropdownMenuEntries: [
                               DropdownMenuEntry(value: "low", label: "Low"),
-                              DropdownMenuEntry(value: "medium", label: "Medium"),
+                              DropdownMenuEntry(
+                                  value: "medium", label: "Medium"),
                               DropdownMenuEntry(value: "high", label: "High"),
                               DropdownMenuEntry(value: "mixed", label: "Mixed")
                             ]),
                         SizedBox(height: 10),
                         CustomButton(
-                          text: "Prepare Test",
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          color: AppColors.primaryOrange,
-                          textcolor: AppColors.white,
-                          onPressed: () => makeTestProvider.printAllSelectedValues()
-                          // Navigator.pushReplacement(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => TestLoading())),
-                        ),
+                            text: "Prepare Test",
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            color: AppColors.primaryOrange,
+                            textcolor: AppColors.white,
+                            onPressed: () async {
+                              makeTestProvider.printAllSelectedValues();
+                              await makeTestProvider.prepareGeneratedQuiz(context);
+                            }),
                       ],
                     ),
               SizedBox(height: 30),
