@@ -34,14 +34,6 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
     loadCourseProvider.fetchEnrolledCourse(context);
   }
 
-  // filteredCourse() {
-  //   filteredCourses = courses
-  //       .where((course) => (course.name ?? "")
-  //           .toLowerCase()
-  //           .contains((searchValue ?? "").toLowerCase()))
-  //       .toList();
-  // }
-
   @override
   Widget build(BuildContext context) {
     enrolledCourseProvider = context.watch<EnrolledCourseProvider>();
