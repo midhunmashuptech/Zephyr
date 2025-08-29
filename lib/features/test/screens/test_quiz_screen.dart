@@ -58,8 +58,11 @@ class _TestQuizScreenState extends State<TestQuizScreen> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
+              SizedBox(
+                height: 20,
+              ),
               Text(
-                "Question  ${makeTestProvider.currentQuestion + 1} of ${makeTestProvider.aiGeneratedQuiz.length}",
+                "Question ${makeTestProvider.currentQuestion + 1} of ${makeTestProvider.aiGeneratedQuiz.length}",
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
               SizedBox(
@@ -111,32 +114,65 @@ class _TestQuizScreenState extends State<TestQuizScreen> {
                                 .options ??
                             [])
                         .length,
-                    itemBuilder: (context, index) => Row(
-                      children: [
-                        Radio<String>(
-                          value: (makeTestProvider
-                                  .aiGeneratedQuiz[
-                                      makeTestProvider.currentQuestion]
-                                  .options ??
-                              [])[index],
-                          groupValue: _selectedOption,
-                          onChanged: (value) {
-                            setState(() {
-                              _selectedOption = value;
-                            });
-                          },
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        setState(() {
+                                  print(index);
+                                  _selectedOption = index.toString();
+                                });
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                width: 2,
+                                color: _selectedOption == null
+                                    ? AppColors.grey
+                                    : (_selectedOption == index.toString())
+                                        ? (makeTestProvider.correctOption
+                                                    .toString() ==
+                                                _selectedOption)
+                                            ? AppColors.primaryGreen
+                                            : AppColors.primaryRed
+                                        : AppColors.grey),
+                            borderRadius: BorderRadius.circular(10),
+                            color: _selectedOption == null
+                                    ? AppColors.white
+                                    : (_selectedOption == index.toString())
+                                        ? (makeTestProvider.correctOption
+                                                    .toString() ==
+                                                _selectedOption)
+                                            ? AppColors.primaryGreen.withAlpha(40)
+                                            : AppColors.primaryRed.withAlpha(40)
+                                        : AppColors.white),
+                        child: Row(
+                          children: [
+                            Radio<String>(
+                              value: index.toString(),
+                              groupValue: _selectedOption,
+                              onChanged: (value) {
+                                setState(() {
+                                  print(value);
+                                  _selectedOption = value;
+                                });
+                              },
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 4.0),
+                                child: Text(
+                                  (makeTestProvider
+                                          .aiGeneratedQuiz[
+                                              makeTestProvider.currentQuestion]
+                                          .options ??
+                                      [])[index],
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        Expanded(
-                          child: Text(
-                            (makeTestProvider
-                                    .aiGeneratedQuiz[
-                                        makeTestProvider.currentQuestion]
-                                    .options ??
-                                [])[index],
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   )
                 ],
@@ -146,44 +182,82 @@ class _TestQuizScreenState extends State<TestQuizScreen> {
               ),
               Column(
                 children: [
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     ElevatedButton(
+                  //         onPressed: makeTestProvider.currentQuestion == 0
+                  //             ? null
+                  //             : () {
+                  //                 setState(() {
+                  //                   isOpen = false;
+                  //                 });
+                  //                 makeTestProvider.previousQuestion();
+                  //               },
+                  //         style: ElevatedButton.styleFrom(
+                  //             backgroundColor: AppColors.primaryOrange,
+                  //             textStyle: TextStyle(
+                  //                 fontSize: 16, fontWeight: FontWeight.w400)),
+                  //         child: Text(
+                  //           "Previous",
+                  //           style: TextStyle(color: AppColors.white),
+                  //         )),
+                  //     ElevatedButton(
+                  //         onPressed: makeTestProvider.currentQuestion ==
+                  //                 (makeTestProvider.aiGeneratedQuiz.length - 1)
+                  //             ? null
+                  //             : () {
+                  //                 setState(() {
+                  //                   isOpen = false;
+                  //                 });
+                  //                 makeTestProvider.nextQuestion();
+                  //               },
+                  //         style: ElevatedButton.styleFrom(
+                  //             backgroundColor: AppColors.primaryOrange,
+                  //             textStyle: TextStyle(
+                  //                 fontSize: 16, fontWeight: FontWeight.w400)),
+                  //         child: Text(
+                  //           "Next",
+                  //           style: TextStyle(color: AppColors.white),
+                  //         )),
+                  //   ],
+                  // ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ElevatedButton(
+                      Expanded(
+                        child: CustomButton(
+                          text: "Previous",
+                          color: AppColors.primaryOrange,
+                          textcolor: AppColors.white,
                           onPressed: makeTestProvider.currentQuestion == 0
                               ? null
                               : () {
                                   setState(() {
+                                    _selectedOption = null;
                                     isOpen = false;
                                   });
                                   makeTestProvider.previousQuestion();
                                 },
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primaryOrange,
-                              textStyle: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w400)),
-                          child: Text(
-                            "Previous",
-                            style: TextStyle(color: AppColors.white),
-                          )),
-                      ElevatedButton(
+                        ),
+                      ),
+                      SizedBox(width: 20),
+                      Expanded(
+                        child: CustomButton(
+                          text: "Next",
+                          color: AppColors.primaryOrange,
+                          textcolor: AppColors.white,
                           onPressed: makeTestProvider.currentQuestion ==
                                   (makeTestProvider.aiGeneratedQuiz.length - 1)
                               ? null
                               : () {
                                   setState(() {
                                     isOpen = false;
+                                    _selectedOption = null;
                                   });
                                   makeTestProvider.nextQuestion();
                                 },
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primaryOrange,
-                              textStyle: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w400)),
-                          child: Text(
-                            "Next",
-                            style: TextStyle(color: AppColors.white),
-                          )),
+                        ),
+                      ),
                     ],
                   ),
                   SizedBox(
