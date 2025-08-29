@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/bxs.dart';
 import 'package:iconify_flutter_plus/icons/fa.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/data_class/course.dart';
 import 'package:zephyr/features/enrolled_courses/model/enrolled_course_model.dart';
@@ -31,7 +33,15 @@ class MyCourseCard extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  Image.network(course.courseThumbnail ?? "", fit: BoxFit.cover),
+                  CachedNetworkImage(imageUrl: course.courseThumbnail ?? "",fit: BoxFit.cover,
+                   placeholder: (_, __) => Shimmer.fromColors(
+                                      baseColor: AppColors.grey,
+                                      highlightColor: AppColors.lightGrey,
+                                      child: Container(
+                                        height: 180,
+                                        color: AppColors.grey),
+                                    ),
+                  ),
                   Positioned(
                     bottom: 0,
                     left: 0,
