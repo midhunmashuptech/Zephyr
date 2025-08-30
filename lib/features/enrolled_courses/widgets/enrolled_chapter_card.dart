@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/chapter_details/screens/chapter_details_screen.dart';
+import 'package:zephyr/features/enrolled_courses/model/course_detail_model.dart';
 
 class EnrolledChapterCard extends StatefulWidget {
   final String title;
-  final List<String> items;
-  final Function(String) onSelected;
+  final List<Chapters> items;
+  final Function(Chapters) onSelected;
   final void Function() onTap;
   final bool isExpanded;
   final String subtitle;
@@ -58,7 +59,7 @@ class _EnrolledChapterCardState extends State<EnrolledChapterCard> {
               padding: const EdgeInsets.all(2.0),
               child: ListTile(
                 tileColor: AppColors.white,
-                title: Text(item, style: const TextStyle(fontSize: 16)),
+                title: Text(item.chapterTitle ?? "Chapter Title", style: const TextStyle(fontSize: 16)),
                 subtitle: Text(widget.subtitle,style: TextStyle(color: AppColors.primaryBlue),),
                 trailing: Icon(Icons.arrow_forward_ios,color: AppColors.black,size: 18,),
                 onTap: () {
