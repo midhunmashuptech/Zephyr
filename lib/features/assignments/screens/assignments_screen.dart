@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/constants/widgets/layout_gradient.dart';
 import 'package:zephyr/features/assignments/widgets/assignment_card.dart';
 
 class AssignmentsScreen extends StatefulWidget {

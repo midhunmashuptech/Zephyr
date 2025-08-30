@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/common/model/user.dart';
 import 'package:zephyr/common/provider/user_details_provider.dart';
 import 'package:zephyr/common/screens/bottom_nav_screen.dart';
-import 'package:zephyr/features/auth/login/model/verify_phone_model.dart';
 import 'package:zephyr/features/auth/service/login_service.dart';
+import 'package:intl_phone_field/phone_number.dart';
 
 class AuthProvider extends ChangeNotifier {
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
@@ -20,6 +18,32 @@ class AuthProvider extends ChangeNotifier {
   bool get isLogining => _isLogining;
 
   String? userExist;
+
+  String countryISOCode = 'IN';
+  String countryCode = '';
+  String phoneNumber = '';
+  String errorText = '';
+  bool isValidNumber = false;
+
+  /// Update phone number & validate
+  void updatePhoneNumber(PhoneNumber value) {
+    countryISOCode = value.countryISOCode;
+    countryCode = value.countryCode;
+    phoneNumber = value.number;
+
+    if (phoneNumber.isEmpty) {
+      errorText = "Mobile number is required";
+      isValidNumber = false;
+    } else if (!value.isValidNumber()) {
+      errorText = "Enter a valid mobile number";
+      isValidNumber = false;
+    } else {
+      errorText = '';
+      isValidNumber = true;
+    }
+
+    notifyListeners();
+  }
 
   Future<void> userLogin(BuildContext context, String phone, String countryCode,
       String password) async {
