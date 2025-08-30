@@ -40,7 +40,7 @@ class CustomTextField extends StatelessWidget {
         obscureText: obscureText,
         focusNode: focusNode,
         decoration: InputDecoration(
-            hintText: hintText,
+            hintText: "Enter your $hintText",
             border: OutlineInputBorder(),
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
@@ -49,7 +49,8 @@ class CustomTextField extends StatelessWidget {
             suffixIcon: suffixIcon,
             prefixIcon: prefixIcon),
         onTap: onTap,
-        validator: validator,
+         validator: validator ??
+      (value) => value == null || value.isEmpty ? '$hintText is required' : null
       ),
     );
   }
