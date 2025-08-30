@@ -34,18 +34,43 @@ class _EnrolledCourseChapterState extends State<EnrolledCourseChapter> {
           child: Column(
             children: [
               SizedBox(height: 10),
-              EnrolledChapterCard(
-                title: "Physics",
-                items: enrolledCourseProvider.chapterList,
-                onSelected: (value) {},
-                onTap: () {
-                  setState(() {
-                    expandedSectionIndex = expandedSectionIndex == 0 ? null : 0;
-                  });
-                },
-                isExpanded: expandedSectionIndex == 0,
-                subtitle: 'Class 7',
-              ),
+              ...List.generate(
+                  (enrolledCourseProvider.selectedCourseDetails.subjects ?? [])
+                      .length, (index) {
+                return EnrolledChapterCard(
+                  title:
+                      (enrolledCourseProvider.selectedCourseDetails.subjects ??
+                                  [])[index]
+                              .subject ??
+                          "Subject Name",
+                  items: (enrolledCourseProvider.selectedCourseDetails.subjects ?? [])[index].chapters ?? [],
+                  onSelected: (value) {},
+                  onTap: () {
+                    setState(() {
+                      expandedSectionIndex =
+                          expandedSectionIndex == 0 ? null : 0;
+                    });
+                  },
+                  isExpanded: expandedSectionIndex == 0,
+                  subtitle: (enrolledCourseProvider.selectedCourseDetails.subjects ??
+                                  [])[index]
+                              .className ??
+                          "Class Name",
+                );
+              }),
+              // EnrolledChapterCard(
+              //   title: "Physics",
+              //   items: enrolledCourseProvider.chapterList,
+              //   onSelected: (value) {},
+              //   onTap: () {
+              //     setState(() {
+              //       expandedSectionIndex = expandedSectionIndex == 0 ? null : 0;
+              //     });
+              //   },
+              //   isExpanded: expandedSectionIndex == 0,
+              //   subtitle: 'Class 7',
+              // ),
+
               // EnrolledChapterCard(
               //   title: "Mathematics",
               //   items: ["Chapter 1", "Chapter 2", "Chapter 3"],

@@ -9,6 +9,7 @@ const registerUrl = "${baseUrl}register";
 //enrolled courses API's
 const enrolledCourseUrl ="${baseUrl}get-subscribed-courses";
 const enrolledChapterUrl ="${baseUrl}get-enrollment-chapters";
+const courseDetailUrl ="${baseUrl}get-course-details";
 
 // Password rest API
 const resetPasswordUrl = "${baseUrl}reset-password";

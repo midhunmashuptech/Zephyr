@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:zephyr/api_files/api_service.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/constants/config.dart';
+import 'package:zephyr/features/enrolled_courses/model/course_detail_model.dart';
 import 'package:zephyr/features/enrolled_courses/model/enrolled_chapter_model.dart';
 import 'package:zephyr/features/enrolled_courses/model/enrolled_course_model.dart';
 
@@ -37,7 +38,7 @@ class EnrolledCourseService {
 
   //Enrolled Course
   Future<EnrolledCourseModel?> getEnrolledCourse({
-   required BuildContext context,
+    required BuildContext context,
   }) async {
     final responseJson = await _apiService.getRequest(url: enrolledCourseUrl);
 
@@ -48,6 +49,25 @@ class EnrolledCourseService {
       final enrolledCourseModel = EnrolledCourseModel.fromJson(responseJson);
       if (enrolledCourseModel.type == "success") {
         return enrolledCourseModel;
+      }
+      return null;
+    }
+  }
+
+  Future<CourseDetailModel?> getCourseDetails({
+    required String courseId,
+    required BuildContext context,
+  }) async {
+    final responseJson = await _apiService
+        .postRequest(url: courseDetailUrl, fields: {"course_id": courseId});
+
+    if (responseJson == null || responseJson.isEmpty) {
+      showSnackBar("Error", "Json Error");
+      return null;
+    } else {
+      final courseDetailModel = CourseDetailModel.fromJson(responseJson);
+      if (courseDetailModel.type == "success") {
+        return courseDetailModel;
       }
       return null;
     }
