@@ -25,6 +25,16 @@ class AuthProvider extends ChangeNotifier {
   String errorText = '';
   bool isValidNumber = false;
 
+  bool _isPasswordEmpty = false;
+  bool get isPasswordEmpty => _isPasswordEmpty;
+  String password = '';
+
+  void updatePasswordStatus(bool value, String typedPassword) {
+    _isPasswordEmpty = value;
+    password = typedPassword;
+    notifyListeners();
+  }
+
   /// Update phone number & validate
   void updatePhoneNumber(PhoneNumber value) {
     countryISOCode = value.countryISOCode;
@@ -45,13 +55,13 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> userLogin(BuildContext context, String phone, String countryCode,
-      String password) async {
+  Future<void> userLogin(BuildContext context, String password) async {
     _isLogining = true;
+    debugPrint("true $isLogining");
     notifyListeners();
 
     final response = await LoginService().login(context,
-        countryCode: countryCode, phone: phone, password: password);
+        countryCode: countryCode, phone: phoneNumber, password: password);
     if (response == null) {
       debugPrint("Something went wrong! please try again");
       _isLogining = false;
@@ -74,7 +84,10 @@ class AuthProvider extends ChangeNotifier {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => BottomNavScreen()),
-        );
+        ).then((_) {
+          _isLogining = false;
+          notifyListeners();
+        });
       } else {
         _isLogining = false;
         notifyListeners();
@@ -102,6 +115,8 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
 
     _isVerifyingPhone = false;
+    _isPasswordEmpty = false;
+    password = '';
     notifyListeners();
   }
 }

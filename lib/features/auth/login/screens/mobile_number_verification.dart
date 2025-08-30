@@ -155,7 +155,6 @@ class _MobileNumberVerificationState extends State<MobileNumberVerification> {
   AuthProvider authProvider = AuthProvider();
 
   Future<void> checkMobileNumber() async {
-    authProvider = context.watch<AuthProvider>();
     if (!authProvider.isValidNumber) return; // prevent call if invalid
 
     await authProvider.verifyPhoneNumber(
