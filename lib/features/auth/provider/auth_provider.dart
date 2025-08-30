@@ -53,7 +53,9 @@ class AuthProvider extends ChangeNotifier {
     final response = await LoginService().login(context,
         countryCode: countryCode, phone: phone, password: password);
     if (response == null) {
-      showSnackBar("Error", "Something went wrong! please try again");
+      debugPrint("Something went wrong! please try again");
+      _isLogining = false;
+      notifyListeners();
     } else {
       if (response.type == "success" &&
           response.token != null &&
@@ -73,6 +75,9 @@ class AuthProvider extends ChangeNotifier {
           context,
           MaterialPageRoute(builder: (context) => BottomNavScreen()),
         );
+      } else {
+        _isLogining = false;
+        notifyListeners();
       }
     }
   }

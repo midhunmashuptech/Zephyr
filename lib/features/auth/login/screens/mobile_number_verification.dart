@@ -153,7 +153,6 @@ class MobileNumberVerification extends StatefulWidget {
 
 class _MobileNumberVerificationState extends State<MobileNumberVerification> {
   AuthProvider authProvider = AuthProvider();
-  // ✅ to track number validation
 
   Future<void> checkMobileNumber() async {
     authProvider = context.watch<AuthProvider>();
