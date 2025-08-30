@@ -12,7 +12,10 @@ class RegistrationScreen extends StatefulWidget {
   final String countryCode;
   final String isoCode;
   const RegistrationScreen(
-      {required this.isoCode, required this.countryCode, required this.phoneNumber, super.key});
+      {required this.isoCode,
+      required this.countryCode,
+      required this.phoneNumber,
+      super.key});
 
   @override
   State<RegistrationScreen> createState() => _RegistrationScreenState();
@@ -100,51 +103,49 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ),
                     SizedBox(height: 10),
                     CustomTextField(
-                      hintText: 'Enter your Full Name',
+                      hintText: 'Full Name',
                       controller: fnameController,
                       suffixIcon: Icon(Icons.person),
                     ),
                     SizedBox(height: 5),
                     GestureDetector(
-                      onTap: () async {
-                        DateTime? pickedDate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(1900),
-                          lastDate: DateTime.now(),
-                        );
-                        if (pickedDate != null) {
-                          setState(() {
-                            dobController.text =
-                                "${pickedDate.toLocal()}".split(' ')[0];
-                          });
-                        }
-                      },
-                      child: AbsorbPointer(
-                      child: CustomTextField(
-                        hintText: 'Enter your Date of Birth',
-                        controller: dobController,
-                        suffixIcon: Icon(Icons.calendar_month),
-                      )
-                      )
-                    ),
+                        onTap: () async {
+                          DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime.now(),
+                          );
+                          if (pickedDate != null) {
+                            setState(() {
+                              dobController.text =
+                                  "${pickedDate.toLocal()}".split(' ')[0];
+                            });
+                          }
+                        },
+                        child: AbsorbPointer(
+                            child: CustomTextField(
+                          hintText: 'Date of Birth',
+                          controller: dobController,
+                          suffixIcon: Icon(Icons.calendar_month),
+                        ))),
                     SizedBox(height: 5),
                     CustomTextField(
-                      hintText: 'Enter your Email',
+                      hintText: 'Email',
                       keyboardType: TextInputType.emailAddress,
                       controller: emailController,
                       suffixIcon: Icon(Icons.email),
                     ),
                     SizedBox(height: 5),
                     CustomTextField(
-                      hintText: 'Enter your School Name',
+                      hintText: 'School Name',
                       obscureText: true,
                       controller: schoolController,
                       suffixIcon: Icon(Icons.school),
                     ),
                     SizedBox(height: 5),
                     DropdownWidget(
-                      label: 'Enter your Class',
+                      label: 'Class',
                       items: classNames,
                       controller: classController,
                     ),
@@ -174,10 +175,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         ...List.generate(
                             genderOptions.length,
                             (index) => Expanded(
-                                child: GestureDetector(
+                                    child: GestureDetector(
                                   onTap: () => setState(() {
-                                selectedGender = index;
-                              }),
+                                    selectedGender = index;
+                                  }),
                                   child: GenderWidget(
                                       index: index,
                                       selectedIndex: selectedGender,
@@ -195,11 +196,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           color: AppColors.primaryGreen,
                           textcolor: AppColors.white,
                           onPressed: () {
-                            Navigator.push(
+                            if (_formKey.currentState!.validate()) {
+                              Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        RegistrationSyllabus()));
+                                  builder: (context) => RegistrationSyllabus(),
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text(
+                                        "Please fill all required fields")),
+                              );
+                            }
                           },
                         );
                       },
