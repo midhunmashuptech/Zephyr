@@ -29,28 +29,30 @@ class _LoginState extends State<Login> {
   AuthProvider authProvider = AuthProvider();
   final TextEditingController mobileController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  bool otpStatus = false;
-  String _countryCode = '';
-  String _phoneNumber = '';
-  String _errorText = '';
 
   @override
   void initState() {
-    _countryCode = widget.countryCode;
-    _phoneNumber = widget.phoneNumber;
     super.initState();
+    // Listener for password field
+    passwordController.addListener(() {
+      updatePasswordStatus();
+    });
   }
 
-  // Future<void> loginUser() async {
-  //   await LoginService().login(context,
-  //       countryCode: _countryCode,
-  //       phone: _phoneNumber,
-  //       password: passwordController.text);
-  // }
+  void updatePasswordStatus() {
+    final providerAuth = context.read<AuthProvider>();
+    providerAuth.updatePasswordStatus(passwordController.text.trim().isEmpty, passwordController.text);
+  }
+
+  @override
+  void dispose() {
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    authProvider = context.read<AuthProvider>();
+    authProvider = context.watch<AuthProvider>();
     return Scaffold(
       backgroundColor: AppColors.white,
       body: SingleChildScrollView(
@@ -64,47 +66,45 @@ class _LoginState extends State<Login> {
                   child: Lottie.asset('assets/lottie/login.json',
                       height: 300, width: 300),
                 ),
-                Text(
+                const Text(
                   "Welcome Back!",
                   style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600),
                 ),
-                SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                const SizedBox(height: 10),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0),
                   child: Text(
                     "Log in to continue your personalized learning experience.",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                     textAlign: TextAlign.center,
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
+                /// Phone field
                 IntlPhoneField(
                   enabled: false,
                   initialValue: widget.phoneNumber,
                   decoration: InputDecoration(
                     labelText: 'Mobile Number',
-                    errorText: _errorText.isNotEmpty ? _errorText : null,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),
                       borderSide: const BorderSide(),
                     ),
                   ),
-                  onChanged: (value) {
-                    setState(() {
-                      _countryCode = value.countryCode;
-                      _phoneNumber = value.number;
-                      _errorText = '';
-                    });
-                  },
                   initialCountryCode: widget.isoCode,
                 ),
+
                 const SizedBox(height: 15),
+
+                /// Password field
                 TextFormField(
                   controller: passwordController,
+                  obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'Password',
-                    errorText: _errorText.isNotEmpty ? _errorText : null,
+                    errorText:
+                        authProvider.isPasswordEmpty ? "Password is required" : null,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),
                       borderSide: const BorderSide(),
@@ -118,12 +118,15 @@ class _LoginState extends State<Login> {
                     TextButton(
                       onPressed: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ForgotPasswordScreen(
-                                      phoneNumber: widget.phoneNumber,
-                                      countryCode: widget.countryCode,
-                                    )));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ForgotPasswordScreen(
+                              phoneNumber: widget.phoneNumber,
+                              countryCode: widget.countryCode,
+                              isoCode: widget.isoCode,
+                            ),
+                          ),
+                        );
                       },
                       child: Text(
                         "Forgot Password?",
@@ -135,18 +138,21 @@ class _LoginState extends State<Login> {
 
                 /// Login Button
                 authProvider.isLogining
-                ? Center(child: CircularProgressIndicator())
-                : CustomButton(
-                  text: "Login",
-                  color: AppColors.primaryBlue,
-                  onPressed: () async {
-                    // loginUser();
-                    await authProvider.userLogin(context, _phoneNumber, _countryCode,
-                        passwordController.text);
-                  },
-                  textcolor: AppColors.white,
-                ),
-                SizedBox(height: 20),
+                    ? const Center(child: CircularProgressIndicator())
+                    : CustomButton(
+                        text: "Login",
+                        color: authProvider.isPasswordEmpty
+                            ? Colors.grey // Disabled color
+                            : AppColors.primaryBlue,
+                        onPressed: authProvider.password == ""
+                            ? null // Disable button if password empty
+                            : () async {
+                                await authProvider.userLogin(
+                                    context, passwordController.text);
+                              },
+                        textcolor: AppColors.white,
+                      ),
+                const SizedBox(height: 20),
               ],
             ),
           ),

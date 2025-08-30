@@ -9,9 +9,11 @@ import 'package:zephyr/constants/app_constants.dart';
 class ForgotPasswordScreen extends StatefulWidget {
   final String phoneNumber;
   final String countryCode;
+  final String isoCode;
   const ForgotPasswordScreen({
     required this.phoneNumber,
     required this.countryCode,
+    required this.isoCode,
     super.key});
 
   @override
@@ -99,7 +101,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       _errorText = '';
                     });
                   },
-                  initialCountryCode: widget.countryCode,
+                  initialCountryCode: widget.isoCode,
                 ),
                 const SizedBox(height: 20),
                 Row(
