@@ -39,7 +39,7 @@ class MyCourseCard extends StatelessWidget {
                                       highlightColor: AppColors.lightGrey,
                                       child: Container(
                                         height: 180,
-                                        color: AppColors.grey),
+                                        color: AppColors.white),
                                     ),
                   ),
                   Positioned(

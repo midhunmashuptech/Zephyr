@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
@@ -19,50 +21,55 @@ class LoginService {
   }) async {
     print(countryCode + " " + phone + " " + password);
 
-    // final request = http.MultipartRequest('POST', Uri.parse(loginUrl));
-    // request.fields.addAll({
-    //   "country_code": countryCode.substring(1),
-    //   "phone": phone,
-    //   "password": password,
-    // });
+    final request = http.MultipartRequest('POST', Uri.parse(loginUrl));
+    request.fields.addAll({
+      "country_code": countryCode.substring(1),
+      "phone": phone,
+      "password": password,
+    });
 
-    // final response = await request.send();
+    final response = await request.send();
 
-    final responseJson = await _apiService.authPostRequest(
-      url: loginUrl,
-      fields: {
-        "country_code": countryCode.substring(1),
-        "phone": phone,
-        "password": password,
-      },
-    );
+    // final responseJson = await _apiService.authPostRequest(
+    //   url: loginUrl,
+    //   fields: {
+    //     "country_code": countryCode.substring(1),
+    //     "phone": phone,
+    //     "password": password,
+    //   },
+    // );
 
-    if (responseJson == null || responseJson.isEmpty) {
-      showSnackBar("Error", "Json Error");
-      return null;
-    } else {
+    // if (responseJson == null || responseJson.isEmpty) {
+    //   showSnackBar("Error", "Json Error");
+    //   return null;
+    // } else {
+    //   final loginModel = LoginModel.fromJson(responseJson);
+    //   if (loginModel.type == "success") {
+    //     return loginModel;
+    //   }
+    //   return null;
+    // }
+
+    if (response.statusCode == 200) {
+      final responseBody = await response.stream.bytesToString();
+      final responseJson = json.decode(responseBody);
+
       final loginModel = LoginModel.fromJson(responseJson);
       if (loginModel.type == "success") {
         return loginModel;
+      } else {
+        showSnackBar("Invalid Credentials",
+            loginModel.message ?? "Your password is incorrect!");
       }
-      return null;
+    } else if (response.statusCode == 401) {
+      final responseBody = await response.stream.bytesToString();
+      final responseJson = json.decode(responseBody);
+
+      final loginModel = LoginModel.fromJson(responseJson);
+      showSnackBar(loginModel.message ?? "Invalid Credentials",
+          "Your password is incorrect!");
     }
-
-    // if (response.statusCode == 200) {
-    //   final responseBody = await response.stream.bytesToString();
-    //   final responseJson = json.decode(responseBody);
-
-    //   final loginModel = LoginModel.fromJson(responseJson);
-    //   if (loginModel.type == "success") {
-    //     Navigator.pushReplacement(
-    //         context, MaterialPageRoute(builder: (_) => BottomNavScreen()));
-    //   } else {
-    //     showSnackBar("Invalid Credentials",
-    //         loginModel.message ?? "Your password is incorrect!");
-    //   }
-    // } else if (response.statusCode == 401) {
-    //   showSnackBar("Invalid Credentials", "Your password is incorrect!");
-    // }
+    return null;
   }
 
   Future<VerifyPhoneNumberModel?> verifyPhoneNumber(

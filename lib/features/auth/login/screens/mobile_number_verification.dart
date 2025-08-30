@@ -21,7 +21,6 @@ class MobileNumberVerification extends StatefulWidget {
 class _MobileNumberVerificationState extends State<MobileNumberVerification> {
   AuthProvider authProvider = AuthProvider();
 
-  bool otpStatus = false;
   String _countryISOCode = 'IN';
   String _countryCode = '';
   String _phoneNumber = '';
@@ -84,7 +83,6 @@ class _MobileNumberVerificationState extends State<MobileNumberVerification> {
                   const SizedBox(height: 10),
                   // Mobile number field
                   IntlPhoneField(
-                    enabled: !otpStatus,
                     decoration: InputDecoration(
                       labelText: 'Mobile Number',
                       errorText: _errorText.isNotEmpty ? _errorText : null,

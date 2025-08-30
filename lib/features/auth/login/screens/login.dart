@@ -134,7 +134,9 @@ class _LoginState extends State<Login> {
                 ),
 
                 /// Login Button
-                CustomButton(
+                authProvider.isLogining
+                ? Center(child: CircularProgressIndicator())
+                : CustomButton(
                   text: "Login",
                   color: AppColors.primaryBlue,
                   onPressed: () async {
