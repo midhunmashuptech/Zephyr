@@ -23,7 +23,7 @@ class _SyllabusWidgetState extends State<SyllabusWidget> {
       clipBehavior: Clip.none,
       children: [
         Container(
-          width: widget.index == widget.selectedIndex ? MediaQuery.of(context).size.width : MediaQuery.of(context).size.width * 0.8,
+          width: (widget.index + 1) == widget.selectedIndex ? MediaQuery.of(context).size.width : MediaQuery.of(context).size.width * 0.8,
           decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
@@ -44,12 +44,12 @@ class _SyllabusWidgetState extends State<SyllabusWidget> {
                 style: TextStyle(
                     fontWeight: FontWeight.w500,
                     color: AppColors.white,
-                    fontSize: widget.index == widget.selectedIndex ? 34 : 30),
+                    fontSize: (widget.index + 1) == widget.selectedIndex ? 34 : 30),
               ),
             ),
           ),
         ),
-        if(widget.index == widget.selectedIndex)
+        if((widget.index + 1) == widget.selectedIndex)
         Positioned(
           right: -5,
           top: -5,

@@ -31,16 +31,29 @@ class AuthProvider extends ChangeNotifier {
   List<dropdownModel.Syllabus> get syllabusDropdownOptions =>
       _syllabusDropdownOptions;
 
-  String? selectedGender = "";
-
-  String? userExist;
-
   String countryISOCode = 'IN';
   String countryCode = '';
   String phoneNumber = '';
   String errorText = '';
   bool isValidNumber = false;
+  String? userExist;
 
+  // Registration Variables
+  // Registration Form Varibale
+  String fullName = "";
+  String dob = "";
+  String email = "";
+  String schoolName = "";
+  int classId = 0;
+  String? selectedGender = "";
+
+  // Registration Syllabus Variable
+  int? selectedSyllabusId;
+
+  // Registration Password Variable
+  String registrationPassword = "123456";
+
+  // Login Variables
   bool _isPasswordEmpty = false;
   bool get isPasswordEmpty => _isPasswordEmpty;
   String password = '';
@@ -50,9 +63,30 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void clearSyllabus() {
+    selectedSyllabusId = null;
+  }
+
+  void setSelectedSyllabus(int? syllabusId) {
+    selectedSyllabusId = syllabusId;
+    notifyListeners();
+  }
+
   void setGenderNull() {
     selectedGender = null;
     notifyListeners();
+  }
+
+  void setAllFormValues(String nameValue, String dobValue, String emailValue,
+      String schoolNameValue, int classIdValue) {
+    fullName = nameValue;
+    dob = dobValue;
+    email = emailValue;
+    schoolName = schoolNameValue;
+    classId = classIdValue;
+
+    debugPrint(
+        nameValue + dobValue + emailValue + schoolNameValue + classIdValue.toString()+ "$selectedGender");
   }
 
   void updatePasswordStatus(bool value, String typedPassword) {
@@ -158,6 +192,7 @@ class AuthProvider extends ChangeNotifier {
       if (response.type == "success") {
         _classDropdownOptions = response.classStudying ?? [];
         _syllabusDropdownOptions = response.syllabuses ?? [];
+        print("Syllabus: ${syllabusDropdownOptions.length}");
       } else {
         _classDropdownOptions = [];
         _syllabusDropdownOptions = [];
