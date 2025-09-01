@@ -148,7 +148,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           SizedBox(height: 5),
                           CustomTextField(
                             hintText: 'School Name',
-                            obscureText: true,
                             controller: schoolController,
                             suffixIcon: Icon(Icons.school),
                           ),
@@ -206,9 +205,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           if (authProvider.selectedGender == null)
                             Padding(
                               padding: const EdgeInsets.only(left: 20.0),
-                              child: Text("Please select a gender", style: TextStyle(
-                                color: const Color(0xFFB00020)
-                              ),),
+                              child: Text(
+                                "Please select a gender",
+                                style:
+                                    TextStyle(color: const Color(0xFFB00020)),
+                              ),
                             ),
                           SizedBox(height: 20),
                           Builder(
@@ -221,7 +222,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   if (authProvider.selectedGender == "") {
                                     authProvider.setGenderNull();
                                   }
-                                  if (_formKey.currentState!.validate()) {
+                                  if (_formKey.currentState!.validate() &&
+                                      authProvider.selectedGender != null) {
+                                    authProvider.clearSyllabus();
+                                    authProvider.setAllFormValues(
+                                        fnameController.text,
+                                        dobController.text,
+                                        emailController.text,
+                                        schoolController.text,
+                                        authProvider.classDropdownOptions.firstWhere((classOption) => classOption.title == classController.text).id ?? 0
+                                        // classController.text
+                                        );
+
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
