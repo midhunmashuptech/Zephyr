@@ -53,6 +53,19 @@ class AuthProvider extends ChangeNotifier {
   // Registration Password Variable
   String registrationPassword = "123456";
 
+  void setPassword(String enterdPassword) {
+    registrationPassword = enterdPassword;
+    notifyListeners();
+    print(registrationPassword);
+    print(selectedSyllabusId);
+    print(fullName);
+    print(dob);
+    print(email);
+    print(schoolName);
+    print(classId);
+    print(selectedGender);
+  }
+
   // Login Variables
   bool _isPasswordEmpty = false;
   bool get isPasswordEmpty => _isPasswordEmpty;
@@ -85,8 +98,12 @@ class AuthProvider extends ChangeNotifier {
     schoolName = schoolNameValue;
     classId = classIdValue;
 
-    debugPrint(
-        nameValue + dobValue + emailValue + schoolNameValue + classIdValue.toString()+ "$selectedGender");
+    debugPrint(nameValue +
+        dobValue +
+        emailValue +
+        schoolNameValue +
+        classIdValue.toString() +
+        "$selectedGender");
   }
 
   void updatePasswordStatus(bool value, String typedPassword) {

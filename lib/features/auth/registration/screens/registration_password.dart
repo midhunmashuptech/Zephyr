@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/auth/login/widgets/custom_textfeild.dart';
+import 'package:zephyr/features/auth/provider/auth_provider.dart';
 
 class RegistrationPassword extends StatefulWidget {
   const RegistrationPassword({super.key});
@@ -12,6 +14,7 @@ class RegistrationPassword extends StatefulWidget {
 }
 
 class _RegistrationPasswordState extends State<RegistrationPassword> {
+  AuthProvider authProvider = AuthProvider();
   bool isChecked = false;
   final TextEditingController gpwdController = TextEditingController();
   final TextEditingController gcpwdController = TextEditingController();
@@ -37,6 +40,7 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
 
   @override
   Widget build(BuildContext context) {
+    authProvider = context.watch<AuthProvider>();
     return Scaffold(
       body: SafeArea(
           child: Center(
@@ -145,10 +149,11 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
                     textcolor: AppColors.white,
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => BottomNavScreen()));
+                        authProvider.setPassword(gcpwdController.text);
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => BottomNavScreen()));
                       }
                     },
                   )
