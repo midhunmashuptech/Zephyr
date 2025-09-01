@@ -7,6 +7,7 @@ class UserDetailsProvider extends ChangeNotifier {
 
   /// Set full user details
   void setUserDetails(User userDetails) {
+    clearUser();
     _userDetails = userDetails;
     notifyListeners();
   }

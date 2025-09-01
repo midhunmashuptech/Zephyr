@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/features/enrolled_courses/model/course_detail_model.dart'
     as courseDetailsModel;
-import 'package:zephyr/features/enrolled_courses/model/enrolled_chapter_model.dart';
 import 'package:zephyr/features/enrolled_courses/model/enrolled_course_model.dart';
 import 'package:zephyr/features/enrolled_courses/service/enrolled_course_service.dart';
 

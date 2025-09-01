@@ -64,6 +64,37 @@ class AuthProvider extends ChangeNotifier {
     print(schoolName);
     print(classId);
     print(selectedGender);
+    print(phoneNumber);
+    print(countryCode);
+  }
+
+  Future<void> registerUser({
+    required BuildContext context,
+  }) async {
+    final response = await RegistrationService().registerUser(context,
+        name: fullName,
+        email: email,
+        phone: phoneNumber,
+        countryCode: countryCode,
+        dob: dob,
+        gender: selectedGender ?? "",
+        school: schoolName,
+        classStudying: classId.toString(),
+        syllabus: selectedSyllabusId.toString(),
+        password: password);
+    if (response == null) {
+      showSnackBar("error", "Something went wrong! please try again");
+    } else {
+      if (response.type == "success" && response.token != null) {
+        final userDetails = response.user;
+        final userDetailProvider = context.read<UserDetailsProvider>();
+        userDetailProvider.setUserDetails(userDetails ?? User());
+        await _secureStorage.write(key: "token", value: response.token);
+        showSnackBar("Registration success", "Start your journey now");
+      } else {
+        showSnackBar("Registration failed", "Please try again later");
+      }
+    }
   }
 
   // Login Variables
