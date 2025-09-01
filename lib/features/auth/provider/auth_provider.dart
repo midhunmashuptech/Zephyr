@@ -5,8 +5,11 @@ import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/common/model/user.dart';
 import 'package:zephyr/common/provider/user_details_provider.dart';
 import 'package:zephyr/common/screens/bottom_nav_screen.dart';
+import 'package:zephyr/features/auth/registration/model/registration_dropdown_options_model.dart'
+    as dropdownModel;
 import 'package:zephyr/features/auth/service/login_service.dart';
 import 'package:intl_phone_field/phone_number.dart';
+import 'package:zephyr/features/auth/service/registration_service.dart';
 
 class AuthProvider extends ChangeNotifier {
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
@@ -16,6 +19,19 @@ class AuthProvider extends ChangeNotifier {
 
   bool _isLogining = false;
   bool get isLogining => _isLogining;
+
+  bool _isDropdownLoading = false;
+  bool get isDropdownLoading => _isDropdownLoading;
+
+  List<dropdownModel.ClassStudying> _classDropdownOptions = [];
+  List<dropdownModel.ClassStudying> get classDropdownOptions =>
+      _classDropdownOptions;
+
+  List<dropdownModel.Syllabus> _syllabusDropdownOptions = [];
+  List<dropdownModel.Syllabus> get syllabusDropdownOptions =>
+      _syllabusDropdownOptions;
+
+  String? selectedGender = "";
 
   String? userExist;
 
@@ -28,6 +44,16 @@ class AuthProvider extends ChangeNotifier {
   bool _isPasswordEmpty = false;
   bool get isPasswordEmpty => _isPasswordEmpty;
   String password = '';
+
+  void setSelectedGender(String gender) {
+    selectedGender = gender;
+    notifyListeners();
+  }
+
+  void setGenderNull() {
+    selectedGender = null;
+    notifyListeners();
+  }
 
   void updatePasswordStatus(bool value, String typedPassword) {
     _isPasswordEmpty = value;
@@ -117,6 +143,29 @@ class AuthProvider extends ChangeNotifier {
     _isVerifyingPhone = false;
     _isPasswordEmpty = false;
     password = '';
+    notifyListeners();
+  }
+
+  Future<void> fetchRegisrationDropdownOption() async {
+    _isDropdownLoading = true;
+    selectedGender = "";
+    notifyListeners();
+
+    final response = await RegistrationService().getRegisterDropdownOptions();
+    if (response == null) {
+      showSnackBar("Error", "Something went wrong! Try again");
+    } else {
+      if (response.type == "success") {
+        _classDropdownOptions = response.classStudying ?? [];
+        _syllabusDropdownOptions = response.syllabuses ?? [];
+      } else {
+        _classDropdownOptions = [];
+        _syllabusDropdownOptions = [];
+      }
+    }
+    notifyListeners();
+
+    _isDropdownLoading = false;
     notifyListeners();
   }
 }
