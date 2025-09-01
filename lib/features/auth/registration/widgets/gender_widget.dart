@@ -5,7 +5,7 @@ class GenderWidget extends StatefulWidget {
   final String label;
   final IconData icon;
   final int index;
-  final int? selectedIndex;
+  final String? selectedIndex;
   final Color color;
   const GenderWidget(
       {required this.label,
@@ -60,7 +60,7 @@ class _GenderWidgetState extends State<GenderWidget> {
             ),
           ),
         ),
-        if(widget.index == widget.selectedIndex)
+        if(widget.label.toLowerCase() == widget.selectedIndex)
         Positioned(
           right: -5,
           top: -5,

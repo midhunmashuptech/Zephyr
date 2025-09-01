@@ -1,11 +1,11 @@
-class RegistrationDropdownOptions {
+class RegistrationDropdownOptionsModel {
   String? type;
   List<ClassStudying>? classStudying;
   List<Syllabus>? syllabuses;
 
-  RegistrationDropdownOptions({this.type, this.classStudying, this.syllabuses});
+  RegistrationDropdownOptionsModel({this.type, this.classStudying, this.syllabuses});
 
-  RegistrationDropdownOptions.fromJson(Map<String, dynamic> json) {
+  RegistrationDropdownOptionsModel.fromJson(Map<String, dynamic> json) {
     type = json['type'];
     if (json['class_studying'] != null) {
       classStudying = <ClassStudying>[];
