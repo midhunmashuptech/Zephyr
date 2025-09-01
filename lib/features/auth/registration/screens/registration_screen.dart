@@ -68,6 +68,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     loadDropdownOption();
   }
 
+  String? _validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Email is required';
+    }
+    String pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+    RegExp regex = RegExp(pattern);
+    if (!regex.hasMatch(value)) {
+      return 'Enter a valid email address';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     authProvider = context.watch<AuthProvider>();
@@ -144,6 +156,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             keyboardType: TextInputType.emailAddress,
                             controller: emailController,
                             suffixIcon: Icon(Icons.email),
+                            validator:_validateEmail ,
                           ),
                           SizedBox(height: 5),
                           CustomTextField(
