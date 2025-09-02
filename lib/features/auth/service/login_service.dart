@@ -98,4 +98,28 @@ class LoginService {
       }
     }
   }
+
+
+  Future<VerifyPhoneNumberModel?> getUserDetails(
+    BuildContext context, {
+    required String countryCode,
+    required String phone,
+  }) async {
+    final responseJson = await _apiService.getRequest(
+      url: verifyPhoneUrl,
+    );
+
+    if (responseJson == null || responseJson.isEmpty) {
+      showSnackBar("Error", "Json Error");
+      return null;
+    } else {
+      final verifyPhoneNumberModel =
+          VerifyPhoneNumberModel.fromJson(responseJson);
+      if (verifyPhoneNumberModel.type == "success") {
+        return verifyPhoneNumberModel;
+      } else {
+        return verifyPhoneNumberModel;
+      }
+    }
+  }
 }

@@ -102,6 +102,7 @@ class AuthProvider extends ChangeNotifier {
         final userDetails = response.user;
         final userDetailProvider = context.read<UserDetailsProvider>();
         userDetailProvider.setUserDetails(userDetails ?? User());
+        await _secureStorage.write(key: "loginedOnce", value: "true");
         await _secureStorage.write(key: "token", value: response.token);
         showSnackBar("Registration success", "Start your journey now");
         Navigator.push(context,
@@ -207,6 +208,7 @@ class AuthProvider extends ChangeNotifier {
           response.token != "") {
         // Writing token to Flutter secure Storage
         await _secureStorage.write(key: "token", value: response.token);
+        await _secureStorage.write(key: "loginedOnce", value: "true");
 
         // Reading token from Flutter secure Storage
         final token = await _secureStorage.read(key: "token");
