@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get/get.dart';
 import 'package:zephyr/common/screens/error_screen.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/constants/widgets/layout_gradient.dart';
+import 'package:zephyr/features/auth/login/screens/mobile_number_verification.dart';
 import 'package:zephyr/features/drawer/screens/about_us.dart';
 import 'package:zephyr/features/drawer/screens/edit_profile.dart';
 import 'package:zephyr/features/drawer/screens/help_and_support.dart';
@@ -127,15 +130,19 @@ class DrawerWidget extends StatelessWidget {
                     context: context,
                     builder: (_) => AlertDialog(
                       title: Text("Are you sure?"),
-                      content: Text("You will be signed out of your account. To continue, you’ll need to log in again."),
+                      content: Text(
+                          "You will be signed out of your account. To continue, you’ll need to log in again."),
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.pop(context),
                           child: Text("Cancel"),
                         ),
                         ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
+                          onPressed: () async {
+                            FlutterSecureStorage _secureStorage =
+                                FlutterSecureStorage();
+                            await _secureStorage.delete(key: "token");
+                            Get.offAll(MobileNumberVerification());
                           },
                           child: Text("logout"),
                         ),
