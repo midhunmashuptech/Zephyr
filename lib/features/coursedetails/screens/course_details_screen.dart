@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/ic.dart';
+import 'package:provider/provider.dart';
 import 'package:swipeable_button_view/swipeable_button_view.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/coursedetails/provider/course_provider.dart';
 import 'package:zephyr/features/coursedetails/screens/chapter_navigator_observer.dart';
 import 'package:zephyr/features/coursedetails/screens/course_chapters.dart';
 import 'package:zephyr/features/coursedetails/screens/course_overview.dart';
@@ -18,7 +20,6 @@ class CourseDetailsScreen extends StatefulWidget {
 
 class _CourseDetailsScreenState extends State<CourseDetailsScreen>
     with SingleTickerProviderStateMixin {
-
   final GlobalKey<NavigatorState> _chapterTabNavKey =
       GlobalKey<NavigatorState>();
   final ValueNotifier<bool> _chapterTabCanPop = ValueNotifier(false);
@@ -26,16 +27,23 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
   late TabController _tabController;
   bool isFinished = false;
   final List<Widget> _tabs = [];
+  CourseProvider courseProvider = CourseProvider();
 
   @override
   void initState() {
     super.initState();
+    loadCourseData();
     _tabController = TabController(length: 3, vsync: this);
     _tabs.addAll([
       CourseOverview(),
       buildChapterTab(), // wrapped with internal navigator
       CourseReviews(),
     ]);
+  }
+
+  Future<void> loadCourseData() async {
+    final loadProvider = context.read<CourseProvider>();
+    await loadProvider.getCourseDetails(courseId: "1", context: context);
   }
 
   @override
@@ -58,6 +66,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
 
   @override
   Widget build(BuildContext context) {
+    courseProvider = context.watch<CourseProvider>();
     return Scaffold(
       body: Stack(
         children: [
@@ -87,7 +96,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Text('Foundation of class 10',
+                         Text(courseProvider.courseData.title ?? "Course title",
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.w600)),
                         const SizedBox(height: 10),
