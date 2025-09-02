@@ -2,9 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:zephyr/common/provider/user_details_provider.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/constants/widgets/layout_gradient.dart';
+import 'package:zephyr/features/auth/provider/auth_provider.dart';
 import 'package:zephyr/features/drawer/screens/new_password_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -16,6 +19,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   File? selectedImage;
+  UserDetailsProvider userDetailProvider = UserDetailsProvider();
 
   Future<void> pickImage() async {
     final picker = ImagePicker();
@@ -30,6 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    userDetailProvider = context.watch<UserDetailsProvider>();
     return Scaffold(
       body: SafeArea(
           child: Stack(
@@ -74,7 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         "Fullname",
                         style: TextStyle(color: AppColors.ratingGrey),
                       ),
-                      Text("John Wick",
+                      Text(userDetailProvider.userDetails.name ?? "",
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.w600)),
                       Divider(),
@@ -83,7 +88,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         "Email Address",
                         style: TextStyle(color: AppColors.ratingGrey),
                       ),
-                      Text("kimshin@gmail.com",
+                      Text(
+                        userDetailProvider.userDetails.email ?? "",
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.w600)),
                       Divider(),
@@ -92,7 +98,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         "Mobile Number",
                         style: TextStyle(color: AppColors.ratingGrey),
                       ),
-                      Text("9992226661",
+                      Text(
+                        userDetailProvider.userDetails.phone ?? "",
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.w600)),
                       SizedBox(
@@ -125,8 +132,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
         ],
-      )
-      ),
+      )),
     );
   }
 }
