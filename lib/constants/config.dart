@@ -7,10 +7,10 @@ const loginUrl = "${baseUrl}login";
 const registerUrl = "${baseUrl}register";
 const registrationDropdownOptionsUrl = "${baseUrl}registration-dropdown-options";
 
+// get User Details API's
+const getUserDetailsUrl = "${baseUrl}get-user-details";
 
-
-
-//enrolled courses API's
+// enrolled courses API's
 const enrolledCourseUrl ="${baseUrl}get-subscribed-courses";
 const enrolledChapterUrl ="${baseUrl}get-enrollment-chapters";
 const courseDetailUrl ="${baseUrl}get-course-details";
