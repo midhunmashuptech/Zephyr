@@ -146,7 +146,9 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
                     const SizedBox(height: 16),
                     const Text('I Agree to the Terms and Conditions'),
                   ]),
-                  CustomButton(
+                  authProvider.isregistered 
+                  ? Center(child: CircularProgressIndicator())
+                  : CustomButton(
                     text: "Register",
                     color: AppColors.primaryGreen,
                     textcolor: AppColors.white,

@@ -1,8 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:zephyr/common/provider/user_details_provider.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/drawer/provider/edit_profile_provider.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -13,6 +16,10 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   File? selectedImage;
+
+  UserDetailsProvider userDetailsProvider = UserDetailsProvider();
+  EditProfileProvider editProfileProvider = EditProfileProvider();
+
   Future<void> pickImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -27,16 +34,24 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController mobileController = TextEditingController();
+
   @override
   void initState() {
-    usernameController.text = "Kim Shin";
-    emailController.text = "kimshin@gmail.com";
-    mobileController.text = "9765433222";
     super.initState();
+    loadUserData();
+  }
+
+  void loadUserData() {
+    final loadProvider = context.read<UserDetailsProvider>();
+    usernameController.text = loadProvider.userDetails.name ?? "";
+    emailController.text = loadProvider.userDetails.email ?? "";
+    mobileController.text = loadProvider.userDetails.phone ?? "";
   }
 
   @override
   Widget build(BuildContext context) {
+    userDetailsProvider = context.watch<UserDetailsProvider>();
+    editProfileProvider = context.read<EditProfileProvider>();
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(),
@@ -74,7 +89,9 @@ class _EditProfileState extends State<EditProfile> {
                 ],
               ),
             ),
-            SizedBox(height: 15,),
+            SizedBox(
+              height: 15,
+            ),
             TextField(
               controller: usernameController,
               decoration: InputDecoration(hintText: "Enter user name"),
@@ -89,24 +106,28 @@ class _EditProfileState extends State<EditProfile> {
               readOnly: true,
               controller: mobileController,
               decoration: InputDecoration(
-                errorText: "Disclaimer: For mobile number changes, kindly contact our support team.",
-                errorMaxLines: 2,
-                focusedBorder: InputBorder.none,
-                border: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                hintText: "Enter mobile number"),
+                  errorText:
+                      "Disclaimer: For mobile number changes, kindly contact our support team.",
+                  errorMaxLines: 2,
+                  focusedBorder: InputBorder.none,
+                  border: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  hintText: "Enter mobile number"),
             ),
             // SizedBox(height: 5),
             SizedBox(height: 20),
             CustomButton(
               text: "Update",
-              onPressed: (){},
+              onPressed: () {
+                editProfileProvider.setUpdatedProfile(
+                    usernameController.text, emailController.text);
+              },
               color: AppColors.primaryOrange,
-              textcolor: AppColors.white,)
+              textcolor: AppColors.white,
+            )
           ],
         ),
-      )
-      ),
+      )),
     );
   }
 }

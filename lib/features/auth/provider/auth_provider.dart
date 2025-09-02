@@ -5,6 +5,7 @@ import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/common/model/user.dart';
 import 'package:zephyr/common/provider/user_details_provider.dart';
 import 'package:zephyr/common/screens/bottom_nav_screen.dart';
+import 'package:zephyr/features/auth/login/screens/mobile_number_verification.dart';
 import 'package:zephyr/features/auth/registration/model/registration_dropdown_options_model.dart'
     as dropdownModel;
 import 'package:zephyr/features/auth/service/login_service.dart';
@@ -22,6 +23,9 @@ class AuthProvider extends ChangeNotifier {
 
   bool _isDropdownLoading = false;
   bool get isDropdownLoading => _isDropdownLoading;
+
+  bool _isRegistered = false;
+  bool get isregistered => _isRegistered;
 
   List<dropdownModel.ClassStudying> _classDropdownOptions = [];
   List<dropdownModel.ClassStudying> get classDropdownOptions =>
@@ -71,19 +75,28 @@ class AuthProvider extends ChangeNotifier {
   Future<void> registerUser({
     required BuildContext context,
   }) async {
+    _isRegistered = true;
+    notifyListeners();
     final response = await RegistrationService().registerUser(context,
         name: fullName,
         email: email,
         phone: phoneNumber,
-        countryCode: countryCode,
+        countryCode: countryCode.substring(1),
         dob: dob,
         gender: selectedGender ?? "",
         school: schoolName,
         classStudying: classId.toString(),
         syllabus: selectedSyllabusId.toString(),
-        password: password);
+        password: registrationPassword);
     if (response == null) {
       showSnackBar("error", "Something went wrong! please try again");
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (contex) => MobileNumberVerification())).then((_) {
+        _isRegistered = false;
+        notifyListeners();
+      });
     } else {
       if (response.type == "success" && response.token != null) {
         final userDetails = response.user;
@@ -91,8 +104,21 @@ class AuthProvider extends ChangeNotifier {
         userDetailProvider.setUserDetails(userDetails ?? User());
         await _secureStorage.write(key: "token", value: response.token);
         showSnackBar("Registration success", "Start your journey now");
+        Navigator.push(context,
+                MaterialPageRoute(builder: (context) => BottomNavScreen()))
+            .then((_) {
+          _isRegistered = false;
+          notifyListeners();
+        });
       } else {
         showSnackBar("Registration failed", "Please try again later");
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (contex) => MobileNumberVerification())).then((_) {
+          _isRegistered = false;
+          notifyListeners();
+        });
       }
     }
   }
@@ -112,6 +138,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   void setSelectedSyllabus(int? syllabusId) {
+    _isRegistered = false;
     selectedSyllabusId = syllabusId;
     notifyListeners();
   }

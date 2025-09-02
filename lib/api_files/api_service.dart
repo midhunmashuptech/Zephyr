@@ -104,6 +104,13 @@ class ApiService {
         Get.offAll(() => const MobileNumberVerification());
         throw UnauthorizedException("Unauthorized. Please login again.");
 
+      case 422:
+        debugPrint("Api Error: $statusCode");
+        debugPrint("Api Error Message: $body");
+        _showError("Api Error! Try Again");
+        Get.offAll(() => const MobileNumberVerification());
+        throw ApiException("Unexpected error $statusCode");
+
       case 400:
         debugPrint("Bad request Error: $statusCode");
         _showError("Bad request. Please try again.");
@@ -118,6 +125,7 @@ class ApiService {
       case 502:
       case 503:
         debugPrint("Server Error: $statusCode");
+        debugPrint("Server Error Message: $body");
         _showError("Server error. Please try later.");
         throw InternalServerErrorException("Server error.");
 
