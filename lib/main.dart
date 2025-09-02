@@ -7,10 +7,10 @@ import 'package:zephyr/common/screens/splash_screen.dart';
 import 'package:zephyr/common/service/notification_service.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/auth/provider/auth_provider.dart';
+import 'package:zephyr/features/coursedetails/provider/course_provider.dart';
 import 'package:zephyr/features/drawer/provider/edit_profile_provider.dart';
 import 'package:zephyr/features/enrolled_courses/provider/enrolled_course_provider.dart';
 import 'package:zephyr/features/test/provider/make_test_provider.dart';
-import 'package:zephyr/features/test/screens/test_quiz_screen.dart';
 
 void main() async {
   // print("App starting");
@@ -26,6 +26,7 @@ void main() async {
     ChangeNotifierProvider(create: (_) => EnrolledCourseProvider()),
     ChangeNotifierProvider(create: (_) => MakeTestProvider()),
     ChangeNotifierProvider(create: (_) => EditProfileProvider()),
+    ChangeNotifierProvider(create: (_) => CourseProvider()),
   ], child: const MyApp()));
 }
 
