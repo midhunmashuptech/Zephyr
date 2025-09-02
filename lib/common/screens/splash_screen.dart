@@ -46,7 +46,13 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
 
-    checkLoginStatus();
+    // checkLoginStatus();
+    Timer(const Duration(seconds: 3), () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+          );
+        });
   }
 
   Future<void> checkLoginStatus() async {

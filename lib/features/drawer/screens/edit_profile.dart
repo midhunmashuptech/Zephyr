@@ -57,77 +57,79 @@ class _EditProfileState extends State<EditProfile> {
         leading: BackButton(),
         title: Text("Edit Profile"),
       ),
-      body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Center(
-              child: Stack(
-                children: [
-                  CircleAvatar(
-                    backgroundImage: selectedImage == null
-                        ? AssetImage("assets/images/kim_shin.webp")
-                        : FileImage(selectedImage!),
-                    radius: 90,
-                  ),
-                  Positioned(
-                    bottom: 10,
-                    right: 10,
-                    child: CircleAvatar(
-                      backgroundColor: AppColors.primaryOrange,
-                      child: IconButton(
-                        onPressed: () => pickImage(),
-                        icon: Icon(
-                          Icons.edit,
-                          size: 23,
-                        ),
-                        color: AppColors.white,
-                      ),
+      body: SingleChildScrollView(
+        child: SafeArea(
+            child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Center(
+                child: Stack(
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: selectedImage == null
+                          ? AssetImage("assets/images/kim_shin.webp")
+                          : FileImage(selectedImage!),
+                      radius: 90,
                     ),
-                  )
-                ],
+                    Positioned(
+                      bottom: 10,
+                      right: 10,
+                      child: CircleAvatar(
+                        backgroundColor: AppColors.primaryOrange,
+                        child: IconButton(
+                          onPressed: () => pickImage(),
+                          icon: Icon(
+                            Icons.edit,
+                            size: 23,
+                          ),
+                          color: AppColors.white,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            TextField(
-              controller: usernameController,
-              decoration: InputDecoration(hintText: "Enter user name"),
-            ),
-            SizedBox(height: 10),
-            TextField(
-              controller: emailController,
-              decoration: InputDecoration(hintText: "Enter email address"),
-            ),
-            TextField(
-              style: TextStyle(color: AppColors.grey),
-              readOnly: true,
-              controller: mobileController,
-              decoration: InputDecoration(
-                  errorText:
-                      "Disclaimer: For mobile number changes, kindly contact our support team.",
-                  errorMaxLines: 2,
-                  focusedBorder: InputBorder.none,
-                  border: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  hintText: "Enter mobile number"),
-            ),
-            // SizedBox(height: 5),
-            SizedBox(height: 20),
-            CustomButton(
-              text: "Update",
-              onPressed: () {
-                editProfileProvider.setUpdatedProfile(
-                    usernameController.text, emailController.text);
-              },
-              color: AppColors.primaryOrange,
-              textcolor: AppColors.white,
-            )
-          ],
-        ),
-      )),
+              SizedBox(
+                height: 15,
+              ),
+              TextField(
+                controller: usernameController,
+                decoration: InputDecoration(hintText: "Enter user name"),
+              ),
+              SizedBox(height: 10),
+              TextField(
+                controller: emailController,
+                decoration: InputDecoration(hintText: "Enter email address"),
+              ),
+              TextField(
+                style: TextStyle(color: AppColors.grey),
+                readOnly: true,
+                controller: mobileController,
+                decoration: InputDecoration(
+                    errorText:
+                        "Disclaimer: For mobile number changes, kindly contact our support team.",
+                    errorMaxLines: 2,
+                    focusedBorder: InputBorder.none,
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    hintText: "Enter mobile number"),
+              ),
+              // SizedBox(height: 5),
+              SizedBox(height: 20),
+              CustomButton(
+                text: "Update",
+                onPressed: () {
+                  editProfileProvider.setUpdatedProfile(
+                      usernameController.text, emailController.text);
+                },
+                color: AppColors.primaryOrange,
+                textcolor: AppColors.white,
+              )
+            ],
+          ),
+        )),
+      ),
     );
   }
 }
