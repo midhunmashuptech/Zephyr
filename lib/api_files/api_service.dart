@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -98,28 +99,31 @@ class ApiService {
         }
 
       case 401:
-        print("hiii");
+        debugPrint("Token Expired Error: $statusCode");
         _showError("Your token has been Expired! Login Again");
         Get.offAll(() => const MobileNumberVerification());
         throw UnauthorizedException("Unauthorized. Please login again.");
 
       case 400:
+        debugPrint("Bad request Error: $statusCode");
         _showError("Bad request. Please try again.");
         throw BadRequestException("Bad request.");
 
       case 404:
-        print("nhj");
+        debugPrint("Resource not foun Error: $statusCode");
         _showError("Resource not found.");
         throw NotFoundException("Resource not found.");
 
       case 500:
       case 502:
       case 503:
+        debugPrint("Server Error: $statusCode");
         _showError("Server error. Please try later.");
         throw InternalServerErrorException("Server error.");
 
       default:
-        print("jio");
+        debugPrint("Unexpected Error: $statusCode");
+        debugPrint("Unexpected Error Msg: $body");
         _showError("Unexpected error: $statusCode");
         throw ApiException("Unexpected error $statusCode");
     }
