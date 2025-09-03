@@ -176,7 +176,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                   Padding(
                     padding: const EdgeInsets.all(30.0),
                     child: SwipeableButtonView(
-                      buttonText: "Enroll at 599/-",
+                      buttonText: "Enroll for ₹${double.parse(courseProvider.courseData.price ?? "0.0").toInt()}",
                       buttonWidget: const Icon(Icons.arrow_forward,
                           color: AppColors.primaryOrange),
                       activeColor: AppColors.primaryOrange,

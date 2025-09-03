@@ -12,7 +12,6 @@ import 'package:zephyr/common/model/user_details_model.dart';
 import 'package:zephyr/common/provider/user_details_provider.dart';
 import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'dart:async';
-
 import 'package:zephyr/common/screens/onboarding_screen.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/constants/config.dart';
