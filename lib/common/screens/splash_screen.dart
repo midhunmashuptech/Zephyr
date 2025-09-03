@@ -16,6 +16,7 @@ import 'package:zephyr/common/screens/onboarding_screen.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/constants/config.dart';
 import 'package:zephyr/features/auth/login/screens/mobile_number_verification.dart';
+import 'package:zephyr/features/auth/provider/auth_provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -94,7 +95,8 @@ class _SplashScreenState extends State<SplashScreen>
           showSnackBar("Token Expired", "Session expired! Please login again.");
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const MobileNumberVerification()),
+            MaterialPageRoute(
+                builder: (context) => const MobileNumberVerification()),
           );
         }
       } else {
@@ -102,7 +104,8 @@ class _SplashScreenState extends State<SplashScreen>
         Timer(const Duration(seconds: 3), () {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const MobileNumberVerification()),
+            MaterialPageRoute(
+                builder: (context) => const MobileNumberVerification()),
           );
         });
       }

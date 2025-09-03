@@ -117,9 +117,14 @@ class ApiService {
         throw BadRequestException("Bad request.");
 
       case 404:
-        debugPrint("Resource not foun Error: $statusCode");
+        debugPrint("Resource not found Error: $statusCode");
+        debugPrint("Resource not found Error Message: $body");
         _showError("Resource not found.");
-        throw NotFoundException("Resource not found.");
+        try {
+          return json.decode(body);
+        } catch (_) {
+          return body; // fallback if not JSON
+        }
 
       case 500:
       case 502:
