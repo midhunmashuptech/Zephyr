@@ -39,19 +39,20 @@ class _EnrolledCourseChapterState extends State<EnrolledCourseChapter> {
                       .length, (index) {
                 return EnrolledChapterCard(
                   title:
-                      (enrolledCourseProvider.selectedCourseDetails.subjects ??
+                      "${(enrolledCourseProvider.selectedCourseDetails.subjects ??
                                   [])[index]
-                              .subject ??
-                          "Subject Name",
+                              .className} | ${(enrolledCourseProvider.selectedCourseDetails.subjects ??
+                                  [])[index]
+                              .subject}",
                   items: (enrolledCourseProvider.selectedCourseDetails.subjects ?? [])[index].chapters ?? [],
                   onSelected: (value) {},
                   onTap: () {
                     setState(() {
                       expandedSectionIndex =
-                          expandedSectionIndex == 0 ? null : 0;
+                          expandedSectionIndex == index ? null : index;
                     });
                   },
-                  isExpanded: expandedSectionIndex == 0,
+                  isExpanded: expandedSectionIndex == index,
                   subtitle: (enrolledCourseProvider.selectedCourseDetails.subjects ??
                                   [])[index]
                               .className ??

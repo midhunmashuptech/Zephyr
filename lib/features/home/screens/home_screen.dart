@@ -10,6 +10,7 @@ import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/data_class/course.dart';
 import 'package:zephyr/features/drawer/screens/drawer.dart';
 import 'package:zephyr/features/drawer/screens/profile_screen.dart';
+import 'package:zephyr/features/home/provider/home_page_provider.dart';
 import 'package:zephyr/features/home/widgets/category_widget.dart';
 import 'package:zephyr/features/home/widgets/home_course_card.dart';
 import 'package:zephyr/features/notification/screens/notifications.dart';
@@ -22,6 +23,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  HomePageProvider homePageProvider = HomePageProvider();
   UserDetailsProvider userDetailsProvider = UserDetailsProvider();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<String> categories = [
@@ -41,16 +43,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    loadCourses();
+    loadActiveCourses();
   }
 
-  void loadCourses() async {
-    await Future.delayed(Duration(seconds: 2));
-    setState(() {
-      courses = Course.getSampleCourses();
-      filteredCourses = courses;
-      isLoading = false;
-    });
+  Future<void> loadActiveCourses() async {
+    final homePageProvider = context.read<HomePageProvider>();
+    await homePageProvider.fetchActiveCouses(context);
   }
 
   void filterCourses() {
@@ -63,6 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    homePageProvider = context.watch<HomePageProvider>();
     userDetailsProvider = context.watch<UserDetailsProvider>();
     return Scaffold(
       key: _scaffoldKey,
@@ -131,7 +130,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Text("Hello, Welcome",
                                       style: TextStyle(fontSize: 13)),
                                   Text(
-                                    userDetailsProvider.userDetails.name ?? "User",
+                                    userDetailsProvider.userDetails.name ??
+                                        "User",
                                     style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600),
@@ -159,10 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 CustomSearchBar(
                   color: AppColors.primaryBlue,
                   onChanged: (value) {
-                    setState(() {
-                      searchValue = value;
-                      filterCourses();
-                    });
+                      homePageProvider.filterActiveCourses(value);
                   },
                 ),
 
@@ -202,7 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 10,
                 ),
 
-                isLoading
+                homePageProvider.isActiveCoursesLoading
                     ? Container(
                         height: MediaQuery.of(context).size.height * 0.3,
                         child: Column(
@@ -212,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Center(child: CircularProgressIndicator()),
                           ],
                         ))
-                    : filteredCourses.isEmpty
+                    : homePageProvider.filteredActiveCourses.isEmpty
                         ? Center(
                             child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 40.0),
@@ -225,13 +222,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ))
                         : Wrap(
-                            children:
-                                filteredCourses.asMap().entries.map((entry) {
-                              int index = entry.key;
-                              Course course = entry.value;
-                              return HomeCourseCard(
-                                  course: course, index: index);
-                            }).toList(),
+                            children: List.generate(homePageProvider.filteredActiveCourses.length, (index) => HomeCourseCard(course: homePageProvider.filteredActiveCourses[index], index: index))
                           ),
               ],
             ),

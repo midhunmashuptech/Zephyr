@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/bxs.dart';
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/data_class/course.dart';
 import 'package:zephyr/features/coursedetails/screens/course_details_screen.dart';
+import 'package:zephyr/features/home/model/active_course_model.dart';
 
 class HomeCourseCard extends StatelessWidget {
   final int index;
@@ -29,7 +29,7 @@ class HomeCourseCard extends StatelessWidget {
               children: [
                 Stack(
                   children: [
-                    Image.asset(course.image ?? "", fit: BoxFit.cover),
+                    Image.network(course.thumbnail ?? "", fit: BoxFit.cover),
                     Positioned(
                       bottom: 0,
                       left: 0,
@@ -66,18 +66,18 @@ class HomeCourseCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(course.name ?? "",
+                      Text(course.title ?? "Course Title",
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w600),
                           overflow: TextOverflow.ellipsis,
-                          maxLines: 1),
-                      SizedBox(
-                        height: 43,
-                        child: Text(course.description ?? "",
-                            style: TextStyle(fontSize: 13),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,),
-                      ),
+                          maxLines: 2),
+                      // SizedBox(
+                      //   height: 43,
+                      //   child: Text(course.description ?? "",
+                      //       style: TextStyle(fontSize: 13),
+                      //       overflow: TextOverflow.ellipsis,
+                      //       maxLines: 2,),
+                      // ),
                       SizedBox(height: 15),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -85,7 +85,7 @@ class HomeCourseCard extends StatelessWidget {
                           children: [
                             Iconify(Bxs.videos, size: 20),
                             SizedBox(width: 5),
-                            Text("${course.videoCount} Videos",
+                            Text("30 Videos",
                                 style: TextStyle(fontSize: 13)),
                           ],
                         ),
@@ -102,7 +102,7 @@ class HomeCourseCard extends StatelessWidget {
   }
 
   Widget courseStarRating() {
-    double rating = double.parse(course.rating ?? "0.0");
+    double rating = double.parse( "3.2");
     final fullStarCount = rating.floor();
     final decimalPart = rating - fullStarCount;
     final halfStarCount = decimalPart >= 0.5 ? 1 : 0;
@@ -122,7 +122,7 @@ class HomeCourseCard extends StatelessWidget {
           return Icon(Icons.star_outline, size: 18, color: AppColors.ratingYellow);
         }),
         SizedBox(width: 5),
-        Text(course.rating ?? "",
+        Text("3.2",
             style:
                 TextStyle(fontWeight: FontWeight.w600, color: AppColors.white))
       ],

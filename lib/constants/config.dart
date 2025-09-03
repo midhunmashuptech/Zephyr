@@ -5,25 +5,28 @@ const baseUrl = "https://zephyrdigital.in/api/";
 const verifyPhoneUrl = "${baseUrl}verify-phone";
 const loginUrl = "${baseUrl}login";
 const registerUrl = "${baseUrl}register";
-const registrationDropdownOptionsUrl = "${baseUrl}registration-dropdown-options";
+const registrationDropdownOptionsUrl =
+    "${baseUrl}registration-dropdown-options";
 
 // get User Details API's
 const getUserDetailsUrl = "${baseUrl}get-user-details";
 
 // enrolled courses API's
-const enrolledCourseUrl ="${baseUrl}get-subscribed-courses";
-const enrolledChapterUrl ="${baseUrl}get-enrollment-chapters";
-const courseDetailUrl ="${baseUrl}get-course-details";
+const enrolledCourseUrl = "${baseUrl}get-subscribed-courses";
+const enrolledChapterUrl = "${baseUrl}get-enrollment-chapters";
+const courseDetailUrl = "${baseUrl}get-course-details";
 
 // Password rest API
 const resetPasswordUrl = "${baseUrl}reset-password";
+
+// Home Page API
+const getActiveCoursesUrl = "${baseUrl}get-active-course";
 
 // Make Your Test API's
 const getClassSubjectOptionsUrl = "${baseUrl}get-class-and-subjects";
 const getChapterOptionsUrl = "${baseUrl}get-chapters";
 const getTopicOptionsUrl = "${baseUrl}get-topics";
 const generateAiQuizUrl = "${baseUrl}generate-ai-practice-quiz";
-
 
 // Base URL for webview
 const webBaseUrl = "https://zephyrentrance.in/";
