@@ -134,7 +134,7 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
                           SizedBox(
                             height: 10,
                           ),
-                          Text("No Data Found")
+                          Text("No Subscribed Course Found")
                         ],
                       ),
                     )

@@ -47,7 +47,7 @@ class EnrolledCourseService {
       return null;
     } else {
       final enrolledCourseModel = EnrolledCourseModel.fromJson(responseJson);
-      if (enrolledCourseModel.type == "success") {
+      if (enrolledCourseModel.type == "success" || enrolledCourseModel.type == "error") {
         return enrolledCourseModel;
       }
       return null;
