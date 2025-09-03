@@ -10,6 +10,7 @@ import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/common/model/user.dart';
 import 'package:zephyr/common/model/user_details_model.dart';
 import 'package:zephyr/common/provider/user_details_provider.dart';
+import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'dart:async';
 
 import 'package:zephyr/common/screens/onboarding_screen.dart';
@@ -46,13 +47,13 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
 
-    // checkLoginStatus();
-    Timer(const Duration(seconds: 3), () {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const OnboardingScreen()),
-          );
-        });
+    checkLoginStatus();
+    // Timer(const Duration(seconds: 3), () {
+    //       Navigator.pushReplacement(
+    //         context,
+    //         MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+    //       );
+    //     });
   }
 
   Future<void> checkLoginStatus() async {
@@ -79,7 +80,7 @@ class _SplashScreenState extends State<SplashScreen>
             // Bottom Nav
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+              MaterialPageRoute(builder: (context) => const BottomNavScreen()),
             );
           } else {
             // Mobile Num
@@ -94,15 +95,15 @@ class _SplashScreenState extends State<SplashScreen>
           showSnackBar("Token Expired", "Session expired! Please login again.");
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+            MaterialPageRoute(builder: (context) => const MobileNumberVerification()),
           );
         }
       } else {
-        // Onboarding Screen
+        // Mobile Num
         Timer(const Duration(seconds: 3), () {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+            MaterialPageRoute(builder: (context) => const MobileNumberVerification()),
           );
         });
       }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/common/model/user.dart';
@@ -218,10 +219,10 @@ class AuthProvider extends ChangeNotifier {
             .setUserDetails(response.user ?? User());
 
         print(token);
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => BottomNavScreen()),
-        ).then((_) {
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => BottomNavScreen()),);
+        Get.offAll(BottomNavScreen())?.then((value) {
           _isLogining = false;
           notifyListeners();
         });
