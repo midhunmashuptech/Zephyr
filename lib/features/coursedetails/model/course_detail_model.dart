@@ -39,7 +39,7 @@ class Data {
   List<Likes>? likes;
   int? likeCount;
   int? ratingCount;
-  int? averageRating;
+  double? averageRating;
 
   Data(
       {this.id,

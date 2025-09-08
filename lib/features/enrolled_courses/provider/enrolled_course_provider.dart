@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
+import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/coursedetails/model/get_course_reviews_model.dart';
+import 'package:zephyr/features/coursedetails/service/course_details_service.dart';
 import 'package:zephyr/features/enrolled_courses/model/course_detail_model.dart'
     as courseDetailsModel;
 import 'package:zephyr/features/enrolled_courses/model/enrolled_course_model.dart';
@@ -14,6 +18,32 @@ class EnrolledCourseProvider extends ChangeNotifier {
 
   bool _isCourseLoading = false;
   bool get isCourseLoading => _isCourseLoading;
+
+  // Reviews
+  bool _isReviewsLoading = false;
+  bool get isReviewsLoading => _isReviewsLoading;
+
+  List<Reviews> _courseReviews = [];
+  List<Reviews> get courseReviews => _courseReviews;
+
+  bool _isReviewPosting = false;
+  bool get isReviewPosting => _isReviewPosting;
+
+  bool _isReviewPostingSuccess = false;
+  bool get isReviewPostingSuccess => _isReviewPostingSuccess;
+
+  String? userRating;
+  String? userReview;
+
+  void setUserRating(int rating) {
+    userRating = rating.toString();
+    notifyListeners();
+  }
+
+  void setUserReview(String review) {
+    userReview = review;
+    notifyListeners();
+  }
 
   List<Subscriptions> _enrolledCourses = [];
   List<Subscriptions> get enrolledCourses => _enrolledCourses;
@@ -113,5 +143,110 @@ class EnrolledCourseProvider extends ChangeNotifier {
 
     _isCourseDetailsLoading = false;
     notifyListeners();
+  }
+
+  // Get Course Review
+  Future<void> getCourseReviews(
+      {required String courseId, required BuildContext context}) async {
+    _isReviewsLoading = true;
+    _isReviewPostingSuccess = false;
+    notifyListeners();
+
+    final response = await CourseDetailsService()
+        .fetchCourseReviews(context: context, courseId: courseId);
+
+    if (response == null) {
+      showSnackBar("error", "something went wrong");
+      _isReviewsLoading = false;
+      notifyListeners();
+    } else {
+      if (response.type == "success") {
+        _courseReviews = response.reviews ?? [];
+        notifyListeners();
+        _isReviewsLoading = false;
+        notifyListeners();
+      } else {
+        showSnackBar("error", "something went wrong");
+        _isReviewsLoading = false;
+        notifyListeners();
+      }
+    }
+  }
+
+  // Post Course Review
+  Future<void> postCourseReviews(
+      {required String courseId, required BuildContext context}) async {
+    _isReviewPosting = true;
+    notifyListeners();
+
+    final response = await EnrolledCourseService().postCourseReview(
+        context: context,
+        courseId: courseId,
+        rating: userRating ?? "0",
+        review: userReview ?? "");
+
+    if (response == null) {
+      showSnackBar("error", "something went wrong");
+      _isReviewPosting = false;
+      _isReviewPostingSuccess = false;
+      notifyListeners();
+    } else {
+      if (response.type == "success") {
+        _isReviewPostingSuccess = true;
+        notifyListeners();
+        _isReviewPosting = false;
+        notifyListeners();
+        showDialog(
+            context: context,
+            builder: (context) {
+              return Dialog(
+                  child: Container(
+                width: MediaQuery.of(context).size.width,
+                // height: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    color: AppColors.white,
+                    borderRadius: BorderRadius.circular(17)),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 12, horizontal: 26),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Lottie.asset("assets/lottie/review.json",
+                          height: 300, width: 300),
+                      Text(
+                        "Thank You for Your Review!",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 24),
+                      ),
+                      Text(
+                        "We appreciate you taking the time to share your feedback. Your input helps us improve and inspire more learners.",
+                        textAlign: TextAlign.center,
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 32, vertical: 12),
+                          child: TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "OK",
+                                  style: TextStyle(color: AppColors.black),
+                                ),
+                              )))
+                    ],
+                  ),
+                ),
+              ));
+            });
+      } else {
+        showSnackBar("error", "something went wrong");
+        _isReviewPosting = false;
+        notifyListeners();
+      }
+    }
   }
 }

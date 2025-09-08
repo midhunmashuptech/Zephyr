@@ -6,6 +6,7 @@ import 'package:zephyr/constants/config.dart';
 import 'package:zephyr/features/enrolled_courses/model/course_detail_model.dart';
 import 'package:zephyr/features/enrolled_courses/model/enrolled_chapter_model.dart';
 import 'package:zephyr/features/enrolled_courses/model/enrolled_course_model.dart';
+import 'package:zephyr/features/enrolled_courses/model/post_course_review_model.dart';
 
 class EnrolledCourseService {
   final ApiService _apiService = ApiService();
@@ -54,6 +55,7 @@ class EnrolledCourseService {
     }
   }
 
+  // Get course details
   Future<CourseDetailModel?> getCourseDetails({
     required String courseId,
     required BuildContext context,
@@ -70,6 +72,28 @@ class EnrolledCourseService {
         return courseDetailModel;
       }
       return null;
+    }
+  }
+
+  // Get course reviews in course details page
+
+  // Post course review
+  Future<PostCourseReviewModel?> postCourseReview(
+      {required BuildContext context,
+      required String courseId,
+      required String rating,
+      required String review}) async {
+    final responseJson = await ApiService().postRequest(
+        url: postCourseReviewUrl,
+        fields: {"course_id": courseId, "rating": rating, "review": review});
+    if (responseJson == null || responseJson.isEmpty) {
+      showSnackBar("error", "something went wrong");
+      return null;
+    } else {
+      final postCourseReviewModel = PostCourseReviewModel.fromJson(responseJson);
+      if (postCourseReviewModel.type == "success") {
+        return postCourseReviewModel;
+      }
     }
   }
 }

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:provider/provider.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/common/widgets/rating_star_widget.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/coursedetails/model/get_course_reviews_model.dart';
 import 'package:zephyr/features/coursedetails/widgets/rating_widget.dart';
 import 'package:zephyr/features/coursedetails/widgets/review_card.dart';
+import 'package:zephyr/features/enrolled_courses/provider/enrolled_course_provider.dart';
 import 'package:zephyr/features/enrolled_courses/widgets/my_review_card.dart';
 import 'package:zephyr/features/auth/login/widgets/custom_textfeild.dart';
 
@@ -33,6 +36,7 @@ class ReviewDetails {
 }
 
 class _EnrolledCoursesReviewState extends State<EnrolledCoursesReview> {
+  EnrolledCourseProvider enrolledCourseProvider = EnrolledCourseProvider();
   bool isReviewSubmitted = false;
   final reviewController = TextEditingController();
   ReviewDetails myReviews = ReviewDetails(
@@ -41,270 +45,287 @@ class _EnrolledCoursesReviewState extends State<EnrolledCoursesReview> {
       reviewText: "",
       timeAgo: "",
       rating: 0.0);
-  List<ReviewDetails> reviewDetails = [
-    ReviewDetails(
-        userName: "Alankara Nair",
-        userImage: "assets/images/yaami.jpg",
-        reviewText:
-            "The foundation course made science and math so easy to understand. The videos are fun, and the quizzes really help me test what I learned!",
-        timeAgo: "3 day ago",
-        rating: 5.0),
-    ReviewDetails(
-        userName: "Meenakshi KS",
-        userImage: "assets/images/yaami.jpg",
-        reviewText:
-            "Helped improve my marks!”.My marks improved in all subjects after I joined this course. The foundation it builds is perfect for Class 9 and beyond.",
-        timeAgo: "30 min ago",
-        rating: 4.6),
-    ReviewDetails(
-        userName: "Suresh Krishna",
-        userImage: "assets/images/yaami.jpg",
-        reviewText:
-            "Best Online class ever!.I was struggling with algebra and physics, but this course explained everything so clearly. Now, I feel more confident before exams.",
-        timeAgo: "8 day ago",
-        rating: 5.0),
-    ReviewDetails(
-        userName: "Meenakshi",
-        userImage: "assets/images/yaami.jpg",
-        reviewText:
-            "Great support and material.The notes, video lessons, and practice tests are excellent. I also love how I can go back and watch lessons again whenever I want.",
-        timeAgo: "8 day ago",
-        rating: 5.0),
-    ReviewDetails(
-        userName: "Alankara Nair",
-        userImage: "assets/images/yaami.jpg",
-        reviewText:
-            "The foundation course made science and math so easy to understand. The videos are fun, and the quizzes really help me test what I learned!",
-        timeAgo: "3 day ago",
-        rating: 5.0),
-    ReviewDetails(
-        userName: "Meenakshi KS",
-        userImage: "assets/images/yaami.jpg",
-        reviewText:
-            "Helped improve my marks!”.My marks improved in all subjects after I joined this course. The foundation it builds is perfect for Class 9 and beyond.",
-        timeAgo: "30 min ago",
-        rating: 5.0),
-    ReviewDetails(
-        userName: "Suresh Krishna",
-        userImage: "assets/images/yaami.jpg",
-        reviewText:
-            "Best Online class ever!.I was struggling with algebra and physics, but this course explained everything so clearly. Now, I feel more confident before exams.",
-        timeAgo: "8 day ago",
-        rating: 5.0),
-    ReviewDetails(
-        userName: "Meenakshi",
-        userImage: "assets/images/yaami.jpg",
-        reviewText:
-            "Great support and material.The notes, video lessons, and practice tests are excellent. I also love how I can go back and watch lessons again whenever I want.",
-        timeAgo: "8 day ago",
-        rating: 5.0),
-  ];
+
+  double calculateEachRatingPercent(List<Reviews> courseReviews, int rating) {
+    final ratingList =
+        courseReviews.where((review) => review.rating == rating).toList();
+    print(ratingList.length / courseReviews.length);
+    return ratingList.length / courseReviews.length;
+  }
+
+  String convertToTimeAgo(String isoDate) {
+    if (isoDate.isEmpty) return "";
+    if (isoDate == "") return "";
+
+    try {
+      DateTime date = DateTime.parse(isoDate);
+      DateTime now = DateTime.now().toUtc();
+      Duration diff = now.difference(date);
+
+      if (diff.inDays < 1) {
+        return "Today";
+      } else if (diff.inDays == 1) {
+        return "1 day ago";
+      } else if (diff.inDays < 7) {
+        return "${diff.inDays} days ago";
+      } else if (diff.inDays < 30) {
+        int weeks = (diff.inDays / 7).floor();
+        return weeks == 1 ? "1 week ago" : "$weeks weeks ago";
+      } else if (diff.inDays < 365) {
+        int months = (diff.inDays / 30).floor();
+        return months == 1 ? "1 month ago" : "$months months ago";
+      } else {
+        int years = (diff.inDays / 365).floor();
+        return years == 1 ? "1 year ago" : "$years years ago";
+      }
+    } catch (e) {
+      return "";
+    }
+  }
+
+  Future<void> loadReviews() async {
+    final loadProvider = context.read<EnrolledCourseProvider>();
+    await loadProvider.getCourseReviews(courseId: "1", context: context);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadReviews();
+  }
+
   @override
   Widget build(BuildContext context) {
+    enrolledCourseProvider = context.watch<EnrolledCourseProvider>();
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            children: [
-              SizedBox(height: 10),
-              Container(
-                decoration: BoxDecoration(
-                    color: AppColors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [BoxShadow(color: AppColors.grey.withAlpha(70), spreadRadius: 3, blurRadius: 5)]),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [
-                          RatingBarWidget(number: "5", value: 0.9),
-                          RatingBarWidget(number: "4", value: 0.7),
-                          RatingBarWidget(number: "3", value: 0.6),
-                          RatingBarWidget(number: "2", value: 0.5),
-                          RatingBarWidget(number: "1", value: 0.4),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: Column(
-                          children: [
-                            Text(
-                              "4.8",
-                              style: TextStyle(
-                                  fontSize: 25, fontWeight: FontWeight.w600),
-                            ),
-                            RatingStarWidget(
-                              rating: 3.5,
-                            ),
-                            Text("70 reviews")
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    color: AppColors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [BoxShadow(color: AppColors.grey.withAlpha(70), spreadRadius: 3, blurRadius: 5)]),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: isReviewSubmitted
-                      ? MyReviewCard(
-                          userName: myReviews.userName,
-                          userImage: myReviews.userImage,
-                          reviewText: myReviews.reviewText,
-                          rating: myReviews.rating)
-                      : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Center(
-                                child: Text("Rate this course",
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w500))),
-                            SizedBox(height: 10),
-                            Row(
+      body: enrolledCourseProvider.isReviewsLoading
+          ? Center(child: CircularProgressIndicator())
+          : enrolledCourseProvider.courseReviews.isEmpty
+              ? Center(
+                  child: Text("No Reviews Found!"),
+                )
+              : SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 10),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: AppColors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: AppColors.grey.withAlpha(70),
+                                    spreadRadius: 3,
+                                    blurRadius: 5)
+                              ]),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                RatingBar.builder(
-                                  initialRating: 0,
-                                  minRating: 1,
-                                  direction: Axis.horizontal,
-                                  allowHalfRating: true,
-                                  itemCount: 5,
-                                  itemPadding:
-                                      EdgeInsets.symmetric(horizontal: 4.0),
-                                  itemBuilder: (context, _) => Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                  ),
-                                  onRatingUpdate: (rating) {
-                                    print(rating);
-                                    setState(() {
-                                      myReviews.rating = rating;
-                                    });
-                                  },
+                                Column(
+                                  children: [
+                                    RatingBarWidget(
+                                        number: "5",
+                                        value: calculateEachRatingPercent(
+                                            enrolledCourseProvider
+                                                .courseReviews,
+                                            5)),
+                                    RatingBarWidget(
+                                        number: "4",
+                                        value: calculateEachRatingPercent(
+                                            enrolledCourseProvider
+                                                .courseReviews,
+                                            4)),
+                                    RatingBarWidget(
+                                        number: "3",
+                                        value: calculateEachRatingPercent(
+                                            enrolledCourseProvider
+                                                .courseReviews,
+                                            3)),
+                                    RatingBarWidget(
+                                        number: "2",
+                                        value: calculateEachRatingPercent(
+                                            enrolledCourseProvider
+                                                .courseReviews,
+                                            2)),
+                                    RatingBarWidget(
+                                        number: "1",
+                                        value: calculateEachRatingPercent(
+                                            enrolledCourseProvider
+                                                .courseReviews,
+                                            1)),
+                                  ],
                                 ),
-                                Text(myReviews.rating.toString(), style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),)
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20.0),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        enrolledCourseProvider
+                                            .selectedCourseDetails.averageRating
+                                            .toString(),
+                                        style: TextStyle(
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      RatingStarWidget(
+                                        rating: enrolledCourseProvider
+                                                .selectedCourseDetails
+                                                .averageRating ??
+                                            0.0,
+                                      ),
+                                      Text(
+                                          "${enrolledCourseProvider.selectedCourseDetails.ratingCount} reviews")
+                                    ],
+                                  ),
+                                )
                               ],
                             ),
-                            SizedBox(height: 10),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Text("Write your review"),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            CustomTextField(
-                              controller: reviewController,
-                              maxLines: 3,
-                              hintText:
-                                  "write about your experience with the course......",
-                            ),
-                            CustomButton(
-                              text: "Submit your review",
-                              color: AppColors.primaryGreen,
-                              textcolor: AppColors.white,
-                              onPressed: myReviews.rating == 0.0
-                              ? null
-                              : () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return Dialog(
-                                          child: Container(
-                                            width: MediaQuery.of(context).size.width,
-                                            // height: MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                            color: AppColors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(17)),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical:12, horizontal: 26),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Lottie.asset(
-                                                  "assets/lottie/review.json",
-                                                  height: 300,
-                                                  width: 300),
-                                              Text(
-                                                "Thank You for Your Review!",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 24),
-                                              ),
-                                              Text(
-                                                "We appreciate you taking the time to share your feedback. Your input helps us improve and inspire more learners.",
-                                                textAlign: TextAlign.center,
-                                              ),
-                                              Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 32,
-                                                      vertical: 12),
-                                                  child: TextButton(
-                                                      // style: TextButton.styleFrom(
-                                                      //     backgroundColor:
-                                                      //         const Color.fromRGBO(229, 255, 216, 1)),
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Text(
-                                                          "OK",
-                                                          style: TextStyle(
-                                                              color: AppColors
-                                                                  .black),
-                                                        ),
-                                                      )))
-                                            ],
-                                          ),
-                                        ),
-                                      ));
-                                    });
-                                setState(() {
-                                  isReviewSubmitted = true;
-                                  myReviews.reviewText = reviewController.text;
-                                });
-                              },
-                            )
-                          ],
+                          ),
                         ),
+                        SizedBox(height: 10),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              color: AppColors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: AppColors.grey.withAlpha(70),
+                                    spreadRadius: 3,
+                                    blurRadius: 5)
+                              ]),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: enrolledCourseProvider.isReviewPostingSuccess
+                                ? MyReviewCard(
+                                    userName: myReviews.userName,
+                                    userImage: myReviews.userImage,
+                                    reviewText: myReviews.reviewText,
+                                    rating: myReviews.rating)
+                                : Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Center(
+                                          child: Text("Rate this course",
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight:
+                                                      FontWeight.w500))),
+                                      SizedBox(height: 10),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          RatingBar.builder(
+                                            initialRating: 0,
+                                            minRating: 1,
+                                            direction: Axis.horizontal,
+                                            allowHalfRating: true,
+                                            itemCount: 5,
+                                            itemPadding: EdgeInsets.symmetric(
+                                                horizontal: 4.0),
+                                            itemBuilder: (context, _) => Icon(
+                                              Icons.star,
+                                              color: Colors.amber,
+                                            ),
+                                            onRatingUpdate: (rating) {
+                                              enrolledCourseProvider
+                                                  .setUserRating(
+                                                      rating.toInt());
+                                              print(rating);
+                                            },
+                                          ),
+                                          Text(
+                                            myReviews.rating.toString(),
+                                            style: TextStyle(
+                                                fontSize: 30,
+                                                fontWeight: FontWeight.w600),
+                                          )
+                                        ],
+                                      ),
+                                      SizedBox(height: 10),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8.0),
+                                        child: Text("Write your review"),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      CustomTextField(
+                                        controller: reviewController,
+                                        maxLines: 3,
+                                        hintText:
+                                            "write about your experience with the course......",
+                                      ),
+                                      enrolledCourseProvider.isReviewPosting
+                                          ? Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Center(child: CircularProgressIndicator(color: AppColors.primaryGreen,)),
+                                          )
+                                          : CustomButton(
+                                              text: "Submit your review",
+                                              color: AppColors.primaryGreen,
+                                              textcolor: AppColors.white,
+                                              onPressed: enrolledCourseProvider.userRating == null
+                                                  ? null
+                                                  : () async {
+                                                      enrolledCourseProvider
+                                                          .setUserReview(
+                                                              reviewController
+                                                                  .text);
+
+                                                      // setState(() {
+                                                      //   isReviewSubmitted = true;
+                                                      //   myReviews.reviewText =
+                                                      //       reviewController.text;
+                                                      // });
+
+                                                      enrolledCourseProvider
+                                                          .postCourseReviews(
+                                                              courseId: "1",
+                                                              context: context);
+                                                    },
+                                            )
+                                    ],
+                                  ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          child: Divider(),
+                        ),
+                        ...List.generate(
+                            enrolledCourseProvider.courseReviews.length,
+                            (index) => ReviewCard(
+                                  userName: enrolledCourseProvider
+                                          .courseReviews[index].user?.name ??
+                                      "No Name",
+                                  userImage: enrolledCourseProvider
+                                          .courseReviews[index].user?.image ??
+                                      "",
+                                  reviewText: enrolledCourseProvider
+                                          .courseReviews[index].review ??
+                                      "",
+                                  timeAgo: convertToTimeAgo(
+                                      enrolledCourseProvider
+                                              .courseReviews[index].createdAt ??
+                                          ""),
+                                  rating: double.parse(enrolledCourseProvider
+                                      .courseReviews[index].rating
+                                      .toString()),
+                                )),
+                        SizedBox(height: 20),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Divider(),
-              ),
-              ...List.generate(
-                  reviewDetails.length,
-                  (index) => ReviewCard(
-                        userName: reviewDetails[index].userName,
-                        userImage: reviewDetails[index].userImage,
-                        reviewText: reviewDetails[index].reviewText,
-                        timeAgo: reviewDetails[index].timeAgo,
-                        rating: reviewDetails[index].rating,
-                      )),
-              SizedBox(height: 20),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

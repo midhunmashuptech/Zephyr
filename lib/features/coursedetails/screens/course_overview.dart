@@ -17,7 +17,9 @@ class _CourseOverviewState extends State<CourseOverview> {
   Widget build(BuildContext context) {
     courseProvider = context.watch<CourseProvider>();
     return Scaffold(
-      body: SingleChildScrollView(
+      body: courseProvider.isLoading
+      ? Center(child: CircularProgressIndicator())
+      : SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
