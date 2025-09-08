@@ -10,6 +10,7 @@ const registrationDropdownOptionsUrl =
 
 // get User Details API's
 const getUserDetailsUrl = "${baseUrl}get-user-details";
+const updateUserDetailsUrl = "${baseUrl}update-user-details";
 
 // enrolled courses API's
 const enrolledCourseUrl = "${baseUrl}get-subscribed-courses";
