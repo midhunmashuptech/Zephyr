@@ -68,7 +68,9 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
   Widget build(BuildContext context) {
     courseProvider = context.watch<CourseProvider>();
     return Scaffold(
-      body: Stack(
+      body: courseProvider.isLoading
+      ? Center(child: CircularProgressIndicator())
+      : Stack(
         children: [
           Column(
             children: [
@@ -96,10 +98,13 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                         Text(courseProvider.courseData.title ?? "Course title",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w600)),
-                        const SizedBox(height: 10),
+                         Padding(
+                           padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
+                           child: Text(courseProvider.courseData.title ?? "Course title",
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.w600)),
+                         ),
+                        const SizedBox(height: 15),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [

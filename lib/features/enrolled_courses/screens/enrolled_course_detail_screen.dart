@@ -75,9 +75,12 @@ class _EnrolledCourseDetailScreenState extends State<EnrolledCourseDetailScreen>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(enrolledCourseProvider.selectedCourseDetails.title ?? "Title",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w600)),
+                        Padding(
+                           padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
+                           child: Text(enrolledCourseProvider.selectedCourseDetails.title ?? "Course title",
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.w600)),
+                         ),
                         const SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

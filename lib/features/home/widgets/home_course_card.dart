@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/bxs.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/coursedetails/screens/course_details_screen.dart';
 import 'package:zephyr/features/home/model/active_course_model.dart';
@@ -29,7 +31,24 @@ class HomeCourseCard extends StatelessWidget {
               children: [
                 Stack(
                   children: [
-                    Image.network(course.thumbnail ?? "", fit: BoxFit.cover),
+                    SizedBox(
+                      height: 120,
+                      width:
+                          double.infinity, // takes full width of parent (Card)
+                      child: CachedNetworkImage(
+                        imageUrl: course.thumbnail ?? "",
+                        fit: BoxFit.cover,
+                        placeholder: (_, __) => Shimmer.fromColors(
+                          baseColor: AppColors.grey,
+                          highlightColor: AppColors.lightGrey,
+                          child: Container(
+                            height: 120,
+                            width: double.infinity,
+                            color: AppColors.white,
+                          ),
+                        ),
+                      ),
+                    ),
                     Positioned(
                       bottom: 0,
                       left: 0,
@@ -54,12 +73,10 @@ class HomeCourseCard extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      bottom: 10,
-                      right: 20,
-                      child: courseStarRating()
-                    )
+                        bottom: 10, right: 20, child: courseStarRating()),
                   ],
                 ),
+                
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
@@ -85,8 +102,7 @@ class HomeCourseCard extends StatelessWidget {
                           children: [
                             Iconify(Bxs.videos, size: 20),
                             SizedBox(width: 5),
-                            Text("30 Videos",
-                                style: TextStyle(fontSize: 13)),
+                            Text("30 Videos", style: TextStyle(fontSize: 13)),
                           ],
                         ),
                       )
@@ -102,7 +118,7 @@ class HomeCourseCard extends StatelessWidget {
   }
 
   Widget courseStarRating() {
-    double rating = double.parse( "3.2");
+    double rating = double.parse("3.2");
     final fullStarCount = rating.floor();
     final decimalPart = rating - fullStarCount;
     final halfStarCount = decimalPart >= 0.5 ? 1 : 0;
@@ -113,13 +129,12 @@ class HomeCourseCard extends StatelessWidget {
         ...List.generate(fullStarCount, (index) {
           return Icon(Icons.star, size: 18, color: AppColors.ratingYellow);
         }),
-
         ...List.generate(halfStarCount, (index) {
           return Icon(Icons.star_half, size: 18, color: AppColors.ratingYellow);
         }),
-
         ...List.generate(emptyStarCount, (index) {
-          return Icon(Icons.star_outline, size: 18, color: AppColors.ratingYellow);
+          return Icon(Icons.star_outline,
+              size: 18, color: AppColors.ratingYellow);
         }),
         SizedBox(width: 5),
         Text("3.2",

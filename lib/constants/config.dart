@@ -28,6 +28,10 @@ const getChapterOptionsUrl = "${baseUrl}get-chapters";
 const getTopicOptionsUrl = "${baseUrl}get-topics";
 const generateAiQuizUrl = "${baseUrl}generate-ai-practice-quiz";
 
+// Review API's
+const getCourseReviewsUrl = "${baseUrl}get-course-reviews/";
+const postCourseReviewUrl = "${baseUrl}post-course-reviews";
+
 // Base URL for webview
 const webBaseUrl = "https://zephyrentrance.in/";
 

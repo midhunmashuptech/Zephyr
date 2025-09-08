@@ -23,12 +23,13 @@ class ReviewCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
               CircleAvatar(
                 radius: 20,
-                backgroundImage: AssetImage(userImage),
+                backgroundImage: NetworkImage(userImage),
               ),
               SizedBox(width: 10),
               Column(
