@@ -150,6 +150,7 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                 ),
               ),
+              SizedBox(height: 10),
               TextField(
                 controller: addressController,
                 decoration: InputDecoration(hintText: "Enter Address"),
@@ -169,10 +170,11 @@ class _EditProfileState extends State<EditProfile> {
                 controller: districtController,
                 decoration: InputDecoration(hintText: "Enter District"),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 5),
               DropdownWidget(label: 'ygfuyg',
                items: ["rt","rdcr","rdrer"], 
                controller: classController,),
+              SizedBox(height: 10),
               TextField(
                 keyboardType: TextInputType.number,
                 controller: secondaryPhoneController,

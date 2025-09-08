@@ -19,30 +19,25 @@ class DropdownWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
       value: controller.text.isNotEmpty ? controller.text : null,
-     decoration: InputDecoration(
+      decoration: InputDecoration(
         labelText: label,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: AppColors.primaryGreen, width: 1.5),
-            borderRadius: BorderRadius.circular(5),
-          ),
-         
-        ),
+        border: const UnderlineInputBorder(), // default underline
+        focusedBorder: const UnderlineInputBorder(),
+        enabledBorder: const UnderlineInputBorder(),
+      ),
       items: items
           .map((item) => DropdownMenuItem(
                 value: item,
                 child: Text(item),
-         ))
+              ))
           .toList(),
       onChanged: (value) {
         controller.text = value ?? '';
       },
       validator: validator ??
-      (value) => value == null || value.isEmpty ? '$label is required' : null,
-      menuMaxHeight: 300, 
-      borderRadius: BorderRadius.circular(5), 
+          (value) => value == null || value.isEmpty ? '$label is required' : null,
+      menuMaxHeight: 300,
+      borderRadius: BorderRadius.circular(5),
     );
   }
 }
