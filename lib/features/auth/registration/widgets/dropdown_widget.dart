@@ -20,10 +20,10 @@ class DropdownWidget extends StatelessWidget {
     return DropdownButtonFormField<String>(
       value: controller.text.isNotEmpty ? controller.text : null,
       decoration: InputDecoration(
-        labelText: label,
-        border: const UnderlineInputBorder(), // default underline
-        focusedBorder: const UnderlineInputBorder(),
-        enabledBorder: const UnderlineInputBorder(),
+        hintText: label,
+        border: const UnderlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 70, 70, 70))), // default underline
+        focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.black87, width: 0.7)),
+        enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 0, 0, 0))),
       ),
       items: items
           .map((item) => DropdownMenuItem(

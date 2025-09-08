@@ -40,6 +40,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return DateFormat('dd-MM-yyyy').format(parsedDate);
   }
 
+  String capitalize(String input) {
+  if (input.isEmpty) return input;
+  return input[0].toUpperCase() + input.substring(1).toLowerCase();
+}
+
   Future<void> loadDropDowns() async {
     final authProvider = context.read<AuthProvider>();
     await authProvider.fetchRegisrationDropdownOption();
@@ -187,7 +192,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               "Gender",
                               style: TextStyle(color: AppColors.ratingGrey),
                             ),
-                            Text(userDetailProvider.userDetails.gender ?? "",
+                            Text(capitalize(userDetailProvider.userDetails.gender ?? ""),
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.w600)),
                             Divider(),
