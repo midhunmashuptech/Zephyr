@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
@@ -116,8 +117,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     padding: const EdgeInsets.all(2.0),
                                     child: CircleAvatar(
                                       radius: 25,
-                                      foregroundImage: AssetImage(
-                                          "assets/images/kim_shin.webp"),
+                                      foregroundImage: CachedNetworkImageProvider(
+                              userDetailsProvider.userDetails.image ?? ""),
                                     ),
                                   ),
                                 ),
