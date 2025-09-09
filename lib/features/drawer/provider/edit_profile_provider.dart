@@ -13,6 +13,9 @@ class EditProfileProvider extends ChangeNotifier {
   bool _isUpdating = false;
   bool get isUpdating => _isUpdating;
 
+  bool _isProfilePictureLoading = false;
+  bool get isProfilePictureLoading => _isProfilePictureLoading;
+
   String? _checkedOption;
   String? get checkedOption => _checkedOption;
 
@@ -89,6 +92,34 @@ class EditProfileProvider extends ChangeNotifier {
         notifyListeners();
       } else {
         showSnackBar("error", "something went wrong");
+      }
+    }
+  }
+
+  Future<void> uploadProfileImage({
+    required String filePath,
+    required BuildContext context,
+  }) async {
+    _isProfilePictureLoading = true;
+    notifyListeners();
+    final response = await DrawerService()
+        .uploadProfileImage(filePath: filePath, context: context);
+    if (response == null) {
+      _isProfilePictureLoading = false;
+      notifyListeners();
+      showSnackBar("Error", "Something went wrong");
+    } else {
+      if (response.type == "success") {
+        _isProfilePictureLoading = false;
+        showSnackBar("Success", 'Image uploaded successfully');
+        final userProfileImage = response.url;
+        final userDetailProvider = context.read<UserDetailsProvider>();
+        userDetailProvider.updateProfileImage(userProfileImage ?? "");
+        notifyListeners();
+      } else {
+        showSnackBar("Failed", "Failed to upload image");
+        _isProfilePictureLoading = false;
+        notifyListeners();
       }
     }
   }

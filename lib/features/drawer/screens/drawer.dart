@@ -1,6 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+import 'package:zephyr/common/provider/user_details_provider.dart';
 import 'package:zephyr/common/screens/error_screen.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/constants/widgets/layout_gradient.dart';
@@ -8,6 +11,7 @@ import 'package:zephyr/features/auth/login/screens/mobile_number_verification.da
 import 'package:zephyr/features/drawer/screens/about_us.dart';
 import 'package:zephyr/features/drawer/screens/edit_profile.dart';
 import 'package:zephyr/features/drawer/screens/help_and_support.dart';
+import 'package:zephyr/features/drawer/screens/profile_screen.dart';
 import 'package:zephyr/features/drawer/screens/terms_and_conditions.dart';
 import 'package:zephyr/features/drawer/screens/timeline_screen.dart';
 import 'package:zephyr/features/drawer/widgets/drawer_component.dart';
@@ -17,6 +21,7 @@ class DrawerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userDetailsProvider = context.watch<UserDetailsProvider>();
     return Drawer(
         child: Stack(
       children: [
@@ -25,48 +30,54 @@ class DrawerWidget extends StatelessWidget {
           padding: const EdgeInsets.all(30.0),
           child: ListView(
             children: [
-              Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.black
-                              .withAlpha(50), // changed this - withOpacity(0.2)
-                          blurRadius: 6,
-                          spreadRadius: 2,
-                          offset: Offset(0, 3),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (contex) => ProfileScreen()));
+                },
+                child: Row(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.black.withAlpha(
+                                50), // changed this - withOpacity(0.2)
+                            blurRadius: 6,
+                            spreadRadius: 2,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: CircleAvatar(
+                        radius: 35,
+                        backgroundColor: AppColors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: CircleAvatar(
+                            radius: 40,
+                            foregroundImage: CachedNetworkImageProvider(
+                                userDetailsProvider.userDetails.image ?? ""),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Hello, Welcome", style: TextStyle(fontSize: 16)),
+                        Text(
+                          "Kim Shin",
+                          style: TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.w600),
                         ),
                       ],
-                    ),
-                    child: CircleAvatar(
-                      radius: 35,
-                      backgroundColor: AppColors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: CircleAvatar(
-                          radius: 40,
-                          foregroundImage:
-                              AssetImage("assets/images/kim_shin.webp"),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Hello, Welcome", style: TextStyle(fontSize: 16)),
-                      Text(
-                        "Kim Shin",
-                        style: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.w600),
-                      ),
-                    ],
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
               SizedBox(height: 20),
               Opacity(

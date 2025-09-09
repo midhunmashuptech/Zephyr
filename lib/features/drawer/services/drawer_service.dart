@@ -1,13 +1,19 @@
+import 'dart:convert';
+
 import 'package:flutter/widgets.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
 import 'package:zephyr/api_files/api_service.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/constants/config.dart';
 import 'package:zephyr/features/drawer/models/password_reset_model.dart';
 import 'package:zephyr/features/drawer/models/update_user_detail_model.dart';
+import 'package:zephyr/features/drawer/models/upload_profile_picture_model.dart';
 
 class DrawerService {
   final ApiService _apiService = ApiService();
 
+  //Reset Password
   Future<PasswordResetModel> resetPassword(
       BuildContext context, String newPassword) async {
     print(newPassword);
@@ -48,7 +54,7 @@ class DrawerService {
     final jsonResponse =
         await ApiService().postRequest(url: updateUserDetailsUrl, fields: {
       "name": name,
-      "email": email,
+      // "email": email,
       "gender": gender,
       "dob": dob,
       "school": school,
@@ -66,6 +72,49 @@ class DrawerService {
     } else {
       showSnackBar(
           "Error", updateUserDetailModel.message ?? "Something went wrong!");
+      return null;
+    }
+  }
+
+  //Upload Profile Picture
+
+  Future<UploadProfileImageModel?> uploadProfileImage({
+    required String filePath,
+    required BuildContext context,
+  }) async {
+    try {
+      var request =
+          http.MultipartRequest('POST', Uri.parse(updateProfilePictureUrl));
+
+      request.files
+          .add(await http.MultipartFile.fromPath('profile_picture', filePath));
+
+      FlutterSecureStorage secureStorage = FlutterSecureStorage();
+      final token = await secureStorage.read(key: "token");
+      final headers = {
+        'Authorization': 'Bearer $token',
+      };
+      request.headers.addAll(headers);
+
+      final response = await request.send();
+
+      if (response.statusCode == 200) {
+        String responseData = await response.stream.bytesToString();
+        Map<String, dynamic> jsonResponse = jsonDecode(responseData);
+        var uploadProfileImageModel =
+            UploadProfileImageModel.fromJson(jsonResponse);
+        if (uploadProfileImageModel.type == 'success') {
+          showSnackBar("Success", 'Image uploaded successfully');
+        } else {
+          showSnackBar("Failed", "Failed to upload image");
+        }
+        return uploadProfileImageModel;
+      } else {
+        print('Error: ${response.reasonPhrase}');
+        return null;
+      }
+    } catch (e) {
+      print('Exception: $e');
       return null;
     }
   }

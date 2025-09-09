@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -90,7 +91,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Center(
                         child: CircleAvatar(
                           backgroundImage: selectedImage == null
-                              ? AssetImage("assets/images/kim_shin.webp")
+                              ? CachedNetworkImageProvider(
+                              userDetailProvider.userDetails.image ?? "")
                               : FileImage(selectedImage!),
                           radius: 80,
                         ),

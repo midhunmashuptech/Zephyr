@@ -20,7 +20,6 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-  File? selectedImage;
 
   UserDetailsProvider userDetailsProvider = UserDetailsProvider();
   EditProfileProvider editProfileProvider = EditProfileProvider();
@@ -31,9 +30,11 @@ class _EditProfileState extends State<EditProfile> {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      setState(() {
-        selectedImage = File(pickedFile.path);
-      });
+      // setState(() {
+      //   selectedImage = File(pickedFile.path);
+      // });
+      editProfileProvider.uploadProfileImage(
+          filePath: pickedFile.path, context: context);
     }
   }
 
@@ -78,6 +79,7 @@ class _EditProfileState extends State<EditProfile> {
     countryController.text = loadProvider.userDetails.country ?? "";
     stateController.text = loadProvider.userDetails.state ?? "";
     districtController.text = loadProvider.userDetails.district ?? "";
+    secondaryMobileController.text = loadProvider.userDetails.secondaryPhone ?? "";
     dobController.text = formatIsoDate(loadProvider.userDetails.dob ?? "");
     print(optionsProvider.classDropdownOptions.length);
     classController.text = optionsProvider.classDropdownOptions
@@ -100,7 +102,8 @@ class _EditProfileState extends State<EditProfile> {
         loadProvider.userDetails.gender == "female") {
       editProvider.radiocheck(loadProvider.userDetails.gender);
     } else {
-      editProvider.radiocheck(null);}
+      editProvider.radiocheck(null);
+    }
 
     editProvider.loadingFalse();
   }
@@ -125,15 +128,17 @@ class _EditProfileState extends State<EditProfile> {
                 child: Stack(
                   children: [
                     CircleAvatar(
-                      backgroundImage: selectedImage == null
-                          ? CachedNetworkImageProvider(
-                              userDetailsProvider.userDetails.image ?? "")
-                          : FileImage(selectedImage!),
-                      radius: 90,
+                      radius: 80,
+                      child: editProfileProvider.isProfilePictureLoading 
+                      ? Center(child: CircularProgressIndicator())
+                      : ClipOval(
+                        child: CachedNetworkImage(height: 160,width: 160, fit: BoxFit.cover, imageUrl: 
+                                userDetailsProvider.userDetails.image ?? ""),
+                      ),
                     ),
                     Positioned(
-                      bottom: 10,
-                      right: 10,
+                      bottom: 5,
+                      right: 5,
                       child: CircleAvatar(
                         backgroundColor: AppColors.primaryOrange,
                         child: IconButton(
@@ -296,45 +301,52 @@ class _EditProfileState extends State<EditProfile> {
                         ),
                         SizedBox(height: 20),
                         editProfileProvider.isUpdating
-                        ? Center(child: CircularProgressIndicator())
-                        : CustomButton(
-                          text: "Update",
-                          onPressed: () {
-                            editProfileProvider.updateDetails(
-                                context: context,
-                                name: usernameController.text,
-                                email: emailController.text,
-                                gender: editProfileProvider.checkedOption ?? "",
-                                dob: dobController.text,
-                                school: schoolController.text,
-                                classStudying: authProvider.classDropdownOptions
-                                    .firstWhere(
-                                      (classes) =>
-                                          classes.title == classController.text,
-                                      orElse: () => ClassStudying(id: 0),
-                                    )
-                                    .id
-                                    .toString(),
-                                syllabusId: authProvider.syllabusDropdownOptions
-                                    .firstWhere(
-                                      (syllabus) =>
-                                          syllabus.title ==
-                                          syllabusController.text,
-                                      orElse: () => Syllabus(id: 0),
-                                    )
-                                    .id
-                                    .toString(),
-                                address: addressController.text,
-                                district: districtController.text,
-                                state: stateController.text,
-                                country: countryController.text,
-                                secondaryPhone: secondaryMobileController.text);
-                            editProfileProvider.setUpdatedProfile(
-                                usernameController.text, emailController.text);
-                          },
-                          color: AppColors.primaryOrange,
-                          textcolor: AppColors.white,
-                        )
+                            ? Center(child: CircularProgressIndicator())
+                            : CustomButton(
+                                text: "Update",
+                                onPressed: () {
+                                  editProfileProvider.updateDetails(
+                                      context: context,
+                                      name: usernameController.text,
+                                      email: emailController.text,
+                                      gender:
+                                          editProfileProvider.checkedOption ??
+                                              "",
+                                      dob: dobController.text,
+                                      school: schoolController.text,
+                                      classStudying: authProvider
+                                          .classDropdownOptions
+                                          .firstWhere(
+                                            (classes) =>
+                                                classes.title ==
+                                                classController.text,
+                                            orElse: () => ClassStudying(id: 0),
+                                          )
+                                          .id
+                                          .toString(),
+                                      syllabusId:
+                                          authProvider.syllabusDropdownOptions
+                                              .firstWhere(
+                                                (syllabus) =>
+                                                    syllabus.title ==
+                                                    syllabusController.text,
+                                                orElse: () => Syllabus(id: 0),
+                                              )
+                                              .id
+                                              .toString(),
+                                      address: addressController.text,
+                                      district: districtController.text,
+                                      state: stateController.text,
+                                      country: countryController.text,
+                                      secondaryPhone:
+                                          secondaryMobileController.text);
+                                  editProfileProvider.setUpdatedProfile(
+                                      usernameController.text,
+                                      emailController.text);
+                                },
+                                color: AppColors.primaryOrange,
+                                textcolor: AppColors.white,
+                              )
                       ],
                     ),
             ],
