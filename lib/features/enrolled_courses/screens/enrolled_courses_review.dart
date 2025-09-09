@@ -19,32 +19,10 @@ class EnrolledCoursesReview extends StatefulWidget {
   State<EnrolledCoursesReview> createState() => _EnrolledCoursesReviewState();
 }
 
-class ReviewDetails {
-  final String userName;
-  final String userImage;
-  String reviewText;
-  final String timeAgo;
-  double rating;
-
-  ReviewDetails({
-    required this.userName,
-    required this.userImage,
-    required this.reviewText,
-    required this.timeAgo,
-    required this.rating,
-  });
-}
-
 class _EnrolledCoursesReviewState extends State<EnrolledCoursesReview> {
   EnrolledCourseProvider enrolledCourseProvider = EnrolledCourseProvider();
   bool isReviewSubmitted = false;
   final reviewController = TextEditingController();
-  ReviewDetails myReviews = ReviewDetails(
-      userName: "Athulya",
-      userImage: "assets/images/yaami.jpg",
-      reviewText: "",
-      timeAgo: "",
-      rating: 0.0);
 
   double calculateEachRatingPercent(List<Reviews> courseReviews, int rating) {
     final ratingList =
@@ -201,102 +179,126 @@ class _EnrolledCoursesReviewState extends State<EnrolledCoursesReview> {
                               ]),
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
-                            child: enrolledCourseProvider.isReviewPostingSuccess
-                                ? MyReviewCard(
-                                    userName: myReviews.userName,
-                                    userImage: myReviews.userImage,
-                                    reviewText: myReviews.reviewText,
-                                    rating: myReviews.rating)
-                                : Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Center(
-                                          child: Text("Rate this course",
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight:
-                                                      FontWeight.w500))),
-                                      SizedBox(height: 10),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                            child:
+                                enrolledCourseProvider.isReviewPostingSuccess &&
+                                        enrolledCourseProvider.myReview != null
+                                    ? MyReviewCard(
+                                        userName: enrolledCourseProvider
+                                                .myReview?.userName ??
+                                            "",
+                                        userImage: enrolledCourseProvider
+                                                .myReview?.userImage ??
+                                            "",
+                                        reviewText: enrolledCourseProvider
+                                                .myReview?.reviewText ??
+                                            "",
+                                        rating: enrolledCourseProvider
+                                                .myReview?.rating ??
+                                            0.0)
+                                    : Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          RatingBar.builder(
-                                            initialRating: 0,
-                                            minRating: 1,
-                                            direction: Axis.horizontal,
-                                            allowHalfRating: true,
-                                            itemCount: 5,
-                                            itemPadding: EdgeInsets.symmetric(
-                                                horizontal: 4.0),
-                                            itemBuilder: (context, _) => Icon(
-                                              Icons.star,
-                                              color: Colors.amber,
-                                            ),
-                                            onRatingUpdate: (rating) {
-                                              enrolledCourseProvider
-                                                  .setUserRating(
-                                                      rating.toInt());
-                                              print(rating);
-                                            },
+                                          Center(
+                                              child: Text("Rate this course",
+                                                  style: TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.w500))),
+                                          SizedBox(height: 10),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              RatingBar.builder(
+                                                initialRating: 0,
+                                                minRating: 1,
+                                                direction: Axis.horizontal,
+                                                itemCount: 5,
+                                                itemPadding:
+                                                    EdgeInsets.symmetric(
+                                                        horizontal: 4.0),
+                                                itemBuilder: (context, _) =>
+                                                    Icon(
+                                                  Icons.star,
+                                                  color: Colors.amber,
+                                                ),
+                                                onRatingUpdate: (rating) {
+                                                  enrolledCourseProvider
+                                                      .setUserRating(
+                                                          rating.toInt());
+                                                  print(rating);
+                                                },
+                                              ),
+                                              Text(
+                                                "${(enrolledCourseProvider.userRating ?? 0)}.0",
+                                                style: TextStyle(
+                                                    fontSize: 30,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              )
+                                            ],
                                           ),
-                                          Text(
-                                            myReviews.rating.toString(),
-                                            style: TextStyle(
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.w600),
-                                          )
+                                          SizedBox(height: 10),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8.0),
+                                            child: Text("Write your review"),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          CustomTextField(
+                                            controller: reviewController,
+                                            maxLines: 3,
+                                            hintText:
+                                                "write about your experience with the course......",
+                                          ),
+                                          enrolledCourseProvider.isReviewPosting
+                                              ? Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Center(
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                    color:
+                                                        AppColors.primaryGreen,
+                                                  )),
+                                                )
+                                              : CustomButton(
+                                                  text: "Submit your review",
+                                                  color: AppColors.primaryGreen,
+                                                  textcolor: AppColors.white,
+                                                  onPressed:
+                                                      enrolledCourseProvider
+                                                                  .userRating ==
+                                                              null
+                                                          ? null
+                                                          : () async {
+                                                              enrolledCourseProvider
+                                                                  .setUserReview(
+                                                                      reviewController
+                                                                          .text);
+
+                                                              // setState(() {
+                                                              //   isReviewSubmitted = true;
+                                                              //   myReviews.reviewText =
+                                                              //       reviewController.text;
+                                                              // });
+
+                                                              enrolledCourseProvider
+                                                                  .postCourseReviews(
+                                                                      courseId:
+                                                                          "1",
+                                                                      context:
+                                                                          context);
+                                                            },
+                                                )
                                         ],
                                       ),
-                                      SizedBox(height: 10),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8.0),
-                                        child: Text("Write your review"),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      CustomTextField(
-                                        controller: reviewController,
-                                        maxLines: 3,
-                                        hintText:
-                                            "write about your experience with the course......",
-                                      ),
-                                      enrolledCourseProvider.isReviewPosting
-                                          ? Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Center(child: CircularProgressIndicator(color: AppColors.primaryGreen,)),
-                                          )
-                                          : CustomButton(
-                                              text: "Submit your review",
-                                              color: AppColors.primaryGreen,
-                                              textcolor: AppColors.white,
-                                              onPressed: enrolledCourseProvider.userRating == null
-                                                  ? null
-                                                  : () async {
-                                                      enrolledCourseProvider
-                                                          .setUserReview(
-                                                              reviewController
-                                                                  .text);
-
-                                                      // setState(() {
-                                                      //   isReviewSubmitted = true;
-                                                      //   myReviews.reviewText =
-                                                      //       reviewController.text;
-                                                      // });
-
-                                                      enrolledCourseProvider
-                                                          .postCourseReviews(
-                                                              courseId: "1",
-                                                              context: context);
-                                                    },
-                                            )
-                                    ],
-                                  ),
                           ),
                         ),
+                        SizedBox(height: 10),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12.0),
                           child: Divider(),

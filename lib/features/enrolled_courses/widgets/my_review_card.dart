@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:zephyr/common/widgets/rating_star_widget.dart';
 import 'package:zephyr/constants/app_constants.dart';
@@ -31,7 +32,7 @@ class _MyReviewCardState extends State<MyReviewCard> {
             children: [
               CircleAvatar(
                 radius: 20,
-                backgroundImage: AssetImage(widget.userImage),
+                backgroundImage: CachedNetworkImageProvider(widget.userImage),
               ),
               SizedBox(width: 10),
               Column(

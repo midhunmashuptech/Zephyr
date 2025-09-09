@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
+import 'package:zephyr/common/provider/user_details_provider.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/coursedetails/model/get_course_reviews_model.dart';
 import 'package:zephyr/features/coursedetails/service/course_details_service.dart';
@@ -35,6 +38,15 @@ class EnrolledCourseProvider extends ChangeNotifier {
   String? userRating;
   String? userReview;
 
+  ReviewDetails? myReview;
+
+  void clearUserRatingDetails() {
+    userRating = null;
+    userReview = null;
+    myReview = null;
+    notifyListeners();
+  }
+
   void setUserRating(int rating) {
     userRating = rating.toString();
     notifyListeners();
@@ -42,6 +54,27 @@ class EnrolledCourseProvider extends ChangeNotifier {
 
   void setUserReview(String review) {
     userReview = review;
+    notifyListeners();
+  }
+
+  void setMyReview(BuildContext context) {
+    final userDetailsProvider =
+        Provider.of<UserDetailsProvider>(context, listen: false);
+    final result = courseReviews.firstWhere(
+      (review) => review.userId == userDetailsProvider.userDetails.id,
+      orElse: () => Reviews(id: -1),
+    );
+    print(result.id);
+    if (result.id != -1) {
+      print("My Review available!");
+      _isReviewPostingSuccess = true;
+      myReview = ReviewDetails(
+          userName: userDetailsProvider.userDetails.name ?? "My Name",
+          userImage: userDetailsProvider.userDetails.image ?? "",
+          reviewText: result.review ?? "",
+          timeAgo: result.createdAt.toString(),
+          rating: (result.rating ?? 0).toDouble());
+    }
     notifyListeners();
   }
 
@@ -150,6 +183,7 @@ class EnrolledCourseProvider extends ChangeNotifier {
       {required String courseId, required BuildContext context}) async {
     _isReviewsLoading = true;
     _isReviewPostingSuccess = false;
+    clearUserRatingDetails();
     notifyListeners();
 
     final response = await CourseDetailsService()
@@ -163,6 +197,7 @@ class EnrolledCourseProvider extends ChangeNotifier {
       if (response.type == "success") {
         _courseReviews = response.reviews ?? [];
         notifyListeners();
+        setMyReview(context);
         _isReviewsLoading = false;
         notifyListeners();
       } else {
@@ -193,6 +228,14 @@ class EnrolledCourseProvider extends ChangeNotifier {
     } else {
       if (response.type == "success") {
         _isReviewPostingSuccess = true;
+        final userDetailsProvider =
+        Provider.of<UserDetailsProvider>(context, listen: false);
+        myReview = ReviewDetails(
+          userName: userDetailsProvider.userDetails.name ?? "My Name",
+          userImage: userDetailsProvider.userDetails.image ?? "",
+          reviewText: userReview ?? "",
+          timeAgo: DateFormat('yyyy.MM.dd').format(DateTime.now()),
+          rating: double.parse(userRating ?? "0.0"));
         notifyListeners();
         _isReviewPosting = false;
         notifyListeners();
@@ -249,4 +292,20 @@ class EnrolledCourseProvider extends ChangeNotifier {
       }
     }
   }
+}
+
+class ReviewDetails {
+  final String userName;
+  final String userImage;
+  String reviewText;
+  final String timeAgo;
+  double rating;
+
+  ReviewDetails({
+    required this.userName,
+    required this.userImage,
+    required this.reviewText,
+    required this.timeAgo,
+    required this.rating,
+  });
 }
