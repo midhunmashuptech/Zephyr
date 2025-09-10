@@ -108,6 +108,7 @@ class _LoginState extends State<Login> {
                     return TextFormField(
                       controller: passwordController,
                       obscureText: !value,
+                      readOnly: authProvider.isLogining,
                       decoration: InputDecoration(
                         labelText: 'Password',
                         errorText: authProvider.isPasswordEmpty

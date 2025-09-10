@@ -8,11 +8,13 @@ import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/constants/config.dart';
 import 'package:zephyr/features/auth/login/model/login_model.dart';
+import 'package:zephyr/features/auth/login/model/reset_password_login_model.dart';
 import 'package:zephyr/features/auth/login/model/verify_phone_model.dart';
 
 class LoginService {
   final ApiService _apiService = ApiService();
 
+  //Login
   Future<LoginModel?> login(
     BuildContext context, {
     required String countryCode,
@@ -72,6 +74,7 @@ class LoginService {
     return null;
   }
 
+  //mobileNumberVerification
   Future<VerifyPhoneNumberModel?> verifyPhoneNumber(
     BuildContext context, {
     required String countryCode,
@@ -99,7 +102,7 @@ class LoginService {
     }
   }
 
-
+  //Fetch User Details
   Future<VerifyPhoneNumberModel?> getUserDetails(
     BuildContext context, {
     required String countryCode,
@@ -122,4 +125,28 @@ class LoginService {
       }
     }
   }
+
+  // Reset Password Login
+  Future<ResetPasswordLoginModel?> resetPassword(
+      {required BuildContext context,
+      required String phone,
+      required String countryCode,
+      required String password}) async {
+    final responseJson = await ApiService().authPostRequest(
+        url: resetPasswordUrl,
+        fields: {
+          "phone": phone,
+          "country_code": countryCode.substring(1),
+          "password": password
+        });
+
+    final resetPasswordLoginModel =
+        ResetPasswordLoginModel.fromJson(responseJson);
+    if (resetPasswordLoginModel.type == "success") {
+      showSnackBar("success", "rsest successful");
+    }
+    return resetPasswordLoginModel;
+  }
+
+
 }

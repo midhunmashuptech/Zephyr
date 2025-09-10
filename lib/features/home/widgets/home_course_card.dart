@@ -36,7 +36,7 @@ class HomeCourseCard extends StatelessWidget {
                       width:
                           double.infinity, // takes full width of parent (Card)
                       child: CachedNetworkImage(
-                        imageUrl: course.thumbnail ?? "",
+                        imageUrl: course.thumbnail ?? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
                         fit: BoxFit.cover,
                         placeholder: (_, __) => Shimmer.fromColors(
                           baseColor: AppColors.grey,
