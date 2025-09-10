@@ -6,7 +6,7 @@ import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/auth/login/widgets/custom_textfeild.dart';
 import 'package:zephyr/features/auth/provider/auth_provider.dart';
 import 'package:zephyr/features/auth/registration/screens/registration_syllabus.dart';
-import 'package:zephyr/features/auth/registration/widgets/dropdown_widget.dart';
+import 'package:zephyr/features/auth/registration/widgets/registration_dropdown_widget.dart';
 import 'package:zephyr/features/auth/registration/widgets/gender_widget.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -165,7 +165,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             suffixIcon: Icon(Icons.school),
                           ),
                           SizedBox(height: 5),
-                          DropdownWidget(
+                          RegistrationDropdownWidget(
                             label: 'Class',
                             items: authProvider.classDropdownOptions
                                 .map((classOption) =>
