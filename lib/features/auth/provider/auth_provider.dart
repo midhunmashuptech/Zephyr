@@ -65,16 +65,16 @@ class AuthProvider extends ChangeNotifier {
   void setPassword(String enterdPassword) {
     registrationPassword = enterdPassword;
     notifyListeners();
-    print(registrationPassword);
-    print(selectedSyllabusId);
-    print(fullName);
-    print(dob);
-    print(email);
-    print(schoolName);
-    print(classId);
-    print(selectedGender);
-    print(phoneNumber);
-    print(countryCode);
+    // print(registrationPassword);
+    // print(selectedSyllabusId);
+    // print(fullName);
+    // print(dob);
+    // print(email);
+    // print(schoolName);
+    // print(classId);
+    // print(selectedGender);
+    // print(phoneNumber);
+    // print(countryCode);
   }
 
   //registration

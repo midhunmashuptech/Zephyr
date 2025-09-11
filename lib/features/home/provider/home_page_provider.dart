@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/features/home/model/active_course_model.dart';
+import 'package:zephyr/features/home/model/featured_course_model.dart'
+    as featured_model;
 import 'package:zephyr/features/home/service/home_page_service.dart';
 
 class HomePageProvider extends ChangeNotifier {
+  
   bool _isActiveCoursesLoading = false;
   bool get isActiveCoursesLoading => _isActiveCoursesLoading;
+
+  bool _isFeaturedCourseLoading = false;
+  bool get isFeaturedCourseLoading => _isFeaturedCourseLoading;
 
   List<Course> _activeCourses = [];
   List<Course> get activeCourses => _activeCourses;
 
   List<Course> _filteredActiveCourses = [];
   List<Course> get filteredActiveCourses => _filteredActiveCourses;
+
+  List<featured_model.Courses> _featuredCourses = [];
+  List<featured_model.Courses> get featuredCourses => _featuredCourses;
 
   void filterActiveCourses(String? searchValue) {
     _filteredActiveCourses = activeCourses
@@ -22,6 +31,7 @@ class HomePageProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  //Active Courses
   Future<void> fetchActiveCouses(BuildContext context) async {
     _isActiveCoursesLoading = true;
     notifyListeners();
@@ -47,6 +57,25 @@ class HomePageProvider extends ChangeNotifier {
         notifyListeners();
 
         _isActiveCoursesLoading = false;
+        notifyListeners();
+      }
+    }
+  }
+
+  //Featured Courses
+  Future<void> fetchFeaturedCourses({required BuildContext context}) async {
+    _isFeaturedCourseLoading = true;
+    notifyListeners();
+    final response =
+        await HomePageService().getfeaturedCourse(context: context);
+    if (response == null) {
+      showSnackBar("Error", "Error Fetching Featured Courses");
+      _isFeaturedCourseLoading = false;
+      notifyListeners();
+    } else {
+      if (response.type == "success") {
+        _featuredCourses = response.courses ?? [];
+        _isFeaturedCourseLoading = false;
         notifyListeners();
       }
     }

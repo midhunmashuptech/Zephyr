@@ -1,11 +1,9 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:zephyr/api_files/api_service.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
-import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/constants/config.dart';
 import 'package:zephyr/features/auth/login/model/login_model.dart';
 import 'package:zephyr/features/auth/login/model/reset_password_login_model.dart';
@@ -74,7 +72,7 @@ class LoginService {
     return null;
   }
 
-  //mobileNumberVerification
+  //Mobile Number Verification
   Future<VerifyPhoneNumberModel?> verifyPhoneNumber(
     BuildContext context, {
     required String countryCode,
@@ -143,10 +141,8 @@ class LoginService {
     final resetPasswordLoginModel =
         ResetPasswordLoginModel.fromJson(responseJson);
     if (resetPasswordLoginModel.type == "success") {
-      showSnackBar("success", "rsest successful");
+      showSnackBar("success", "reset successful");
     }
     return resetPasswordLoginModel;
   }
-
-
 }
