@@ -1,14 +1,14 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:zephyr/common/service/notification_service.dart';
 import 'package:zephyr/constants/app_constants.dart';
 
 class LiveClassCard extends StatelessWidget {
   final String className;
   final String tutorName;
-  final String date;
-  final String year;
-  final String duration;
+  final String startDate;
+  final String enddate;
   final String imageUrl;
   final Color imageColor;
   final String currenttab;
@@ -17,12 +17,32 @@ class LiveClassCard extends StatelessWidget {
       {super.key,
       required this.className,
       required this.tutorName,
-      required this.date,
-      required this.year,
-      required this.duration,
+      required this.startDate,
+      required this.enddate,
       required this.imageUrl,
       required this.imageColor,
       required this.currenttab});
+
+  String formatDate(String isoString) {
+    DateTime dateTime = DateTime.parse(isoString);
+    return DateFormat('MMM d').format(dateTime);
+  }
+
+  String formatYear(String isoString) {
+    DateTime dateTime = DateTime.parse(isoString);
+    return DateFormat('yyyy').format(dateTime);
+  }
+
+String formatTimeRange(String startIso, String endIso) {
+  DateTime start = DateTime.parse(startIso);
+  DateTime end = DateTime.parse(endIso);
+
+  String startTime = DateFormat('hh:mm a').format(start).toUpperCase();
+  String endTime = DateFormat('hh:mm a').format(end).toUpperCase();
+
+  return "$startTime - $endTime";
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -142,14 +162,14 @@ class LiveClassCard extends StatelessWidget {
                                     Column(
                                       children: [
                                         Text(
-                                          " $date",
+                                          " $startDate",
                                           style: const TextStyle(
                                               fontSize: 14,
                                               color: AppColors.black,
                                               fontWeight: FontWeight.w500),
                                         ),
                                         Text(
-                                          " $year",
+                                          " $enddate",
                                           style: const TextStyle(
                                               fontSize: 18,
                                               color: AppColors.black,
@@ -159,30 +179,29 @@ class LiveClassCard extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                
-                            if (currenttab == "Recordings")
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(
-                                    Icons.download,
-                                    color: AppColors.primaryBlue,
-                                  ))
-                            else if (currenttab == "Upcoming")
-                              IconButton(
-                                  onPressed: () {
-                                    NotificationService()
-                                        .scheduleNotificationInMinutes(
-                                            title: "Live Class Reminder",
-                                            body:
-                                                "Your Live Class will begin in 15 minutes. Get ready to make your learning brighter!",
-                                            // hour: 13,
-                                            // minute: 6
-                                            minutesFromNow: 3);
-                                  },
-                                  icon: Icon(
-                                    Icons.alarm,
-                                    color: AppColors.primaryGreen,
-                                  ))
+                                if (currenttab == "Recordings")
+                                  IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(
+                                        Icons.download,
+                                        color: AppColors.primaryBlue,
+                                      ))
+                                else if (currenttab == "Upcoming")
+                                  IconButton(
+                                      onPressed: () {
+                                        NotificationService()
+                                            .scheduleNotificationInMinutes(
+                                                title: "Live Class Reminder",
+                                                body:
+                                                    "Your Live Class will begin in 15 minutes. Get ready to make your learning brighter!",
+                                                // hour: 13,
+                                                // minute: 6
+                                                minutesFromNow: 3);
+                                      },
+                                      icon: Icon(
+                                        Icons.alarm,
+                                        color: AppColors.primaryGreen,
+                                      ))
                               ],
                             ),
                             Row(
@@ -192,13 +211,13 @@ class LiveClassCard extends StatelessWidget {
                                   color: AppColors.primaryOrange,
                                   size: 15,
                                 ),
-                                Text(
-                                  " $duration",
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    color: AppColors.black,
-                                  ),
-                                ),
+                                // Text(
+                                //   " $duration",
+                                //   style: const TextStyle(
+                                //     fontSize: 14,
+                                //     color: AppColors.black,
+                                //   ),
+                                // ),
                               ],
                             ),
                           ],
