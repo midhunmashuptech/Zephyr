@@ -29,11 +29,14 @@ class HomePageService {
       {required BuildContext context}) async {
     final responseJson =
         await ApiService().getRequest(url: getFeaturedCourseUrl);
-      final featuredCourseModel =
-           FeaturedCourseModel.fromJson(responseJson);
+    if (responseJson == null) {
+      showSnackBar("Error", "Something went wrong");
+    } else {
+      final featuredCourseModel = FeaturedCourseModel.fromJson(responseJson);
       if (featuredCourseModel.type == "success") {
         return featuredCourseModel;
       }
-      return null;
     }
+      return null;
+  }
 }

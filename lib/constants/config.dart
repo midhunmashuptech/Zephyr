@@ -19,6 +19,11 @@ const enrolledChapterUrl = "${baseUrl}get-enrollment-chapters";
 const enrolledChapterVideosUrl = "${baseUrl}get-enrollment-chapter-videos";
 const courseDetailUrl = "${baseUrl}get-course-details";
 
+//Live API's
+const ongoingLiveUrl = "${baseUrl}get-ongoing-live-classes";
+// const upcomingLiveUrl = "${baseUrl}get-ongoing-live-classes";
+
+
 // Password rest API
 const resetPasswordUrl = "${baseUrl}reset-user-password";
 
@@ -27,9 +32,8 @@ const resetPasswordAuthUrl = "${baseUrl}reset-password";
 
 // Home Page API
 const getActiveCoursesUrl = "${baseUrl}get-active-course";
-const getFeaturedCourseUrl ="${baseUrl}get-featured-courses";
-const getCategoryBasedCourseUrl ="${baseUrl}get-category-based-courses";
-
+const getFeaturedCourseUrl = "${baseUrl}get-featured-courses";
+const getCategoryBasedCourseUrl = "${baseUrl}get-category-based-courses";
 
 // Make Your Test API's
 const getClassSubjectOptionsUrl = "${baseUrl}get-class-and-subjects";
