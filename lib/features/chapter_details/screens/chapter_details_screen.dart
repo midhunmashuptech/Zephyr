@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/bxs.dart';
+import 'package:provider/provider.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/chapter_details/provider/enrolled_chapter_details_provider.dart';
 import 'package:zephyr/features/chapter_details/screens/chapter_analysis_screen.dart';
 import 'package:zephyr/features/chapter_details/screens/practise_test_screen.dart';
 import 'package:zephyr/features/chapter_details/screens/study_materials_screen.dart';
@@ -32,6 +34,8 @@ class Content {
 
 class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
   List<Content> content = [];
+  EnrolledChapterDetailsProvider enrolledChapterDetailsProvider =
+      EnrolledChapterDetailsProvider();
 
   @override
   void initState() {
@@ -70,6 +74,7 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    enrolledChapterDetailsProvider = context.watch<EnrolledChapterDetailsProvider>();
     return Scaffold(
       body: SafeArea(
           child: SingleChildScrollView(
@@ -86,9 +91,11 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
                         fit: BoxFit.cover),
                   ),
                 ),
-                Positioned(child: BackButton(),
-                top: 10,
-                left: 10,)
+                Positioned(
+                  child: BackButton(),
+                  top: 10,
+                  left: 10,
+                )
               ],
             ),
             SizedBox(height: 10),
@@ -99,11 +106,11 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Trignometry',
+                      Text(enrolledChapterDetailsProvider.selectedSubject.subject ?? "Subject Name",
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.w600)),
                       Text(
-                        "Class 7",
+                        enrolledChapterDetailsProvider.selectedSubject.className ?? "Class Name",
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
@@ -115,7 +122,7 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
               ),
             ),
             GridView.builder(
-              shrinkWrap: true,
+                shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3),

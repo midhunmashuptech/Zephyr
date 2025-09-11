@@ -29,6 +29,7 @@ void main() async {
     ChangeNotifierProvider(create: (_) => EditProfileProvider()),
     ChangeNotifierProvider(create: (_) => CourseProvider()),
     ChangeNotifierProvider(create: (_) => HomePageProvider()),
+    ChangeNotifierProvider(create: (_) => EnrolledCourseProvider()),
   ], child: const MyApp()));
 }
 
