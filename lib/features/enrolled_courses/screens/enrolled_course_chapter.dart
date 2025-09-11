@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zephyr/features/chapter_details/provider/enrolled_chapter_details_provider.dart';
 import 'package:zephyr/features/enrolled_courses/provider/enrolled_course_provider.dart';
 import 'package:zephyr/features/enrolled_courses/widgets/enrolled_chapter_card.dart';
 
@@ -13,6 +14,8 @@ class EnrolledCourseChapter extends StatefulWidget {
 class _EnrolledCourseChapterState extends State<EnrolledCourseChapter> {
   int? expandedSectionIndex;
   EnrolledCourseProvider enrolledCourseProvider = EnrolledCourseProvider();
+  EnrolledChapterDetailsProvider enrolledChapterDetailsProvider =
+      EnrolledChapterDetailsProvider();
   @override
   void initState() {
     super.initState();
@@ -27,6 +30,8 @@ class _EnrolledCourseChapterState extends State<EnrolledCourseChapter> {
   @override
   Widget build(BuildContext context) {
     enrolledCourseProvider = context.watch<EnrolledCourseProvider>();
+    enrolledChapterDetailsProvider =
+        context.read<EnrolledChapterDetailsProvider>();
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -39,13 +44,19 @@ class _EnrolledCourseChapterState extends State<EnrolledCourseChapter> {
                       .length, (index) {
                 return EnrolledChapterCard(
                   title:
-                      "${(enrolledCourseProvider.selectedCourseDetails.subjects ??
+                      "${(enrolledCourseProvider.selectedCourseDetails.subjects ?? [])[index].className} | ${(enrolledCourseProvider.selectedCourseDetails.subjects ?? [])[index].subject}",
+                  items:
+                      (enrolledCourseProvider.selectedCourseDetails.subjects ??
                                   [])[index]
-                              .className} | ${(enrolledCourseProvider.selectedCourseDetails.subjects ??
-                                  [])[index]
-                              .subject}",
-                  items: (enrolledCourseProvider.selectedCourseDetails.subjects ?? [])[index].chapters ?? [],
-                  onSelected: (value) {},
+                              .chapters ??
+                          [],
+                  onSelected: (value) {
+                    enrolledChapterDetailsProvider.setSelectedCourse(
+                        chapter: value,
+                        subject: (enrolledCourseProvider
+                                .selectedCourseDetails.subjects ??
+                            [])[index]);
+                  },
                   onTap: () {
                     setState(() {
                       expandedSectionIndex =
@@ -53,7 +64,8 @@ class _EnrolledCourseChapterState extends State<EnrolledCourseChapter> {
                     });
                   },
                   isExpanded: expandedSectionIndex == index,
-                  subtitle: (enrolledCourseProvider.selectedCourseDetails.subjects ??
+                  subtitle:
+                      (enrolledCourseProvider.selectedCourseDetails.subjects ??
                                   [])[index]
                               .className ??
                           "Class Name",

@@ -19,7 +19,14 @@ const updateProfilePictureUrl = "${baseUrl}update-profile-picture";
 // enrolled courses API's
 const enrolledCourseUrl = "${baseUrl}get-subscribed-courses";
 const enrolledChapterUrl = "${baseUrl}get-enrollment-chapters";
+const enrolledChapterVideosUrl = "${baseUrl}get-enrollment-chapter-videos";
 const courseDetailUrl = "${baseUrl}get-course-details";
+
+// Password rest API
+const resetPasswordUrl = "${baseUrl}reset-user-password";
+
+// Password rest API
+const resetPasswordAuthUrl = "${baseUrl}reset-password";
 
 // Home Page API
 const getActiveCoursesUrl = "${baseUrl}get-active-course";
