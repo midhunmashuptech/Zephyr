@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,8 +8,8 @@ import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/auth/provider/auth_provider.dart';
 import 'package:zephyr/features/auth/registration/model/registration_dropdown_options_model.dart';
-import 'package:zephyr/features/auth/registration/widgets/dropdown_widget.dart';
 import 'package:zephyr/features/drawer/provider/edit_profile_provider.dart';
+import 'package:zephyr/features/drawer/widgets/dropdown_widget.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});

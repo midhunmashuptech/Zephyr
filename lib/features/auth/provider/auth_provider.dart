@@ -6,6 +6,7 @@ import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/common/model/user.dart';
 import 'package:zephyr/common/provider/user_details_provider.dart';
 import 'package:zephyr/common/screens/bottom_nav_screen.dart';
+import 'package:zephyr/features/auth/login/screens/login.dart';
 import 'package:zephyr/features/auth/login/screens/mobile_number_verification.dart';
 import 'package:zephyr/features/auth/registration/model/registration_dropdown_options_model.dart'
     as dropdownModel;
@@ -21,6 +22,9 @@ class AuthProvider extends ChangeNotifier {
 
   bool _isLogining = false;
   bool get isLogining => _isLogining;
+
+  bool _isPwdReset = false;
+  bool get isPwdReset => _isPwdReset;
 
   bool _isDropdownLoading = false;
   bool get isDropdownLoading => _isDropdownLoading;
@@ -61,18 +65,19 @@ class AuthProvider extends ChangeNotifier {
   void setPassword(String enterdPassword) {
     registrationPassword = enterdPassword;
     notifyListeners();
-    print(registrationPassword);
-    print(selectedSyllabusId);
-    print(fullName);
-    print(dob);
-    print(email);
-    print(schoolName);
-    print(classId);
-    print(selectedGender);
-    print(phoneNumber);
-    print(countryCode);
+    // print(registrationPassword);
+    // print(selectedSyllabusId);
+    // print(fullName);
+    // print(dob);
+    // print(email);
+    // print(schoolName);
+    // print(classId);
+    // print(selectedGender);
+    // print(phoneNumber);
+    // print(countryCode);
   }
 
+  //registration
   Future<void> registerUser({
     required BuildContext context,
   }) async {
@@ -280,5 +285,34 @@ class AuthProvider extends ChangeNotifier {
 
     _isDropdownLoading = false;
     notifyListeners();
+  }
+
+  //Reset Password
+  Future<void> resetPassword(
+      {required BuildContext context, required String password}) async {
+    _isPwdReset = true;
+    notifyListeners();
+    final response = await LoginService().resetPassword(
+        context: context,
+        phone: phoneNumber,
+        countryCode: countryCode,
+        password: password);
+    if (response == null) {
+      showSnackBar("error", "Failed to reset Password");
+      _isPwdReset = false;
+      notifyListeners();
+    } else {
+      if (response.type == "success") {
+        showSnackBar("success", "password reset successful");
+        print(countryCode);
+        print(phoneNumber);
+        Get.offAll(Login(
+            phoneNumber: phoneNumber,
+            countryCode: countryCode,
+            isoCode: countryISOCode));
+        _isPwdReset = false;
+        notifyListeners();
+      }
+    }
   }
 }

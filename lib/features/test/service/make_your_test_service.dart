@@ -7,6 +7,8 @@ import 'package:zephyr/features/test/model/class_subject_options_model.dart';
 import 'package:zephyr/features/test/model/topic_options_model.dart';
 
 class MakeYourTestService {
+
+  //Subject Options
   Future<ClassSubjectOptionsModel?> getClassSubjectOptionsModel() async {
     final responseJson = await ApiService()
         .postRequest(url: getClassSubjectOptionsUrl, fields: {});
@@ -24,7 +26,7 @@ class MakeYourTestService {
       }
     }
   }
-
+  //Chapter Options
   Future<ChapterOptionsModel?> getChapterOptionsModel(
       String subjectId, String classId) async {
     print("subject_id $subjectId, class_id $classId");
@@ -44,7 +46,7 @@ class MakeYourTestService {
       }
     }
   }
-
+ //Topic Options
   Future<TopicOptionsModel?> getTopicOptionsModel(String chapterId) async {
     final responseJson = await ApiService().postRequest(
         url: getTopicOptionsUrl, fields: {"chapter_id": chapterId});
@@ -61,7 +63,7 @@ class MakeYourTestService {
       }
     }
   }
-
+  //AI Quiz
   Future<AiQuizModel?> generateAiQuiz(String subject, String chapter,
       String topic, String difficulty, String count) async {
         print("started generating");

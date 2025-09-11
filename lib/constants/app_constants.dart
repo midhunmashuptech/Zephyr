@@ -90,5 +90,4 @@ static const Gradient greenCourseActionGradient = LinearGradient(
   begin: Alignment.topLeft,
   end: Alignment.bottomRight,
 );
-
 }

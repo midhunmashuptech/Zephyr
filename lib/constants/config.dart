@@ -8,11 +8,13 @@ const registerUrl = "${baseUrl}register";
 const registrationDropdownOptionsUrl =
     "${baseUrl}registration-dropdown-options";
 
+// Password reset API
+const resetPasswordUrl = "${baseUrl}reset-password";
+
 // get User Details API's
 const getUserDetailsUrl = "${baseUrl}get-user-details";
 const updateUserDetailsUrl = "${baseUrl}update-user-details";
 const updateProfilePictureUrl = "${baseUrl}update-profile-picture";
-
 
 // enrolled courses API's
 const enrolledCourseUrl = "${baseUrl}get-subscribed-courses";
@@ -28,6 +30,9 @@ const resetPasswordAuthUrl = "${baseUrl}reset-password";
 
 // Home Page API
 const getActiveCoursesUrl = "${baseUrl}get-active-course";
+const getFeaturedCourseUrl ="${baseUrl}get-featured-courses";
+const getCategoryBasedCourseUrl ="${baseUrl}get-category-based-courses";
+
 
 // Make Your Test API's
 const getClassSubjectOptionsUrl = "${baseUrl}get-class-and-subjects";

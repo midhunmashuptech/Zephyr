@@ -43,7 +43,7 @@ class DrawerWidget extends StatelessWidget {
                         boxShadow: [
                           BoxShadow(
                             color: AppColors.black.withAlpha(
-                                50), // changed this - withOpacity(0.2)
+                                50), 
                             blurRadius: 6,
                             spreadRadius: 2,
                             offset: Offset(0, 3),
@@ -70,7 +70,7 @@ class DrawerWidget extends StatelessWidget {
                       children: [
                         Text("Hello, Welcome", style: TextStyle(fontSize: 16)),
                         Text(
-                          "Kim Shin",
+                          userDetailsProvider.userDetails.name ?? "",
                           style: TextStyle(
                               fontSize: 22, fontWeight: FontWeight.w600),
                         ),
