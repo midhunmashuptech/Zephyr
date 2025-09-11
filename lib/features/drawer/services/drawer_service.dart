@@ -77,7 +77,6 @@ class DrawerService {
   }
 
   //Upload Profile Picture
-
   Future<UploadProfileImageModel?> uploadProfileImage({
     required String filePath,
     required BuildContext context,

@@ -47,7 +47,7 @@ class EditProfileProvider extends ChangeNotifier {
     print(_username);
     print(_emailAddress);
   }
-
+  //Update User Details
   Future<void> updateDetails({
     required BuildContext context,
     required String name,
@@ -95,7 +95,7 @@ class EditProfileProvider extends ChangeNotifier {
       }
     }
   }
-
+  //profile Picture
   Future<void> uploadProfileImage({
     required String filePath,
     required BuildContext context,
