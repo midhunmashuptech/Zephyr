@@ -8,9 +8,6 @@ const registerUrl = "${baseUrl}register";
 const registrationDropdownOptionsUrl =
     "${baseUrl}registration-dropdown-options";
 
-// Password reset API
-const resetPasswordUrl = "${baseUrl}reset-password";
-
 // get User Details API's
 const getUserDetailsUrl = "${baseUrl}get-user-details";
 const updateUserDetailsUrl = "${baseUrl}update-user-details";
