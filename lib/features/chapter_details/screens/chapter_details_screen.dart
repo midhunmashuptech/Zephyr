@@ -120,9 +120,9 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
                             ),
                           ),
                           Positioned(
-                            child: BackButton(),
                             top: 10,
                             left: 10,
+                            child: BackButton(),
                           )
                         ],
                       ),

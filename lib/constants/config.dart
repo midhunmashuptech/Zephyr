@@ -21,7 +21,7 @@ const courseDetailUrl = "${baseUrl}get-course-details";
 
 //Live API's
 const ongoingLiveUrl = "${baseUrl}get-ongoing-live-classes";
-// const upcomingLiveUrl = "${baseUrl}get-ongoing-live-classes";
+const upcomingLiveUrl = "${baseUrl}get-upcoming-live-classes";
 
 
 // Password rest API
