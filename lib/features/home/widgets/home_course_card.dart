@@ -1,23 +1,31 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
-import 'package:iconify_flutter_plus/icons/bxs.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/coursedetails/screens/course_details_screen.dart';
-import 'package:zephyr/features/home/model/active_course_model.dart';
+import 'package:zephyr/features/home/model/category_based_course_model.dart';
 
 class HomeCourseCard extends StatelessWidget {
   final int index;
-  final Course course;
-  const HomeCourseCard({super.key, required this.course, required this.index});
+  final String courseId;
+  final String courseName;
+  final String courseRating;
+  final String thumbnail;
+
+  const HomeCourseCard(
+      {super.key,
+      required this.index,
+      required this.courseId,
+      required this.courseName,
+      required this.courseRating,
+      required this.thumbnail});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => CourseDetailsScreen()));
+            MaterialPageRoute(builder: (context) => CourseDetailsScreen(courseId: courseId,)));
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
@@ -30,11 +38,10 @@ class HomeCourseCard extends StatelessWidget {
               Stack(
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context). size.width * 0.25,
-                    width:
-                        double.infinity, // takes full width of parent (Card)
+                    height: MediaQuery.of(context).size.width * 0.25,
+                    width: double.infinity, // takes full width of parent (Card)
                     child: CachedNetworkImage(
-                      imageUrl: course.thumbnail ?? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                      imageUrl: thumbnail,
                       fit: BoxFit.cover,
                       placeholder: (_, __) => Shimmer.fromColors(
                         baseColor: AppColors.grey,
@@ -70,18 +77,16 @@ class HomeCourseCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Positioned(
-                      bottom: 10, right: 20, child: courseStarRating()),
+                  Positioned(bottom: 10, right: 20, child: courseStarRating()),
                 ],
               ),
-              
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(course.title ?? "Course Title",
+                    Text(courseName,
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600),
                         overflow: TextOverflow.ellipsis,
@@ -104,7 +109,7 @@ class HomeCourseCard extends StatelessWidget {
   }
 
   Widget courseStarRating() {
-    double rating = double.parse("3.2");
+    double rating = double.parse(courseRating);
     final fullStarCount = rating.floor();
     final decimalPart = rating - fullStarCount;
     final halfStarCount = decimalPart >= 0.5 ? 1 : 0;

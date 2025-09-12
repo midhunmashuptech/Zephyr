@@ -13,7 +13,8 @@ import 'package:zephyr/features/coursedetails/screens/course_reviews.dart';
 import 'package:zephyr/features/payment/screens/checkout_screen.dart';
 
 class CourseDetailsScreen extends StatefulWidget {
-  const CourseDetailsScreen({super.key});
+  String courseId;
+  CourseDetailsScreen({super.key, required this.courseId});
 
   @override
   State<CourseDetailsScreen> createState() => _CourseDetailsScreenState();

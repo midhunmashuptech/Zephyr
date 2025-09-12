@@ -113,8 +113,8 @@ class _EnrolledCourseDetailScreenState extends State<EnrolledCourseDetailScreen>
                                       value: enrolledCourseProvider
                                           .courseEnrollments[index]
                                           .enrollmentId,
-                                      child: Text(
-                                          "Batch ${enrolledCourseProvider.courseEnrollments[index].batchId}")),
+                                      child: Text( enrolledCourseProvider.courseEnrollments[index].batchName ??
+                                          "Batch Name")),
                                 ),
                                 onChanged: (value) {
                                   // handle selection

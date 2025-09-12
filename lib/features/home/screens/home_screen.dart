@@ -11,6 +11,7 @@ import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/data_class/course.dart';
 import 'package:zephyr/features/drawer/screens/drawer.dart';
 import 'package:zephyr/features/drawer/screens/profile_screen.dart';
+import 'package:zephyr/features/home/model/category_based_course_model.dart';
 import 'package:zephyr/features/home/provider/home_page_provider.dart';
 import 'package:zephyr/features/home/widgets/category_widget.dart';
 import 'package:zephyr/features/home/widgets/featured_course_card.dart';
@@ -28,14 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
   HomePageProvider homePageProvider = HomePageProvider();
   UserDetailsProvider userDetailsProvider = UserDetailsProvider();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final List<String> categories = [
-    "All",
-    "NEET",
-    "JEE",
-    "UPSC",
-    "PSC",
-    "SSC",
-  ];
 
   List<Course> courses = [];
   List<Course> filteredCourses = [];
@@ -52,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final homePageProvider = context.read<HomePageProvider>();
     await homePageProvider.fetchActiveCouses(context);
     await homePageProvider.fetchFeaturedCourses(context: context);
+    await homePageProvider.fetchCategoryBasedCourses(context: context);
   }
 
   void filterCourses() {
@@ -220,20 +214,35 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Courses",
+                            "Category",
                             style: TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w600),
                           ),
                           SizedBox(height: 10),
-                          Center(
-                            child: Wrap(
-                              children: categories
-                                  .map((category) => CategoryWidget(
-                                      categoryName:
-                                          category)) // Assuming CategoryWidget fits dynamically
-                                  .toList(),
-                            ),
-                          ),
+                          homePageProvider.isCategoryCourseLoading
+                              ? Container(
+                                  child: Center(
+                                  child: Lottie.asset(
+                                      "assets/lottie/loading.json",
+                                      height: 100),
+                                ))
+                              : Wrap(
+                                  alignment: WrapAlignment.start,
+                                  children: homePageProvider
+                                      .categoryBasedCourses
+                                      .map((category) => GestureDetector(
+                                            onTap: () =>
+                                                homePageProvider.changeCategory(
+                                                    category.id ?? 0),
+                                            child: CategoryWidget(
+                                                isSelected: homePageProvider
+                                                        .selectedCategory ==
+                                                    category.id,
+                                                categoryName: category.title ??
+                                                    "Category Name"),
+                                          )) // Assuming CategoryWidget fits dynamically
+                                      .toList(),
+                                ),
                           SizedBox(height: 20),
                         ],
                       )
@@ -241,43 +250,94 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 /// Recommended Section
                 Text(
-                  "Recommended for you",
+                  homePageProvider.isCategoryCourseLoading
+                      ? "All Courses for you"
+                      : "${homePageProvider.selectedCategoryCourses.title} Courses for you",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                 ),
                 SizedBox(
                   height: 10,
                 ),
 
-                homePageProvider.isActiveCoursesLoading
+                homePageProvider.isCategoryCourseLoading
                     ? Container(
                         height: MediaQuery.of(context).size.height * 0.3,
                         child: Center(
-                            child: Lottie.asset("assets/lottie/loading.json",
-                                height: 100),
-                          ))
-                    : homePageProvider.filteredActiveCourses.isEmpty
-                        ? Center(
-                            child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 40.0),
-                            child: Column(
-                              children: [
-                                Lottie.asset("assets/lottie/nodata.json",
-                                    height: 200),
-                                Text("No Matching Courses found!"),
-                              ],
-                            ),
-                          ))
-                        : GridView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2),
-                            itemCount: homePageProvider.filteredActiveCourses.length,
-                            itemBuilder: (context, index) => HomeCourseCard(
-                                course: homePageProvider
-                                    .filteredActiveCourses[index],
-                                index: index))
+                          child: Lottie.asset("assets/lottie/loading.json",
+                              height: 100),
+                        ))
+                    : GridView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2),
+                        itemCount:
+                            homePageProvider.selectedCategoryCourses.id == 0
+                                ? homePageProvider.activeCourses.length
+                                : (homePageProvider
+                                            .selectedCategoryCourses.courses ??
+                                        [])
+                                    .length,
+                        itemBuilder: (context, index) {
+                          if (homePageProvider.selectedCategoryCourses.id ==
+                              0) {
+                            final courseData =
+                                (homePageProvider.activeCourses)[index];
+                            return (homePageProvider.activeCourses).isEmpty
+                                ? Center(
+                                    child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 40.0),
+                                    child: Column(
+                                      children: [
+                                        Lottie.asset(
+                                            "assets/lottie/nodata.json",
+                                            height: 200),
+                                        Text("No Matching Courses found!"),
+                                      ],
+                                    ),
+                                  ))
+                                : HomeCourseCard(
+                                    index: index,
+                                    courseId: courseData.id.toString(),
+                                    courseName:
+                                        courseData.title ?? "Course Name",
+                                    courseRating: "3.2",
+                                    thumbnail: courseData.thumbnail ??
+                                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                                  );
+                          } else {
+                            final courseData = (homePageProvider
+                                    .selectedCategoryCourses.courses ??
+                                [])[index];
+                            return (homePageProvider
+                                            .selectedCategoryCourses.courses ??
+                                        [])
+                                    .isEmpty
+                                ? Center(
+                                    child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 40.0),
+                                    child: Column(
+                                      children: [
+                                        Lottie.asset(
+                                            "assets/lottie/nodata.json",
+                                            height: 200),
+                                        Text("No Matching Courses found!"),
+                                      ],
+                                    ),
+                                  ))
+                                : HomeCourseCard(
+                                    index: index,
+                                    courseId: courseData.id.toString(),
+                                    courseName:
+                                        courseData.title ?? "Course Name",
+                                    courseRating: "3.2",
+                                    thumbnail: courseData.thumbnail ??
+                                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                                  );
+                          }
+                        })
                 // Wrap(
                 //     children: List.generate(
                 //         homePageProvider.filteredActiveCourses.length,

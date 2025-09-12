@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/features/home/model/active_course_model.dart';
+import 'package:zephyr/features/home/model/category_based_course_model.dart'
+    as category_based_courses_model;
 import 'package:zephyr/features/home/model/featured_course_model.dart'
     as featured_model;
 import 'package:zephyr/features/home/service/home_page_service.dart';
@@ -15,7 +17,27 @@ class HomePageProvider extends ChangeNotifier {
   bool _isCategoryCourseLoading = false;
   bool get isCategoryCourseLoading => _isCategoryCourseLoading;
 
-  
+  List<category_based_courses_model.AllCourses> _categoryBasedCourses = [];
+  List<category_based_courses_model.AllCourses> get categoryBasedCourses =>
+      _categoryBasedCourses;
+
+  int _selectedCategory = 0;
+  int get selectedCategory => _selectedCategory;
+
+  category_based_courses_model.AllCourses _selectedCategoryCourses =
+      category_based_courses_model.AllCourses();
+  category_based_courses_model.AllCourses get selectedCategoryCourses =>
+      _selectedCategoryCourses;
+
+  void changeCategory(int categoryId) {
+    _selectedCategory = _categoryBasedCourses
+            .firstWhere((category) => category.id == categoryId)
+            .id ??
+        0;
+    _selectedCategoryCourses = _categoryBasedCourses
+        .firstWhere((category) => category.id == categoryId);
+    notifyListeners();
+  }
 
   List<Course> _activeCourses = [];
   List<Course> get activeCourses => _activeCourses;
@@ -40,6 +62,7 @@ class HomePageProvider extends ChangeNotifier {
     _isActiveCoursesLoading = true;
     _activeCourses = [];
     _isFeaturedCourseLoading = true;
+    _isCategoryCourseLoading = true;
     _featuredCourses = [];
     notifyListeners();
 
@@ -91,19 +114,42 @@ class HomePageProvider extends ChangeNotifier {
   }
 
   //Category Based Courses
-  Future<void> fetchCategoryBasedCourses({required BuildContext context}) async {
-    _isFeaturedCourseLoading = true;
+  Future<void> fetchCategoryBasedCourses(
+      {required BuildContext context}) async {
+    _categoryBasedCourses = [];
+    _isCategoryCourseLoading = true;
     notifyListeners();
+
     final response =
-        await HomePageService().getfeaturedCourse(context: context);
+        await HomePageService().getCategoryBasedCourse(context: context);
+
     if (response == null) {
       showSnackBar("Error", "Error Fetching Featured Courses");
-      _isFeaturedCourseLoading = false;
+      _isCategoryCourseLoading = false;
       notifyListeners();
     } else {
       if (response.type == "success") {
-        _featuredCourses = response.courses ?? [];
-        _isFeaturedCourseLoading = false;
+        _categoryBasedCourses = response.allCourses ?? [];
+        List<category_based_courses_model.Courses> _allCourses = [];
+        for (var category in _categoryBasedCourses) {
+          for (var course in (category.courses ?? [])) {
+            _allCourses.add(course);
+          }
+        }
+        _categoryBasedCourses.add(category_based_courses_model.AllCourses(
+            id: 0,
+            title: "All",
+            status: 1,
+            createdAt: "",
+            updatedAt: "",
+            courses: _allCourses));
+        // people.sort((a, b) => a.name.compareTo(b.name));
+        _categoryBasedCourses
+            .sort((a, b) => (a.title ?? "").compareTo(b.title ?? ""));
+        _selectedCategory = _categoryBasedCourses[0].id ?? 0;
+        _selectedCategoryCourses = _categoryBasedCourses[0];
+        notifyListeners();
+        _isCategoryCourseLoading = false;
         notifyListeners();
 
         debugPrint("Featured Courses: ${featuredCourses.length}");
