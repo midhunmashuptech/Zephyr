@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/features/live_class/widgets/live_class_card.dart' show LiveClassCard;
+import 'package:zephyr/features/live_class/model/ongoing_live_model.dart';
+import 'package:zephyr/features/live_class/provider/live_provider.dart';
+import 'package:zephyr/features/live_class/widgets/live_class_card.dart';
 
 class LiveOngoing extends StatefulWidget {
   const LiveOngoing({super.key});
@@ -10,35 +13,37 @@ class LiveOngoing extends StatefulWidget {
 }
 
 class _LiveOngoingState extends State<LiveOngoing> {
+  LiveProvider liveProvider = LiveProvider();
+
+  @override
+  void initState() {
+    loadOngoingLiveClass();
+    super.initState();
+  }
+
+  Future<void> loadOngoingLiveClass() async {
+    final loadProvider = context.read<LiveProvider>();
+    await loadProvider.fetchOngoingLive(context: context);
+  }
+
   @override
   Widget build(BuildContext context) {
+    liveProvider = context.watch<LiveProvider>();
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            LiveClassCard(
-              className: "Foundation of class 10 : Mathematics Chapter",    
-              tutorName: "Ankitha Sasikumar",
-              date: "Feb 20",
-              year: "2025",
-              duration: "10:00 AM - 11:00 AM",
-              imageUrl: "assets/images/course_bg1.jpg",
-              imageColor: AppColors.lightGreen, 
-              currenttab: "Ongoing",
-            ),
-            LiveClassCard(
-              className: "Foundation of class 10",    
-              tutorName: "Ankitha Sasikumar",
-              date: "Feb 20",
-              year: "2025",
-              duration: "10:00 AM - 11:00 AM",
-              imageUrl: "assets/images/course_bg3.jpg",
-              imageColor: AppColors.lightGreen,
-              currenttab: "Ongoing",
-            ),
-          ],
-        )
-      ),
+      body: ListView.separated(
+          separatorBuilder: (context, index) => SizedBox(
+                height: 5,
+              ),
+          itemCount: 10,
+          itemBuilder: (context, index) => LiveClassCard(
+                className: liveProvider.ongoingLive[index].title ?? "Class Name",
+                tutorName: (liveProvider.ongoingLive[index].faculty ?? Faculty(name: "Faculty Name")).name ?? "Faculty Name",
+                startDate: liveProvider.ongoingLive[index].start ?? "",
+                enddate: liveProvider.ongoingLive[index].end ??"",
+                imageUrl: (liveProvider.ongoingLive[index].faculty ?? Faculty(image:"" )).image ?? "image",
+                imageColor: AppColors.lightGreen,
+                currenttab: "Ongoing",
+              )),
     );
   }
 }
