@@ -21,7 +21,8 @@ class MyCourseCard extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => EnrolledCourseDetailScreen(courseId: course.courseId.toString())));
+                builder: (context) => EnrolledCourseDetailScreen(
+                    courseId: course.courseId.toString())));
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
@@ -33,14 +34,15 @@ class MyCourseCard extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  CachedNetworkImage(height: 200, imageUrl: course.courseThumbnail ?? "",fit: BoxFit.cover,
-                   placeholder: (_, __) => Shimmer.fromColors(
-                                      baseColor: AppColors.grey,
-                                      highlightColor: AppColors.lightGrey,
-                                      child: Container(
-                                        height: 200,
-                                        color: AppColors.white),
-                                    ),
+                  CachedNetworkImage(
+                    height: 200,
+                    imageUrl: course.courseThumbnail ?? "",
+                    fit: BoxFit.cover,
+                    placeholder: (_, __) => Shimmer.fromColors(
+                      baseColor: AppColors.grey,
+                      highlightColor: AppColors.lightGrey,
+                      child: Container(height: 200, color: AppColors.white),
+                    ),
                   ),
                   Positioned(
                     bottom: 0,
@@ -127,7 +129,9 @@ class MyCourseCard extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              EnrolledCourseDetailScreen(courseId: course.courseId.toString())));
+                                              EnrolledCourseDetailScreen(
+                                                  courseId: course.courseId
+                                                      .toString())));
                                 },
                                 icon: Icon(Icons.arrow_forward_ios_rounded),
                                 iconSize: 24,

@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:zephyr/common/service/notification_service.dart';
 import 'package:zephyr/constants/app_constants.dart';
 
@@ -24,25 +26,27 @@ class LiveClassCard extends StatelessWidget {
       required this.currenttab});
 
   String formatDate(String isoString) {
+    if (isoString == "") return "";
     DateTime dateTime = DateTime.parse(isoString);
     return DateFormat('MMM d').format(dateTime);
   }
 
   String formatYear(String isoString) {
+    if (isoString == "") return "";
     DateTime dateTime = DateTime.parse(isoString);
     return DateFormat('yyyy').format(dateTime);
   }
 
-String formatTimeRange(String startIso, String endIso) {
-  DateTime start = DateTime.parse(startIso);
-  DateTime end = DateTime.parse(endIso);
+  String formatTimeRange(String startIso, String endIso) {
+    if (startIso == "" || endIso == "") return "";
+    DateTime start = DateTime.parse(startIso);
+    DateTime end = DateTime.parse(endIso);
 
-  String startTime = DateFormat('hh:mm a').format(start).toUpperCase();
-  String endTime = DateFormat('hh:mm a').format(end).toUpperCase();
+    String startTime = DateFormat('hh:mm a').format(start).toUpperCase();
+    String endTime = DateFormat('hh:mm a').format(end).toUpperCase();
 
-  return "$startTime - $endTime";
-}
-
+    return "$startTime - $endTime";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,9 +72,15 @@ String formatTimeRange(String startIso, String endIso) {
                           ? 200
                           : MediaQuery.of(context).size.width * 0.35,
                       height: double.infinity,
-                      child: Image.asset(
-                        imageUrl,
+                      child: CachedNetworkImage(
                         fit: BoxFit.cover,
+                        imageUrl: imageUrl,
+                        placeholder: (_, __) => Shimmer.fromColors(
+                          baseColor: AppColors.grey,
+                          highlightColor: AppColors.lightGrey,
+                          child: Container(
+                              height: double.infinity, color: AppColors.white),
+                        ),
                       ),
                     ),
                     Positioned(
@@ -162,14 +172,14 @@ String formatTimeRange(String startIso, String endIso) {
                                     Column(
                                       children: [
                                         Text(
-                                          " $startDate",
+                                          formatDate(startDate),
                                           style: const TextStyle(
                                               fontSize: 14,
                                               color: AppColors.black,
                                               fontWeight: FontWeight.w500),
                                         ),
                                         Text(
-                                          " $enddate",
+                                          formatYear(startDate),
                                           style: const TextStyle(
                                               fontSize: 18,
                                               color: AppColors.black,
@@ -211,13 +221,13 @@ String formatTimeRange(String startIso, String endIso) {
                                   color: AppColors.primaryOrange,
                                   size: 15,
                                 ),
-                                // Text(
-                                //   " $duration",
-                                //   style: const TextStyle(
-                                //     fontSize: 14,
-                                //     color: AppColors.black,
-                                //   ),
-                                // ),
+                                Text(
+                                  formatTimeRange(startDate, enddate),
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    color: AppColors.black,
+                                  ),
+                                ),
                               ],
                             ),
                           ],
