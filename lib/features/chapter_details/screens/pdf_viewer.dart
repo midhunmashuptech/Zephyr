@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:zephyr/features/chapter_details/provider/enrolled_chapter_details_provider.dart';
 
 class PdfViewer extends StatelessWidget {
-  const PdfViewer({super.key});
+  String url;
+  PdfViewer({
+    required this.url,
+    super.key});
 
+  EnrolledChapterDetailsProvider enrolledChapterDetailsProvider =
+      EnrolledChapterDetailsProvider();
   @override
   Widget build(BuildContext context) {
+    enrolledChapterDetailsProvider = context.watch<EnrolledChapterDetailsProvider>();
     return Scaffold(
-      appBar: AppBar(
-        leading: BackButton(),
-        title: Text("Pdf Viewer"),
-      ),
-      body: SfPdfViewer.network(
-        "https://d2p9rkckgtge3j.cloudfront.net/files/1674d0d53135e3d7d056d40a99a3df6434UID16.pdf"
-      )
-    );
+        appBar: AppBar(
+          leading: BackButton(),
+          title: Text("Pdf Viewer"),
+        ),
+        body: SfPdfViewer.network(url));
   }
 }

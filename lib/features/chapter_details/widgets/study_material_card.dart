@@ -1,22 +1,28 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/data_class/study_material.dart';
-import 'package:zephyr/features/chapter_details/screens/image_viewer.dart';
 import 'package:zephyr/features/chapter_details/screens/pdf_viewer.dart';
 
 class StudyMaterialCard extends StatelessWidget {
-  final StudyMaterial studyMaterial;
-  const StudyMaterialCard({super.key, required this.studyMaterial});
+  final String name;
+  final String chapter;
+  final String uploadedDate;
+  final String link;
+
+  const StudyMaterialCard({
+    required this.name,
+    required this.chapter,
+    required this.uploadedDate,
+    required this.link,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => studyMaterial.type == "image" ? ImageViewer() : PdfViewer())
-        );
+            context, MaterialPageRoute(builder: (context) => PdfViewer(url: link)));
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
@@ -44,21 +50,13 @@ class StudyMaterialCard extends StatelessWidget {
                       : MediaQuery.of(context).size.width * 0.16,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(4),
-                    color: studyMaterial.type == "image"
-                        ? AppColors.primaryBlue.withAlpha(20)
-                        : AppColors.primaryRed.withAlpha(20),
+                    color: AppColors.primaryRed.withAlpha(20),
                   ),
-                  child: Icon(
-                    studyMaterial.type == "image"
-                        ? FluentIcons.image_28_regular
-                        : FluentIcons.document_pdf_24_regular,
-                    size: MediaQuery.of(context).size.width * 0.1 > 70
-                        ? 70
-                        : MediaQuery.of(context).size.width * 0.1,
-                    color: studyMaterial.type == "image"
-                        ? AppColors.primaryBlue
-                        : AppColors.primaryRed
-                  ),
+                  child: Icon(FluentIcons.document_pdf_24_regular,
+                      size: MediaQuery.of(context).size.width * 0.1 > 70
+                          ? 70
+                          : MediaQuery.of(context).size.width * 0.1,
+                      color: AppColors.primaryRed),
                 ),
                 SizedBox(width: 15),
                 Expanded(
@@ -74,7 +72,7 @@ class StudyMaterialCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            studyMaterial.name ?? "No Title",
+                            name,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
@@ -84,7 +82,7 @@ class StudyMaterialCard extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                           Text(
-                            studyMaterial.chapter ?? "No Chapter",
+                            chapter,
                             style:
                                 TextStyle(fontSize: 12, color: AppColors.black),
                           ),
@@ -98,7 +96,7 @@ class StudyMaterialCard extends StatelessWidget {
                             size: 18,
                           ),
                           SizedBox(width: 5),
-                          Text("uploaded on ${studyMaterial.uploadDate}",
+                          Text("uploaded on $uploadedDate",
                               style: TextStyle(fontSize: 12))
                         ],
                       )

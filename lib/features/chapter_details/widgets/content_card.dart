@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:zephyr/constants/app_constants.dart';
 
 class ContentCard extends StatelessWidget {
   final IconData icon;
