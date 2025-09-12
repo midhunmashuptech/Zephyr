@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:zephyr/api_files/api_service.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/constants/config.dart';
+import 'package:zephyr/features/enrolled_courses/model/course_enrollments_model.dart';
 import 'package:zephyr/features/enrolled_courses/model/course_detail_model.dart';
 import 'package:zephyr/features/enrolled_courses/model/enrolled_chapter_model.dart';
 import 'package:zephyr/features/enrolled_courses/model/enrolled_course_model.dart';
@@ -10,6 +11,27 @@ import 'package:zephyr/features/enrolled_courses/model/post_course_review_model.
 
 class EnrolledCourseService {
   final ApiService _apiService = ApiService();
+
+  
+  // Course Enrollments
+  Future<CourseEnrollmentsModel?> getCourseEnrollments(BuildContext context,
+      {required String courseId}) async {
+    final responseJson =
+        await _apiService.getRequest(url: courseEnrollmentsUrl + courseId);
+
+    if (responseJson == null || responseJson.isEmpty) {
+      showSnackBar("Error", "Json Error");
+      return null;
+    } else {
+      final courseEnrollmentsModel =
+          CourseEnrollmentsModel.fromJson(responseJson);
+      if (courseEnrollmentsModel.type == "success") {
+        return courseEnrollmentsModel;
+      } else {
+        return courseEnrollmentsModel;
+      }
+    }
+  }
 
   //Enrolled Chapter
   Future<EnrolledChapterModel?> getEnrolledChapter(

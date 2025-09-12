@@ -5,6 +5,7 @@ import 'package:zephyr/constants/config.dart';
 import 'package:zephyr/features/chapter_details/model/enrolled_chapter_video_model.dart';
 
 class EnrolledChapterDetailsService {
+
   //Enrolled Chapter
   Future<EnrolledChapterVideosModel?> getEnrolledChapterVideos(
     BuildContext context, {
@@ -25,7 +26,8 @@ class EnrolledChapterDetailsService {
       showSnackBar("Error", "Json Error");
       return null;
     } else {
-      final enrolledChapterVideosModel = EnrolledChapterVideosModel.fromJson(responseJson);
+      final enrolledChapterVideosModel =
+          EnrolledChapterVideosModel.fromJson(responseJson);
       if (enrolledChapterVideosModel.type == "success") {
         return enrolledChapterVideosModel;
       }

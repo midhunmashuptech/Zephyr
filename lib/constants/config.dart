@@ -18,6 +18,7 @@ const enrolledCourseUrl = "${baseUrl}get-subscribed-courses";
 const enrolledChapterUrl = "${baseUrl}get-enrollment-chapters";
 const enrolledChapterVideosUrl = "${baseUrl}get-enrollment-chapter-videos";
 const courseDetailUrl = "${baseUrl}get-course-details";
+const courseEnrollmentsUrl = "${baseUrl}get-course-enrollments/";
 
 //Live API's
 const ongoingLiveUrl = "${baseUrl}get-ongoing-live-classes";

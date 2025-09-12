@@ -1,15 +1,15 @@
-class CategoryBasedCoursesModel {
+class CategoryBasedCourseModel {
   String? type;
-  List<AllCourses>? courses;
+  List<AllCourses>? allCourses;
 
-  CategoryBasedCoursesModel({this.type, this.courses});
+  CategoryBasedCourseModel({this.type, this.allCourses});
 
-  CategoryBasedCoursesModel.fromJson(Map<String, dynamic> json) {
+  CategoryBasedCourseModel.fromJson(Map<String, dynamic> json) {
     type = json['type'];
     if (json['courses'] != null) {
-      courses = <AllCourses>[];
+      allCourses = <AllCourses>[];
       json['courses'].forEach((v) {
-        courses!.add(new AllCourses.fromJson(v));
+        allCourses!.add(new AllCourses.fromJson(v));
       });
     }
   }
@@ -17,8 +17,8 @@ class CategoryBasedCoursesModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['type'] = this.type;
-    if (this.courses != null) {
-      data['courses'] = this.courses!.map((v) => v.toJson()).toList();
+    if (this.allCourses != null) {
+      data['courses'] = this.allCourses!.map((v) => v.toJson()).toList();
     }
     return data;
   }

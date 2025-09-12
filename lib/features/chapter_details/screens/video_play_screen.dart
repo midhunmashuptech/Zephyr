@@ -166,14 +166,14 @@ class _VideoPlayScreenState extends State<VideoPlayScreen>
           children: List.generate(
               enrolledChapterDetailsProvider.chapterVideos.length, (index) {
             print(
-                "Video ID: ${enrolledChapterDetailsProvider.currentlyPlayingVideo.courseChapterVideosId}");
+                "Video ID: ${enrolledChapterDetailsProvider.currentlyPlayingVideo.batchVideoId}");
             print(
-                "Video ID 2: ${enrolledChapterDetailsProvider.chapterVideos[index].courseChapterId}");
+                "Video ID 2: ${enrolledChapterDetailsProvider.chapterVideos[index].batchVideoId}");
             return ChapterVideoCard(
               currentlySelected: enrolledChapterDetailsProvider
-                      .currentlyPlayingVideo.courseChapterVideosId ==
+                      .currentlyPlayingVideo.batchVideoId ==
                   enrolledChapterDetailsProvider
-                      .chapterVideos[index].courseChapterVideosId,
+                      .chapterVideos[index].batchVideoId,
               onPressed: () => changeVideo(index),
               videoTitle:
                   enrolledChapterDetailsProvider.currentlyPlayingVideo.title ??

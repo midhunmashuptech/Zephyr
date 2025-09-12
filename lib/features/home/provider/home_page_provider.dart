@@ -12,6 +12,11 @@ class HomePageProvider extends ChangeNotifier {
   bool _isFeaturedCourseLoading = false;
   bool get isFeaturedCourseLoading => _isFeaturedCourseLoading;
 
+  bool _isCategoryCourseLoading = false;
+  bool get isCategoryCourseLoading => _isCategoryCourseLoading;
+
+  
+
   List<Course> _activeCourses = [];
   List<Course> get activeCourses => _activeCourses;
 
@@ -66,6 +71,27 @@ class HomePageProvider extends ChangeNotifier {
 
   //Featured Courses
   Future<void> fetchFeaturedCourses({required BuildContext context}) async {
+    _isFeaturedCourseLoading = true;
+    notifyListeners();
+    final response =
+        await HomePageService().getfeaturedCourse(context: context);
+    if (response == null) {
+      showSnackBar("Error", "Error Fetching Featured Courses");
+      _isFeaturedCourseLoading = false;
+      notifyListeners();
+    } else {
+      if (response.type == "success") {
+        _featuredCourses = response.courses ?? [];
+        _isFeaturedCourseLoading = false;
+        notifyListeners();
+
+        debugPrint("Featured Courses: ${featuredCourses.length}");
+      }
+    }
+  }
+
+  //Category Based Courses
+  Future<void> fetchCategoryBasedCourses({required BuildContext context}) async {
     _isFeaturedCourseLoading = true;
     notifyListeners();
     final response =

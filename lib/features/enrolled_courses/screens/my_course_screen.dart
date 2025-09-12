@@ -124,7 +124,12 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
                 height: 10,
               ),
               enrolledCourseProvider.isCourseLoading
-              ? Center(child: CircularProgressIndicator())
+              ? Container(
+                        height: MediaQuery.of(context).size.height * 0.3,
+                        child: Center(
+                            child: Lottie.asset("assets/lottie/loading.json",
+                                height: 100),
+                          ))
              : enrolledCourseProvider.filteredCourses.isEmpty
                   ? Center(
                       child: Column(
