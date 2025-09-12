@@ -21,7 +21,7 @@ class MyCourseCard extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => EnrolledCourseDetailScreen()));
+                builder: (context) => EnrolledCourseDetailScreen(courseId: course.courseId.toString())));
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
@@ -127,7 +127,7 @@ class MyCourseCard extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              EnrolledCourseDetailScreen()));
+                                              EnrolledCourseDetailScreen(courseId: course.courseId.toString())));
                                 },
                                 icon: Icon(Icons.arrow_forward_ios_rounded),
                                 iconSize: 24,

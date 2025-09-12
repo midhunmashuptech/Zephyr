@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/bxs.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/chapter_details/provider/enrolled_chapter_details_provider.dart';
 import 'package:zephyr/features/chapter_details/screens/chapter_analysis_screen.dart';
@@ -40,6 +42,7 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
   @override
   void initState() {
     super.initState();
+    loadVideos();
     content = [
       Content(
           label: "Study\nMaterials",
@@ -72,106 +75,158 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
     ];
   }
 
+  Future<void> loadVideos() async {
+    final loadProvider = context.read<EnrolledChapterDetailsProvider>();
+    await loadProvider.getChapterVideos(
+        context: context,
+        enrollmentId: "1",
+        courseSubjectId:
+            (loadProvider.selectedSubject.courseSubjectId ?? 0).toString(),
+        courseChapterId:
+            (loadProvider.selectedChapter.courseChapterId ?? 0).toString());
+  }
+
   @override
   Widget build(BuildContext context) {
-    enrolledChapterDetailsProvider = context.watch<EnrolledChapterDetailsProvider>();
+    enrolledChapterDetailsProvider =
+        context.watch<EnrolledChapterDetailsProvider>();
     return Scaffold(
       body: SafeArea(
-          child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                Container(
-                  height: 300,
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage('assets/images/course_bg1.jpg'),
-                        fit: BoxFit.cover),
-                  ),
-                ),
-                Positioned(
-                  child: BackButton(),
-                  top: 10,
-                  left: 10,
-                )
-              ],
-            ),
-            SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 22.0),
-              child: Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+          child: enrolledChapterDetailsProvider.isVideosLoading
+              ? Center(child: CircularProgressIndicator())
+              : SingleChildScrollView(
+                  child: Column(
                     children: [
-                      Text(enrolledChapterDetailsProvider.selectedSubject.subject ?? "Subject Name",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w600)),
-                      Text(
-                        enrolledChapterDetailsProvider.selectedSubject.className ?? "Class Name",
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.primaryBlue),
-                      )
+                      Stack(
+                        children: [
+                          Container(
+                            height: 300,
+                            width: double.infinity,
+                            child: CachedNetworkImage(
+                              imageUrl: enrolledChapterDetailsProvider.selectedChapter.chapterThumbnail ??
+                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => Shimmer.fromColors(
+                                baseColor: AppColors.grey,
+                                highlightColor: AppColors.lightGrey,
+                                child: Container(
+                                  height: 300,
+                                  width: double.infinity,
+                                  color: AppColors.white,
+                                ),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                            ),
+                          ),
+                          Positioned(
+                            child: BackButton(),
+                            top: 10,
+                            left: 10,
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 22.0),
+                        child: Row(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                    enrolledChapterDetailsProvider
+                                            .selectedChapter.chapterTitle ??
+                                        "Chapter Name",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600)),
+                                Text(
+                                  "${(enrolledChapterDetailsProvider.selectedSubject.subject ?? "Subject Name")} | ${(enrolledChapterDetailsProvider.selectedSubject.className ?? "Class Name")}",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColors.primaryBlue),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      GridView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3),
+                          itemCount: content.length,
+                          padding: EdgeInsets.all(10),
+                          itemBuilder: (context, index) => ContentCard(
+                              icon: content[index].icon,
+                              label: content[index].label,
+                              color: content[index].color,
+                              onPressed: content[index].onpressed)),
+                      SizedBox(height: 5),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: Row(
+                          children: [
+                            SizedBox(width: 10),
+                            Iconify(Bxs.videos, size: 20),
+                            SizedBox(width: 10),
+                            Text(
+                              'Videos',
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      enrolledChapterDetailsProvider
+                              .chapterVideos.isEmpty
+                              ? Center(
+                                child: Column(
+                                  children: [
+                                    SizedBox(height: 30),
+                                    Text("No Videos Available Now"),
+                                  ],
+                                ),
+                              )
+                      : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: enrolledChapterDetailsProvider
+                              .chapterVideos.length,
+                          itemBuilder: (context, index) {
+                            return ChapterVideoCard(
+                              onPressed: () {
+                                enrolledChapterDetailsProvider
+                                    .setCurrentVideo(index);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const VideoPlayScreen(),
+                                  ),
+                                );
+                              },
+                              videoTitle: enrolledChapterDetailsProvider
+                                      .chapterVideos[index].title ??
+                                  "Video Title",
+                              thumbnail: enrolledChapterDetailsProvider
+                                      .chapterVideos[index].thumbnail ??
+                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                              videoUrl: '',
+                            );
+                          },
+                        ),
+                      ),
                     ],
                   ),
-                ],
-              ),
-            ),
-            GridView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3),
-                itemCount: content.length,
-                padding: EdgeInsets.all(10),
-                itemBuilder: (context, index) => ContentCard(
-                    icon: content[index].icon,
-                    label: content[index].label,
-                    color: content[index].color,
-                    onPressed: content[index].onpressed)),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Row(
-                children: [
-                  SizedBox(width: 10),
-                  Iconify(Bxs.videos, size: 20),
-                  SizedBox(width: 10),
-                  Text(
-                    'Videos',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return ChapterVideoCard(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const VideoPlayScreen(),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      )),
+                )),
     );
   }
 }

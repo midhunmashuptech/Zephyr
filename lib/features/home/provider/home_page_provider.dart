@@ -6,7 +6,6 @@ import 'package:zephyr/features/home/model/featured_course_model.dart'
 import 'package:zephyr/features/home/service/home_page_service.dart';
 
 class HomePageProvider extends ChangeNotifier {
-  
   bool _isActiveCoursesLoading = false;
   bool get isActiveCoursesLoading => _isActiveCoursesLoading;
 
@@ -34,6 +33,9 @@ class HomePageProvider extends ChangeNotifier {
   //Active Courses
   Future<void> fetchActiveCouses(BuildContext context) async {
     _isActiveCoursesLoading = true;
+    _activeCourses = [];
+    _isFeaturedCourseLoading = true;
+    _featuredCourses = [];
     notifyListeners();
 
     final response = await HomePageService().getActiveCourses(context);
@@ -77,6 +79,8 @@ class HomePageProvider extends ChangeNotifier {
         _featuredCourses = response.courses ?? [];
         _isFeaturedCourseLoading = false;
         notifyListeners();
+
+        debugPrint("Featured Courses: ${featuredCourses.length}");
       }
     }
   }

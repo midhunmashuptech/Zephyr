@@ -24,7 +24,25 @@ class EnrolledChapterDetailsProvider extends ChangeNotifier {
   List<Videos> _chapterVideos = [];
   List<Videos> get chapterVideos => _chapterVideos;
 
-  Future<void> getChapterVideos(
+  Videos _currentlyPlayingVideo = Videos();
+  Videos get currentlyPlayingVideo => _currentlyPlayingVideo;
+
+  void setCurrentVideo(int index) {
+    _currentlyPlayingVideo = chapterVideos[index];
+    notifyListeners();
+  }
+
+  void changePlayingVideo(int index) {
+    _currentlyPlayingVideo = chapterVideos[index];
+    notifyListeners();
+  }
+
+  void clearPlayingVideo(int index) {
+    _currentlyPlayingVideo = Videos();
+    notifyListeners();
+  }
+
+  Future<void> getChapterVideos( 
       {required BuildContext context,
       required String enrollmentId,
       required String courseSubjectId,
