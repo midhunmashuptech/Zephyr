@@ -25,7 +25,8 @@ class EnrolledChapterVideosModel {
 }
 
 class Videos {
-  int? courseChapterVideosId;
+  int? batchVideoId;
+  int? courseChapterVideoId;
   int? courseChapterId;
   int? videoListId;
   String? videoid;
@@ -38,7 +39,8 @@ class Videos {
   String? thumbnail;
 
   Videos(
-      {this.courseChapterVideosId,
+      {this.batchVideoId,
+      this.courseChapterVideoId,
       this.courseChapterId,
       this.videoListId,
       this.videoid,
@@ -51,7 +53,8 @@ class Videos {
       this.thumbnail});
 
   Videos.fromJson(Map<String, dynamic> json) {
-    courseChapterVideosId = json['course_chapter_videos_id'];
+    batchVideoId = json['batch_video_id'];
+    courseChapterVideoId = json['course_chapter_video_id'];
     courseChapterId = json['course_chapter_id'];
     videoListId = json['video_list_id'];
     videoid = json['videoid'];
@@ -66,7 +69,8 @@ class Videos {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['course_chapter_videos_id'] = this.courseChapterVideosId;
+    data['batch_video_id'] = this.batchVideoId;
+    data['course_chapter_video_id'] = this.courseChapterVideoId;
     data['course_chapter_id'] = this.courseChapterId;
     data['video_list_id'] = this.videoListId;
     data['videoid'] = this.videoid;

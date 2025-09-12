@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/bxs.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:zephyr/constants/app_constants.dart';
@@ -11,8 +12,10 @@ import 'package:zephyr/features/chapter_details/screens/chapter_analysis_screen.
 import 'package:zephyr/features/chapter_details/screens/practise_test_screen.dart';
 import 'package:zephyr/features/chapter_details/screens/study_materials_screen.dart';
 import 'package:zephyr/features/chapter_details/screens/video_play_screen.dart';
+import 'package:zephyr/features/chapter_details/screens/youtube_video_player.dart';
 import 'package:zephyr/features/chapter_details/widgets/chapter_video_card.dart';
 import 'package:zephyr/features/chapter_details/widgets/content_card.dart';
+import 'package:zephyr/features/enrolled_courses/provider/enrolled_course_provider.dart';
 
 class ChapterDetailsScreen extends StatefulWidget {
   const ChapterDetailsScreen({super.key});
@@ -77,9 +80,12 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
 
   Future<void> loadVideos() async {
     final loadProvider = context.read<EnrolledChapterDetailsProvider>();
+    final enrollmentLoadProvider = context.read<EnrolledCourseProvider>();
     await loadProvider.getChapterVideos(
         context: context,
-        enrollmentId: "1",
+        enrollmentId:
+            (enrollmentLoadProvider.selectedEnrollment.enrollmentId ?? "0")
+                .toString(),
         courseSubjectId:
             (loadProvider.selectedSubject.courseSubjectId ?? 0).toString(),
         courseChapterId:
@@ -103,7 +109,8 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
                             height: 300,
                             width: double.infinity,
                             child: CachedNetworkImage(
-                              imageUrl: enrolledChapterDetailsProvider.selectedChapter.chapterThumbnail ??
+                              imageUrl: enrolledChapterDetailsProvider
+                                      .selectedChapter.chapterThumbnail ??
                                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
                               fit: BoxFit.cover,
                               placeholder: (context, url) => Shimmer.fromColors(
@@ -183,47 +190,65 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
                         ),
                       ),
                       SizedBox(height: 10),
-                      enrolledChapterDetailsProvider
-                              .chapterVideos.isEmpty
-                              ? Center(
-                                child: Column(
-                                  children: [
-                                    SizedBox(height: 30),
-                                    Text("No Videos Available Now"),
-                                  ],
-                                ),
-                              )
-                      : Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: enrolledChapterDetailsProvider
-                              .chapterVideos.length,
-                          itemBuilder: (context, index) {
-                            return ChapterVideoCard(
-                              onPressed: () {
-                                enrolledChapterDetailsProvider
-                                    .setCurrentVideo(index);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const VideoPlayScreen(),
+                      enrolledChapterDetailsProvider.chapterVideos.isEmpty
+                          ? Center(
+                              child: Column(
+                                children: [
+                                  Lottie.asset("assets/lottie/nodata.json",
+                                      height: 150),
+                                  SizedBox(
+                                    height: 10,
                                   ),
-                                );
-                              },
-                              videoTitle: enrolledChapterDetailsProvider
-                                      .chapterVideos[index].title ??
-                                  "Video Title",
-                              thumbnail: enrolledChapterDetailsProvider
-                                      .chapterVideos[index].thumbnail ??
-                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
-                              videoUrl: '',
-                            );
-                          },
-                        ),
-                      ),
+                                  Text("No Videos Found"),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12.0),
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: enrolledChapterDetailsProvider
+                                    .chapterVideos.length,
+                                itemBuilder: (context, index) {
+                                  return ChapterVideoCard(
+                                    onPressed: () {
+                                      enrolledChapterDetailsProvider
+                                          .setCurrentVideo(index);
+                                      enrolledChapterDetailsProvider
+                                                  .currentlyPlayingVideo
+                                                  .source ==
+                                              "youtube"
+                                          ? Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const YoutubeVideoPlayer(),
+                                              ),
+                                            )
+                                          : Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const VideoPlayScreen(),
+                                              ),
+                                            );
+                                    },
+                                    videoTitle: enrolledChapterDetailsProvider
+                                            .chapterVideos[index].title ??
+                                        "Video Title",
+                                    thumbnail: enrolledChapterDetailsProvider
+                                            .chapterVideos[index].thumbnail ??
+                                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                                    videoUrl: '',
+                                  );
+                                },
+                              ),
+                            ),
                     ],
                   ),
                 )),

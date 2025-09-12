@@ -181,10 +181,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     SizedBox(height: 10),
                     homePageProvider.isFeaturedCourseLoading
-                        ? Center(child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: CircularProgressIndicator(),
-                        ))
+                        ? Center(
+                            child: Column(children: [
+                              Lottie.asset("assets/lottie/loading.json",
+                                  height: 100),
+                            ]),
+                          )
                         :
                         // FeaturedCourseCard(
                         //           course: homePageProvider.featuredCourses[0],
@@ -249,13 +251,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 homePageProvider.isActiveCoursesLoading
                     ? Container(
                         height: MediaQuery.of(context).size.height * 0.3,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Center(child: CircularProgressIndicator()),
-                          ],
-                        ))
+                        child: Center(
+                            child: Lottie.asset("assets/lottie/loading.json",
+                                height: 100),
+                          ))
                     : homePageProvider.filteredActiveCourses.isEmpty
                         ? Center(
                             child: Padding(
@@ -274,7 +273,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2),
-                            itemCount: homePageProvider.activeCourses.length,
+                            itemCount: homePageProvider.filteredActiveCourses.length,
                             itemBuilder: (context, index) => HomeCourseCard(
                                 course: homePageProvider
                                     .filteredActiveCourses[index],

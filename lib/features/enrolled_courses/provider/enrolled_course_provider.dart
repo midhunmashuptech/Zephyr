@@ -9,6 +9,7 @@ import 'package:zephyr/features/coursedetails/model/get_course_reviews_model.dar
 import 'package:zephyr/features/coursedetails/service/course_details_service.dart';
 import 'package:zephyr/features/enrolled_courses/model/course_detail_model.dart'
     as courseDetailsModel;
+import 'package:zephyr/features/enrolled_courses/model/course_enrollments_model.dart';
 import 'package:zephyr/features/enrolled_courses/model/enrolled_course_model.dart';
 import 'package:zephyr/features/enrolled_courses/service/enrolled_course_service.dart';
 
@@ -93,16 +94,6 @@ class EnrolledCourseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool _isCourseDetailsLoading = false;
-  bool get isCourseDetailsLoading => _isCourseDetailsLoading;
-
-  courseDetailsModel.Data _selectedCourseDetails = courseDetailsModel.Data();
-  courseDetailsModel.Data get selectedCourseDetails => _selectedCourseDetails;
-
-  List<courseDetailsModel.Chapters> getChapters(int index) {
-    return (selectedCourseDetails.subjects ?? [])[index].chapters ?? [];
-  }
-
   //Enrolled Chapters
   Future<void> fetchEnrolledChapter(
     BuildContext context,
@@ -157,6 +148,61 @@ class EnrolledCourseProvider extends ChangeNotifier {
   }
 
   // Get Course Details
+  bool _isCourseEnrollmentsLoading = false;
+  bool get isCourseEnrollmentsLoading => _isCourseEnrollmentsLoading;
+
+  List<Enrollments> _courseEnrollments = [];
+  List<Enrollments> get courseEnrollments => _courseEnrollments;
+
+  Enrollments _selectedEnrollment = Enrollments();
+  Enrollments get selectedEnrollment => _selectedEnrollment;
+
+  void changeEnrollment(int enrollmentId) {
+    _selectedEnrollment = courseEnrollments.firstWhere(
+        (enrollment) => enrollment.enrollmentId == enrollmentId,
+        orElse: () => courseEnrollments[0]);
+    notifyListeners();
+  }
+
+  bool _isCourseDetailsLoading = false;
+  bool get isCourseDetailsLoading => _isCourseDetailsLoading;
+
+  courseDetailsModel.Data _selectedCourseDetails = courseDetailsModel.Data();
+  courseDetailsModel.Data get selectedCourseDetails => _selectedCourseDetails;
+
+  List<courseDetailsModel.Chapters> getChapters(int index) {
+    return (selectedCourseDetails.subjects ?? [])[index].chapters ?? [];
+  }
+
+  Future<void> getCourseDetailsAndEnrollments(
+      {required BuildContext context, required String courseId}) async {
+    await getCourseEnrollments(context, courseId);
+    await getCourseDetails(context, courseId);
+  }
+
+  Future<void> getCourseEnrollments(
+      BuildContext context, String courseId) async {
+    _isCourseEnrollmentsLoading = true;
+    notifyListeners();
+
+    final response = await EnrolledCourseService()
+        .getCourseEnrollments(context, courseId: courseId);
+    if (response == null) {
+      showSnackBar("Error", "Something went wrong! please try again");
+    } else {
+      if (response.type == "success") {
+        _courseEnrollments = response.enrollments ?? [];
+        notifyListeners();
+        _selectedEnrollment = _courseEnrollments[0];
+      } else {
+        _courseEnrollments = [];
+      }
+    }
+    notifyListeners();
+    _isCourseEnrollmentsLoading = false;
+    notifyListeners();
+  }
+
   Future<void> getCourseDetails(BuildContext context, String courseId) async {
     _isCourseDetailsLoading = true;
     notifyListeners();
@@ -173,7 +219,6 @@ class EnrolledCourseProvider extends ChangeNotifier {
       }
     }
     notifyListeners();
-
     _isCourseDetailsLoading = false;
     notifyListeners();
   }
@@ -229,13 +274,13 @@ class EnrolledCourseProvider extends ChangeNotifier {
       if (response.type == "success") {
         _isReviewPostingSuccess = true;
         final userDetailsProvider =
-        Provider.of<UserDetailsProvider>(context, listen: false);
+            Provider.of<UserDetailsProvider>(context, listen: false);
         myReview = ReviewDetails(
-          userName: userDetailsProvider.userDetails.name ?? "My Name",
-          userImage: userDetailsProvider.userDetails.image ?? "",
-          reviewText: userReview ?? "",
-          timeAgo: DateFormat('yyyy.MM.dd').format(DateTime.now()),
-          rating: double.parse(userRating ?? "0.0"));
+            userName: userDetailsProvider.userDetails.name ?? "My Name",
+            userImage: userDetailsProvider.userDetails.image ?? "",
+            reviewText: userReview ?? "",
+            timeAgo: DateFormat('yyyy.MM.dd').format(DateTime.now()),
+            rating: double.parse(userRating ?? "0.0"));
         notifyListeners();
         _isReviewPosting = false;
         notifyListeners();
