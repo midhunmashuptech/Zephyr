@@ -43,12 +43,13 @@ class ApiService {
     try {
       final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
       final authToken = await secureStorage.read(key: "token");
+      // final authToken = "146|totTBwuYiMzTllGmmDfqPJ9FoKQ8VhdBrylWFXYifde89a21";
 
       final response = await http.get(
         Uri.parse(url),
         headers: {
           "Authorization": "Bearer $authToken",
-          "Accept": "application/json",
+    "Content-Type": "application/json",
         },
       );
       return _handleResponse(response);
@@ -64,12 +65,13 @@ class ApiService {
     try {
       final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
       final authToken = await secureStorage.read(key: "token");
+      // final authToken = "146|totTBwuYiMzTllGmmDfqPJ9FoKQ8VhdBrylWFXYifde89a21";
 
       final request = http.MultipartRequest('POST', Uri.parse(url));
       request.fields.addAll(fields);
       request.headers.addAll({
         "Authorization": "Bearer $authToken",
-        "Accept": "application/json",
+    "Content-Type": "application/json",
       });
 
       final streamedResponse = await request.send();
@@ -137,8 +139,9 @@ class ApiService {
       default:
         debugPrint("Unexpected Error: $statusCode");
         debugPrint("Unexpected Error Msg: $body");
-        _showError("Unexpected error: $statusCode");
-        throw ApiException("Unexpected error $statusCode");
+        _showError("Unexpected error: $body");
+        debugPrint(response.request?.headers.toString());
+        // throw ApiException("Unexpected error $statusCode");
     }
   }
 

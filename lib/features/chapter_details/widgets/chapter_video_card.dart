@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:zephyr/constants/app_constants.dart';
 
@@ -5,7 +6,16 @@ import 'package:zephyr/constants/app_constants.dart';
 class ChapterVideoCard extends StatelessWidget {
   final void Function()? onPressed;
   bool? currentlySelected = false;
-  ChapterVideoCard({super.key, this.onPressed, this.currentlySelected});
+  String videoTitle;
+  String thumbnail;
+  String videoUrl;
+  ChapterVideoCard(
+      {super.key,
+      this.onPressed,
+      this.currentlySelected,
+      required this.videoTitle,
+      required this.thumbnail,
+      required this.videoUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +43,7 @@ class ChapterVideoCard extends StatelessWidget {
                   children: [
                     Container(
                         height: MediaQuery.of(context).size.width * 0.17,
+                        width: 120,
                         clipBehavior: Clip.hardEdge,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -43,7 +54,11 @@ class ChapterVideoCard extends StatelessWidget {
                             child: Stack(
                               alignment: Alignment.center,
                               children: [
-                                Image.asset("assets/images/course_bg1.jpg"),
+                                CachedNetworkImage(
+                                  imageUrl: thumbnail,
+                                  width: 120,
+                                  fit: BoxFit.cover,
+                                ),
                                 Positioned(
                                   bottom: 0,
                                   left: 0,
@@ -64,66 +79,72 @@ class ChapterVideoCard extends StatelessWidget {
                             ))),
                     SizedBox(width: 10),
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.width * 0.17,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Rational and Irrational Numbers and its funtions",
-                                style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.035,
-                                  fontWeight: FontWeight.w600,
-                                  height: 1.2,
-                                ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-
-                              // Text(
-                              //   "Class 10 - Chemical Reactions & Equations",
-                              //   style: TextStyle(
-                              //       fontSize: MediaQuery.of(context).size.width * 0.025, color: AppColors.black),
-                              // ),
-                            ],
-                          ),
-                          Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
+                              Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  // Text("Duration: "),
                                   Text(
-                                    "Mathematics",
+                                    videoTitle,
                                     style: TextStyle(
-                                        fontSize:
-                                            MediaQuery.of(context).size.width *
-                                                0.025,
-                                        color: AppColors.primaryBlue),
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.035,
+                                      fontWeight: FontWeight.w600,
+                                      height: 1.2,
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ],
                               ),
                               Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Icon(Icons.schedule_rounded, size: 20),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    "12:45",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.w600),
+                                  Expanded(
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Mathematics",
+                                          style: TextStyle(
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.025,
+                                            color: AppColors.primaryBlue,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Icon(Icons.schedule_rounded, size: 20),
+                                      SizedBox(width: 5),
+                                      Text(
+                                        "12:45",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ],
                                   ),
                                 ],
-                              )
+                              ),
                             ],
-                          )
-                        ],
+                          ),
+                        ),
                       ),
-                    )
+                    ),
+                    SizedBox(width: 10),
                   ],
                 ),
               ),

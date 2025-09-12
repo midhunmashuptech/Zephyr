@@ -35,7 +35,7 @@ class Data {
   String? endDate;
   List<String>? categories;
   List<Subjects>? subjects;
-  List<String>? ratings;
+  List<Ratings>? ratings;
   List<String>? likes;
   int? likeCount;
   int? ratingCount;
@@ -78,7 +78,12 @@ class Data {
         subjects!.add(new Subjects.fromJson(v));
       });
     }
-    ratings = json['ratings'].cast<String>();
+    if (json['ratings'] != null) {
+      ratings = <Ratings>[];
+      json['ratings'].forEach((v) {
+        ratings!.add(new Ratings.fromJson(v));
+      });
+    }
     likes = json['likes'].cast<String>();
     likeCount = json['like_count'];
     ratingCount = json['rating_count'];
@@ -101,7 +106,9 @@ class Data {
     if (this.subjects != null) {
       data['subjects'] = this.subjects!.map((v) => v.toJson()).toList();
     }
-    data['ratings'] = this.ratings;
+    if (this.ratings != null) {
+      data['ratings'] = this.ratings!.map((v) => v.toJson()).toList();
+    }
     data['likes'] = this.likes;
     data['like_count'] = this.likeCount;
     data['rating_count'] = this.ratingCount;
@@ -114,6 +121,7 @@ class Subjects {
   int? classId;
   String? className;
   int? subjectId;
+  int? courseSubjectId;
   String? subject;
   List<Chapters>? chapters;
 
@@ -121,6 +129,7 @@ class Subjects {
       {this.classId,
       this.className,
       this.subjectId,
+      this.courseSubjectId,
       this.subject,
       this.chapters});
 
@@ -128,6 +137,7 @@ class Subjects {
     classId = json['class_id'];
     className = json['class'];
     subjectId = json['subject_id'];
+    courseSubjectId = json['course_subject_id'];
     subject = json['subject'];
     if (json['chapters'] != null) {
       chapters = <Chapters>[];
@@ -142,6 +152,7 @@ class Subjects {
     data['class_id'] = this.classId;
     data['class'] = this.className;
     data['subject_id'] = this.subjectId;
+    data['course_subject_id'] = this.courseSubjectId;
     data['subject'] = this.subject;
     if (this.chapters != null) {
       data['chapters'] = this.chapters!.map((v) => v.toJson()).toList();
@@ -153,18 +164,46 @@ class Subjects {
 class Chapters {
   int? courseChapterId;
   String? chapterTitle;
+  String? chapterThumbnail;
 
-  Chapters({this.courseChapterId, this.chapterTitle});
+  Chapters({this.courseChapterId, this.chapterTitle, this.chapterThumbnail});
 
   Chapters.fromJson(Map<String, dynamic> json) {
     courseChapterId = json['course_chapter_id'];
     chapterTitle = json['chapter_title'];
+    chapterThumbnail = json['chapter_thumbnail'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['course_chapter_id'] = this.courseChapterId;
     data['chapter_title'] = this.chapterTitle;
+    data['chapter_thumbnail'] = this.chapterThumbnail;
+    return data;
+  }
+}
+
+class Ratings {
+  String? user;
+  String? image;
+  int? rating;
+  String? review;
+
+  Ratings({this.user, this.image, this.rating, this.review});
+
+  Ratings.fromJson(Map<String, dynamic> json) {
+    user = json['user'];
+    image = json['image'];
+    rating = json['rating'];
+    review = json['review'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['user'] = this.user;
+    data['image'] = this.image;
+    data['rating'] = this.rating;
+    data['review'] = this.review;
     return data;
   }
 }

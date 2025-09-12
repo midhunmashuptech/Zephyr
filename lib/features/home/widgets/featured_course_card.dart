@@ -1,16 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
-import 'package:iconify_flutter_plus/icons/bxs.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/coursedetails/screens/course_details_screen.dart';
-import 'package:zephyr/features/home/model/active_course_model.dart';
+import 'package:zephyr/features/home/model/featured_course_model.dart';
 
-class HomeCourseCard extends StatelessWidget {
+class FeaturedCourseCard extends StatelessWidget {
   final int index;
-  final Course course;
-  const HomeCourseCard({super.key, required this.course, required this.index});
+  final Courses course;
+  const FeaturedCourseCard({super.key, required this.course, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +28,7 @@ class HomeCourseCard extends StatelessWidget {
               Stack(
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context). size.width * 0.25,
-                    width:
-                        double.infinity, // takes full width of parent (Card)
+                    height: 120,
                     child: CachedNetworkImage(
                       imageUrl: course.thumbnail ?? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
                       fit: BoxFit.cover,

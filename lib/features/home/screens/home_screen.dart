@@ -13,6 +13,7 @@ import 'package:zephyr/features/drawer/screens/drawer.dart';
 import 'package:zephyr/features/drawer/screens/profile_screen.dart';
 import 'package:zephyr/features/home/provider/home_page_provider.dart';
 import 'package:zephyr/features/home/widgets/category_widget.dart';
+import 'package:zephyr/features/home/widgets/featured_course_card.dart';
 import 'package:zephyr/features/home/widgets/home_course_card.dart';
 import 'package:zephyr/features/notification/screens/notifications.dart';
 
@@ -50,6 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> loadActiveCourses() async {
     final homePageProvider = context.read<HomePageProvider>();
     await homePageProvider.fetchActiveCouses(context);
+    await homePageProvider.fetchFeaturedCourses(context: context);
   }
 
   void filterCourses() {
@@ -117,8 +119,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     padding: const EdgeInsets.all(2.0),
                                     child: CircleAvatar(
                                       radius: 25,
-                                      foregroundImage: CachedNetworkImageProvider(
-                              userDetailsProvider.userDetails.image ?? ""),
+                                      foregroundImage:
+                                          CachedNetworkImageProvider(
+                                              userDetailsProvider
+                                                      .userDetails.image ??
+                                                  ""),
                                     ),
                                   ),
                                 ),
@@ -160,11 +165,52 @@ class _HomeScreenState extends State<HomeScreen> {
                 CustomSearchBar(
                   color: AppColors.primaryBlue,
                   onChanged: (value) {
-                      homePageProvider.filterActiveCourses(value);
+                    homePageProvider.filterActiveCourses(value);
                   },
                 ),
 
                 SizedBox(height: 20),
+
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Featured Courses",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    ),
+                    SizedBox(height: 10),
+                    homePageProvider.isFeaturedCourseLoading
+                        ? Center(child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CircularProgressIndicator(),
+                        ))
+                        :
+                        // FeaturedCourseCard(
+                        //           course: homePageProvider.featuredCourses[0],
+                        //           index: 0),
+                        SizedBox(
+                            height: 200,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              shrinkWrap: true,
+                              physics:
+                                  BouncingScrollPhysics(), // or AlwaysScrollableScrollPhysics()
+                              itemCount:
+                                  homePageProvider.featuredCourses.length,
+                              itemBuilder: (context, index) => Padding(
+                                padding: const EdgeInsets.only(right: 10),
+                                child: FeaturedCourseCard(
+                                  course:
+                                      homePageProvider.featuredCourses[index],
+                                  index: index,
+                                ),
+                              ),
+                            ),
+                          ),
+                    SizedBox(height: 20),
+                  ],
+                ),
 
                 /// Course Categories
                 (searchValue == "" || searchValue == null)
@@ -222,9 +268,24 @@ class _HomeScreenState extends State<HomeScreen> {
                               ],
                             ),
                           ))
-                        : Wrap(
-                            children: List.generate(homePageProvider.filteredActiveCourses.length, (index) => HomeCourseCard(course: homePageProvider.filteredActiveCourses[index], index: index))
-                          ),
+                        : GridView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2),
+                            itemCount: homePageProvider.activeCourses.length,
+                            itemBuilder: (context, index) => HomeCourseCard(
+                                course: homePageProvider
+                                    .filteredActiveCourses[index],
+                                index: index))
+                // Wrap(
+                //     children: List.generate(
+                //         homePageProvider.filteredActiveCourses.length,
+                //         (index) => HomeCourseCard(
+                //             course: homePageProvider
+                //                 .filteredActiveCourses[index],
+                //             index: index))),
               ],
             ),
           ),

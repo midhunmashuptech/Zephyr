@@ -1,6 +1,9 @@
 import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/chapter_details/provider/enrolled_chapter_details_provider.dart'
+    show EnrolledChapterDetailsProvider;
 import 'package:zephyr/features/chapter_details/widgets/chapter_video_card.dart';
 import 'package:zephyr/features/chapter_details/widgets/comments_listing_screen.dart';
 
@@ -13,27 +16,30 @@ class VideoPlayScreen extends StatefulWidget {
 
 class _VideoPlayScreenState extends State<VideoPlayScreen>
     with SingleTickerProviderStateMixin {
+  EnrolledChapterDetailsProvider enrolledChapterDetailsProvider =
+      EnrolledChapterDetailsProvider();
   bool isLoading = true;
   late TabController _tabController;
   late BetterPlayerController betterPlayerController;
   int selectedIndex = 0; // Track selected video index
 
-  final List<String> videoUrls = [
-    "https://media.istockphoto.com/id/1854905414/video/speed-ramp-male-player-in-red-outfit-outplaying-his-opponents-in-a-football-game.mp4?s=mp4-640x640-is&k=20&c=lFRmcGTDZxlqP6cBnJguufewDafJXljQscbPwVRcHuQ=",
-    "https://cdn.pixabay.com/video/2020/06/17/42420-431511648_large.mp4",
-    "https://d3sigpa2r6yn5i.cloudfront.net/transcoded/85DRa92D54G/video.m3u8",
-    // "https://d3sigpa2r6yn5i.cloudfront.net/transcoded/9SkEnE92d42/video.m3u8",
-    // "https://player.vimeo.com/external/931461126.m3u8?s=8d81b0a23217e40cc7904c52db9c607be07691c5&logging=false"
-  ];
+  // final List<String> videoUrls = [
+  //   "https://media.istockphoto.com/id/1854905414/video/speed-ramp-male-player-in-red-outfit-outplaying-his-opponents-in-a-football-game.mp4?s=mp4-640x640-is&k=20&c=lFRmcGTDZxlqP6cBnJguufewDafJXljQscbPwVRcHuQ=",
+  //   "https://cdn.pixabay.com/video/2020/06/17/42420-431511648_large.mp4",
+  //   "https://d3sigpa2r6yn5i.cloudfront.net/transcoded/85DRa92D54G/video.m3u8",
+  //   // "https://d3sigpa2r6yn5i.cloudfront.net/transcoded/9SkEnE92d42/video.m3u8",
+  //   // "https://player.vimeo.com/external/931461126.m3u8?s=8d81b0a23217e40cc7904c52db9c607be07691c5&logging=false"
+  // ];
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    initializePlayer(videoUrls[0]); // Load first video initially
+    initializePlayer(); // Load first video initially
   }
 
-  void initializePlayer(String url) {
+  void initializePlayer() {
+    final chapterVideoProvider = context.read<EnrolledChapterDetailsProvider>();
     betterPlayerController = BetterPlayerController(
       BetterPlayerConfiguration(
         autoPlay: true,
@@ -44,19 +50,19 @@ class _VideoPlayScreenState extends State<VideoPlayScreen>
       ),
       betterPlayerDataSource: BetterPlayerDataSource(
         BetterPlayerDataSourceType.network,
-        url,
+        chapterVideoProvider.currentlyPlayingVideo.hls ?? "",
       ),
     );
-
-    setState(() {
-      isLoading = false;
-    });
   }
 
-  void changeVideo(String url, int index) {
+  void changeVideo(int index) {
+    print("Chapter Changed");
+    final chapterVideoProvider =
+        context.read<EnrolledChapterDetailsProvider>();
+    chapterVideoProvider.changePlayingVideo(index);
     betterPlayerController.setupDataSource(BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
-      url,
+      chapterVideoProvider.currentlyPlayingVideo.hls ?? "",
     ));
 
     setState(() {
@@ -73,9 +79,11 @@ class _VideoPlayScreenState extends State<VideoPlayScreen>
 
   @override
   Widget build(BuildContext context) {
+    enrolledChapterDetailsProvider =
+        context.watch<EnrolledChapterDetailsProvider>();
     return SafeArea(
       child: Scaffold(
-        body: isLoading
+        body: enrolledChapterDetailsProvider.isVideosLoading
             ? Center(child: CircularProgressIndicator())
             : Column(
                 children: [
@@ -97,7 +105,9 @@ class _VideoPlayScreenState extends State<VideoPlayScreen>
                           child: SizedBox(
                             width: MediaQuery.of(context).size.width * 0.7,
                             child: Text(
-                              "Foundation of Mathematics",
+                              enrolledChapterDetailsProvider
+                                            .selectedChapter.chapterTitle ??
+                                        "Chapter Name",
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
@@ -153,10 +163,27 @@ class _VideoPlayScreenState extends State<VideoPlayScreen>
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
-          children: List.generate(videoUrls.length, (index) {
+          children: List.generate(
+              enrolledChapterDetailsProvider.chapterVideos.length, (index) {
+            print(
+                "Video ID: ${enrolledChapterDetailsProvider.currentlyPlayingVideo.courseChapterVideosId}");
+            print(
+                "Video ID 2: ${enrolledChapterDetailsProvider.chapterVideos[index].courseChapterId}");
             return ChapterVideoCard(
-              currentlySelected: selectedIndex == index,
-              onPressed: () => changeVideo(videoUrls[index], index),
+              currentlySelected: enrolledChapterDetailsProvider
+                      .currentlyPlayingVideo.courseChapterVideosId ==
+                  enrolledChapterDetailsProvider
+                      .chapterVideos[index].courseChapterVideosId,
+              onPressed: () => changeVideo(index),
+              videoTitle:
+                  enrolledChapterDetailsProvider.currentlyPlayingVideo.title ??
+                      "Video Title",
+              thumbnail: enrolledChapterDetailsProvider
+                      .currentlyPlayingVideo.thumbnail ??
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+              videoUrl:
+                  enrolledChapterDetailsProvider.currentlyPlayingVideo.hls ??
+                      "",
             );
           }),
         ),
