@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/ic.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:swipeable_button_view/swipeable_button_view.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/coursedetails/provider/course_provider.dart';
@@ -80,18 +82,39 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                   children: [
                     Stack(
                       children: [
-                        Container(
-                          height: 300,
-                          width: double.infinity,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                                image:
-                                    AssetImage('assets/images/course_bg1.jpg'),
-                                fit: BoxFit.cover),
+                        CachedNetworkImage(
+                            imageUrl: courseProvider
+                                    .courseData.thumbnail ??
+                                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                            imageBuilder: (context, imageProvider) => Container(
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            placeholder: (context, url) => Shimmer.fromColors(
+                              baseColor: AppColors.grey,
+                              highlightColor: AppColors.lightGrey,
+                              child: Container(
+                                height: MediaQuery.of(context).size.height * 0.3,
+                                width: double.infinity,
+                                color: AppColors.white,
+                              ),
+                            ),
+                            errorWidget: (context, url, error) => Container(
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              width: double.infinity,
+                              color: Colors.grey.shade300,
+                              child: const Icon(Icons.error,
+                                  color: Colors.red, size: 40),
+                            ),
                           ),
-                        ),
                         Container(
-                          margin: const EdgeInsets.only(top: 260),
+                          margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3 -40),
                           padding: const EdgeInsets.all(20),
                           width: double.infinity,
                           decoration: const BoxDecoration(
@@ -149,7 +172,6 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Container(
@@ -170,7 +192,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                       ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height - 550,
+                      height: MediaQuery.of(context).size.height - MediaQuery.of(context).size.height * 0.3 - 250,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12.0),
                         child: TabBarView(
