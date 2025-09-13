@@ -92,7 +92,7 @@ class Data {
     }
     likeCount = json['like_count'];
     ratingCount = json['rating_count'];
-    averageRating = json['average_rating'];
+    averageRating = double.parse((json['average_rating']).toString());
   }
 
   Map<String, dynamic> toJson() {

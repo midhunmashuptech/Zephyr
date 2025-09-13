@@ -39,13 +39,13 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
     _tabs.addAll([
       CourseOverview(),
       buildChapterTab(), // wrapped with internal navigator
-      CourseReviews(),
+      CourseReviews(courseId: widget.courseId,),
     ]);
   }
 
   Future<void> loadCourseData() async {
     final loadProvider = context.read<CourseProvider>();
-    await loadProvider.getCourseDetails(courseId: "1", context: context);
+    await loadProvider.getCourseDetails(courseId: widget.courseId, context: context);
   }
 
   @override

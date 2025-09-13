@@ -45,6 +45,7 @@ class CourseProvider extends ChangeNotifier {
   Future<void> getCourseReviews(
       {required String courseId, required BuildContext context}) async {
     _isReviewsLoading = true;
+    _courseReviews = [];
     notifyListeners();
 
     final response = await CourseDetailsService()

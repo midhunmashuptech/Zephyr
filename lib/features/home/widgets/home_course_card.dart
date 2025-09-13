@@ -24,8 +24,13 @@ class HomeCourseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => CourseDetailsScreen(courseId: courseId,)));
+        debugPrint("ID: " + courseId);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => CourseDetailsScreen(
+                      courseId: courseId,
+                    )));
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
