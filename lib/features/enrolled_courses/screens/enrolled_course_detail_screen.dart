@@ -65,7 +65,7 @@ class _EnrolledCourseDetailScreenState extends State<EnrolledCourseDetailScreen>
                                     .selectedCourseDetails.thumbnail ??
                                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
                             imageBuilder: (context, imageProvider) => Container(
-                              height: 300,
+                              height: MediaQuery.of(context).size.height * 0.3,
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
@@ -78,13 +78,13 @@ class _EnrolledCourseDetailScreenState extends State<EnrolledCourseDetailScreen>
                               baseColor: AppColors.grey,
                               highlightColor: AppColors.lightGrey,
                               child: Container(
-                                height: 300,
+                                height: MediaQuery.of(context).size.height * 0.3,
                                 width: double.infinity,
                                 color: AppColors.white,
                               ),
                             ),
                             errorWidget: (context, url, error) => Container(
-                              height: 300,
+                              height: MediaQuery.of(context).size.height * 0.3,
                               width: double.infinity,
                               color: Colors.grey.shade300,
                               child: const Icon(Icons.error,
@@ -126,7 +126,7 @@ class _EnrolledCourseDetailScreenState extends State<EnrolledCourseDetailScreen>
                             ),
                           ),
                           Container(
-                            margin: const EdgeInsets.only(top: 260),
+                            margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3 - 40),
                             padding: const EdgeInsets.all(20),
                             width: double.infinity,
                             decoration: const BoxDecoration(
