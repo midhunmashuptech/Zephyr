@@ -10,7 +10,8 @@ import 'package:zephyr/features/coursedetails/widgets/rating_widget.dart';
 import 'package:zephyr/features/coursedetails/widgets/review_card.dart';
 
 class CourseReviews extends StatefulWidget {
-  const CourseReviews({super.key});
+  String courseId;
+  CourseReviews({super.key, required this.courseId});
 
   @override
   State<CourseReviews> createState() => _CourseReviewsState();
@@ -64,7 +65,7 @@ class _CourseReviewsState extends State<CourseReviews> {
 
   Future<void> loadReviews() async {
     final loadProvider = context.read<CourseProvider>();
-    await loadProvider.getCourseReviews(courseId: "1", context: context);
+    await loadProvider.getCourseReviews(courseId: widget.courseId, context: context);
   }
 
   @override

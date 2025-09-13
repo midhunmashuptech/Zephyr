@@ -345,7 +345,8 @@ class _EditProfileState extends State<EditProfile> {
                                 },
                                 color: AppColors.primaryOrange,
                                 textcolor: AppColors.white,
-                              )
+                              ),
+                              SizedBox(height: 10),
                       ],
                     ),
             ],

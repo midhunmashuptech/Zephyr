@@ -15,7 +15,7 @@ class FeaturedCourseCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => CourseDetailsScreen()));
+            MaterialPageRoute(builder: (context) => CourseDetailsScreen(courseId: course.id.toString(),)));
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),

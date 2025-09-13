@@ -266,7 +266,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               color: AppColors.primaryBlue,
                               textcolor: AppColors.white,
                               onPressed: () {},
-                            )
+                            ),
+                            SizedBox(height: 20),
                           ],
                         ),
                       ),
