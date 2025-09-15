@@ -26,6 +26,8 @@ const enrolledChapterTestUrl = "${baseUrl}get-enrollment-chapter-tests";
 //Live API's
 const ongoingLiveUrl = "${baseUrl}get-ongoing-live-classes";
 const upcomingLiveUrl = "${baseUrl}get-upcoming-live-classes";
+const recordingLiveUrl = "${baseUrl}get-live-class-recordings";
+
 
 
 // Password rest API

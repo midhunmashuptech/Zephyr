@@ -3,6 +3,7 @@ import 'package:zephyr/api_files/api_service.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/constants/config.dart';
 import 'package:zephyr/features/live_class/model/ongoing_live_model.dart';
+import 'package:zephyr/features/live_class/model/recording_live_model.dart';
 import 'package:zephyr/features/live_class/model/upcoming_live_model.dart';
 
 class LiveService {
@@ -23,7 +24,6 @@ class LiveService {
   }
 
   //UpComing Live Class
-
   Future<UpcomingLiveModel?> getUpcomingLive(
       {required BuildContext context}) async {
     final responseJson = await ApiService().getRequest(url: upcomingLiveUrl);
@@ -33,6 +33,21 @@ class LiveService {
       final upcomingLiveModel = UpcomingLiveModel.fromJson(responseJson);
       showSnackBar("success", "fetched successfully");
       return upcomingLiveModel;
+    }
+    return null;
+  }
+
+  //Recordings Live Class
+  Future<RecordingLiveModel?> getRecordingsLive(
+      {required BuildContext context, required String date}) async {
+    final responseJson = await ApiService()
+        .postRequest(url: recordingLiveUrl, fields: {"date": date});
+    if (responseJson == null) {
+      showSnackBar("failed", "Something went wrong");
+    } else {
+      final recordingLiveModel = RecordingLiveModel.fromJson(responseJson);
+      showSnackBar("success", " Recorded Live Classes Loaded successfully");
+      return recordingLiveModel;
     }
     return null;
   }
