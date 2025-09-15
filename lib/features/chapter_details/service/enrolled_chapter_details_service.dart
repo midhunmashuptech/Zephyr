@@ -3,6 +3,7 @@ import 'package:zephyr/api_files/api_service.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/constants/config.dart';
 import 'package:zephyr/features/chapter_details/model/enrolled_chapter_materials_model.dart';
+import 'package:zephyr/features/chapter_details/model/enrolled_chapter_test_model.dart';
 import 'package:zephyr/features/chapter_details/model/enrolled_chapter_video_model.dart';
 
 class EnrolledChapterDetailsService {
@@ -56,5 +57,28 @@ class EnrolledChapterDetailsService {
       return enrolledChapterMaterials;
     }
     return null;
+  }
+
+  //Enrolled Chapter Tests
+  Future<EnrolledChapterTestModel?> getEnrolledChapterTest(
+      {required BuildContext context,
+      required String enrollmentId,
+      required String courseSubjectId,
+      required String courseChapterId}) async {
+    final responseJson =
+        await ApiService().postRequest(url: enrolledChapterTestUrl, fields: {
+      "enrollment_id": enrollmentId,
+      "course_subject_id": courseSubjectId,
+      "course_chapter_id": courseChapterId
+    });
+    if (responseJson == null) {
+      showSnackBar("Error", "Something went wrong");
+    } else {
+      final enrolledChapterTestModel =
+          EnrolledChapterTestModel.fromJson(responseJson);
+      showSnackBar("Success", "Successfully loaded enrolled chapter tests");
+      return enrolledChapterTestModel;
+    }
+  return null;
   }
 }

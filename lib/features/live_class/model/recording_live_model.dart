@@ -1,10 +1,10 @@
-class OnGoingLiveModel {
+class RecordingLiveModel {
   String? type;
   List<LiveClasses>? liveClasses;
 
-  OnGoingLiveModel({this.type, this.liveClasses});
+  RecordingLiveModel({this.type, this.liveClasses});
 
-  OnGoingLiveModel.fromJson(Map<String, dynamic> json) {
+  RecordingLiveModel.fromJson(Map<String, dynamic> json) {
     type = json['type'];
     if (json['live_classes'] != null) {
       liveClasses = <LiveClasses>[];

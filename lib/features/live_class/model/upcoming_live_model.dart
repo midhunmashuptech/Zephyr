@@ -27,28 +27,18 @@ class UpcomingLiveModel {
 class LiveClasses {
   int? id;
   String? title;
-  String? meetid;
-  String? type;
-  int? account;
   String? url;
   String? password;
   int? duration;
-  String? faculty;
+  Faculty? faculty;
   String? start;
   String? end;
   String? description;
-  String? recordingSource;
-  String? videoid;
-  bool? status;
-  String? createdAt;
-  String? updatedAt;
+  int? isFeatured;
 
   LiveClasses(
       {this.id,
       this.title,
-      this.meetid,
-      this.type,
-      this.account,
       this.url,
       this.password,
       this.duration,
@@ -56,51 +46,61 @@ class LiveClasses {
       this.start,
       this.end,
       this.description,
-      this.recordingSource,
-      this.videoid,
-      this.status,
-      this.createdAt,
-      this.updatedAt});
+      this.isFeatured});
 
   LiveClasses.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
-    meetid = json['meetid'];
-    type = json['type'];
-    account = json['account'];
     url = json['url'];
     password = json['password'];
     duration = json['duration'];
-    faculty = json['faculty'];
+    faculty =
+        json['faculty'] != null ? new Faculty.fromJson(json['faculty']) : null;
     start = json['start'];
     end = json['end'];
     description = json['description'];
-    recordingSource = json['recording_source'];
-    videoid = json['videoid'];
-    status = json['status'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+    isFeatured = json['is_featured'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['title'] = this.title;
-    data['meetid'] = this.meetid;
-    data['type'] = this.type;
-    data['account'] = this.account;
     data['url'] = this.url;
     data['password'] = this.password;
     data['duration'] = this.duration;
-    data['faculty'] = this.faculty;
+    if (this.faculty != null) {
+      data['faculty'] = this.faculty!.toJson();
+    }
     data['start'] = this.start;
     data['end'] = this.end;
     data['description'] = this.description;
-    data['recording_source'] = this.recordingSource;
-    data['videoid'] = this.videoid;
-    data['status'] = this.status;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    data['is_featured'] = this.isFeatured;
+    return data;
+  }
+}
+
+class Faculty {
+  int? id;
+  String? name;
+  String? image;
+  String? role;
+
+  Faculty({this.id, this.name, this.image, this.role});
+
+  Faculty.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    image = json['image'];
+    role = json['role'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['image'] = this.image;
+    data['role'] = this.role;
     return data;
   }
 }
