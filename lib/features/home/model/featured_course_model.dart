@@ -1,3 +1,5 @@
+import 'package:zephyr/common/model/course_ratings_model.dart';
+
 class FeaturedCourseModel {
   String? type;
   List<Courses>? courses;
@@ -27,68 +29,49 @@ class FeaturedCourseModel {
 class Courses {
   int? id;
   String? title;
-  Null? thumbnail;
-  String? start;
-  String? end;
-  int? duration;
-  String? durationType;
-  String? type;
-  String? level;
+  String? thumbnail;
   int? publish;
-  String? description;
   String? price;
   String? discountType;
   String? discountValue;
-  int? createdBy;
-  int? updatedBy;
   int? status;
   int? featured;
-  String? createdAt;
-  String? updatedAt;
+  double? averageRating;
+  bool? isEnrolled;
+  List<CourseRatings>? courseRatings;
 
   Courses(
       {this.id,
       this.title,
       this.thumbnail,
-      this.start,
-      this.end,
-      this.duration,
-      this.durationType,
-      this.type,
-      this.level,
       this.publish,
-      this.description,
       this.price,
       this.discountType,
       this.discountValue,
-      this.createdBy,
-      this.updatedBy,
       this.status,
       this.featured,
-      this.createdAt,
-      this.updatedAt});
+      this.averageRating,
+      this.isEnrolled,
+      this.courseRatings});
 
   Courses.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
     thumbnail = json['thumbnail'];
-    start = json['start'];
-    end = json['end'];
-    duration = json['duration'];
-    durationType = json['duration_type'];
-    type = json['type'];
-    level = json['level'];
     publish = json['publish'];
-    description = json['description'];
     price = json['price'];
     discountType = json['discount_type'];
     discountValue = json['discount_value'];
-    createdBy = json['created_by'];
-    updatedBy = json['updated_by'];
     status = json['status'];
     featured = json['featured'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+    averageRating = double.parse(json['average_rating'].toString());
+    isEnrolled = json['is_enrolled'];
+    if (json['course_ratings'] != null) {
+      courseRatings = <CourseRatings>[];
+      json['course_ratings'].forEach((v) {
+        courseRatings!.add(new CourseRatings.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -96,23 +79,19 @@ class Courses {
     data['id'] = this.id;
     data['title'] = this.title;
     data['thumbnail'] = this.thumbnail;
-    data['start'] = this.start;
-    data['end'] = this.end;
-    data['duration'] = this.duration;
-    data['duration_type'] = this.durationType;
-    data['type'] = this.type;
-    data['level'] = this.level;
     data['publish'] = this.publish;
-    data['description'] = this.description;
     data['price'] = this.price;
     data['discount_type'] = this.discountType;
     data['discount_value'] = this.discountValue;
-    data['created_by'] = this.createdBy;
-    data['updated_by'] = this.updatedBy;
     data['status'] = this.status;
     data['featured'] = this.featured;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    data['average_rating'] = this.averageRating;
+    data['is_enrolled'] = this.isEnrolled;
+    if (this.courseRatings != null) {
+      data['course_ratings'] =
+          this.courseRatings!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
+
