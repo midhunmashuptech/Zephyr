@@ -3,7 +3,12 @@ import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/bxs.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/live_class/model/recording_live_model.dart';
+import 'package:zephyr/features/live_class/provider/live_provider.dart';
+import 'package:zephyr/features/live_class/widgets/live_class_card.dart';
+import 'package:zephyr/features/live_class/widgets/live_class_card_with_thumbnail.dart';
 
 class LiveRecordingScreen extends StatefulWidget {
   const LiveRecordingScreen({super.key});
@@ -13,23 +18,36 @@ class LiveRecordingScreen extends StatefulWidget {
 }
 
 class _LiveRecordingScreenState extends State<LiveRecordingScreen> {
-  DateTime selectedDate = DateTime.now();
-  final currentDate = DateTime.now();
+  LiveProvider liveProvider = LiveProvider();
+
+  @override
+  void initState() {
+    super.initState();
+
+    loadRecordings(DateTime.now());
+  }
+
+  Future<void> loadRecordings(DateTime date) async {
+    final loadProvider = context.read<LiveProvider>();
+    loadProvider.setRecordingDate(date);
+    await loadProvider.fetchRecordingLive(context: context);
+  }
 
   // Function to get the label for Today, Tomorrow, Yesterday
   String getDayLabel(DateTime date) {
+    final dateprovider = context.watch<LiveProvider>();
     // Check if it's today
-    if (isSameDay(date, currentDate)) {
+    if (isSameDay(date, dateprovider.recordingSelectedDate)) {
       return "Today, ${DateFormat('EEEE').format(date)}";
     }
 
     // Check if it's tomorrow
-    if (isSameDay(date, currentDate.add(Duration(days: 1)))) {
+    if (isSameDay(date, dateprovider.recordingSelectedDate.add(Duration(days: 1)))) {
       return "Tomorrow, ${DateFormat('EEEE').format(date)}";
     }
 
     // Check if it's yesterday
-    if (isSameDay(date, currentDate.subtract(Duration(days: 1)))) {
+    if (isSameDay(date, dateprovider.recordingSelectedDate.subtract(Duration(days: 1)))) {
       return "Yesterday, ${DateFormat('EEEE').format(date)}";
     }
 
@@ -46,8 +64,9 @@ class _LiveRecordingScreenState extends State<LiveRecordingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String formattedDate = DateFormat('MMM d, yyyy').format(selectedDate);
-    String formattedDay = getDayLabel(selectedDate);
+    liveProvider = context.watch<LiveProvider>();
+    String formattedDate = DateFormat('MMM d, yyyy').format(liveProvider.recordingSelectedDate);
+    String formattedDay = getDayLabel(liveProvider.recordingSelectedDate);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -75,7 +94,7 @@ class _LiveRecordingScreenState extends State<LiveRecordingScreen> {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
-                              height: 0.95, // Reduces the line height
+                              height: 0.95, 
                             ),
                           ),
                           Text(
@@ -83,7 +102,7 @@ class _LiveRecordingScreenState extends State<LiveRecordingScreen> {
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.normal,
-                              height: 0.95, // Reduces the line height
+                              height: 0.95, 
                             ),
                           ),
                         ],
@@ -97,16 +116,14 @@ class _LiveRecordingScreenState extends State<LiveRecordingScreen> {
                         onPressed: () async {
                           DateTime? pickedDate = await showDatePicker(
                             context: context,
-                            initialDate: selectedDate,
+                            initialDate: liveProvider.recordingSelectedDate,
                             firstDate: DateTime(2000),
                             lastDate: DateTime(2101),
                           );
                           if (pickedDate != null &&
-                              pickedDate != selectedDate) {
-                            setState(() {
-                              selectedDate = pickedDate;
-                              formattedDay = getDayLabel(pickedDate);
-                            });
+                              pickedDate !=
+                                  liveProvider.recordingSelectedDate) {
+                            loadRecordings(pickedDate);
                           }
                         },
                       ),
@@ -120,16 +137,51 @@ class _LiveRecordingScreenState extends State<LiveRecordingScreen> {
                 child: Divider(
                   color: AppColors.grey,
                 )),
-                 Center(
-                  child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 40.0),
-                  child: Column(
-                    children: [
-                      Lottie.asset("assets/lottie/nodata.json", height: 200),
-                      Text("No Recordings found!"),
-                    ],
-                  ),
-                )),
+            liveProvider.isRecordingLoading
+                ? Center(child: CircularProgressIndicator())
+                : liveProvider.recordingLive.isEmpty
+                    ? Center(
+                        child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 40.0),
+                        child: Column(
+                          children: [
+                            Lottie.asset("assets/lottie/nodata.json",
+                                height: 200),
+                            Text("No Recordings found!"),
+                          ],
+                        ),
+                      ))
+                    : ListView.separated(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: liveProvider.recordingLive.length,
+                        itemBuilder: (context, index) => liveProvider.recordingLive[index].isFeatured == 1
+                            ? LiveClassCardWithThumbnail(
+                                className: liveProvider.recordingLive[index].title ??
+                                    "Class Name",
+                                tutorName:
+                                    (liveProvider.recordingLive[index].faculty ??
+                                                Faculty(name: "Tutor name"))
+                                            .name ??
+                                        "",
+                                startDate: liveProvider.recordingLive[index].start ??
+                                    "",
+                                enddate:
+                                    liveProvider.recordingLive[index].end ?? "",
+                                imageUrl: liveProvider.recordingLive[index].thumbnail ??
+                                    "",
+                                currenttab: "Recordings")
+                            : LiveClassCard(
+                                className: liveProvider.recordingLive[index].title ?? "Class Name",
+                                tutorName: (liveProvider.recordingLive[index].faculty ?? Faculty(name: "Tutor name")).name ?? "",
+                                startDate: liveProvider.recordingLive[index].start ?? "",
+                                enddate: liveProvider.recordingLive[index].end ?? "",
+                                imageUrl: liveProvider.recordingLive[index].thumbnail ?? "https://blog.kapdec.com/hubfs/Imported_Blog_Media/3784896.jpg",
+                                currenttab: "Recordings"),
+                        separatorBuilder: (context, index) => SizedBox(
+                          height: 5,
+                        ),
+                      )
           ],
         ),
       ),

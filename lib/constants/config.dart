@@ -30,6 +30,13 @@ const ongoingLiveUrl = "${baseUrl}get-ongoing-live-classes";
 const upcomingLiveUrl = "${baseUrl}get-upcoming-live-classes";
 const recordingLiveUrl = "${baseUrl}get-live-class-recordings";
 
+//Assignment API's
+const getAssignmentUrl = "${baseUrl}get-enrollment-assignments";
+const getAssignmentDetailsUrl = "${baseUrl}get-assignment-details";
+const getSubmittedAssignmentUrl = "${baseUrl}get-submitted-assignments";
+
+
+
 
 // Password rest API
 const resetPasswordUrl = "${baseUrl}reset-user-password";

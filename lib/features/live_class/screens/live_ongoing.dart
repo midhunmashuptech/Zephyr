@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/live_class/model/ongoing_live_model.dart';
 import 'package:zephyr/features/live_class/provider/live_provider.dart';
-import 'package:zephyr/features/live_class/widgets/live_class_card.dart';
 import 'package:zephyr/features/live_class/widgets/live_class_card_with_thumbnail.dart';
 
 class LiveOngoing extends StatefulWidget {
