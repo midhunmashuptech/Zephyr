@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/assignments/provider/assignment_provider.dart';
 import 'package:zephyr/features/assignments/widgets/assignment_card.dart';
 
 class AssignmentsScreen extends StatefulWidget {
@@ -9,6 +10,8 @@ class AssignmentsScreen extends StatefulWidget {
   @override
   State<AssignmentsScreen> createState() => _AssignmentsScreenState();
 }
+
+AssignmentProvider assignmentProvider = AssignmentProvider();
 
 class Assignments {
   String heading;
@@ -48,6 +51,7 @@ class _AssignmentsScreenState extends State<AssignmentsScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    // assignmentProvider = context.watch<AssignmentProvider>();
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -68,8 +72,7 @@ class _AssignmentsScreenState extends State<AssignmentsScreen> {
                   SizedBox(width: 10),
                   Text(
                     'Assignments',
-                    style: TextStyle(
-                        fontSize: 22, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
