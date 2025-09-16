@@ -1,50 +1,73 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/fa_solid.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/assignments/provider/assignment_provider.dart';
 
 class AssignmentUploadScreen extends StatefulWidget {
-  final String date;
-  final String time;
+  final String assignmentId;
   final String contentType;
   const AssignmentUploadScreen(
-      {required this.date,
-      required this.time,
-      required this.contentType,
-      super.key});
+      {required this.contentType, required this.assignmentId, super.key});
 
   @override
   State<AssignmentUploadScreen> createState() => _AssignmentUploadScreenState();
 }
 
 class _AssignmentUploadScreenState extends State<AssignmentUploadScreen> {
-  List<PlatformFile> selectedFiles = [];
+  AssignmentProvider assignmentProvider = AssignmentProvider();
 
-  Future<void> pickFile() async {
-    if (selectedFiles.length >= 3) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("You can only upload up to 3 files")),
-      );
-      return;
-    }
+  Future<void> pickFile(BuildContext context) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      allowMultiple: false, // Only one file
+      type: FileType.custom, // Restrict to specific extensions
+      allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf'], // Images + PDF
+    );
 
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
-
-    if (result != null) {
-      setState(() {
-        selectedFiles.add(result.files.first);
-      });
+    if (result != null && result.files.first.path != null) {
+      final submitAssignmentProvider = context.read<AssignmentProvider>();
+      debugPrint("File Picked: ${result.files.first.path}");
+      submitAssignmentProvider.setSelectedFile(result.files.first);
     }
   }
 
-  void removeFile(int index) {
-    setState(() {
-      selectedFiles.removeAt(index);
-    });
+  Future<void> loadAssignmentDetails() async {
+    final assignmentProvider = context.read<AssignmentProvider>();
+    await assignmentProvider.fetchAssignmentDetails(
+        context: context, assignmentId: widget.assignmentId);
+  }
+
+  // Convert "2025-09-17 15:11:00" → "September 17, 2025"
+  String formatDate(String dateTimeString) {
+    if (dateTimeString.trim().isEmpty) {
+      return "Invalid Date";
+    }
+    try {
+      DateTime parsedDate = DateTime.parse(dateTimeString);
+      return DateFormat("MMMM dd, yyyy").format(parsedDate);
+    } catch (e) {
+      return "Invalid Date";
+    }
+  }
+
+// Convert "2025-09-17 15:11:00" → "03:11 PM"
+  String formatTime(String dateTimeString) {
+    if (dateTimeString.trim().isEmpty) {
+      return "Invalid Time";
+    }
+    try {
+      DateTime parsedDate = DateTime.parse(dateTimeString);
+      return DateFormat("hh:mm a").format(parsedDate);
+    } catch (e) {
+      return "Invalid Time";
+    }
   }
 
   Iconify getFileIcon(String fileName) {
@@ -66,7 +89,15 @@ class _AssignmentUploadScreenState extends State<AssignmentUploadScreen> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadAssignmentDetails();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    assignmentProvider = context.watch<AssignmentProvider>();
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
@@ -78,191 +109,211 @@ class _AssignmentUploadScreenState extends State<AssignmentUploadScreen> {
         title: Text('Assignment'),
         backgroundColor: AppColors.lightGrey,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        "Due date : ",
-                        style: TextStyle(color: AppColors.darkred),
-                      ),
-                      Text(
-                        widget.date,
-                        style: TextStyle(color: AppColors.darkred),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        "Due time : ",
-                        style: TextStyle(color: AppColors.darkred),
-                      ),
-                      Text(
-                        widget.time,
-                        style: TextStyle(color: AppColors.darkred),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-              SizedBox(height: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Assignment Content
-                  //  check widget.contentType
-                  if (widget.contentType == "pdf") ...[
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.6,
-                      child: SfPdfViewer.network(
-                        "https://d333c2xue188ia.cloudfront.net/assignments/vhFzVyubuJjRPqKilB0vSLEXRnYtKXNnYknZs5hA.pdf",
-                      ),
-                    ),
-                  ] else if (widget.contentType == "image") ...[
-                    Image.network(
-                      "https://d333c2xue188ia.cloudfront.net/assignments/CWXu54amb5TYZXxY6tykfv5i7rPvRz4jFnqOIpp3.webp",
-                      fit: BoxFit.contain,
-                    ),
-                  ] else if (widget.contentType == "html") ...[
-                    Html(
-                      data: """
-      <h2 style="color:#5170ff; text-align:center; font-family:Montserrat;">
-        Write note on Photosynthesis
-      </h2>
-      <p style="font-size:18px;">
-        a) Explain the overall process of photosynthesis, including the reactants and products involved.<br><br>
-        b) Describe the two main stages of photosynthesis: 
-        <b>the light dependent reactions</b> and <b>the Calvin cycle</b>.<br><br>
-        c) Discuss the factors that influence the rate of photosynthesis and how they affect plant growth.
-      </p>
-    """,
-                    ),
-                  ] else ...[
-                    Text(
-                      "Content type not supported",
-                      style: TextStyle(color: Colors.red),
-                    ),
-                  ],
-                  // Text('Write note on Photosynthesis.',
-                  //     style: TextStyle(
-                  //         fontSize: 24,
-                  //         fontWeight: FontWeight.w500,
-                  //         color: AppColors.black)),
-                  // SizedBox(height: 20),
-                  // Text(
-                  //   'a) Explain the overall process of photosynthesis, including the reactants and products involved. \n\nb) Describe the two main stages of photosynthesis the light dependent reactions and the Calvin cycle. \n\nc) Discuss the factors that influence the rate of photosynthesis and how they affect plant growth.',
-                  //   // maxLines: 3,
-                  //   // overflow: TextOverflow.ellipsis,
-                  //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
-                  // ),
-
-                  SizedBox(height: 30),
-                  Text('Maximum size for a file: 25MB',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.primaryGreen)),
-                  // SizedBox(height: 10),
-                  Text('Maximum no of attachments: 3',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.primaryGreen)),
-                  SizedBox(height: 20),
-
-                  // Display selected files
-                  Column(
-                    children: List.generate(selectedFiles.length, (index) {
-                      final file = selectedFiles[index];
-                      return Container(
-                        margin: EdgeInsets.only(bottom: 10),
-                        height: MediaQuery.of(context).size.height * 0.08,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColors.lightGrey,
-                        ),
-                        padding: EdgeInsets.symmetric(horizontal: 20.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: assignmentProvider.isAssignmentDetailsLoading
+          ? Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  getFileIcon(file.name),
-                                  SizedBox(width: 15),
-                                  Expanded(
-                                    child: Text(
-                                      file.name,
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.black,
-                                      ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                            Text(
+                              "Due date : ",
+                              style: TextStyle(color: AppColors.darkred),
                             ),
-                            IconButton(
-                              onPressed: () => removeFile(index),
-                              icon: Icon(Icons.delete),
-                              color: AppColors.darkred,
-                              iconSize: 28,
+                            Text(
+                              formatDate(assignmentProvider
+                                      .assignmentDetails.endTime ??
+                                  ""),
+                              style: TextStyle(color: AppColors.darkred),
                             ),
                           ],
                         ),
-                      );
-                    }),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              "Due time : ",
+                              style: TextStyle(color: AppColors.darkred),
+                            ),
+                            Text(
+                              formatTime(assignmentProvider
+                                      .assignmentDetails.endTime ??
+                                  ""),
+                              style: TextStyle(color: AppColors.darkred),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Assignment Content
+                        //  check widget.contentType
+                        if (widget.contentType == "pdf") ...[
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.6,
+                            child: SfPdfViewer.network(
+                              assignmentProvider.assignmentDetails.filePath ??
+                                  "https://d333c2xue188ia.cloudfront.net/assignments/vhFzVyubuJjRPqKilB0vSLEXRnYtKXNnYknZs5hA.pdf",
+                            ),
+                          ),
+                        ] else if (widget.contentType == "image") ...[
+                          CachedNetworkImage(
+                    imageUrl: assignmentProvider.assignmentDetails.filePath ??
+                                "https://d333c2xue188ia.cloudfront.net/assignments/TSrrLVwzwSl1iHnGHYq6mymvX34siyX8OHS9WMky.jpg",
+                    fit: BoxFit.cover,
+                    placeholder: (_, __) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 25.0),
+                      child: CircularProgressIndicator(),
+                    ),
                   ),
+                        ] else if (widget.contentType == "html") ...[
+                          Html(
+                            data: assignmentProvider
+                                    .assignmentDetails.htmlContent ??
+                                """
+                      <div style="text-align:center; font-family: 'Montserrat', sans-serif; color:#5170ff; margin-top:50px;">
+                        <h2>⚠️ Something Went Wrong</h2>
+                        <p>We couldn't load the question at the moment.<br>Please try again shortly.</p>
+                      </div>""",
+                          ),
+                        ] else ...[
+                          Text(
+                            "Content type not supported",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ],
+                        // Text('Write note on Photosynthesis.',
+                        //     style: TextStyle(
+                        //         fontSize: 24,
+                        //         fontWeight: FontWeight.w500,
+                        //         color: AppColors.black)),
+                        // SizedBox(height: 20),
+                        // Text(
+                        //   'a) Explain the overall process of photosynthesis, including the reactants and products involved. \n\nb) Describe the two main stages of photosynthesis the light dependent reactions and the Calvin cycle. \n\nc) Discuss the factors that influence the rate of photosynthesis and how they affect plant growth.',
+                        //   // maxLines: 3,
+                        //   // overflow: TextOverflow.ellipsis,
+                        //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                        // ),
 
-                  SizedBox(height: 10),
+                        SizedBox(height: 30),
+                        Text('Maximum size for a file: 25MB',
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.primaryGreen)),
+                        // SizedBox(height: 10),
+                        Text('Maximum no of attachments: 3',
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.primaryGreen)),
+                        SizedBox(height: 20),
 
-                  // Add File Button
-                  CustomButton(
-                    text: "Add file",
-                    color: AppColors.primaryOrange,
-                    textcolor: AppColors.white,
-                    onPressed: pickFile,
-                  ),
+                        // Display selected file
+                        assignmentProvider.selectedFile != null
+                            ? Container(
+                                margin: EdgeInsets.only(bottom: 10),
+                                height:
+                                    MediaQuery.of(context).size.height * 0.08,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: AppColors.lightGrey,
+                                ),
+                                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          getFileIcon(assignmentProvider
+                                                  .selectedFile?.name ??
+                                              "File name"),
+                                          SizedBox(width: 15),
+                                          Expanded(
+                                            child: Text(
+                                              assignmentProvider
+                                                      .selectedFile?.name ??
+                                                  "File name",
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.black,
+                                              ),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    IconButton(
+                                      onPressed: () => assignmentProvider
+                                          .removeSelectedFile(),
+                                      icon: Icon(Icons.delete),
+                                      color: AppColors.darkred,
+                                      iconSize: 28,
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : SizedBox.shrink(),
 
-                  SizedBox(height: 10),
+                        SizedBox(height: 10),
 
-                  // Submit Button
-                  CustomButton(
-                    text: "Submit",
-                    color: AppColors.primaryBlue,
-                    textcolor: AppColors.white,
-                    onPressed: () {
-                      if (selectedFiles.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content:
-                                  Text("Please upload at least one file.")),
-                        );
-                      } else {
-                        Navigator.pop(context);
-                      }
-                    },
-                  ),
-                ],
+                        // Add File Button
+                        CustomButton(
+                          text: "Add file",
+                          color: AppColors.primaryOrange,
+                          textcolor: AppColors.white,
+                          onPressed: assignmentProvider.selectedFile != null
+                              ? null
+                              : () => pickFile(context),
+                        ),
+
+                        SizedBox(height: 10),
+
+                        // Submit Button
+                        assignmentProvider.isAssignmentSubmitting
+                            ? Center(
+                                child: CircularProgressIndicator(
+                                    color: AppColors.primaryBlue))
+                            : CustomButton(
+                                text: "Submit",
+                                color: AppColors.primaryBlue,
+                                textcolor: AppColors.white,
+                                onPressed: () async {
+                                  if (assignmentProvider.selectedFile == null) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content:
+                                              Text("Please upload a file.")),
+                                    );
+                                  } else {
+                                    await assignmentProvider.submitAssignment(
+                                        context: context,
+                                        assignmentId: widget.assignmentId);
+                                  }
+                                },
+                              ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }

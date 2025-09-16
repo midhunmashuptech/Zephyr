@@ -34,9 +34,7 @@ const recordingLiveUrl = "${baseUrl}get-live-class-recordings";
 const getAssignmentUrl = "${baseUrl}get-enrollment-assignments";
 const getAssignmentDetailsUrl = "${baseUrl}get-assignment-details";
 const getSubmittedAssignmentUrl = "${baseUrl}get-submitted-assignments";
-
-
-
+const submitAssignmentUrl = "${baseUrl}submit-assignment";
 
 // Password rest API
 const resetPasswordUrl = "${baseUrl}reset-user-password";

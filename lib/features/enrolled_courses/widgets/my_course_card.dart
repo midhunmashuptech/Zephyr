@@ -110,14 +110,6 @@ class MyCourseCard extends StatelessWidget {
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                           ),
-                                          Text(
-                                            "by John sk",
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.grey),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
                                         ],
                                       ),
                                     ),
