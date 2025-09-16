@@ -5,6 +5,7 @@ import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/live_class/model/upcoming_live_model.dart';
 import 'package:zephyr/features/live_class/provider/live_provider.dart';
 import 'package:zephyr/features/live_class/widgets/live_class_card.dart';
+import 'package:zephyr/features/live_class/widgets/live_class_card_with_thumbnail.dart';
 
 class LiveUpcoming extends StatefulWidget {
   const LiveUpcoming({super.key});
@@ -48,22 +49,45 @@ class _LiveUpcomingState extends State<LiveUpcoming> {
                   separatorBuilder: (context, value) => SizedBox(
                         height: 5,
                       ),
-                  itemBuilder: (context, index) => LiveClassCard(
-                        className: liveProvider.upcomingLive[index].title ?? "",
-                        tutorName: (liveProvider.upcomingLive[index].faculty ??
-                                    Faculty(name: "Faculty Name"))
-                                .name ??
-                            "Faculty Name",
-                        imageUrl: (liveProvider.upcomingLive[index].faculty ??
-                                    Faculty(
-                                        image:
-                                            "https://blog.kapdec.com/hubfs/Imported_Blog_Media/3784896.jpg"))
-                                .image ??
-                            "https://blog.kapdec.com/hubfs/Imported_Blog_Media/3784896.jpg",
-                        currenttab: "Upcoming",
-                        startDate: liveProvider.upcomingLive[index].start ?? "",
-                        enddate: liveProvider.upcomingLive[index].end ?? "",
-                      )),
+                  itemBuilder: (context, index) => liveProvider
+                              .upcomingLive[index].isFeatured ==
+                          1
+                      ? LiveClassCardWithThumbnail(
+                          className:
+                              liveProvider.upcomingLive[index].title ?? "",
+                          tutorName:
+                              (liveProvider.upcomingLive[index].faculty ??
+                                          Faculty(name: "Faculty Name"))
+                                      .name ??
+                                  "Faculty Name",
+                          imageUrl: liveProvider.upcomingLive[index].thumbnail ??
+                              "https://blog.kapdec.com/hubfs/Imported_Blog_Media/3784896.jpg",
+                          imageColor: AppColors.lightGreen,
+                          currenttab: "Upcoming",
+                          startDate:
+                              liveProvider.upcomingLive[index].start ?? "",
+                          enddate: liveProvider.upcomingLive[index].end ?? "",
+                        )
+                      : LiveClassCard(
+                          className:
+                              liveProvider.upcomingLive[index].title ?? "",
+                          tutorName:
+                              (liveProvider.upcomingLive[index].faculty ??
+                                          Faculty(name: "Faculty Name"))
+                                      .name ??
+                                  "Faculty Name",
+                          imageUrl: (liveProvider.upcomingLive[index].faculty ??
+                                      Faculty(
+                                          image:
+                                              "https://blog.kapdec.com/hubfs/Imported_Blog_Media/3784896.jpg"))
+                                  .image ??
+                              "https://blog.kapdec.com/hubfs/Imported_Blog_Media/3784896.jpg",
+                          imageColor: AppColors.lightGreen,
+                          currenttab: "Upcoming",
+                          startDate:
+                              liveProvider.upcomingLive[index].start ?? "",
+                          enddate: liveProvider.upcomingLive[index].end ?? "",
+                        )),
     );
   }
 }

@@ -49,24 +49,43 @@ class _LiveOngoingState extends State<LiveOngoing> {
                         height: 5,
                       ),
                   itemCount: liveProvider.ongoingLive.length,
-                  itemBuilder: (context, index) => LiveClassCardWithThumbnail(
-                        className: liveProvider.ongoingLive[index].title ??
-                            "Class Name",
-                        tutorName: (liveProvider.ongoingLive[index].faculty ??
-                                    Faculty(name: "Faculty Name"))
-                                .name ??
-                            "Faculty Name",
-                        startDate: liveProvider.ongoingLive[index].start ?? "",
-                        enddate: liveProvider.ongoingLive[index].end ?? "",
-                        imageUrl: (liveProvider.ongoingLive[index].faculty ??
-                                    Faculty(
-                                        image:
-                                            "https://blog.kapdec.com/hubfs/Imported_Blog_Media/3784896.jpg"))
-                                .image ??
-                            "https://blog.kapdec.com/hubfs/Imported_Blog_Media/3784896.jpg",
-                        
-                        currenttab: "Ongoing",
-                      )),
+                  itemBuilder: (context, index) => liveProvider
+                              .ongoingLive[index].isFeatured ==
+                          1
+                      ? LiveClassCardWithThumbnail(
+                          className: liveProvider.ongoingLive[index].title ??
+                              "Class Name",
+                          tutorName: (liveProvider.ongoingLive[index].faculty ??
+                                      Faculty(name: "Faculty Name"))
+                                  .name ??
+                              "Faculty Name",
+                          startDate:
+                              liveProvider.ongoingLive[index].start ?? "",
+                          enddate: liveProvider.ongoingLive[index].end ?? "",
+                          imageUrl: liveProvider.ongoingLive[index].thumbnail ??
+                              "https://blog.kapdec.com/hubfs/Imported_Blog_Media/3784896.jpg",
+                          imageColor: AppColors.lightGreen,
+                          currenttab: "Ongoing",
+                        )
+                      : LiveClassCard(
+                          className: liveProvider.ongoingLive[index].title ??
+                              "Class Name",
+                          tutorName: (liveProvider.ongoingLive[index].faculty ??
+                                      Faculty(name: "Faculty Name"))
+                                  .name ??
+                              "Faculty Name",
+                          startDate:
+                              liveProvider.ongoingLive[index].start ?? "",
+                          enddate: liveProvider.ongoingLive[index].end ?? "",
+                          imageUrl: (liveProvider.ongoingLive[index].faculty ??
+                                      Faculty(
+                                          image:
+                                              "https://blog.kapdec.com/hubfs/Imported_Blog_Media/3784896.jpg"))
+                                  .image ??
+                              "https://blog.kapdec.com/hubfs/Imported_Blog_Media/3784896.jpg",
+                          imageColor: AppColors.lightGreen,
+                          currenttab: "Ongoing",
+                        )),
     );
   }
 }
