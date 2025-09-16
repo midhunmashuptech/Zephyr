@@ -7,20 +7,28 @@ class AssignmentCard extends StatelessWidget {
   final String author;
   final String date;
   final String time;
+  final String type;
 
   const AssignmentCard(
       {super.key,
       required this.heading,
       required this.author,
       required this.date,
-      required this.time});
+      required this.time,
+      required this.type});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => AssignmentUploadScreen(date: date, time: time,)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => AssignmentUploadScreen(
+                      date: date,
+                      time: time,
+                      contentType: type,
+                    )));
       },
       child: Card(
           color: AppColors.white,
@@ -62,13 +70,13 @@ class AssignmentCard extends StatelessWidget {
                       Text(
                         heading,
                         style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.w600),
+                            fontSize: 16, fontWeight: FontWeight.w600),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      Text(author,
-                          style: TextStyle(
-                          fontSize: 13, fontWeight: FontWeight.w400)),
+                      // Text(author,
+                      //     style: TextStyle(
+                      //     fontSize: 13, fontWeight: FontWeight.w400)),
                       Row(
                         children: [
                           Text(
@@ -76,13 +84,15 @@ class AssignmentCard extends StatelessWidget {
                             style: TextStyle(fontSize: 12),
                           ),
                           Expanded(
-                            child: Text("$date | $time",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    color: AppColors.primaryBlue),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,),
+                            child: Text(
+                              "$date | $time",
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.primaryBlue),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ],
                       ),
@@ -91,8 +101,7 @@ class AssignmentCard extends StatelessWidget {
                 )
               ],
             ),
-          )
-          ),
+          )),
     );
   }
 }

@@ -33,7 +33,7 @@ class _LiveUpcomingState extends State<LiveUpcoming> {
     return Scaffold(
       body: liveProvider.isUpcomingLoading
           ? Center(child: CircularProgressIndicator())
-          : liveProvider.ongoingLive.isEmpty
+          : liveProvider.upcomingLive.isEmpty
               ? Center(
                   child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 40.0),
@@ -62,7 +62,6 @@ class _LiveUpcomingState extends State<LiveUpcoming> {
                                   "Faculty Name",
                           imageUrl: liveProvider.upcomingLive[index].thumbnail ??
                               "https://blog.kapdec.com/hubfs/Imported_Blog_Media/3784896.jpg",
-                          imageColor: AppColors.lightGreen,
                           currenttab: "Upcoming",
                           startDate:
                               liveProvider.upcomingLive[index].start ?? "",
@@ -82,7 +81,6 @@ class _LiveUpcomingState extends State<LiveUpcoming> {
                                               "https://blog.kapdec.com/hubfs/Imported_Blog_Media/3784896.jpg"))
                                   .image ??
                               "https://blog.kapdec.com/hubfs/Imported_Blog_Media/3784896.jpg",
-                          imageColor: AppColors.lightGreen,
                           currenttab: "Upcoming",
                           startDate:
                               liveProvider.upcomingLive[index].start ?? "",

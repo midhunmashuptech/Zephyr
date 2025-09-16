@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/live_class/model/ongoing_live_model.dart';
 import 'package:zephyr/features/live_class/provider/live_provider.dart';
+import 'package:zephyr/features/live_class/widgets/live_class_card.dart';
 import 'package:zephyr/features/live_class/widgets/live_class_card_with_thumbnail.dart';
 
 class LiveOngoing extends StatefulWidget {
@@ -64,7 +65,6 @@ class _LiveOngoingState extends State<LiveOngoing> {
                           enddate: liveProvider.ongoingLive[index].end ?? "",
                           imageUrl: liveProvider.ongoingLive[index].thumbnail ??
                               "https://blog.kapdec.com/hubfs/Imported_Blog_Media/3784896.jpg",
-                          imageColor: AppColors.lightGreen,
                           currenttab: "Ongoing",
                         )
                       : LiveClassCard(
@@ -83,7 +83,6 @@ class _LiveOngoingState extends State<LiveOngoing> {
                                               "https://blog.kapdec.com/hubfs/Imported_Blog_Media/3784896.jpg"))
                                   .image ??
                               "https://blog.kapdec.com/hubfs/Imported_Blog_Media/3784896.jpg",
-                          imageColor: AppColors.lightGreen,
                           currenttab: "Ongoing",
                         )),
     );
