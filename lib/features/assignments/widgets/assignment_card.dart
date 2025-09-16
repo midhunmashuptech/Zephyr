@@ -4,17 +4,13 @@ import 'package:zephyr/features/assignments/screens/assignment_upload_screen.dar
 
 class AssignmentCard extends StatelessWidget {
   final String heading;
-  final String author;
   final String date;
-  final String time;
   final String type;
 
   const AssignmentCard(
       {super.key,
       required this.heading,
-      required this.author,
       required this.date,
-      required this.time,
       required this.type});
 
   @override
@@ -26,7 +22,7 @@ class AssignmentCard extends StatelessWidget {
             MaterialPageRoute(
                 builder: (context) => AssignmentUploadScreen(
                       date: date,
-                      time: time,
+                      time: date,
                       contentType: type,
                     )));
       },
@@ -85,7 +81,8 @@ class AssignmentCard extends StatelessWidget {
                           ),
                           Expanded(
                             child: Text(
-                              "$date | $time",
+                              date,
+                              // "$date | $time",
                               style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400,

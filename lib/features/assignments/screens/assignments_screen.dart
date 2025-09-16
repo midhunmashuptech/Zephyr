@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/assignments/provider/assignment_provider.dart';
 import 'package:zephyr/features/assignments/widgets/assignment_card.dart';
@@ -13,45 +16,27 @@ class AssignmentsScreen extends StatefulWidget {
 
 AssignmentProvider assignmentProvider = AssignmentProvider();
 
-class Assignments {
-  String heading;
-  String author;
-  String date;
-  String time;
-
-  Assignments(
-      {required this.heading,
-      required this.author,
-      required this.date,
-      required this.time});
-}
-
 class _AssignmentsScreenState extends State<AssignmentsScreen> {
-  List<Assignments> assignments = [
-    Assignments(
-        heading: "Write note on Photosynthesis",
-        author: "By Athulya Ajay",
-        date: " August 15, 2025",
-        time: "10:00PM "),
-    Assignments(
-        heading: "Upload your CV",
-        author: "By Athulya Ajay",
-        date: "August 15, 2025",
-        time: "12:00PM "),
-    Assignments(
-        heading: "Write note on Photosynthesis",
-        author: "By Athulya Ajay",
-        date: " August 15, 2025",
-        time: "10:00PM "),
-    Assignments(
-        heading: "Upload your CV",
-        author: "By Athulya Ajay",
-        date: " August 15, 2025",
-        time: "12:00PM "),
-  ];
+  String formatDateTime(String dateTimeStr) {
+    DateTime dateTime = DateTime.parse(dateTimeStr);
+    String formatted = DateFormat("MMMM d, yyyy | hh:mm a").format(dateTime);
+    return formatted;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadAssignments();
+  }
+
+  Future<void> loadAssignments() async {
+    final loadProvider = context.read<AssignmentProvider>();
+    await loadProvider.fetchAssignments(context: context);
+  }
+
   @override
   Widget build(BuildContext context) {
-    // assignmentProvider = context.watch<AssignmentProvider>();
+    assignmentProvider = context.watch<AssignmentProvider>();
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -79,16 +64,36 @@ class _AssignmentsScreenState extends State<AssignmentsScreen> {
               SizedBox(
                 height: 20,
               ),
-              Expanded(
-                child: ListView.builder(
-                    itemCount: assignments.length,
-                    itemBuilder: (context, index) => AssignmentCard(
-                        heading: assignments[index].heading,
-                        author: assignments[index].author,
-                        date: assignments[index].date,
-                        time: assignments[index].time,
-                        type: "image",)),
-              )
+              assignmentProvider.isAssignmentsLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : assignmentProvider.assignmentList.isEmpty
+                      ? Center(
+                          child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 40.0),
+                          child: Column(
+                            children: [
+                              Lottie.asset("assets/lottie/nodata.json",
+                                  height: 200),
+                              Text("No Upcoming Live Classes"),
+                            ],
+                          ),
+                        ))
+                      : Expanded(
+                          child: ListView.builder(
+                              itemCount:
+                                  assignmentProvider.assignmentList.length,
+                              itemBuilder: (context, index) => AssignmentCard(
+                                    heading: assignmentProvider
+                                            .assignmentList[index].title ??
+                                        "Title",
+                                    type: assignmentProvider
+                                            .assignmentList[index].type ??
+                                        "",
+                                    date: formatDateTime(assignmentProvider
+                                            .assignmentList[index].endTime ??
+                                        "Time"),
+                                  )),
+                        )
             ],
           ),
         ),
