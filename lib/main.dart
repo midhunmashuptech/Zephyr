@@ -6,6 +6,7 @@ import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/common/screens/splash_screen.dart';
 import 'package:zephyr/common/service/notification_service.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/assignments/provider/assignment_provider.dart';
 import 'package:zephyr/features/auth/provider/auth_provider.dart';
 import 'package:zephyr/features/chapter_details/provider/enrolled_chapter_details_provider.dart';
 import 'package:zephyr/features/coursedetails/provider/course_provider.dart';
@@ -34,6 +35,7 @@ void main() async {
     ChangeNotifierProvider(create: (_) => HomePageProvider()),
     ChangeNotifierProvider(create: (_) => EnrolledChapterDetailsProvider()),
     ChangeNotifierProvider(create: (_) => LiveProvider()),
+    ChangeNotifierProvider(create: (_) => AssignmentProvider()),
   ], child: const MyApp()));
 }
 
