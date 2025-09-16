@@ -35,6 +35,8 @@ class LiveClasses {
   String? end;
   String? description;
   int? isFeatured;
+  String? thumbnail;
+  bool? status;
 
   LiveClasses(
       {this.id,
@@ -46,7 +48,9 @@ class LiveClasses {
       this.start,
       this.end,
       this.description,
-      this.isFeatured});
+      this.isFeatured,
+      this.thumbnail,
+      this.status});
 
   LiveClasses.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -60,6 +64,8 @@ class LiveClasses {
     end = json['end'];
     description = json['description'];
     isFeatured = json['is_featured'];
+    thumbnail = json['thumbnail'];
+    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -76,6 +82,8 @@ class LiveClasses {
     data['end'] = this.end;
     data['description'] = this.description;
     data['is_featured'] = this.isFeatured;
+    data['thumbnail'] = this.thumbnail;
+    data['status'] = this.status;
     return data;
   }
 }
@@ -84,15 +92,15 @@ class Faculty {
   int? id;
   String? name;
   String? image;
-  String? role;
+  int? status;
 
-  Faculty({this.id, this.name, this.image, this.role});
+  Faculty({this.id, this.name, this.image, this.status});
 
   Faculty.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     image = json['image'];
-    role = json['role'];
+    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -100,7 +108,7 @@ class Faculty {
     data['id'] = this.id;
     data['name'] = this.name;
     data['image'] = this.image;
-    data['role'] = this.role;
+    data['status'] = this.status;
     return data;
   }
 }
