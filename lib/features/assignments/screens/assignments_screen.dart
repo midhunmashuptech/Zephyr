@@ -83,7 +83,8 @@ class _AssignmentsScreenState extends State<AssignmentsScreen> {
                         heading: assignments[index].heading,
                         author: assignments[index].author,
                         date: assignments[index].date,
-                        time: assignments[index].time)),
+                        time: assignments[index].time,
+                        type: "image",)),
               )
             ],
           ),

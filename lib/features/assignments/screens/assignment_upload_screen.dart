@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/fa_solid.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
 
 class AssignmentUploadScreen extends StatefulWidget {
-   final String date;
+  final String date;
   final String time;
-  const AssignmentUploadScreen({
-    required this.date,
-    required this.time,
-    super.key});
+  final String contentType;
+  const AssignmentUploadScreen(
+      {required this.date,
+      required this.time,
+      required this.contentType,
+      super.key});
 
   @override
   State<AssignmentUploadScreen> createState() => _AssignmentUploadScreenState();
@@ -86,34 +90,82 @@ class _AssignmentUploadScreenState extends State<AssignmentUploadScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text("Due date : ",style: TextStyle(color: AppColors.darkred),),
-                      Text(widget.date,style: TextStyle(color: AppColors.darkred),),
+                      Text(
+                        "Due date : ",
+                        style: TextStyle(color: AppColors.darkred),
+                      ),
+                      Text(
+                        widget.date,
+                        style: TextStyle(color: AppColors.darkred),
+                      ),
                     ],
-                  ), 
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text("Due time : ",style: TextStyle(color: AppColors.darkred),),
-                      Text(widget.time,style: TextStyle(color: AppColors.darkred),),
+                      Text(
+                        "Due time : ",
+                        style: TextStyle(color: AppColors.darkred),
+                      ),
+                      Text(
+                        widget.time,
+                        style: TextStyle(color: AppColors.darkred),
+                      ),
                     ],
-                  )],
+                  )
+                ],
               ),
               SizedBox(height: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Write note on Photosynthesis.',
-                      style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.black)),
-                  SizedBox(height: 20),
-                  Text(
-                    'a) Explain the overall process of photosynthesis, including the reactants and products involved. \n\nb) Describe the two main stages of photosynthesis the light dependent reactions and the Calvin cycle. \n\nc) Discuss the factors that influence the rate of photosynthesis and how they affect plant growth.',
-                    // maxLines: 3,
-                    // overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
-                  ),
+                  // Assignment Content
+                  //  check widget.contentType
+                  if (widget.contentType == "pdf") ...[
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.6,
+                      child: SfPdfViewer.network(
+                        "https://d333c2xue188ia.cloudfront.net/assignments/vhFzVyubuJjRPqKilB0vSLEXRnYtKXNnYknZs5hA.pdf",
+                      ),
+                    ),
+                  ] else if (widget.contentType == "image") ...[
+                    Image.network(
+                      "https://d333c2xue188ia.cloudfront.net/assignments/CWXu54amb5TYZXxY6tykfv5i7rPvRz4jFnqOIpp3.webp",
+                      fit: BoxFit.contain,
+                    ),
+                  ] else if (widget.contentType == "html") ...[
+                    Html(
+                      data: """
+      <h2 style="color:#5170ff; text-align:center; font-family:Montserrat;">
+        Write note on Photosynthesis
+      </h2>
+      <p style="font-size:18px;">
+        a) Explain the overall process of photosynthesis, including the reactants and products involved.<br><br>
+        b) Describe the two main stages of photosynthesis: 
+        <b>the light dependent reactions</b> and <b>the Calvin cycle</b>.<br><br>
+        c) Discuss the factors that influence the rate of photosynthesis and how they affect plant growth.
+      </p>
+    """,
+                    ),
+                  ] else ...[
+                    Text(
+                      "Content type not supported",
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  ],
+                  // Text('Write note on Photosynthesis.',
+                  //     style: TextStyle(
+                  //         fontSize: 24,
+                  //         fontWeight: FontWeight.w500,
+                  //         color: AppColors.black)),
+                  // SizedBox(height: 20),
+                  // Text(
+                  //   'a) Explain the overall process of photosynthesis, including the reactants and products involved. \n\nb) Describe the two main stages of photosynthesis the light dependent reactions and the Calvin cycle. \n\nc) Discuss the factors that influence the rate of photosynthesis and how they affect plant growth.',
+                  //   // maxLines: 3,
+                  //   // overflow: TextOverflow.ellipsis,
+                  //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+                  // ),
+
                   SizedBox(height: 30),
                   Text('Maximum size for a file: 25MB',
                       style: TextStyle(

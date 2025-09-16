@@ -69,91 +69,90 @@ class _LiveRecordingScreenState extends State<LiveRecordingScreen> {
     String formattedDay = getDayLabel(liveProvider.recordingSelectedDate);
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Iconify(Bxs.videos),
-                      SizedBox(width: 4),
-                      Text("245"),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Iconify(Bxs.videos),
+                    SizedBox(width: 4),
+                    Text("245"),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          formattedDate,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            height: 0.95, 
+                          ),
+                        ),
+                        Text(
+                          formattedDay,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.normal,
+                            height: 0.95, 
+                          ),
+                        ),
+                      ],
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        Icons.calendar_month,
+                        color: AppColors.black,
+                        size: 30,
+                      ),
+                      onPressed: () async {
+                        DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: liveProvider.recordingSelectedDate,
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2101),
+                        );
+                        if (pickedDate != null &&
+                            pickedDate !=
+                                liveProvider.recordingSelectedDate) {
+                          loadRecordings(pickedDate);
+                        }
+                      },
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+          Opacity(
+              opacity: 0.5,
+              child: Divider(
+                color: AppColors.grey,
+              )),
+          liveProvider.isRecordingLoading
+              ? Expanded(child: Center(child: CircularProgressIndicator()))
+              : liveProvider.recordingLive.isEmpty
+                  ? Center(
+                      child: Expanded(
+                      child: Column(
                         children: [
-                          Text(
-                            formattedDate,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              height: 0.95, 
-                            ),
-                          ),
-                          Text(
-                            formattedDay,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.normal,
-                              height: 0.95, 
-                            ),
-                          ),
+                          Lottie.asset("assets/lottie/nodata.json",
+                              height: 200),
+                          Text("No Recordings found!"),
                         ],
                       ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.calendar_month,
-                          color: AppColors.black,
-                          size: 30,
-                        ),
-                        onPressed: () async {
-                          DateTime? pickedDate = await showDatePicker(
-                            context: context,
-                            initialDate: liveProvider.recordingSelectedDate,
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2101),
-                          );
-                          if (pickedDate != null &&
-                              pickedDate !=
-                                  liveProvider.recordingSelectedDate) {
-                            loadRecordings(pickedDate);
-                          }
-                        },
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-            Opacity(
-                opacity: 0.5,
-                child: Divider(
-                  color: AppColors.grey,
-                )),
-            liveProvider.isRecordingLoading
-                ? Center(child: CircularProgressIndicator())
-                : liveProvider.recordingLive.isEmpty
-                    ? Center(
-                        child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 40.0),
-                        child: Column(
-                          children: [
-                            Lottie.asset("assets/lottie/nodata.json",
-                                height: 200),
-                            Text("No Recordings found!"),
-                          ],
-                        ),
-                      ))
-                    : ListView.separated(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                    ))
+                  : Expanded(
+                    child: ListView.separated(
+                        // shrinkWrap: true,
+                        // physics: NeverScrollableScrollPhysics(),
                         itemCount: liveProvider.recordingLive.length,
                         itemBuilder: (context, index) => liveProvider.recordingLive[index].isFeatured == 1
                             ? LiveClassCardWithThumbnail(
@@ -181,9 +180,9 @@ class _LiveRecordingScreenState extends State<LiveRecordingScreen> {
                         separatorBuilder: (context, index) => SizedBox(
                           height: 5,
                         ),
-                      )
-          ],
-        ),
+                      ),
+                  )
+        ],
       ),
     );
   }
