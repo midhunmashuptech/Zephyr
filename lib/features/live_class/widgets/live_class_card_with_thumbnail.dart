@@ -12,7 +12,6 @@ class LiveClassCardWithThumbnail extends StatelessWidget {
   final String startDate;
   final String enddate;
   final String imageUrl;
-  final Color imageColor;
   final String currenttab;
   const LiveClassCardWithThumbnail({super.key,
       required this.className,
@@ -20,7 +19,6 @@ class LiveClassCardWithThumbnail extends StatelessWidget {
       required this.startDate,
       required this.enddate,
       required this.imageUrl,
-      required this.imageColor,
       required this.currenttab});
 
   String formatDate(String isoString) {
