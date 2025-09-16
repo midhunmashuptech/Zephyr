@@ -28,6 +28,8 @@ const enrolledCourseDetailsUrl =
 //Live API's
 const ongoingLiveUrl = "${baseUrl}get-ongoing-live-classes";
 const upcomingLiveUrl = "${baseUrl}get-upcoming-live-classes";
+const recordingLiveUrl = "${baseUrl}get-live-class-recordings";
+
 
 // Password rest API
 const resetPasswordUrl = "${baseUrl}reset-user-password";

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/features/chapter_details/model/enrolled_chapter_materials_model.dart';
+import 'package:zephyr/features/chapter_details/model/enrolled_chapter_test_model.dart';
 import 'package:zephyr/features/chapter_details/model/enrolled_chapter_video_model.dart';
 import 'package:zephyr/features/chapter_details/service/enrolled_chapter_details_service.dart';
 import 'package:zephyr/features/enrolled_courses/model/enrolled_course_detail_model.dart';
@@ -17,6 +18,12 @@ class EnrolledChapterDetailsProvider extends ChangeNotifier {
 
   bool _isMaterialLoading = false;
   bool get isMaterialLoading => _isMaterialLoading;
+
+  bool _isTestsLoading = false;
+  bool get isTestsLoading => _isTestsLoading;
+
+  List<Tests> _enrolledChapterTests = [];
+  List<Tests> get enrolledChapterTests => _enrolledChapterTests;
 
   List<Materials> _enrolledChapterMaterials = [];
   List<Materials> get enrolledChapterMaterials => _enrolledChapterMaterials;
@@ -103,6 +110,35 @@ class EnrolledChapterDetailsProvider extends ChangeNotifier {
         showSnackBar(
             "Success", "successfully fetched enrolled chapter materials");
         _isMaterialLoading = false;
+        notifyListeners();
+      }
+    }
+  }
+
+  //Enrolled Chapter Tests
+  Future<void> fetchEnrolledChapterTest(
+      {required BuildContext context,
+      required String enrollmentId,
+      required String courseSubjectId,
+      required String courseChapterId}) async {
+    _isTestsLoading = true;
+    notifyListeners();
+    final response = await EnrolledChapterDetailsService()
+        .getEnrolledChapterTest(
+            context: context,
+            enrollmentId: enrollmentId,
+            courseSubjectId: courseSubjectId,
+            courseChapterId: courseChapterId);
+    if (response == null) {
+      showSnackBar("Error", "Failed to Fetch Enrolled Chapter Tests");
+      _isTestsLoading = false;
+      notifyListeners();
+    } else {
+      if (response.type == "success") {
+        _enrolledChapterTests = response.tests ?? [];
+        notifyListeners();
+        showSnackBar("Success", "Successfully Fetched enrolled Chapter Tests");
+        _isTestsLoading = false;
         notifyListeners();
       }
     }

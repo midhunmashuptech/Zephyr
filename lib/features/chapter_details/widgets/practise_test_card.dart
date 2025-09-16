@@ -2,12 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/healthicons.dart';
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/data_class/practise_test.dart';
 import 'package:zephyr/features/test/screens/test_instructions_screen.dart';
 
 class PractiseTestCard extends StatelessWidget {
-  final PractiseTest practiseTest;
-  const PractiseTestCard({super.key, required this.practiseTest});
+  final String title;
+  final String chapter;
+  final String uploadedDate;
+  final bool isCompleted;
+  const PractiseTestCard(
+      {super.key,
+      required this.title,
+      required this.chapter,
+      required this.uploadedDate,
+      required this.isCompleted
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +23,10 @@ class PractiseTestCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
       child: GestureDetector(
         onTap: () {
-          if (practiseTest.status == "Incomplete") {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => TestInstructionsScreen()));
-          }
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => TestInstructionsScreen()));
         },
         child: Container(
           width: MediaQuery.of(context).size.width,
@@ -45,28 +51,20 @@ class PractiseTestCard extends StatelessWidget {
                       ? 120
                       : MediaQuery.of(context).size.width * 0.16,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    color: practiseTest.status == "Complete"
-                        ? AppColors.primaryGreen.withAlpha(20)
-                        : AppColors.primaryOrange.withAlpha(20)
-                  ),
+                      borderRadius: BorderRadius.circular(4),
+                      color: isCompleted 
+                      ?AppColors.primaryGreen.withAlpha(20)
+                       :AppColors.primaryOrange.withAlpha(20)),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Iconify(
-                      Healthicons.i_exam_multiple_choice_outline,
-                      size: 16,
-                      color: practiseTest.status == "Complete"
-                        ? AppColors.primaryGreen
-                        : AppColors.primaryOrange
-                    ),
+                    child: Iconify(Healthicons.i_exam_multiple_choice_outline,
+                        size: 16, color: isCompleted 
+                      ?AppColors.primaryGreen
+                       :AppColors.primaryOrange),
                   ),
                 ),
                 SizedBox(width: 15),
                 Expanded(
-                  // width: MediaQuery.of(context).size.width * 0.61,
-                  // height: MediaQuery.of(context).size.width * 0.14 > 100
-                  //     ? 100
-                  //     : MediaQuery.of(context).size.width * 0.15,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -75,7 +73,7 @@ class PractiseTestCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            practiseTest.name ?? "No Title",
+                            title,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
@@ -85,39 +83,38 @@ class PractiseTestCard extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                           Text(
-                            practiseTest.chapter ?? "No Chapter",
+                            chapter,
                             style:
                                 TextStyle(fontSize: 12, color: AppColors.black),
                           ),
                         ],
                       ),
                       SizedBox(height: 8),
-                      if (practiseTest.status == "Incomplete")
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.schedule_rounded,
-                              size: 18,
+                      isCompleted
+                          ? Row(
+                              children: [
+                                Text("Completed",
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: AppColors.primaryGreen)),
+                                SizedBox(
+                                  width: 2,
+                                ),
+                                Icon(Icons.check_rounded,
+                                    size: 14, color: AppColors.primaryGreen)
+                              ],
+                            )
+                          : Row(
+                              children: [
+                                Icon(
+                                  Icons.schedule_rounded,
+                                  size: 18,
+                                ),
+                                SizedBox(width: 5),
+                                Text("due date on $uploadedDate",
+                                    style: TextStyle(fontSize: 12))
+                              ],
                             ),
-                            SizedBox(width: 5),
-                            Text("due date ${practiseTest.dueDate}",
-                                style: TextStyle(fontSize: 12))
-                          ],
-                        )
-                      else if (practiseTest.status == "Complete")
-                        Row(
-                          children: [
-                            Text("Completed",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: AppColors.primaryGreen)),
-                            SizedBox(
-                              width: 2,
-                            ),
-                            Icon(Icons.check_rounded,
-                                size: 14, color: AppColors.primaryGreen)
-                          ],
-                        )
                     ],
                   ),
                 )

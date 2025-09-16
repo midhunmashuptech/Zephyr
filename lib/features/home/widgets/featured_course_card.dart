@@ -94,13 +94,6 @@ class FeaturedCourseCard extends StatelessWidget {
                             fontSize: 16, fontWeight: FontWeight.w600),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2),
-                    // SizedBox(
-                    //   height: 43,
-                    //   child: Text(course.description ?? "",
-                    //       style: TextStyle(fontSize: 13),
-                    //       overflow: TextOverflow.ellipsis,
-                    //       maxLines: 2,),
-                    // ),
                   ],
                 ),
               )

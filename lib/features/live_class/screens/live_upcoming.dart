@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/features/live_class/model/ongoing_live_model.dart';
+import 'package:zephyr/features/live_class/model/upcoming_live_model.dart';
 import 'package:zephyr/features/live_class/provider/live_provider.dart';
 import 'package:zephyr/features/live_class/widgets/live_class_card.dart';
 
@@ -51,10 +51,15 @@ class _LiveUpcomingState extends State<LiveUpcoming> {
                   itemBuilder: (context, index) => LiveClassCard(
                         className: liveProvider.upcomingLive[index].title ?? "",
                         tutorName: (liveProvider.upcomingLive[index].faculty ??
-                            "Faculty name"),
-                        imageUrl: (
-                            // liveProvider.upcomingLive[index].faculty ??
-                            "https://blog.kapdec.com/hubfs/Imported_Blog_Media/3784896.jpg"),
+                                    Faculty(name: "Faculty Name"))
+                                .name ??
+                            "Faculty Name",
+                        imageUrl: (liveProvider.upcomingLive[index].faculty ??
+                                    Faculty(
+                                        image:
+                                            "https://blog.kapdec.com/hubfs/Imported_Blog_Media/3784896.jpg"))
+                                .image ??
+                            "https://blog.kapdec.com/hubfs/Imported_Blog_Media/3784896.jpg",
                         imageColor: AppColors.lightGreen,
                         currenttab: "Upcoming",
                         startDate: liveProvider.upcomingLive[index].start ?? "",

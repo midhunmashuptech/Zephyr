@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/features/live_class/model/ongoing_live_model.dart'
     as ongoing_live_model;
+import 'package:zephyr/features/live_class/model/recording_live_model.dart'as recording_live_model;
 import 'package:zephyr/features/live_class/model/upcoming_live_model.dart'
     as upcoming_live_model;
 import 'package:zephyr/features/live_class/service/live_service.dart';
