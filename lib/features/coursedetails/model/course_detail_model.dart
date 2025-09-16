@@ -36,10 +36,13 @@ class Data {
   List<String>? categories;
   List<Subjects>? subjects;
   List<Ratings>? ratings;
-  List<Likes>? likes;
+  List<String>? likes;
   int? likeCount;
   int? ratingCount;
   double? averageRating;
+  int? videoCount;
+  int? pdfCount;
+  int? practiceTestCount;
 
   Data(
       {this.id,
@@ -58,7 +61,10 @@ class Data {
       this.likes,
       this.likeCount,
       this.ratingCount,
-      this.averageRating});
+      this.averageRating,
+      this.videoCount,
+      this.pdfCount,
+      this.practiceTestCount});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -84,15 +90,13 @@ class Data {
         ratings!.add(new Ratings.fromJson(v));
       });
     }
-    if (json['likes'] != null) {
-      likes = <Likes>[];
-      json['likes'].forEach((v) {
-        likes!.add(new Likes.fromJson(v));
-      });
-    }
+    likes = json['likes'].cast<String>();
     likeCount = json['like_count'];
     ratingCount = json['rating_count'];
-    averageRating = double.parse((json['average_rating']).toString());
+    averageRating = double.parse(json['average_rating'].toString());
+    videoCount = json['video_count'];
+    pdfCount = json['pdf_count'];
+    practiceTestCount = json['practice_test_count'];
   }
 
   Map<String, dynamic> toJson() {
@@ -114,34 +118,38 @@ class Data {
     if (this.ratings != null) {
       data['ratings'] = this.ratings!.map((v) => v.toJson()).toList();
     }
-    if (this.likes != null) {
-      data['likes'] = this.likes!.map((v) => v.toJson()).toList();
-    }
+    data['likes'] = this.likes;
     data['like_count'] = this.likeCount;
     data['rating_count'] = this.ratingCount;
     data['average_rating'] = this.averageRating;
+    data['video_count'] = this.videoCount;
+    data['pdf_count'] = this.pdfCount;
+    data['practice_test_count'] = this.practiceTestCount;
     return data;
   }
 }
 
 class Subjects {
   int? classId;
-  String? classes;
+  String? className;
   int? subjectId;
+  int? courseSubjectId;
   String? subject;
   List<Chapters>? chapters;
 
   Subjects(
       {this.classId,
-      this.classes,
+      this.className,
       this.subjectId,
+      this.courseSubjectId,
       this.subject,
       this.chapters});
 
   Subjects.fromJson(Map<String, dynamic> json) {
     classId = json['class_id'];
-    classes = json['class'];
+    className = json['class_name'];
     subjectId = json['subject_id'];
+    courseSubjectId = json['course_subject_id'];
     subject = json['subject'];
     if (json['chapters'] != null) {
       chapters = <Chapters>[];
@@ -154,8 +162,9 @@ class Subjects {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['class_id'] = this.classId;
-    data['class'] = this.classes;
+    data['class_name'] = this.className;
     data['subject_id'] = this.subjectId;
+    data['course_subject_id'] = this.courseSubjectId;
     data['subject'] = this.subject;
     if (this.chapters != null) {
       data['chapters'] = this.chapters!.map((v) => v.toJson()).toList();
@@ -167,56 +176,168 @@ class Subjects {
 class Chapters {
   int? courseChapterId;
   String? chapterTitle;
+  String? chapterThumbnail;
+  List<Videos>? videos;
+  List<Materials>? materials;
+  List<PracticeTests>? practiceTests;
 
-  Chapters({this.courseChapterId, this.chapterTitle});
+  Chapters(
+      {this.courseChapterId,
+      this.chapterTitle,
+      this.chapterThumbnail,
+      this.videos,
+      this.materials,
+      this.practiceTests});
 
   Chapters.fromJson(Map<String, dynamic> json) {
     courseChapterId = json['course_chapter_id'];
     chapterTitle = json['chapter_title'];
+    chapterThumbnail = json['chapter_thumbnail'];
+    if (json['videos'] != null) {
+      videos = <Videos>[];
+      json['videos'].forEach((v) {
+        videos!.add(new Videos.fromJson(v));
+      });
+    }
+    if (json['materials'] != null) {
+      materials = <Materials>[];
+      json['materials'].forEach((v) {
+        materials!.add(new Materials.fromJson(v));
+      });
+    }
+    if (json['practice_tests'] != null) {
+      practiceTests = <PracticeTests>[];
+      json['practice_tests'].forEach((v) {
+        practiceTests!.add(new PracticeTests.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['course_chapter_id'] = this.courseChapterId;
     data['chapter_title'] = this.chapterTitle;
+    data['chapter_thumbnail'] = this.chapterThumbnail;
+    if (this.videos != null) {
+      data['videos'] = this.videos!.map((v) => v.toJson()).toList();
+    }
+    if (this.materials != null) {
+      data['materials'] = this.materials!.map((v) => v.toJson()).toList();
+    }
+    if (this.practiceTests != null) {
+      data['practice_tests'] =
+          this.practiceTests!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Videos {
+  int? chapterContentId;
+  String? title;
+  bool? free;
+  int? id;
+  String? type;
+
+  Videos({this.chapterContentId, this.title, this.free, this.id, this.type});
+
+  Videos.fromJson(Map<String, dynamic> json) {
+    chapterContentId = json['chapter_content_id'];
+    title = json['title'];
+    free = json['free'];
+    id = json['id'];
+    type = json['type'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['chapter_content_id'] = this.chapterContentId;
+    data['title'] = this.title;
+    data['free'] = this.free;
+    data['id'] = this.id;
+    data['type'] = this.type;
     return data;
   }
 }
 
 class Ratings {
-  int? id;
+  String? user;
+  String? image;
   int? rating;
+  String? review;
 
-  Ratings({this.id, this.rating});
+  Ratings({this.user, this.image, this.rating, this.review});
 
   Ratings.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    user = json['user'];
+    image = json['image'];
     rating = json['rating'];
+    review = json['review'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
+    data['user'] = this.user;
+    data['image'] = this.image;
     data['rating'] = this.rating;
+    data['review'] = this.review;
     return data;
   }
 }
 
-class Likes {
+class Materials {
+  int? chapterContentId;
+  String? title;
+  bool? free;
   int? id;
-  int? likedBy;
+  String? type;
 
-  Likes({this.id, this.likedBy});
+  Materials({this.chapterContentId, this.title, this.free, this.id, this.type});
 
-  Likes.fromJson(Map<String, dynamic> json) {
+  Materials.fromJson(Map<String, dynamic> json) {
+    chapterContentId = json['chapter_content_id'];
+    title = json['title'];
+    free = json['free'];
     id = json['id'];
-    likedBy = json['liked_by'];
+    type = json['type'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['chapter_content_id'] = this.chapterContentId;
+    data['title'] = this.title;
+    data['free'] = this.free;
     data['id'] = this.id;
-    data['liked_by'] = this.likedBy;
+    data['type'] = this.type;
+    return data;
+  }
+}
+
+class PracticeTests {
+  int? chapterContentId;
+  String? title;
+  bool? free;
+  int? id;
+  String? type;
+
+  PracticeTests(
+      {this.chapterContentId, this.title, this.free, this.id, this.type});
+
+  PracticeTests.fromJson(Map<String, dynamic> json) {
+    chapterContentId = json['chapter_content_id'];
+    title = json['title'];
+    free = json['free'];
+    id = json['id'];
+    type = json['type'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['chapter_content_id'] = this.chapterContentId;
+    data['title'] = this.title;
+    data['free'] = this.free;
+    data['id'] = this.id;
+    data['type'] = this.type;
     return data;
   }
 }

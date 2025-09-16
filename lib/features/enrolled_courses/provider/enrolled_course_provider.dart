@@ -7,8 +7,8 @@ import 'package:zephyr/common/provider/user_details_provider.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/coursedetails/model/get_course_reviews_model.dart';
 import 'package:zephyr/features/coursedetails/service/course_details_service.dart';
-import 'package:zephyr/features/enrolled_courses/model/course_detail_model.dart'
-    as courseDetailsModel;
+import 'package:zephyr/features/enrolled_courses/model/enrolled_course_detail_model.dart'
+    as enrolledCourseDetailsModel;
 import 'package:zephyr/features/enrolled_courses/model/course_enrollments_model.dart';
 import 'package:zephyr/features/enrolled_courses/model/enrolled_course_model.dart';
 import 'package:zephyr/features/enrolled_courses/service/enrolled_course_service.dart';
@@ -167,10 +167,10 @@ class EnrolledCourseProvider extends ChangeNotifier {
   bool _isCourseDetailsLoading = false;
   bool get isCourseDetailsLoading => _isCourseDetailsLoading;
 
-  courseDetailsModel.Data _selectedCourseDetails = courseDetailsModel.Data();
-  courseDetailsModel.Data get selectedCourseDetails => _selectedCourseDetails;
+  enrolledCourseDetailsModel.Data _selectedCourseDetails = enrolledCourseDetailsModel.Data();
+  enrolledCourseDetailsModel.Data get selectedCourseDetails => _selectedCourseDetails;
 
-  List<courseDetailsModel.Chapters> getChapters(int index) {
+  List<enrolledCourseDetailsModel.Chapters> getChapters(int index) {
     return (selectedCourseDetails.subjects ?? [])[index].chapters ?? [];
   }
 
@@ -208,14 +208,14 @@ class EnrolledCourseProvider extends ChangeNotifier {
     notifyListeners();
 
     final response = await EnrolledCourseService()
-        .getCourseDetails(context: context, courseId: courseId);
+        .getEnrolledCourseDetails(context: context, courseId: courseId);
     if (response == null) {
       showSnackBar("Error", "Something went wrong! please try again");
     } else {
       if (response.type == "success") {
-        _selectedCourseDetails = response.data ?? courseDetailsModel.Data();
+        _selectedCourseDetails = response.data ?? enrolledCourseDetailsModel.Data();
       } else {
-        _selectedCourseDetails = courseDetailsModel.Data();
+        _selectedCourseDetails = enrolledCourseDetailsModel.Data();
       }
     }
     notifyListeners();

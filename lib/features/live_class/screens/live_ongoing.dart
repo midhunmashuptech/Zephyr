@@ -5,6 +5,7 @@ import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/live_class/model/ongoing_live_model.dart';
 import 'package:zephyr/features/live_class/provider/live_provider.dart';
 import 'package:zephyr/features/live_class/widgets/live_class_card.dart';
+import 'package:zephyr/features/live_class/widgets/live_class_card_with_thumbnail.dart';
 
 class LiveOngoing extends StatefulWidget {
   const LiveOngoing({super.key});
@@ -49,7 +50,7 @@ class _LiveOngoingState extends State<LiveOngoing> {
                         height: 5,
                       ),
                   itemCount: liveProvider.ongoingLive.length,
-                  itemBuilder: (context, index) => LiveClassCard(
+                  itemBuilder: (context, index) => LiveClassCardWithThumbnail(
                         className: liveProvider.ongoingLive[index].title ??
                             "Class Name",
                         tutorName: (liveProvider.ongoingLive[index].faculty ??

@@ -159,15 +159,15 @@ class _EnrolledCourseDetailScreenState extends State<EnrolledCourseDetailScreen>
                                         Iconify(Ic.videocam,
                                             color: AppColors.primaryGreen),
                                         const SizedBox(width: 5),
-                                        const Text("38 classes"),
+                                        Text("${enrolledCourseProvider.selectedCourseDetails.videoCount} Classes"),
                                       ],
                                     ),
                                     Row(
                                       children: [
-                                        Icon(Icons.people,
+                                        Icon(Icons.my_library_books_rounded,
                                             color: AppColors.primaryBlue),
                                         const SizedBox(width: 5),
-                                        const Text("50.6k"),
+                                        Text("${enrolledCourseProvider.selectedCourseDetails.pdfCount} Materials"),
                                       ],
                                     ),
                                     Row(
@@ -175,7 +175,7 @@ class _EnrolledCourseDetailScreenState extends State<EnrolledCourseDetailScreen>
                                         Icon(Icons.star,
                                             color: AppColors.primaryOrange),
                                         const SizedBox(width: 5),
-                                        const Text("4.8"),
+                                        Text("${enrolledCourseProvider.selectedCourseDetails.averageRating}"),
                                       ],
                                     ),
                                   ],
@@ -207,9 +207,9 @@ class _EnrolledCourseDetailScreenState extends State<EnrolledCourseDetailScreen>
                       Expanded(
                         child: TabBarView(
                           controller: _tabController,
-                          children: const [
+                          children: [
                             EnrolledCourseChapter(),
-                            EnrolledCoursesReview()
+                            EnrolledCoursesReview(courseId: widget.courseId,)
                           ],
                         ),
                       ),

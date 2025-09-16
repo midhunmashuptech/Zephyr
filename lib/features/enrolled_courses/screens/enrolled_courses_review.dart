@@ -13,7 +13,8 @@ import 'package:zephyr/features/enrolled_courses/widgets/my_review_card.dart';
 import 'package:zephyr/features/auth/login/widgets/custom_textfeild.dart';
 
 class EnrolledCoursesReview extends StatefulWidget {
-  const EnrolledCoursesReview({super.key});
+  final String courseId;
+  const EnrolledCoursesReview({super.key, required this.courseId});
 
   @override
   State<EnrolledCoursesReview> createState() => _EnrolledCoursesReviewState();
@@ -63,7 +64,7 @@ class _EnrolledCoursesReviewState extends State<EnrolledCoursesReview> {
 
   Future<void> loadReviews() async {
     final loadProvider = context.read<EnrolledCourseProvider>();
-    await loadProvider.getCourseReviews(courseId: "1", context: context);
+    await loadProvider.getCourseReviews(courseId: widget.courseId, context: context);
   }
 
   @override

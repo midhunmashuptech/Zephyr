@@ -1,11 +1,11 @@
-class CourseDetailModel {
+class EnrolledCourseDetailModel {
   String? type;
   String? message;
   Data? data;
 
-  CourseDetailModel({this.type, this.message, this.data});
+  EnrolledCourseDetailModel({this.type, this.message, this.data});
 
-  CourseDetailModel.fromJson(Map<String, dynamic> json) {
+  EnrolledCourseDetailModel.fromJson(Map<String, dynamic> json) {
     type = json['type'];
     message = json['message'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
@@ -40,6 +40,9 @@ class Data {
   int? likeCount;
   int? ratingCount;
   double? averageRating;
+  int? videoCount;
+  int? pdfCount;
+  int? practiceTestCount;
 
   Data(
       {this.id,
@@ -58,7 +61,10 @@ class Data {
       this.likes,
       this.likeCount,
       this.ratingCount,
-      this.averageRating});
+      this.averageRating,
+      this.videoCount,
+      this.pdfCount,
+      this.practiceTestCount});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -87,7 +93,10 @@ class Data {
     likes = json['likes'].cast<String>();
     likeCount = json['like_count'];
     ratingCount = json['rating_count'];
-    averageRating = json['average_rating'];
+    averageRating = double.parse(json['average_rating'].toString());
+    videoCount = json['video_count'];
+    pdfCount = json['pdf_count'];
+    practiceTestCount = json['practice_test_count'];
   }
 
   Map<String, dynamic> toJson() {
@@ -113,6 +122,9 @@ class Data {
     data['like_count'] = this.likeCount;
     data['rating_count'] = this.ratingCount;
     data['average_rating'] = this.averageRating;
+    data['video_count'] = this.videoCount;
+    data['pdf_count'] = this.pdfCount;
+    data['practice_test_count'] = this.practiceTestCount;
     return data;
   }
 }

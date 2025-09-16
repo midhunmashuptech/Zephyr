@@ -11,7 +11,6 @@ import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/data_class/course.dart';
 import 'package:zephyr/features/drawer/screens/drawer.dart';
 import 'package:zephyr/features/drawer/screens/profile_screen.dart';
-import 'package:zephyr/features/home/model/category_based_course_model.dart';
 import 'package:zephyr/features/home/provider/home_page_provider.dart';
 import 'package:zephyr/features/home/widgets/category_widget.dart';
 import 'package:zephyr/features/home/widgets/featured_course_card.dart';
@@ -303,6 +302,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     courseName:
                                         courseData.title ?? "Course Name",
                                     courseRating: "3.2",
+                                    isEnrolled: courseData.isEnrolled ?? false,
                                     thumbnail: courseData.thumbnail ??
                                         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
                                   );
@@ -333,6 +333,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     courseName:
                                         courseData.title ?? "Course Name",
                                     courseRating: "3.2",
+                                    isEnrolled: courseData.isEnrolled ?? false,
                                     thumbnail: courseData.thumbnail ??
                                         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
                                   );

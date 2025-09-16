@@ -3,7 +3,7 @@ import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/features/chapter_details/model/enrolled_chapter_materials_model.dart';
 import 'package:zephyr/features/chapter_details/model/enrolled_chapter_video_model.dart';
 import 'package:zephyr/features/chapter_details/service/enrolled_chapter_details_service.dart';
-import 'package:zephyr/features/enrolled_courses/model/course_detail_model.dart';
+import 'package:zephyr/features/enrolled_courses/model/enrolled_course_detail_model.dart';
 
 class EnrolledChapterDetailsProvider extends ChangeNotifier {
   Chapters _selectedChapter = Chapters();

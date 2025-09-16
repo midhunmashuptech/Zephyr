@@ -146,15 +146,15 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                                       Iconify(Ic.videocam,
                                           color: AppColors.primaryGreen),
                                       const SizedBox(width: 5),
-                                      const Text("38 classes"),
+                                      Text("${courseProvider.courseData.videoCount} Classes"),
                                     ],
                                   ),
                                   Row(
                                     children: [
-                                      Icon(Icons.people,
+                                      Icon(Icons.my_library_books_rounded,
                                           color: AppColors.primaryBlue),
                                       const SizedBox(width: 5),
-                                      const Text("50.6k"),
+                                      Text("${courseProvider.courseData.pdfCount} Materials"),
                                     ],
                                   ),
                                   Row(
@@ -162,7 +162,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                                       Icon(Icons.star,
                                           color: AppColors.primaryOrange),
                                       const SizedBox(width: 5),
-                                      const Text("4.8"),
+                                      Text("${courseProvider.courseData.averageRating}")
                                     ],
                                   ),
                                 ],
