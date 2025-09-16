@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
+import 'package:zephyr/features/coursedetails/provider/course_provider.dart';
 import 'package:zephyr/features/coursedetails/screens/course_chapter_content.dart';
 import 'package:zephyr/features/coursedetails/widgets/course_chapter_card.dart';
 import 'package:zephyr/features/coursedetails/widgets/test.dart';
@@ -12,6 +15,7 @@ class CourseChapters extends StatefulWidget {
 }
 
 class _CourseChaptersState extends State<CourseChapters> {
+  CourseProvider courseDetailProvider = CourseProvider();
   int? expandedSectionIndex;
 
   void _showSubscribePopup(BuildContext context) {
@@ -37,42 +41,55 @@ class _CourseChaptersState extends State<CourseChapters> {
     );
   }
 
-  void _navigateToContents() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => CourseChapterContent()),
-    );
-  }
-
-  Widget _buildDropdownCard(String subject, int index) {
-    return CourseChapterCard(
-      title: subject,
-      subtitle: "Class 7",
-      items: ["Chapter 1", "Chapter 2", "Chapter 3"],
-      onSelected: (value) {},
-      onTap: () {
-        setState(() {
-          expandedSectionIndex = expandedSectionIndex == index ? null : index;
-        });
-      },
-      isExpanded: expandedSectionIndex == index,
-      onFreeItemTap: _navigateToContents,
-      onLockedTap: (index) => _showSubscribePopup(context),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    courseDetailProvider = context.watch<CourseProvider>();
     return Scaffold(
-      body: SingleChildScrollView(
+      body: courseDetailProvider.isLoading
+      ? CircularProgressIndicator()
+      : (courseDetailProvider.courseData.subjects ?? []).isEmpty
+      ? Center(
+                  child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 40.0),
+                  child: Column(
+                    children: [
+                      Lottie.asset("assets/lottie/nodata.json", height: 200),
+                      Text("No Chapters Available!"),
+                    ],
+                  ),
+                ))
+      : SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Column(
             children: [
               const SizedBox(height: 10),
-              _buildDropdownCard("Mathematics", 0),
-              _buildDropdownCard("Physics", 1),
-              _buildDropdownCard("Biology", 2),
+              ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) => CourseChapterCard(
+                        title: (courseDetailProvider.courseData.subjects ?? [])[index].subject ?? "Subject Name",
+                        subtitle: (courseDetailProvider.courseData.subjects ?? [])[index].className ?? "Class Name",
+                        items: ((courseDetailProvider.courseData.subjects ?? [])[index].chapters ?? []).map((chapter) => chapter.chapterTitle ?? "Chapter Title").toList(),
+                        onSelected: (value) {},
+                        onTap: () {
+                          setState(() {
+                            expandedSectionIndex =
+                                expandedSectionIndex == index ? null : index;
+                          });
+                        },
+                        isExpanded: expandedSectionIndex == index,
+                        onFreeItemTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => CourseChapterContent()),
+                          );
+                        },
+                        onLockedTap: (index) => _showSubscribePopup(context),
+                      ),
+                  // separatorBuilder: (context, index) => SizedBox(height: 5),
+                  itemCount: (courseDetailProvider.courseData.subjects ?? []).length),
             ],
           ),
         ),

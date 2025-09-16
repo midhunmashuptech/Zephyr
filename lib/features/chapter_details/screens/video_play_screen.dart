@@ -176,13 +176,12 @@ class _VideoPlayScreenState extends State<VideoPlayScreen>
                       .chapterVideos[index].batchVideoId,
               onPressed: () => changeVideo(index),
               videoTitle:
-                  enrolledChapterDetailsProvider.currentlyPlayingVideo.title ??
+                  enrolledChapterDetailsProvider.chapterVideos[index].title ??
                       "Video Title",
-              thumbnail: enrolledChapterDetailsProvider
-                      .currentlyPlayingVideo.thumbnail ??
+              thumbnail: enrolledChapterDetailsProvider.chapterVideos[index].thumbnail ??
                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
               videoUrl:
-                  enrolledChapterDetailsProvider.currentlyPlayingVideo.hls ??
+                  enrolledChapterDetailsProvider.chapterVideos[index].hls ??
                       "",
             );
           }),

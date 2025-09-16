@@ -192,9 +192,9 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                       ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height - MediaQuery.of(context).size.height * 0.3 - 250,
+                      height: MediaQuery.of(context).size.height - MediaQuery.of(context).size.height * 0.3 - 220,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 6.0),
                         child: TabBarView(
                           controller: _tabController,
                           children: _tabs,

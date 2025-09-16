@@ -134,26 +134,29 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
                         ],
                       ),
                       SizedBox(height: 10),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 22.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                                enrolledChapterDetailsProvider
-                                        .selectedChapter.chapterTitle ??
-                                    "Chapter Name",
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 22.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                  enrolledChapterDetailsProvider
+                                          .selectedChapter.chapterTitle ??
+                                      "Chapter Name",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600)),
+                              Text(
+                                "${(enrolledChapterDetailsProvider.selectedSubject.subject ?? "Subject Name")} | ${(enrolledChapterDetailsProvider.selectedSubject.className ?? "Class Name")}",
                                 style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600)),
-                            Text(
-                              "${(enrolledChapterDetailsProvider.selectedSubject.subject ?? "Subject Name")} | ${(enrolledChapterDetailsProvider.selectedSubject.className ?? "Class Name")}",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.primaryBlue),
-                            )
-                          ],
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.primaryBlue),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                       GridView.builder(
