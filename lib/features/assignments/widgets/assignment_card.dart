@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:zephyr/constants/app_constants.dart' show AppColors;
 import 'package:zephyr/features/assignments/screens/assignment_upload_screen.dart';
 
@@ -6,12 +7,21 @@ class AssignmentCard extends StatelessWidget {
   final String heading;
   final String date;
   final String type;
+  final String assignmentId;
 
   const AssignmentCard(
       {super.key,
       required this.heading,
       required this.date,
-      required this.type});
+      required this.type,
+      required this.assignmentId});
+
+  String formatDateTime(String dateTimeStr) {
+    if (dateTimeStr == "") return "Date not Specified";
+    DateTime dateTime = DateTime.parse(dateTimeStr);
+    String formatted = DateFormat("MMMM d, yyyy | hh:mm a").format(dateTime);
+    return formatted;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +31,7 @@ class AssignmentCard extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) => AssignmentUploadScreen(
-                      date: date,
-                      time: date,
-                      contentType: type,
+                      contentType: type, assignmentId: assignmentId,
                     )));
       },
       child: Card(
@@ -76,13 +84,12 @@ class AssignmentCard extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            "Due date:",
+                            "Due date: ",
                             style: TextStyle(fontSize: 12),
                           ),
                           Expanded(
                             child: Text(
-                              date,
-                              // "$date | $time",
+                              formatDateTime(date),
                               style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400,

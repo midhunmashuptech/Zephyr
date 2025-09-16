@@ -17,12 +17,6 @@ class AssignmentsScreen extends StatefulWidget {
 AssignmentProvider assignmentProvider = AssignmentProvider();
 
 class _AssignmentsScreenState extends State<AssignmentsScreen> {
-  String formatDateTime(String dateTimeStr) {
-    DateTime dateTime = DateTime.parse(dateTimeStr);
-    String formatted = DateFormat("MMMM d, yyyy | hh:mm a").format(dateTime);
-    return formatted;
-  }
-
   @override
   void initState() {
     super.initState();
@@ -40,7 +34,7 @@ class _AssignmentsScreenState extends State<AssignmentsScreen> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25),
+          padding: EdgeInsets.symmetric(horizontal: 15),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -83,15 +77,18 @@ class _AssignmentsScreenState extends State<AssignmentsScreen> {
                               itemCount:
                                   assignmentProvider.assignmentList.length,
                               itemBuilder: (context, index) => AssignmentCard(
+                                    assignmentId: assignmentProvider
+                                        .assignmentList[index].id
+                                        .toString(),
                                     heading: assignmentProvider
                                             .assignmentList[index].title ??
                                         "Title",
                                     type: assignmentProvider
                                             .assignmentList[index].type ??
                                         "",
-                                    date: formatDateTime(assignmentProvider
+                                    date: assignmentProvider
                                             .assignmentList[index].endTime ??
-                                        "Time"),
+                                        "",
                                   )),
                         )
             ],
