@@ -87,6 +87,7 @@ class Courses {
   int? updatedBy;
   int? status;
   int? featured;
+  bool? isEnrolled;
   String? createdAt;
   String? updatedAt;
   Pivot? pivot;
@@ -110,6 +111,7 @@ class Courses {
       this.updatedBy,
       this.status,
       this.featured,
+      this.isEnrolled,
       this.createdAt,
       this.updatedAt,
       this.pivot});
@@ -133,6 +135,7 @@ class Courses {
     updatedBy = json['updated_by'];
     status = json['status'];
     featured = json['featured'];
+    isEnrolled = json['is_enrolled'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     pivot = json['pivot'] != null ? new Pivot.fromJson(json['pivot']) : null;
@@ -158,6 +161,7 @@ class Courses {
     data['updated_by'] = this.updatedBy;
     data['status'] = this.status;
     data['featured'] = this.featured;
+    data['is_enrolled'] = this.isEnrolled;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     if (this.pivot != null) {

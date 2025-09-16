@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/coursedetails/screens/course_details_screen.dart';
+import 'package:zephyr/features/enrolled_courses/screens/enrolled_course_detail_screen.dart';
 import 'package:zephyr/features/home/model/category_based_course_model.dart';
 
 class HomeCourseCard extends StatelessWidget {
@@ -11,6 +12,7 @@ class HomeCourseCard extends StatelessWidget {
   final String courseName;
   final String courseRating;
   final String thumbnail;
+  final bool isEnrolled;
 
   const HomeCourseCard(
       {super.key,
@@ -18,14 +20,22 @@ class HomeCourseCard extends StatelessWidget {
       required this.courseId,
       required this.courseName,
       required this.courseRating,
-      required this.thumbnail});
+      required this.thumbnail,
+      required this.isEnrolled});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         debugPrint("ID: " + courseId);
-        Navigator.push(
+        isEnrolled
+        ? Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => EnrolledCourseDetailScreen(
+                      courseId: courseId,
+                    )))
+        : Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => CourseDetailsScreen(

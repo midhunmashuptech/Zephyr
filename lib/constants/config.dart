@@ -19,15 +19,16 @@ const enrolledChapterUrl = "${baseUrl}get-enrollment-chapters";
 const enrolledChapterVideosUrl = "${baseUrl}get-enrollment-chapter-videos";
 const courseDetailUrl = "${baseUrl}get-course-details";
 const courseEnrollmentsUrl = "${baseUrl}get-course-enrollments/";
-const enrolledChapterMaterialsUrl = "${baseUrl}get-enrollment-chapter-materials";
+const enrolledChapterMaterialsUrl =
+    "${baseUrl}get-enrollment-chapter-materials";
 const enrolledChapterTestUrl = "${baseUrl}get-enrollment-chapter-tests";
-
+const enrolledCourseDetailsUrl =
+    "${baseUrl}get-subscribed-course-details?course_id=";
 
 //Live API's
 const ongoingLiveUrl = "${baseUrl}get-ongoing-live-classes";
 const upcomingLiveUrl = "${baseUrl}get-upcoming-live-classes";
 const recordingLiveUrl = "${baseUrl}get-live-class-recordings";
-
 
 
 // Password rest API

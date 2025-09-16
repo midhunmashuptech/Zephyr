@@ -33,49 +33,91 @@ class _EnrolledCourseChapterState extends State<EnrolledCourseChapter> {
     enrolledChapterDetailsProvider =
         context.read<EnrolledChapterDetailsProvider>();
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
-            children: [
-              SizedBox(height: 10),
-              ...List.generate(
-                  (enrolledCourseProvider.selectedCourseDetails.subjects ?? [])
-                      .length, (index) {
-                return EnrolledChapterCard(
-                  title:
-                      "${(enrolledCourseProvider.selectedCourseDetails.subjects ?? [])[index].className} | ${(enrolledCourseProvider.selectedCourseDetails.subjects ?? [])[index].subject}",
-                  items:
-                      (enrolledCourseProvider.selectedCourseDetails.subjects ??
-                                  [])[index]
-                              .chapters ??
-                          [],
-                  onSelected: (value) {
-                    enrolledChapterDetailsProvider.setSelectedCourse(
-                        chapter: value,
-                        subject: (enrolledCourseProvider
-                                .selectedCourseDetails.subjects ??
-                            [])[index]);
-                  },
-                  onTap: () {
-                    setState(() {
-                      expandedSectionIndex =
-                          expandedSectionIndex == index ? null : index;
-                    });
-                  },
-                  isExpanded: expandedSectionIndex == index,
-                  subtitle:
-                      (enrolledCourseProvider.selectedCourseDetails.subjects ??
-                                  [])[index]
-                              .className ??
-                          "Class Name",
-                );
-              }),
-              SizedBox(height: 20)
-            ],
-          ),
-        ),
-      ),
+      body: (enrolledCourseProvider.selectedCourseDetails.subjects ?? [])
+              .isEmpty
+          ? Center(child: Text("Empty Course Contents"))
+          : SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  children: [
+                    SizedBox(height: 10),
+                    ...List.generate(
+                        (enrolledCourseProvider
+                                    .selectedCourseDetails.subjects ??
+                                [])
+                            .length, (index) {
+                      return EnrolledChapterCard(
+                        title:
+                            "${(enrolledCourseProvider.selectedCourseDetails.subjects ?? [])[index].className} | ${(enrolledCourseProvider.selectedCourseDetails.subjects ?? [])[index].subject}",
+                        items: (enrolledCourseProvider
+                                        .selectedCourseDetails.subjects ??
+                                    [])[index]
+                                .chapters ??
+                            [],
+                        onSelected: (value) {
+                          enrolledChapterDetailsProvider.setSelectedCourse(
+                              chapter: value,
+                              subject: (enrolledCourseProvider
+                                      .selectedCourseDetails.subjects ??
+                                  [])[index]);
+                        },
+                        onTap: () {
+                          setState(() {
+                            expandedSectionIndex =
+                                expandedSectionIndex == index ? null : index;
+                          });
+                        },
+                        isExpanded: expandedSectionIndex == index,
+                        subtitle: (enrolledCourseProvider
+                                        .selectedCourseDetails.subjects ??
+                                    [])[index]
+                                .className ??
+                            "Class Name",
+                      );
+                    }),
+                    // EnrolledChapterCard(
+                    //   title: "Physics",
+                    //   items: enrolledCourseProvider.chapterList,
+                    //   onSelected: (value) {},
+                    //   onTap: () {
+                    //     setState(() {
+                    //       expandedSectionIndex = expandedSectionIndex == 0 ? null : 0;
+                    //     });
+                    //   },
+                    //   isExpanded: expandedSectionIndex == 0,
+                    //   subtitle: 'Class 7',
+                    // ),
+
+                    // EnrolledChapterCard(
+                    //   title: "Mathematics",
+                    //   items: ["Chapter 1", "Chapter 2", "Chapter 3"],
+                    //   onSelected: (value) {},
+                    //   onTap: () {
+                    //     setState(() {
+                    //       expandedSectionIndex = expandedSectionIndex == 1 ? null : 1;
+                    //     });
+                    //   },
+                    //   isExpanded: expandedSectionIndex == 1,
+                    //   subtitle: 'Class 7',
+                    // ),
+                    // EnrolledChapterCard(
+                    //   title: "Biology",
+                    //   items: ["Chapter 1", "Chapter 2", "Chapter 3"],
+                    //   onSelected: (value) {},
+                    //   onTap: () {
+                    //     setState(() {
+                    //       expandedSectionIndex = expandedSectionIndex == 2 ? null : 2;
+                    //     });
+                    //   },
+                    //   isExpanded: expandedSectionIndex == 2,
+                    //   subtitle: 'Class 7',
+                    // ),
+                    SizedBox(height: 20)
+                  ],
+                ),
+              ),
+            ),
     );
   }
 }

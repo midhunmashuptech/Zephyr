@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:zephyr/common/model/user.dart';
 import 'package:zephyr/common/widgets/rating_star_widget.dart';
@@ -10,8 +11,8 @@ import 'package:zephyr/features/coursedetails/widgets/rating_widget.dart';
 import 'package:zephyr/features/coursedetails/widgets/review_card.dart';
 
 class CourseReviews extends StatefulWidget {
-  String courseId;
-  CourseReviews({super.key, required this.courseId});
+  final String courseId;
+  const CourseReviews({super.key, required this.courseId});
 
   @override
   State<CourseReviews> createState() => _CourseReviewsState();
@@ -65,7 +66,8 @@ class _CourseReviewsState extends State<CourseReviews> {
 
   Future<void> loadReviews() async {
     final loadProvider = context.read<CourseProvider>();
-    await loadProvider.getCourseReviews(courseId: widget.courseId, context: context);
+    await loadProvider.getCourseReviews(
+        courseId: widget.courseId, context: context);
   }
 
   @override
@@ -76,8 +78,15 @@ class _CourseReviewsState extends State<CourseReviews> {
           ? Center(child: CircularProgressIndicator())
           : courseProvider.courseReviews.isEmpty
               ? Center(
-                  child: Text("No Reviews Found!"),
-                )
+                  child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 40.0),
+                  child: Column(
+                    children: [
+                      Lottie.asset("assets/lottie/no_comments.json", height: 200),
+                      Text("No Reviews Yet!"),
+                    ],
+                  ),
+                ))
               : SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),

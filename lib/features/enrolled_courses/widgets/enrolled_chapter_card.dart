@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/chapter_details/screens/chapter_details_screen.dart';
-import 'package:zephyr/features/enrolled_courses/model/course_detail_model.dart';
+import 'package:zephyr/features/enrolled_courses/model/enrolled_course_detail_model.dart';
 
 class EnrolledChapterCard extends StatefulWidget {
   final String title;

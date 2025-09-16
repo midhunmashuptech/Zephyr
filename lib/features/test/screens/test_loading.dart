@@ -33,7 +33,7 @@ class _TestLoadingState extends State<TestLoading> {
           children: [
             SizedBox(
                 width: MediaQuery.of(context).size.width * .5,
-                child: Lottie.asset("assets/lottie/loading.json")),
+                child: Lottie.asset("assets/lottie/test_loading.json")),
             SizedBox(
               height: 9,
             ),
