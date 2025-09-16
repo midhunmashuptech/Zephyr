@@ -60,7 +60,6 @@ class _LiveUpcomingState extends State<LiveUpcoming> {
                                             "https://blog.kapdec.com/hubfs/Imported_Blog_Media/3784896.jpg"))
                                 .image ??
                             "https://blog.kapdec.com/hubfs/Imported_Blog_Media/3784896.jpg",
-                        imageColor: AppColors.lightGreen,
                         currenttab: "Upcoming",
                         startDate: liveProvider.upcomingLive[index].start ?? "",
                         enddate: liveProvider.upcomingLive[index].end ?? "",

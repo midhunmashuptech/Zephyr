@@ -7,6 +7,7 @@ import 'package:zephyr/features/live_class/model/recording_live_model.dart';
 import 'package:zephyr/features/live_class/model/upcoming_live_model.dart';
 
 class LiveService {
+  
   //On Going Live Class
   Future<OnGoingLiveModel?> getOnGoingLive(
       {required BuildContext context}) async {
@@ -46,7 +47,6 @@ class LiveService {
       showSnackBar("failed", "Something went wrong");
     } else {
       final recordingLiveModel = RecordingLiveModel.fromJson(responseJson);
-      showSnackBar("success", " Recorded Live Classes Loaded successfully");
       return recordingLiveModel;
     }
     return null;

@@ -12,7 +12,6 @@ class LiveClassCard extends StatelessWidget {
   final String startDate;
   final String enddate;
   final String imageUrl;
-  final Color imageColor;
   final String currenttab;
 
   const LiveClassCard(
@@ -22,7 +21,6 @@ class LiveClassCard extends StatelessWidget {
       required this.startDate,
       required this.enddate,
       required this.imageUrl,
-      required this.imageColor,
       required this.currenttab});
 
   String formatDate(String isoString) {
