@@ -42,12 +42,14 @@ class _LiveRecordingScreenState extends State<LiveRecordingScreen> {
     }
 
     // Check if it's tomorrow
-    if (isSameDay(date, dateprovider.recordingSelectedDate.add(Duration(days: 1)))) {
+    if (isSameDay(
+        date, dateprovider.recordingSelectedDate.add(Duration(days: 1)))) {
       return "Tomorrow, ${DateFormat('EEEE').format(date)}";
     }
 
     // Check if it's yesterday
-    if (isSameDay(date, dateprovider.recordingSelectedDate.subtract(Duration(days: 1)))) {
+    if (isSameDay(
+        date, dateprovider.recordingSelectedDate.subtract(Duration(days: 1)))) {
       return "Yesterday, ${DateFormat('EEEE').format(date)}";
     }
 
@@ -65,7 +67,8 @@ class _LiveRecordingScreenState extends State<LiveRecordingScreen> {
   @override
   Widget build(BuildContext context) {
     liveProvider = context.watch<LiveProvider>();
-    String formattedDate = DateFormat('MMM d, yyyy').format(liveProvider.recordingSelectedDate);
+    String formattedDate =
+        DateFormat('MMM d, yyyy').format(liveProvider.recordingSelectedDate);
     String formattedDay = getDayLabel(liveProvider.recordingSelectedDate);
 
     return Scaffold(
@@ -93,7 +96,7 @@ class _LiveRecordingScreenState extends State<LiveRecordingScreen> {
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
-                            height: 0.95, 
+                            height: 0.95,
                           ),
                         ),
                         Text(
@@ -101,7 +104,7 @@ class _LiveRecordingScreenState extends State<LiveRecordingScreen> {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.normal,
-                            height: 0.95, 
+                            height: 0.95,
                           ),
                         ),
                       ],
@@ -120,8 +123,7 @@ class _LiveRecordingScreenState extends State<LiveRecordingScreen> {
                           lastDate: DateTime(2101),
                         );
                         if (pickedDate != null &&
-                            pickedDate !=
-                                liveProvider.recordingSelectedDate) {
+                            pickedDate != liveProvider.recordingSelectedDate) {
                           loadRecordings(pickedDate);
                         }
                       },
@@ -139,18 +141,21 @@ class _LiveRecordingScreenState extends State<LiveRecordingScreen> {
           liveProvider.isRecordingLoading
               ? Expanded(child: Center(child: CircularProgressIndicator()))
               : liveProvider.recordingLive.isEmpty
-                  ? Center(
-                      child: Expanded(
-                      child: Column(
-                        children: [
-                          Lottie.asset("assets/lottie/nodata.json",
-                              height: 200),
-                          Text("No Recordings found!"),
-                        ],
+                  ? Expanded(
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Lottie.asset("assets/lottie/nodata.json",
+                                height: 200),
+                            Text("No Recordings found!"),
+                            SizedBox(height: 10),
+                          ],
+                        ),
                       ),
-                    ))
+                    )
                   : Expanded(
-                    child: ListView.separated(
+                      child: ListView.separated(
                         // shrinkWrap: true,
                         // physics: NeverScrollableScrollPhysics(),
                         itemCount: liveProvider.recordingLive.length,
@@ -181,7 +186,7 @@ class _LiveRecordingScreenState extends State<LiveRecordingScreen> {
                           height: 5,
                         ),
                       ),
-                  )
+                    )
         ],
       ),
     );
