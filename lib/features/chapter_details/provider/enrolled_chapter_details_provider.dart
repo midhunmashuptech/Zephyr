@@ -63,21 +63,28 @@ class EnrolledChapterDetailsProvider extends ChangeNotifier {
       required String courseChapterId}) async {
     _isVideosLoading = true;
     notifyListeners();
+    showSnackBar("test", "loading initiated");
+    debugPrint("loading initiated");
 
     final response = await EnrolledChapterDetailsService()
         .getEnrolledChapterVideos(context,
             enrollmentId: enrollmentId,
             courseSubjectId: courseSubjectId,
             courseChapterId: courseChapterId);
+    showSnackBar("test", "response");
+    debugPrint("response");
 
     if (response == null) {
       showSnackBar("Error", "Something went wrong! please try again");
+      debugPrint("response null");
     } else {
       print(response.type ?? "None");
       if (response.type == "success") {
         _chapterVideos = response.videos ?? [];
+        debugPrint("successfully loaded");
       } else {
         _chapterVideos = [];
+        showSnackBar("test", "danger");
       }
       notifyListeners();
 
