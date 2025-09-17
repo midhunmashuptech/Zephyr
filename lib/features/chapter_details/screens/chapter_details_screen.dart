@@ -46,7 +46,27 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
   void initState() {
     super.initState();
     loadVideos();
-    content = [
+  }
+
+  Future<void> loadVideos() async {
+    final loadProvider = context.read<EnrolledChapterDetailsProvider>();
+    final enrollmentLoadProvider = context.read<EnrolledCourseProvider>();
+    await loadProvider.getChapterVideos(
+        context: context,
+        enrollmentId:
+            (enrollmentLoadProvider.selectedEnrollment.enrollmentId ?? "0")
+                .toString(),
+        courseSubjectId:
+            (loadProvider.selectedSubject.courseSubjectId ?? 0).toString(),
+        courseChapterId:
+            (loadProvider.selectedChapter.courseChapterId ?? 0).toString());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    enrolledChapterDetailsProvider =
+        context.watch<EnrolledChapterDetailsProvider>();
+        content = [
       Content(
           label: "Study\nMaterials",
           icon: HugeIcons.strokeRoundedStudyLamp,
@@ -76,26 +96,6 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
                     builder: (context) => ChapterAnalysisScreen()));
           }),
     ];
-  }
-
-  Future<void> loadVideos() async {
-    final loadProvider = context.read<EnrolledChapterDetailsProvider>();
-    final enrollmentLoadProvider = context.read<EnrolledCourseProvider>();
-    await loadProvider.getChapterVideos(
-        context: context,
-        enrollmentId:
-            (enrollmentLoadProvider.selectedEnrollment.enrollmentId ?? "0")
-                .toString(),
-        courseSubjectId:
-            (loadProvider.selectedSubject.courseSubjectId ?? 0).toString(),
-        courseChapterId:
-            (loadProvider.selectedChapter.courseChapterId ?? 0).toString());
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    enrolledChapterDetailsProvider =
-        context.watch<EnrolledChapterDetailsProvider>();
     return Scaffold(
       body: SafeArea(
           child: enrolledChapterDetailsProvider.isVideosLoading
