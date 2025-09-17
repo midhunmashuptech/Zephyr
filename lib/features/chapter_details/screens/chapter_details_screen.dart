@@ -45,8 +45,32 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
   @override
   void initState() {
     super.initState();
+    // Schedule after first frame
+  WidgetsBinding.instance.addPostFrameCallback((_) {
     loadVideos();
-    content = [
+  });
+  }
+  
+
+  Future<void> loadVideos() async {
+    final loadProvider = context.read<EnrolledChapterDetailsProvider>();
+    final enrollmentLoadProvider = context.read<EnrolledCourseProvider>();
+    await loadProvider.getChapterVideos(
+        context: context,
+        enrollmentId:
+            (enrollmentLoadProvider.selectedEnrollment.enrollmentId ?? "0")
+                .toString(),
+        courseSubjectId:
+            (loadProvider.selectedSubject.courseSubjectId ?? 0).toString(),
+        courseChapterId:
+            (loadProvider.selectedChapter.courseChapterId ?? 0).toString());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    enrolledChapterDetailsProvider =
+        context.watch<EnrolledChapterDetailsProvider>();
+        content = [
       Content(
           label: "Study\nMaterials",
           icon: HugeIcons.strokeRoundedStudyLamp,
@@ -76,31 +100,9 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
                     builder: (context) => ChapterAnalysisScreen()));
           }),
     ];
-  }
-
-  Future<void> loadVideos() async {
-    final loadProvider = context.read<EnrolledChapterDetailsProvider>();
-    final enrollmentLoadProvider = context.read<EnrolledCourseProvider>();
-    await loadProvider.getChapterVideos(
-        context: context,
-        enrollmentId:
-            (enrollmentLoadProvider.selectedEnrollment.enrollmentId ?? "0")
-                .toString(),
-        courseSubjectId:
-            (loadProvider.selectedSubject.courseSubjectId ?? 0).toString(),
-        courseChapterId:
-            (loadProvider.selectedChapter.courseChapterId ?? 0).toString());
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    enrolledChapterDetailsProvider =
-        context.watch<EnrolledChapterDetailsProvider>();
     return Scaffold(
       body: SafeArea(
-          child: enrolledChapterDetailsProvider.isVideosLoading
-              ? Center(child: CircularProgressIndicator())
-              : SingleChildScrollView(
+          child: SingleChildScrollView(
                   child: Column(
                     children: [
                       Stack(
@@ -189,7 +191,10 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
                         ),
                       ),
                       SizedBox(height: 10),
-                      enrolledChapterDetailsProvider.chapterVideos.isEmpty
+                      enrolledChapterDetailsProvider.isVideosLoading
+              ? Center(child: CircularProgressIndicator())
+              : 
+              enrolledChapterDetailsProvider.chapterVideos.isEmpty
                           ? Center(
                               child: Column(
                                 children: [
