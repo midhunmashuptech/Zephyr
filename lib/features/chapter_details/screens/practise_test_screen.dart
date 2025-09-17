@@ -22,7 +22,10 @@ class _PractiseTestScreenState extends State<PractiseTestScreen> {
   @override
   void initState() {
     super.initState();
+    // Schedule after first frame
+  WidgetsBinding.instance.addPostFrameCallback((_) {
     loadTest();
+  });
   }
 
   Future<void> loadTest() async {
