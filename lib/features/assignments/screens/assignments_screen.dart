@@ -74,7 +74,7 @@ class _AssignmentsScreenState extends State<AssignmentsScreen> {
                             children: [
                               Lottie.asset("assets/lottie/nodata.json",
                                   height: 200),
-                              Text("No Upcoming Live Classes"),
+                              Text("No Assignments Found"),
                             ],
                           ),
                         ))
