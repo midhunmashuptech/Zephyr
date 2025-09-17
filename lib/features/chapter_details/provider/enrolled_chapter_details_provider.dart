@@ -92,10 +92,14 @@ class EnrolledChapterDetailsProvider extends ChangeNotifier {
         notifyListeners();
         showSnackBar("test", "danger");
       }
-      notifyListeners();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        notifyListeners();
+      });
 
       _isVideosLoading = false;
-      notifyListeners();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        notifyListeners();
+      });
     }
   }
 
