@@ -62,7 +62,9 @@ class EnrolledChapterDetailsProvider extends ChangeNotifier {
       required String courseSubjectId,
       required String courseChapterId}) async {
     _isVideosLoading = true;
-    notifyListeners();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      notifyListeners();
+    });
 
     final response = await EnrolledChapterDetailsService()
         .getEnrolledChapterVideos(context,
@@ -79,10 +81,14 @@ class EnrolledChapterDetailsProvider extends ChangeNotifier {
       } else {
         _chapterVideos = [];
       }
-      notifyListeners();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        notifyListeners();
+      });
 
       _isVideosLoading = false;
-      notifyListeners();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        notifyListeners();
+      });
     }
   }
 
