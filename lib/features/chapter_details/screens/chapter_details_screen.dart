@@ -45,8 +45,12 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
   @override
   void initState() {
     super.initState();
+    // Schedule after first frame
+  WidgetsBinding.instance.addPostFrameCallback((_) {
     loadVideos();
+  });
   }
+  
 
   Future<void> loadVideos() async {
     final loadProvider = context.read<EnrolledChapterDetailsProvider>();
@@ -98,9 +102,7 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
     ];
     return Scaffold(
       body: SafeArea(
-          child: enrolledChapterDetailsProvider.isVideosLoading
-              ? Center(child: CircularProgressIndicator())
-              : SingleChildScrollView(
+          child: SingleChildScrollView(
                   child: Column(
                     children: [
                       Stack(
@@ -189,7 +191,10 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
                         ),
                       ),
                       SizedBox(height: 10),
-                      enrolledChapterDetailsProvider.chapterVideos.isEmpty
+                      enrolledChapterDetailsProvider.isVideosLoading
+              ? Center(child: CircularProgressIndicator())
+              : 
+              enrolledChapterDetailsProvider.chapterVideos.isEmpty
                           ? Center(
                               child: Column(
                                 children: [

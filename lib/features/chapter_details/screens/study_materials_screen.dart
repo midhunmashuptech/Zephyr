@@ -21,7 +21,10 @@ class _StudyMaterialsScreenState extends State<StudyMaterialsScreen> {
   @override
   void initState() {
     super.initState();
+    // Schedule after first frame
+  WidgetsBinding.instance.addPostFrameCallback((_) {
     loadEnrolledChapterMaterials();
+  });
   }
 
   Future<void> loadEnrolledChapterMaterials() async {

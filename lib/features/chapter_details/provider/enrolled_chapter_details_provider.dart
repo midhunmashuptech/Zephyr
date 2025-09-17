@@ -62,6 +62,7 @@ class EnrolledChapterDetailsProvider extends ChangeNotifier {
       required String courseSubjectId,
       required String courseChapterId}) async {
     _isVideosLoading = true;
+    _chapterVideos = [];
     notifyListeners();
     showSnackBar("test", "loading initiated");
     debugPrint("loading initiated");
@@ -72,18 +73,23 @@ class EnrolledChapterDetailsProvider extends ChangeNotifier {
             courseSubjectId: courseSubjectId,
             courseChapterId: courseChapterId);
     showSnackBar("test", "response");
-    debugPrint("response");
 
     if (response == null) {
       showSnackBar("Error", "Something went wrong! please try again");
       debugPrint("response null");
     } else {
+      showSnackBar("test", response.type ?? "");
       print(response.type ?? "None");
       if (response.type == "success") {
         _chapterVideos = response.videos ?? [];
+        _isVideosLoading = false;
+        notifyListeners();
+        showSnackBar("test", "$isVideosLoading");
         debugPrint("successfully loaded");
       } else {
         _chapterVideos = [];
+        _isVideosLoading = false;
+        notifyListeners();
         showSnackBar("test", "danger");
       }
       notifyListeners();
@@ -114,9 +120,9 @@ class EnrolledChapterDetailsProvider extends ChangeNotifier {
       if (response.type == "success") {
         _enrolledChapterMaterials = response.materials ?? [];
         notifyListeners();
-        showSnackBar(
-            "Success", "successfully fetched enrolled chapter materials");
         _isMaterialLoading = false;
+        showSnackBar("Success",
+            "successfully fetched enrolled chapter materials $isMaterialLoading");
         notifyListeners();
       }
     }
