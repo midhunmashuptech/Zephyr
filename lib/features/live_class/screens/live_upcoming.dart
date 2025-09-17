@@ -35,15 +35,15 @@ class _LiveUpcomingState extends State<LiveUpcoming> {
           ? Center(child: CircularProgressIndicator())
           : liveProvider.upcomingLive.isEmpty
               ? Center(
-                  child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 40.0),
-                  child: Column(
-                    children: [
-                      Lottie.asset("assets/lottie/nodata.json", height: 200),
-                      Text("No Upcoming Live Classes"),
-                    ],
-                  ),
-                ))
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Lottie.asset("assets/lottie/nodata.json", height: 200),
+                    Text("No Upcoming Live Classes"),
+                    SizedBox(height: 10),
+                  ],
+                ),
+              )
               : ListView.separated(
                   itemCount: liveProvider.upcomingLive.length,
                   separatorBuilder: (context, value) => SizedBox(
@@ -60,7 +60,8 @@ class _LiveUpcomingState extends State<LiveUpcoming> {
                                           Faculty(name: "Faculty Name"))
                                       .name ??
                                   "Faculty Name",
-                          imageUrl: liveProvider.upcomingLive[index].thumbnail ??
+                          imageUrl: liveProvider
+                                  .upcomingLive[index].thumbnail ??
                               "https://blog.kapdec.com/hubfs/Imported_Blog_Media/3784896.jpg",
                           currenttab: "Upcoming",
                           startDate:

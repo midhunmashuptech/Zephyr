@@ -36,15 +36,15 @@ class _LiveOngoingState extends State<LiveOngoing> {
           ? Center(child: CircularProgressIndicator())
           : liveProvider.ongoingLive.isEmpty
               ? Center(
-                  child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 40.0),
-                  child: Column(
-                    children: [
-                      Lottie.asset("assets/lottie/nodata.json", height: 200),
-                      Text("No Ongoing Live Class found!"),
-                    ],
-                  ),
-                ))
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Lottie.asset("assets/lottie/nodata.json", height: 200),
+                    Text("No Ongoing Live Classes"),
+                    SizedBox(height: 10),
+                  ],
+                ),
+              )
               : ListView.separated(
                   separatorBuilder: (context, index) => SizedBox(
                         height: 5,
