@@ -1,143 +1,142 @@
 import 'package:flutter/material.dart';
-import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/features/home/screens/home_screen.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
-class CourseCurriculumCard extends StatefulWidget {
-  final String title;
-  final String classname;
-  final String subject;
-  final List<String> items;
-  final Function() onPressed;
-
-  const CourseCurriculumCard({
-    required this.title,
-    required this.classname,
-    required this.subject,
-    required this.items,
-    required this.onPressed,
-    super.key,
-  });
-
-  @override
-  State<CourseCurriculumCard> createState() => _CourseCurriculumCardState();
+void main() {
+  runApp(const PieChartDemo());
 }
 
-class _CourseCurriculumCardState extends State<CourseCurriculumCard> {
+class PieChartDemo extends StatelessWidget {
+  const PieChartDemo({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Card(
-        color: AppColors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        elevation: 3,
-        child: Padding(
-          padding: const EdgeInsets.all(0),
-          child: ExpansionTile(
-            // Course title and class info
-            tilePadding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-            shape: const RoundedRectangleBorder(side: BorderSide.none),
-            collapsedShape: const RoundedRectangleBorder(side: BorderSide.none),
-            title: Text(
-              widget.title,
-              style: const TextStyle(fontWeight: FontWeight.w600),
-            ),
-            subtitle: Row(
-              children: [
-                Text(widget.classname),
-                const SizedBox(height: 10, child: VerticalDivider()),
-                Expanded(
-                  child: Text(
-                    widget.subject,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
-            ),
-
-            // Curriculum items list
-            children: List.generate(widget.items.length, (index) {
-              final item = widget.items[index];
-              final isFree = index == 0; // First item is free
-
-              return Padding(
-                padding: index == (widget.items.length - 1)
-                    ? const EdgeInsets.only(
-                        left: 16, right: 16, top: 5, bottom: 16)
-                    : const EdgeInsets.only(
-                        left: 16, right: 16, top: 5, bottom: 5),
-                child: ListTile(
-                  tileColor: AppColors.grey,
-                  title: Text(item, style: const TextStyle(fontSize: 16)),
-
-                  // Trailing icon or "Free" label
-                  trailing: isFree
-                      ? Text(
-                          "Free",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: AppColors.primaryGreen,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      // Icon(Icons.lock_open, color: AppColors.greenchaptertest)
-                      : const Icon(Icons.lock_outline,
-                          color: AppColors.black),
-                  // Tap only if item is free
-                  onTap: isFree
-                      ? () {
-                          widget.onPressed();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomeScreen(),
-                            ),
-                          );
-                        }
-                      : () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('Subscription needed'),
-                                content: SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.7,
-                                    child: Text(
-                                        'Once enrolled, you’ll get full access to the course materials. Do you want to proceed?')),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () =>
-                                        Navigator.of(context).pop(),
-                                    child: Text('No'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      // Navigator.push(
-                                      //     (context),
-                                      //     MaterialPageRoute(
-                                      //         builder: (context) =>
-                                      //             CheckoutScreen()));
-                                    },
-                                    child: Text('Yes'),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                ),
-              );
-            }
-            ),
-          ),
-        ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(title: const Text("Syncfusion Pie Charts")),
+        body: const PieChartExamples(),
       ),
     );
   }
+}
+
+class PieChartExamples extends StatelessWidget {
+  const PieChartExamples({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final List<ChartData> chartData = [
+      ChartData('Apple', 35),
+      ChartData('Banana', 28),
+      ChartData('Orange', 34),
+      ChartData('Grapes', 32),
+      ChartData('Others', 10),
+    ];
+
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        const Text("1. Basic Pie Chart",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        SfCircularChart(
+          series: <CircularSeries>[
+            PieSeries<ChartData, String>(
+              dataSource: chartData,
+              xValueMapper: (ChartData data, _) => data.category,
+              yValueMapper: (ChartData data, _) => data.value,
+            )
+          ],
+        ),
+
+        const Text("2. Doughnut Chart",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        SfCircularChart(
+          series: <CircularSeries>[
+            DoughnutSeries<ChartData, String>(
+              dataSource: chartData,
+              xValueMapper: (ChartData data, _) => data.category,
+              yValueMapper: (ChartData data, _) => data.value,
+              innerRadius: '60%',
+            )
+          ],
+        ),
+
+        const Text("3. Semi Pie Chart",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        SfCircularChart(
+          series: <CircularSeries>[
+            PieSeries<ChartData, String>(
+              dataSource: chartData,
+              xValueMapper: (ChartData data, _) => data.category,
+              yValueMapper: (ChartData data, _) => data.value,
+              startAngle: 270,
+              endAngle: 90,
+            )
+          ],
+        ),
+
+        const Text("4. Exploded Pie Chart",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        SfCircularChart(
+          series: <CircularSeries>[
+            PieSeries<ChartData, String>(
+              dataSource: chartData,
+              xValueMapper: (ChartData data, _) => data.category,
+              yValueMapper: (ChartData data, _) => data.value,
+              explode: true,
+              explodeIndex: 1,
+            )
+          ],
+        ),
+
+        const Text("5. Grouped Pie Chart",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        SfCircularChart(
+          series: <CircularSeries>[
+            PieSeries<ChartData, String>(
+              dataSource: chartData,
+              xValueMapper: (ChartData data, _) => data.category,
+              yValueMapper: (ChartData data, _) => data.value,
+              groupMode: CircularChartGroupMode.value,
+              groupTo: 20, // group values < 20
+            )
+          ],
+        ),
+
+        const Text("6. Pie Chart with Data Labels",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        SfCircularChart(
+          series: <CircularSeries>[
+            PieSeries<ChartData, String>(
+              dataSource: chartData,
+              xValueMapper: (ChartData data, _) => data.category,
+              yValueMapper: (ChartData data, _) => data.value,
+              dataLabelSettings: const DataLabelSettings(
+                isVisible: true,
+                labelPosition: ChartDataLabelPosition.outside,
+              ),
+            )
+          ],
+        ),
+
+        const Text("7. 3D Pie Chart",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        SfCircularChart(
+          series: <CircularSeries>[
+            PieSeries<ChartData, String>(
+              dataSource: chartData,
+              xValueMapper: (ChartData data, _) => data.category,
+              yValueMapper: (ChartData data, _) => data.value,
+            )
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class ChartData {
+  ChartData(this.category, this.value);
+  final String category;
+  final double value;
 }

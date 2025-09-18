@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
@@ -69,15 +67,15 @@ class AssignmentService {
             SubmitAssignmentModel.fromJson(jsonResponse);
         if (submitAssignmentModel.type == 'success') {
           showSnackBar("Success", 'Assignment Submitted successfully');
-          print('Message: ${submitAssignmentModel.message}');
+          debugPrint('Message: ${submitAssignmentModel.message}');
         }
         return submitAssignmentModel;
       } else {
-        print('Error: ${response.reasonPhrase}');
+        debugPrint('Error: ${response.reasonPhrase}');
         return null;
       }
     } catch (e) {
-      print('Exception: $e');
+      debugPrint('Exception: $e');
       return null;
     }
   }

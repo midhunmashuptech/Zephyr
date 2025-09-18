@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:zephyr/features/test/provider/make_test_provider.dart';
-import 'package:zephyr/features/test/screens/test_quiz_screen.dart';
-import 'package:zephyr/features/test/screens/test_webview.dart';
 
 class TestLoading extends StatefulWidget {
   const TestLoading({super.key});

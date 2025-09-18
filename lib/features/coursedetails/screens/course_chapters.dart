@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:zephyr/features/coursedetails/provider/course_provider.dart';
 import 'package:zephyr/features/coursedetails/screens/course_chapter_content.dart';
 import 'package:zephyr/features/coursedetails/widgets/course_chapter_card.dart';
-import 'package:zephyr/features/coursedetails/widgets/test.dart';
 import 'package:zephyr/features/payment/screens/checkout_screen.dart';
 
 class CourseChapters extends StatefulWidget {

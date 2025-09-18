@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:zephyr/common/model/user.dart';
 import 'package:zephyr/common/widgets/rating_star_widget.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/coursedetails/model/get_course_reviews_model.dart';
@@ -30,7 +28,7 @@ class _CourseReviewsState extends State<CourseReviews> {
   double calculateEachRatingPercent(List<Reviews> courseReviews, int rating) {
     final ratingList =
         courseReviews.where((review) => review.rating == rating).toList();
-    print(ratingList.length / courseReviews.length);
+    debugPrint("${ratingList.length / courseReviews.length}");
     return ratingList.length / courseReviews.length;
   }
 

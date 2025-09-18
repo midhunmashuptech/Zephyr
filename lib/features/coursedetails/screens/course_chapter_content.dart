@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:zephyr/constants/app_constants.dart' show AppColors;
 import 'package:zephyr/features/coursedetails/widgets/course_content_card.dart';
 

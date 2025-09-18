@@ -4,7 +4,6 @@ import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/constants/config.dart';
 import 'package:zephyr/features/coursedetails/model/course_detail_model.dart';
 import 'package:zephyr/features/coursedetails/model/get_course_reviews_model.dart';
-import 'package:zephyr/features/enrolled_courses/model/post_course_review_model.dart';
 
 class CourseDetailsService {
   Future<CourseDetailModel?> fetchCourseDetails(
@@ -36,6 +35,7 @@ class CourseDetailsService {
       if (fetchedCourseReviewsModel.type == "success") {
         return fetchedCourseReviewsModel;
       }
+      return null;
     }
   }
 }

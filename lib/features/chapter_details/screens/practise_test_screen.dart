@@ -3,7 +3,6 @@ import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/bi.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:zephyr/data_class/practise_test.dart';
 import 'package:zephyr/features/chapter_details/provider/enrolled_chapter_details_provider.dart';
 import 'package:zephyr/features/chapter_details/widgets/practise_test_card.dart';
 import 'package:zephyr/features/enrolled_courses/provider/enrolled_course_provider.dart';

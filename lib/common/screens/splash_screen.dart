@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:get/get.dart';
-import 'package:get/utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
@@ -16,7 +14,6 @@ import 'package:zephyr/common/screens/onboarding_screen.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/constants/config.dart';
 import 'package:zephyr/features/auth/login/screens/mobile_number_verification.dart';
-import 'package:zephyr/features/auth/provider/auth_provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -27,7 +24,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-  FlutterSecureStorage _secureStorage = FlutterSecureStorage();
+  final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
   late AnimationController _controller;
   late Animation<double> _animation;
 

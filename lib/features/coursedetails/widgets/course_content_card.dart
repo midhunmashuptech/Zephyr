@@ -3,13 +3,13 @@ import 'package:flutter/widgets.dart';
 import 'package:zephyr/constants/app_constants.dart';
 
 class CourseContentCard extends StatefulWidget {
-  String title;
-  String subtitle;
-  Color bgcolor;
-  IconData icon;
-  IconData lockicon;
+  final String title;
+  final String subtitle;
+  final Color bgcolor;
+  final IconData icon;
+  final IconData lockicon;
 
-   CourseContentCard({
+  const CourseContentCard({
     required this.title,
     required this.subtitle,
     required this.icon,

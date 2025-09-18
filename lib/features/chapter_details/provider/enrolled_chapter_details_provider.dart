@@ -79,7 +79,7 @@ class EnrolledChapterDetailsProvider extends ChangeNotifier {
       debugPrint("response null");
     } else {
       showSnackBar("test", response.type ?? "");
-      print(response.type ?? "None");
+      debugPrint(response.type ?? "None");
       if (response.type == "success") {
         _chapterVideos = response.videos ?? [];
         _isVideosLoading = false;

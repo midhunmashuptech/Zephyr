@@ -56,9 +56,8 @@ class _VideoPlayScreenState extends State<VideoPlayScreen>
   }
 
   void changeVideo(int index) {
-    print("Chapter Changed");
-    final chapterVideoProvider =
-        context.read<EnrolledChapterDetailsProvider>();
+    debugPrint("Chapter Changed");
+    final chapterVideoProvider = context.read<EnrolledChapterDetailsProvider>();
     chapterVideoProvider.changePlayingVideo(index);
     betterPlayerController.setupDataSource(BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
@@ -106,8 +105,8 @@ class _VideoPlayScreenState extends State<VideoPlayScreen>
                             width: MediaQuery.of(context).size.width * 0.7,
                             child: Text(
                               enrolledChapterDetailsProvider
-                                            .selectedChapter.chapterTitle ??
-                                        "Chapter Name",
+                                      .selectedChapter.chapterTitle ??
+                                  "Chapter Name",
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
@@ -165,9 +164,9 @@ class _VideoPlayScreenState extends State<VideoPlayScreen>
         child: Column(
           children: List.generate(
               enrolledChapterDetailsProvider.chapterVideos.length, (index) {
-            print(
+            debugPrint(
                 "Video ID: ${enrolledChapterDetailsProvider.currentlyPlayingVideo.batchVideoId}");
-            print(
+            debugPrint(
                 "Video ID 2: ${enrolledChapterDetailsProvider.chapterVideos[index].batchVideoId}");
             return ChapterVideoCard(
               currentlySelected: enrolledChapterDetailsProvider
@@ -178,11 +177,11 @@ class _VideoPlayScreenState extends State<VideoPlayScreen>
               videoTitle:
                   enrolledChapterDetailsProvider.chapterVideos[index].title ??
                       "Video Title",
-              thumbnail: enrolledChapterDetailsProvider.chapterVideos[index].thumbnail ??
+              thumbnail: enrolledChapterDetailsProvider
+                      .chapterVideos[index].thumbnail ??
                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
               videoUrl:
-                  enrolledChapterDetailsProvider.chapterVideos[index].hls ??
-                      "",
+                  enrolledChapterDetailsProvider.chapterVideos[index].hls ?? "",
             );
           }),
         ),
