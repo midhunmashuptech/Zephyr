@@ -1,12 +1,9 @@
-import 'dart:ffi';
-
 import 'package:flutter/widgets.dart';
 import 'package:zephyr/api_files/api_service.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/constants/config.dart';
 import 'package:zephyr/features/coursedetails/model/course_detail_model.dart';
 import 'package:zephyr/features/coursedetails/model/get_course_reviews_model.dart';
-import 'package:zephyr/features/enrolled_courses/model/post_course_review_model.dart';
 
 class CourseDetailsService {
   Future<CourseDetailModel?> fetchCourseDetails(
@@ -21,6 +18,7 @@ class CourseDetailsService {
       if (courseDetailModel.type == "success") {
         return courseDetailModel;
       }
+      return null;
     }
   }
 
@@ -32,10 +30,12 @@ class CourseDetailsService {
       showSnackBar("error", "something went wrong");
       return null;
     } else {
-      final fetchedCourseReviewsModel = GetCourseReviewsModel.fromJson(responseJson);
+      final fetchedCourseReviewsModel =
+          GetCourseReviewsModel.fromJson(responseJson);
       if (fetchedCourseReviewsModel.type == "success") {
         return fetchedCourseReviewsModel;
       }
+      return null;
     }
   }
 }

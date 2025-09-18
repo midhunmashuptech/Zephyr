@@ -9,7 +9,7 @@ import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/features/auth/login/screens/login.dart';
 import 'package:zephyr/features/auth/login/screens/mobile_number_verification.dart';
 import 'package:zephyr/features/auth/registration/model/registration_dropdown_options_model.dart'
-    as dropdownModel;
+    as dropdown_model;
 import 'package:zephyr/features/auth/service/login_service.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:zephyr/features/auth/service/registration_service.dart';
@@ -32,12 +32,12 @@ class AuthProvider extends ChangeNotifier {
   bool _isRegistered = false;
   bool get isregistered => _isRegistered;
 
-  List<dropdownModel.ClassStudying> _classDropdownOptions = [];
-  List<dropdownModel.ClassStudying> get classDropdownOptions =>
+  List<dropdown_model.ClassStudying> _classDropdownOptions = [];
+  List<dropdown_model.ClassStudying> get classDropdownOptions =>
       _classDropdownOptions;
 
-  List<dropdownModel.Syllabus> _syllabusDropdownOptions = [];
-  List<dropdownModel.Syllabus> get syllabusDropdownOptions =>
+  List<dropdown_model.Syllabus> _syllabusDropdownOptions = [];
+  List<dropdown_model.Syllabus> get syllabusDropdownOptions =>
       _syllabusDropdownOptions;
 
   String countryISOCode = 'IN';
@@ -163,12 +163,8 @@ class AuthProvider extends ChangeNotifier {
     schoolName = schoolNameValue;
     classId = classIdValue;
 
-    debugPrint(nameValue +
-        dobValue +
-        emailValue +
-        schoolNameValue +
-        classIdValue.toString() +
-        "$selectedGender");
+    debugPrint(
+        "$nameValue $dobValue $emailValue $schoolNameValue $schoolNameValue $classIdValue $selectedGender");
   }
 
   void updatePasswordStatus(bool value, String typedPassword) {

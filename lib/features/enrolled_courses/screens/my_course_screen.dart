@@ -6,7 +6,6 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:zephyr/common/widgets/custom_search_bar.dart';
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/data_class/course.dart';
 import 'package:zephyr/features/assignments/screens/assignments_screen.dart';
 import 'package:zephyr/features/enrolled_courses/provider/enrolled_course_provider.dart';
 import 'package:zephyr/features/enrolled_courses/widgets/course_action_card.dart';
@@ -124,7 +123,7 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
                 height: 10,
               ),
               enrolledCourseProvider.isCourseLoading
-              ? Container(
+              ? SizedBox(
                         height: MediaQuery.of(context).size.height * 0.3,
                         child: Center(
                             child: Lottie.asset("assets/lottie/loading.json",

@@ -63,7 +63,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     loadDropdownOption();
   }

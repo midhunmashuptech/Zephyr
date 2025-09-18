@@ -5,7 +5,6 @@ import 'package:iconify_flutter_plus/icons/bxs.dart';
 import 'package:iconify_flutter_plus/icons/fa.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/data_class/course.dart';
 import 'package:zephyr/features/enrolled_courses/model/enrolled_course_model.dart';
 import 'package:zephyr/features/enrolled_courses/screens/enrolled_course_detail_screen.dart';
 

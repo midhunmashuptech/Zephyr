@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/test/provider/make_test_provider.dart';
-import 'package:zephyr/features/test/screens/test_loading.dart';
 
 class MakeYourTestScreen extends StatefulWidget {
   const MakeYourTestScreen({super.key});
@@ -15,10 +14,6 @@ class MakeYourTestScreen extends StatefulWidget {
 
 class _MakeYourTestScreenState extends State<MakeYourTestScreen> {
   MakeTestProvider makeTestProvider = MakeTestProvider();
-
-  TextEditingController _quesCountController = TextEditingController();
-  TextEditingController _sectionController = TextEditingController();
-  TextEditingController _difficultyController = TextEditingController();
 
   Future loadClassSubjectOptions() async {
     final loadProvider = context.read<MakeTestProvider>();

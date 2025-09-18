@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:zephyr/common/provider/user_details_provider.dart';
-import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/common/screens/splash_screen.dart';
+import 'package:zephyr/common/screens/test_screen.dart';
 import 'package:zephyr/common/service/notification_service.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/assignments/provider/assignment_provider.dart';
@@ -11,7 +11,7 @@ import 'package:zephyr/features/auth/provider/auth_provider.dart';
 import 'package:zephyr/features/chapter_details/provider/enrolled_chapter_details_provider.dart';
 import 'package:zephyr/features/coursedetails/provider/course_provider.dart';
 import 'package:zephyr/features/drawer/provider/edit_profile_provider.dart';
-import 'package:zephyr/features/enrolled_courses/model/enrolled_chapter_model.dart';
+import 'package:zephyr/features/drawer/provider/timeline_provider.dart';
 import 'package:zephyr/features/enrolled_courses/provider/enrolled_course_provider.dart';
 import 'package:zephyr/features/home/provider/home_page_provider.dart';
 import 'package:zephyr/features/live_class/provider/live_provider.dart';
@@ -36,6 +36,7 @@ void main() async {
     ChangeNotifierProvider(create: (_) => EnrolledChapterDetailsProvider()),
     ChangeNotifierProvider(create: (_) => LiveProvider()),
     ChangeNotifierProvider(create: (_) => AssignmentProvider()),
+    ChangeNotifierProvider(create: (_) => TimelineProvider()),
   ], child: const MyApp()));
 }
 
@@ -51,11 +52,11 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Poppins',
           useMaterial3: true,
           scaffoldBackgroundColor: AppColors.white),
-      home: SplashScreen(),
+      // home: SplashScreen(),
       // home: BottomNavScreen(),
       // home: ChapterDetailsScreen(),
       // home: ChapterAnalysisScreen(),
-      // home: TestQuizScreen(),
+      home: PieChartDemo(),
     );
   }
 }

@@ -12,7 +12,6 @@ import 'package:zephyr/features/enrolled_courses/model/post_course_review_model.
 class EnrolledCourseService {
   final ApiService _apiService = ApiService();
 
-  
   // Course Enrollments
   Future<CourseEnrollmentsModel?> getCourseEnrollments(BuildContext context,
       {required String courseId}) async {
@@ -70,7 +69,8 @@ class EnrolledCourseService {
       return null;
     } else {
       final enrolledCourseModel = EnrolledCourseModel.fromJson(responseJson);
-      if (enrolledCourseModel.type == "success" || enrolledCourseModel.type == "error") {
+      if (enrolledCourseModel.type == "success" ||
+          enrolledCourseModel.type == "error") {
         return enrolledCourseModel;
       }
       return null;
@@ -83,14 +83,16 @@ class EnrolledCourseService {
     required BuildContext context,
   }) async {
     debugPrint("Fetching Enrolled Course");
-    final responseJson = await _apiService
-        .getRequest(url: enrolledCourseDetailsUrl+courseId,);
+    final responseJson = await _apiService.getRequest(
+      url: enrolledCourseDetailsUrl + courseId,
+    );
 
     if (responseJson == null || responseJson.isEmpty) {
       showSnackBar("Error", "Json Error");
       return null;
     } else {
-      final courseDetailModel = EnrolledCourseDetailModel.fromJson(responseJson);
+      final courseDetailModel =
+          EnrolledCourseDetailModel.fromJson(responseJson);
       if (courseDetailModel.type == "success") {
         return courseDetailModel;
       }
@@ -113,10 +115,12 @@ class EnrolledCourseService {
       showSnackBar("error", "something went wrong");
       return null;
     } else {
-      final postCourseReviewModel = PostCourseReviewModel.fromJson(responseJson);
+      final postCourseReviewModel =
+          PostCourseReviewModel.fromJson(responseJson);
       if (postCourseReviewModel.type == "success") {
         return postCourseReviewModel;
       }
+      return null;
     }
   }
 }

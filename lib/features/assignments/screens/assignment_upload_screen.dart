@@ -90,7 +90,6 @@ class _AssignmentUploadScreenState extends State<AssignmentUploadScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     loadAssignmentDetails();
   }

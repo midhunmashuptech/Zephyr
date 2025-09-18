@@ -107,7 +107,7 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
                     children: [
                       Stack(
                         children: [
-                          Container(
+                          SizedBox(
                             height: 300,
                             width: double.infinity,
                             child: CachedNetworkImage(

@@ -28,7 +28,7 @@ class _EnrolledCoursesReviewState extends State<EnrolledCoursesReview> {
   double calculateEachRatingPercent(List<Reviews> courseReviews, int rating) {
     final ratingList =
         courseReviews.where((review) => review.rating == rating).toList();
-    print(ratingList.length / courseReviews.length);
+    debugPrint("${ratingList.length / courseReviews.length}");
     return ratingList.length / courseReviews.length;
   }
 
@@ -81,8 +81,15 @@ class _EnrolledCoursesReviewState extends State<EnrolledCoursesReview> {
           ? Center(child: CircularProgressIndicator())
           : enrolledCourseProvider.courseReviews.isEmpty
               ? Center(
-                  child: Text("No Reviews Found!"),
-                )
+                  child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 40.0),
+                  child: Column(
+                    children: [
+                      Lottie.asset("assets/lottie/no_comments.json", height: 200),
+                      Text("No Reviews Yet!"),
+                    ],
+                  ),
+                ))
               : SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
@@ -228,7 +235,7 @@ class _EnrolledCoursesReviewState extends State<EnrolledCoursesReview> {
                                                   enrolledCourseProvider
                                                       .setUserRating(
                                                           rating.toInt());
-                                                  print(rating);
+                                                  debugPrint(rating.toString());
                                                 },
                                               ),
                                               Text(

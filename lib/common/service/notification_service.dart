@@ -173,6 +173,7 @@
 //     return await notificationPlugin.pendingNotificationRequests();
 //   }
 // }
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tzdata;
@@ -204,7 +205,7 @@ class NotificationService {
     try {
       tz.setLocalLocation(tz.getLocation(currentTimeZone));
     } catch (e) {
-      print("Unknown timezone: $currentTimeZone, defaulting to UTC");
+      debugPrint("Unknown timezone: $currentTimeZone, defaulting to UTC");
       tz.setLocalLocation(tz.getLocation("UTC"));
     }
 
@@ -226,7 +227,7 @@ class NotificationService {
       initSettings,
       onDidReceiveNotificationResponse: (NotificationResponse response) async {
         // Handle notification tap
-        print('Notification tapped: ${response.payload}');
+        debugPrint('Notification tapped: ${response.payload}');
       },
     );
 
@@ -375,13 +376,13 @@ class NotificationService {
       payload: payload,
     );
 
-    print("Notification scheduled for: $scheduledDate (ID: $id)");
+    debugPrint("Notification scheduled for: $scheduledDate (ID: $id)");
     
     // Log all pending notifications for debugging
     final pending = await getPendingNotifications();
-    print("Total pending notifications: ${pending.length}");
+    debugPrint("Total pending notifications: ${pending.length}");
     for (var notification in pending) {
-      print("- ID: ${notification.id}, Title: ${notification.title}");
+      debugPrint("- ID: ${notification.id}, Title: ${notification.title}");
     }
   }
 

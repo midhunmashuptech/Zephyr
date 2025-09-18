@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pinput/pinput.dart';
-import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/auth/login/screens/reset_password_login.dart';
@@ -22,18 +21,6 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-  var _otpStatus = false;
-  final String _otp = "123456";
-  String _countryCode = '';
-  String _phoneNumber = '';
-  String _errorText = '';
-
-  void otpSent() {
-    setState(() {
-      _otpStatus = true;
-    });
-  }
-
   final defaultPinTheme = PinTheme(
     width: 56,
     height: 56,
@@ -89,19 +76,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   initialValue: widget.phoneNumber,
                   decoration: InputDecoration(
                     labelText: 'Mobile Number',
-                    errorText: _errorText.isNotEmpty ? _errorText : null,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),
                       borderSide: const BorderSide(),
                     ),
                   ),
-                  onChanged: (value) {
-                    setState(() {
-                      _countryCode = value.countryCode;
-                      _phoneNumber = value.number;
-                      _errorText = '';
-                    });
-                  },
                   initialCountryCode: widget.isoCode,
                 ),
                 const SizedBox(height: 20),

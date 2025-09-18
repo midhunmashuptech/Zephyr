@@ -7,6 +7,8 @@ import 'package:zephyr/api_files/api_service.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/constants/config.dart';
 import 'package:zephyr/features/drawer/models/password_reset_model.dart';
+import 'package:zephyr/features/drawer/models/post_timeline_activity_model.dart';
+import 'package:zephyr/features/drawer/models/timeline_activity_model.dart';
 import 'package:zephyr/features/drawer/models/update_user_detail_model.dart';
 import 'package:zephyr/features/drawer/models/upload_profile_picture_model.dart';
 
@@ -116,5 +118,48 @@ class DrawerService {
       print('Exception: $e');
       return null;
     }
+  }
+
+  // Timeline Service Functions
+  //// Get whole timeline activities
+  Future<TimelineActivityModel?> getTimelineActivities(
+      BuildContext context) async {
+    final responseJson =
+        await _apiService.getRequest(url: getTimelineActivitiesUrl);
+
+    final timelineActivitiesModel =
+        TimelineActivityModel.fromJson(responseJson);
+    if (timelineActivitiesModel.type == "success") {
+      showSnackBar("Success",
+          timelineActivitiesModel.type ?? "Succesfully fetched timeline");
+      return timelineActivitiesModel;
+    } else {
+      showSnackBar(
+          "Error", "Something went wrong! ${timelineActivitiesModel.type}");
+    }
+    return null;
+  }
+
+  // Post a timeline activity
+  Future<PostTimelineActivityModel?> postTimelineActivities(
+      BuildContext context,
+      {required String contentType,
+      required String contentId}) async {
+    final responseJson = await _apiService.postRequest(
+        url: postTimelineActivityUrl,
+        fields: {"content_type": contentType, "content_id": contentId});
+
+    final postTimelineActivityModel =
+        PostTimelineActivityModel.fromJson(responseJson);
+        
+    if (postTimelineActivityModel.type == "success") {
+      showSnackBar("Success",
+          "Succesfully posted to timeline! ${postTimelineActivityModel.type}");
+      return postTimelineActivityModel;
+    } else {
+      showSnackBar(
+          "Error", "Something went wrong! ${postTimelineActivityModel.type}");
+    }
+    return null;
   }
 }

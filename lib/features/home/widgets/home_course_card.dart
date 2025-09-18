@@ -4,7 +4,6 @@ import 'package:shimmer/shimmer.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/coursedetails/screens/course_details_screen.dart';
 import 'package:zephyr/features/enrolled_courses/screens/enrolled_course_detail_screen.dart';
-import 'package:zephyr/features/home/model/category_based_course_model.dart';
 
 class HomeCourseCard extends StatelessWidget {
   final int index;
@@ -27,7 +26,7 @@ class HomeCourseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        debugPrint("ID: " + courseId);
+        debugPrint("ID: $courseId");
         isEnrolled
         ? Navigator.push(
             context,
