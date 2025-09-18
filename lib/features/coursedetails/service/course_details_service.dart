@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/widgets.dart';
 import 'package:zephyr/api_files/api_service.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
@@ -21,6 +19,7 @@ class CourseDetailsService {
       if (courseDetailModel.type == "success") {
         return courseDetailModel;
       }
+      return null;
     }
   }
 
@@ -32,7 +31,8 @@ class CourseDetailsService {
       showSnackBar("error", "something went wrong");
       return null;
     } else {
-      final fetchedCourseReviewsModel = GetCourseReviewsModel.fromJson(responseJson);
+      final fetchedCourseReviewsModel =
+          GetCourseReviewsModel.fromJson(responseJson);
       if (fetchedCourseReviewsModel.type == "success") {
         return fetchedCourseReviewsModel;
       }
