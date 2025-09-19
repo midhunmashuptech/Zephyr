@@ -15,3 +15,8 @@ void showSnackBar(String title, String message,) {
     duration: const Duration(seconds: 3),
   );
 }
+
+String capitalizeFirst(String text) {
+  if (text.isEmpty) return text;
+  return text[0].toUpperCase() + text.substring(1);
+}

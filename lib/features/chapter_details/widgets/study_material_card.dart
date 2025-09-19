@@ -1,10 +1,13 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/chapter_details/screens/pdf_viewer.dart';
+import 'package:zephyr/features/drawer/provider/timeline_provider.dart';
 
 class StudyMaterialCard extends StatelessWidget {
   final String name;
+  final String batchId;
   final String chapter;
   final String uploadedDate;
   final String link;
@@ -14,15 +17,19 @@ class StudyMaterialCard extends StatelessWidget {
     required this.chapter,
     required this.uploadedDate,
     required this.link,
+    required this.batchId,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    final timelineProvider = context.read<TimelineProvider>();
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => PdfViewer(url: link)));
+      onTap: () async {
+        await timelineProvider.postTimelineActivity(
+            context: context, contentType: "material", contentId: batchId);
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => PdfViewer(url: link)));
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),

@@ -146,6 +146,7 @@ class DrawerService {
       BuildContext context,
       {required String contentType,
       required String contentId}) async {
+    debugPrint(contentType + contentId);
     final responseJson = await _apiService.postRequest(
         url: postTimelineActivityUrl,
         fields: {"content_type": contentType, "content_id": contentId});
