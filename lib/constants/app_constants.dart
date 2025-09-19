@@ -23,6 +23,7 @@ class AppColors {
   static const Color grey = Color.fromARGB(255, 198, 198, 198);
   static const Color ratingGrey = Color.fromARGB(255, 78, 77, 77);
   static const Color lightGrey = Color(0xFFEEEEEE);
+static const Color borderGrey = Color(0xFFFBFEFF);
 
   //Light Shades
   static const Color lightGreen = Color(0xFFE5FFD8);
