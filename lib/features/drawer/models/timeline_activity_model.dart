@@ -109,8 +109,6 @@ class ContentDetails {
   int? duration;
   String? thumbnail;
   String? description;
-  String? source;
-  int? status;
   String? createdAt;
   String? updatedAt;
 
@@ -123,8 +121,6 @@ class ContentDetails {
       this.duration,
       this.thumbnail,
       this.description,
-      this.source,
-      this.status,
       this.createdAt,
       this.updatedAt});
 
@@ -137,8 +133,6 @@ class ContentDetails {
     duration = json['duration'];
     thumbnail = json['thumbnail'];
     description = json['description'];
-    source = json['source'];
-    status = json['status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
@@ -153,8 +147,6 @@ class ContentDetails {
     data['duration'] = this.duration;
     data['thumbnail'] = this.thumbnail;
     data['description'] = this.description;
-    data['source'] = this.source;
-    data['status'] = this.status;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     return data;
