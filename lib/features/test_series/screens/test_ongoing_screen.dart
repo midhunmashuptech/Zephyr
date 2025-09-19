@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:zephyr/features/test_series/provider/test_series_provider.dart';
 import 'package:zephyr/features/test_series/widgets/test_series_card.dart';
 
 class OngoingTestModel {
@@ -26,6 +28,7 @@ class TestOngoingScreen extends StatefulWidget {
 }
 
 class _TestOngoingScreenState extends State<TestOngoingScreen> {
+  TestSeriesProvider testSeriesProvider = TestSeriesProvider();
   List<OngoingTestModel> ongoingTests = [
     OngoingTestModel(
         title: "Weekly Test 1 Class 06 (19-11-2023)",
@@ -46,9 +49,25 @@ class _TestOngoingScreenState extends State<TestOngoingScreen> {
         duration: "60",
         questions: "20"),
   ];
+  @override
+  void initState() {
+    super.initState();
+    loadOngoingTests();
+  }
+
+  Future<void> loadOngoingTests() async {
+    final loadprovider = context.read<TestSeriesProvider>();
+    await loadprovider.fetchOngoingTestSeries(context: context);
+  }
+  String formatDateTime(String dateTimeString) {
+  final dateTime = DateTime.parse(dateTimeString).toLocal(); 
+  final formatter = DateFormat("dd MMMM, yyyy | hh:mm a");
+  return formatter.format(dateTime);
+}
 
   @override
   Widget build(BuildContext context) {
+    final testSeriesProvider = context.watch<TestSeriesProvider>();
     return Scaffold(
       body: SafeArea(
           child: Padding(
@@ -59,14 +78,14 @@ class _TestOngoingScreenState extends State<TestOngoingScreen> {
                 child: ListView.separated(
                     itemBuilder: (context, index) => TestSeriesCard(
                           isOngoing: true,
-                          title: ongoingTests[index].title,
-                          startDate: ongoingTests[index].startDate,
-                          endDate: ongoingTests[index].endDate,
-                          duration: ongoingTests[index].duration,
+                          title: testSeriesProvider.ongoingTestsList[index].title ?? "Title",
+                          startDate: formatDateTime(testSeriesProvider.ongoingTestsList[index].start ?? ""),
+                          endDate: formatDateTime(testSeriesProvider.ongoingTestsList[index].start ?? ""),
+                          duration: (testSeriesProvider.ongoingTestsList[index].duration ?? "").toString(),
                           questions: ongoingTests[index].questions,
                         ),
                     separatorBuilder: (context, _) => SizedBox(height: 5),
-                    itemCount: ongoingTests.length)),
+                    itemCount: testSeriesProvider.ongoingTestsList.length)),
           ],
         ),
       )),

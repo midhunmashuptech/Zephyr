@@ -42,6 +42,9 @@ const resetPasswordUrl = "${baseUrl}reset-user-password";
 // Password rest API
 const resetPasswordAuthUrl = "${baseUrl}reset-password";
 
+//Test Series API's
+const ongoingTestSeriesUrl = "${baseUrl}get-ongoing-test-series";
+
 // Timeline APIs
 const getTimelineActivitiesUrl = "${baseUrl}get-timeline-activity";
 const postTimelineActivityUrl = "${baseUrl}post-timeline-activity";

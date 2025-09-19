@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/healthicons.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/test_series/screens/test_review_screen.dart';
 
 class TestSeriesCard extends StatelessWidget {
   final String title;
@@ -96,7 +97,13 @@ class TestSeriesCard extends StatelessWidget {
                             ),
                           if (isAttended)
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            TestReviewScreen()));
+                              },
                               child: Column(
                                 children: [
                                   Iconify(
