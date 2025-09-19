@@ -9,7 +9,7 @@ class TestSeriesService {
   //Ongoing Test Series
   Future<OngoingTestSeriesModel?> getOngoingTestSeries(
       {required BuildContext context}) async {
-    final responseJson = await ApiService().getRequest(url: ongoingLiveUrl);
+    final responseJson = await ApiService().getRequest(url: ongoingTestSeriesUrl);
     if (responseJson == null) {
       showSnackBar("error", "Something went wrong");
     } else {
