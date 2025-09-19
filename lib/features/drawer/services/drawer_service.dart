@@ -122,10 +122,11 @@ class DrawerService {
 
   // Timeline Service Functions
   //// Get whole timeline activities
-  Future<TimelineActivityModel?> getTimelineActivities(
-      BuildContext context) async {
-    final responseJson =
-        await _apiService.getRequest(url: getTimelineActivitiesUrl);
+  Future<TimelineActivityModel?> getTimelineActivities(BuildContext context,
+      {required String date}) async {
+    debugPrint(date);
+    final responseJson = await _apiService
+        .postRequest(url: getTimelineActivitiesUrl, fields: {"date": date});
 
     final timelineActivitiesModel =
         TimelineActivityModel.fromJson(responseJson);
@@ -151,7 +152,7 @@ class DrawerService {
 
     final postTimelineActivityModel =
         PostTimelineActivityModel.fromJson(responseJson);
-        
+
     if (postTimelineActivityModel.type == "success") {
       showSnackBar("Success",
           "Succesfully posted to timeline! ${postTimelineActivityModel.type}");

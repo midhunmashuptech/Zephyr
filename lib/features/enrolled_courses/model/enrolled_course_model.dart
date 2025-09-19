@@ -35,6 +35,9 @@ class Subscriptions {
   int? batchId;
   String? batchTitle;
   int? enrollmentId;
+  double? ratings;
+  int? contentCount;
+  int? progress;
 
   Subscriptions(
       {this.courseTitle,
@@ -42,7 +45,10 @@ class Subscriptions {
       this.courseId,
       this.batchId,
       this.batchTitle,
-      this.enrollmentId});
+      this.enrollmentId,
+      this.ratings,
+      this.contentCount,
+      this.progress});
 
   Subscriptions.fromJson(Map<String, dynamic> json) {
     courseTitle = json['course_title'];
@@ -51,6 +57,9 @@ class Subscriptions {
     batchId = json['batch_id'];
     batchTitle = json['batch_title'];
     enrollmentId = json['enrollment_id'];
+    ratings = json['ratings'];
+    contentCount = json['content_count'];
+    progress = json['progress'];
   }
 
   Map<String, dynamic> toJson() {
@@ -61,6 +70,9 @@ class Subscriptions {
     data['batch_id'] = this.batchId;
     data['batch_title'] = this.batchTitle;
     data['enrollment_id'] = this.enrollmentId;
+    data['ratings'] = this.ratings;
+    data['content_count'] = this.contentCount;
+    data['progress'] = this.progress;
     return data;
   }
 }
