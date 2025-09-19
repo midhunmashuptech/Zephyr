@@ -36,7 +36,8 @@ class MyCourseCard extends StatelessWidget {
                   CachedNetworkImage(
                     height: 200,
                     width: double.infinity,
-                    imageUrl: course.courseThumbnail ?? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                    imageUrl: course.courseThumbnail ??
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
                     fit: BoxFit.cover,
                     placeholder: (_, __) => Shimmer.fromColors(
                       baseColor: AppColors.grey,
@@ -147,7 +148,7 @@ class MyCourseCard extends StatelessWidget {
                                 children: [
                                   Iconify(Bxs.videos, size: 16),
                                   SizedBox(width: 5),
-                                  Text("10 Videos")
+                                  Text("${course.contentCount} Videos")
                                 ],
                               ),
                               Row(
@@ -156,7 +157,7 @@ class MyCourseCard extends StatelessWidget {
                                     width:
                                         MediaQuery.of(context).size.width * 0.3,
                                     child: LinearProgressIndicator(
-                                      value: 0.22,
+                                      value: (course.progress ?? 0) / 100,
                                       minHeight: 10,
                                       color: AppColors.primaryGreen,
                                       backgroundColor: AppColors.grey,
@@ -164,7 +165,7 @@ class MyCourseCard extends StatelessWidget {
                                     ),
                                   ),
                                   SizedBox(width: 10),
-                                  Text("22%")
+                                  Text("${(course.progress ?? 0)}%")
                                 ],
                               )
                             ],

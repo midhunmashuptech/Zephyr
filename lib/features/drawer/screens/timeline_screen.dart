@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/data_class/timelinedata.dart';
+import 'package:zephyr/features/drawer/provider/timeline_provider.dart';
 import 'package:zephyr/features/drawer/widgets/timeline_item.dart';
 
 class TimelineScreen extends StatefulWidget {
@@ -13,132 +15,7 @@ class TimelineScreen extends StatefulWidget {
 }
 
 class _TimelineScreenState extends State<TimelineScreen> {
-  final Map<String, List<TimelineItemData>> timelineData = {
-    DateFormat('dd-MM-yyyy').format(DateTime.now()): [
-      TimelineItemData(
-        title: "Learn a New Language",
-        subtitle: "Video",
-        time: "06:48 PM",
-        color: Colors.blue,
-      ),
-      TimelineItemData(
-        title: "The Best Teachers",
-        subtitle: "Video",
-        time: "02:30 PM",
-        color: Colors.purple,
-      ),
-      TimelineItemData(
-        title: "Quantum Mechanics Questions",
-        subtitle: "Practice Test",
-        time: "11:20 AM",
-        color: Colors.green,
-      ),
-      TimelineItemData(
-        title: "Upload your CV",
-        subtitle: "Assignment",
-        time: "08:55 AM",
-        color: Colors.red,
-      ),
-      TimelineItemData(
-        title: "Learn a New Language",
-        subtitle: "Video",
-        time: "06:48 PM",
-        color: Colors.blue,
-      ),
-      TimelineItemData(
-        title: "The Best Teachers",
-        subtitle: "Video",
-        time: "02:30 PM",
-        color: Colors.purple,
-      ),
-      TimelineItemData(
-        title: "Quantum Mechanics Questions",
-        subtitle: "Practice Test",
-        time: "11:20 AM",
-        color: Colors.green,
-      ),
-      TimelineItemData(
-        title: "Upload your CV",
-        subtitle: "Assignment",
-        time: "08:55 AM",
-        color: Colors.red,
-      ),
-      TimelineItemData(
-        title: "Learn a New Language",
-        subtitle: "Video",
-        time: "06:48 PM",
-        color: Colors.blue,
-      ),
-      TimelineItemData(
-        title: "The Best Teachers",
-        subtitle: "Video",
-        time: "02:30 PM",
-        color: Colors.purple,
-      ),
-      TimelineItemData(
-        title: "Quantum Mechanics Questions",
-        subtitle: "Practice Test",
-        time: "11:20 AM",
-        color: Colors.green,
-      ),
-      TimelineItemData(
-        title: "Upload your CV",
-        subtitle: "Assignment",
-        time: "08:55 AM",
-        color: Colors.red,
-      ),
-    ],
-    DateFormat('dd-MM-yyyy').format(DateTime.now().subtract(Duration(days: 1))):
-        [
-      TimelineItemData(
-        title: "Learn a New Language",
-        subtitle: "Video",
-        time: "06:48 PM",
-        color: Colors.blue,
-      ),
-      TimelineItemData(
-        title: "The Best Teachers",
-        subtitle: "Video",
-        time: "02:30 PM",
-        color: Colors.purple,
-      ),
-      TimelineItemData(
-        title: "Upload your CV",
-        subtitle: "Assignment",
-        time: "08:55 AM",
-        color: Colors.red,
-      ),
-    ]
-  };
-
-  // final List<TimelineItemData> items = const [
-  //   TimelineItemData(
-  //     title: "Learn a New Language",
-  //     subtitle: "Video",
-  //     time: "06:48 PM",
-  //     color: Colors.blue,
-  //   ),
-  //   TimelineItemData(
-  //     title: "The Best Teachers",
-  //     subtitle: "Video",
-  //     time: "02:30 PM",
-  //     color: Colors.purple,
-  //   ),
-  //   TimelineItemData(
-  //     title: "Quantum Mechanics Questions",
-  //     subtitle: "Practice Test",
-  //     time: "11:20 AM",
-  //     color: Colors.green,
-  //   ),
-  //   TimelineItemData(
-  //     title: "Upload your CV",
-  //     subtitle: "Assignment",
-  //     time: "08:55 AM",
-  //     color: Colors.red,
-  //   ),
-  // ];
-
-  DateTime selectedDate = DateTime.now();
+  TimelineProvider timelineProvider = TimelineProvider();
 
   // Function to get the formatted label for Today, Tomorrow, and Yesterday
   String getDayLabel(DateTime date) {
@@ -164,10 +41,23 @@ class _TimelineScreenState extends State<TimelineScreen> {
         date1.day == date2.day;
   }
 
+  Future<void> loadTimeline(DateTime date) async {
+    final loadProvider = context.read<TimelineProvider>();
+    loadProvider.setSelectedDate(date);
+    await loadProvider.fetchTimelineActivities(context: context);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadTimeline(DateTime.now());
+  }
+
   @override
   Widget build(BuildContext context) {
-    String formattedDate = DateFormat('MMM d, yyyy').format(selectedDate);
-    String formattedDay = getDayLabel(selectedDate);
+    timelineProvider = context.watch<TimelineProvider>();
+    String formattedDate = DateFormat('MMM d, yyyy').format(timelineProvider.currentSelectedDate);
+    String formattedDay = getDayLabel(timelineProvider.currentSelectedDate);
 
     return Scaffold(
       backgroundColor: AppColors.white,
@@ -216,7 +106,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
                     IconButton(
                       icon:
                           const Icon(Icons.calendar_today, color: Colors.black),
-                      onPressed: () => _selectDate(context),
+                      onPressed: () => _selectDate(context, timelineProvider.currentSelectedDate),
                     ),
                   ],
                 ),
@@ -225,43 +115,42 @@ class _TimelineScreenState extends State<TimelineScreen> {
             SizedBox(height: 10),
 
             // Horizontal Date Selector
-            _buildDateSelector(),
+            _buildDateSelector(timelineProvider.currentSelectedDate),
 
             const Divider(thickness: 1),
 
             Expanded(
-              child:
-                  timelineData[DateFormat('dd-MM-yyyy').format(selectedDate)] ==
-                          null
-                      ? Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Lottie.asset("assets/lottie/empty_data.json", width: 200),
-                            SizedBox(height: 20),
-                            Text("No Activities!", style: TextStyle(fontSize: 20),),
-                          ],
-                        ),
-                      )
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                          child: ListView.builder(
-                            itemCount: (timelineData[DateFormat('dd-MM-yyyy')
-                                        .format(selectedDate)] ??
-                                    [])
-                                .length,
-                            itemBuilder: (context, index) {
-                              final item = timelineData[DateFormat('dd-MM-yyyy')
-                                      .format(selectedDate)] ??
-                                  [];
-                              return TimelineItem(
-                                item: item[index],
-                                isFirst: index == 0,
-                                isLast: index == item.length - 1,
-                              );
-                            },
+              child:timelineProvider.isTimelineLoading
+              ? Center(child: CircularProgressIndicator()) 
+              : timelineProvider.timelineActivities.isEmpty
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Lottie.asset("assets/lottie/empty_data.json",
+                              width: 200),
+                          SizedBox(height: 20),
+                          Text(
+                            "No Activities!",
+                            style: TextStyle(fontSize: 20),
                           ),
-                        ),
+                        ],
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                      child: ListView.builder(
+                        itemCount: timelineProvider.timelineActivities.length,
+                        itemBuilder: (context, index) {
+                          return TimelineItem(
+                            item: timelineProvider.timelineActivities[index],
+                            isFirst: index == 0,
+                            isLast: index ==
+                                timelineProvider.timelineActivities.length,
+                          );
+                        },
+                      ),
+                    ),
             ),
           ],
         ),
@@ -270,7 +159,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
   }
 
   // Horizontally scrollable date picker
-  Widget _buildDateSelector() {
+  Widget _buildDateSelector(DateTime selectedDate) {
     DateTime startDate = selectedDate.subtract(const Duration(days: 3));
     return SizedBox(
       height: 80,
@@ -283,9 +172,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
 
           return GestureDetector(
             onTap: () {
-              setState(() {
-                selectedDate = date;
-              });
+              loadTimeline(date);
             },
             child: Container(
               width: 50,
@@ -323,17 +210,15 @@ class _TimelineScreenState extends State<TimelineScreen> {
   }
 
   // Open date picker and update UI
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> _selectDate(BuildContext context, DateTime selectedDate ) async {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
     );
-    if (pickedDate != null && !isSameDay(pickedDate, selectedDate)) {
-      setState(() {
-        selectedDate = pickedDate;
-      });
+    if (pickedDate != null) {
+      loadTimeline(pickedDate);
     }
   }
 }

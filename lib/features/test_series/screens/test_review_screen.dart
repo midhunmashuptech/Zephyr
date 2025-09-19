@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:iconify_flutter_plus/icons/ion.dart';
+import 'package:iconify_flutter_plus/icons/mdi.dart';
+import 'package:iconify_flutter_plus/icons/mingcute.dart';
+import 'package:iconify_flutter_plus/icons/ph.dart';
+import 'package:iconify_flutter_plus/icons/tabler.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/test_series/widgets/test_detail_widget.dart';
@@ -35,24 +40,48 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
               onPressed: () {},
               textcolor: AppColors.white,
             ),
-                    SizedBox(width: 20),
+            SizedBox(height: 20),
 
             //Test Score Details
             Column(
               children: [
                 Row(
                   children: [
-                    Expanded(child: TestDetailWidget()),
+                    Expanded(
+                        child: TestDetailWidget(
+                            label: "Score",
+                            value: '4/100',
+                            icon: Ph.star_fill,
+                            size: 80,
+                            color: AppColors.primaryBlue)),
                     SizedBox(width: 10),
-                    Expanded(child: TestDetailWidget()),
+                    Expanded(
+                        child: TestDetailWidget(
+                            label: "Average Time",
+                            value: '1.64s',
+                            icon: Ph.clock_fill,
+                            size: 80,
+                            color: AppColors.primaryGreen))
                   ],
                 ),
-                    SizedBox(height: 10),
+                SizedBox(height: 10),
                 Row(
                   children: [
-                    Expanded(child: TestDetailWidget()),
+                    Expanded(
+                        child: TestDetailWidget(
+                            label: "Accuracy",
+                            value: '25%',
+                            icon: Ph.target_bold,
+                            size: 100,
+                            color: AppColors.primaryOrange)),
                     SizedBox(width: 10),
-                    Expanded(child: TestDetailWidget()),
+                    Expanded(
+                        child: TestDetailWidget(
+                            label: "Rank",
+                            value: '6',
+                            icon: Ion.md_trophy,
+                            size: 100,
+                            color: AppColors.primaryRed))
                   ],
                 ),
               ],
