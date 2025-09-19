@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/icons/ion.dart';
-import 'package:iconify_flutter_plus/icons/mdi.dart';
-import 'package:iconify_flutter_plus/icons/mingcute.dart';
 import 'package:iconify_flutter_plus/icons/ph.dart';
-import 'package:iconify_flutter_plus/icons/tabler.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
@@ -54,21 +51,47 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                     /// Test Detail Widgets (2 rows of 2)
                     Column(
                       children: [
-                        Row(
-                          children: [
-                            Expanded(child: TestDetailWidget()), // Score
-                            const SizedBox(width: 10),
-                            Expanded(child: TestDetailWidget()), // Avg Time
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        Row(
-                          children: [
-                            Expanded(child: TestDetailWidget()), // Accuracy
-                            const SizedBox(width: 10),
-                            Expanded(child: TestDetailWidget()), // Rank
-                          ],
-                        ),
+                        Column(children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                  child: TestDetailWidget(
+                                      label: "Score",
+                                      value: '4/100',
+                                      icon: Ph.star_fill,
+                                      size: 80,
+                                      color: AppColors.primaryBlue)),
+                              SizedBox(width: 10),
+                              Expanded(
+                                  child: TestDetailWidget(
+                                      label: "Average Time",
+                                      value: '1.64s',
+                                      icon: Ph.clock_fill,
+                                      size: 80,
+                                      color: AppColors.primaryGreen))
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Expanded(
+                                  child: TestDetailWidget(
+                                      label: "Accuracy",
+                                      value: '25%',
+                                      icon: Ph.target_bold,
+                                      size: 100,
+                                      color: AppColors.primaryOrange)),
+                              SizedBox(width: 10),
+                              Expanded(
+                                  child: TestDetailWidget(
+                                      label: "Rank",
+                                      value: '6',
+                                      icon: Ion.md_trophy,
+                                      size: 100,
+                                      color: AppColors.primaryRed))
+                            ],
+                          )
+                        ]),
                         const SizedBox(height: 20),
 
                         /// Score Analysis (Bar Chart)
@@ -91,6 +114,7 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
                                 children: [
+                                  SizedBox(height: 15,),
                                   SizedBox(
                                     height: 250,
                                     child: SfCartesianChart(
@@ -143,7 +167,8 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                               height: 12,
                                             ),
                                             const SizedBox(width: 8),
-                                            const Text("Correct: 20"),
+                                            const Text("Correct:"),
+                                            Text("20",style: TextStyle(color: AppColors.primaryGreen),)
                                           ],
                                         ),
                                         const SizedBox(height: 6),
@@ -159,7 +184,8 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                               height: 12,
                                             ),
                                             const SizedBox(width: 8),
-                                            const Text("Incorrect: 5"),
+                                            const Text("Incorrect:"),
+                                            Text(" 20",style: TextStyle(color: AppColors.primaryRed))
                                           ],
                                         ),
                                         const SizedBox(height: 6),
@@ -175,7 +201,9 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                               height: 12,
                                             ),
                                             const SizedBox(width: 8),
-                                            const Text("Reviewed: 16"),
+                                            const Text("Reviewed:"),
+                                            Text(" 16",style: TextStyle(color: AppColors.primaryBlue),)
+                                          
                                           ],
                                         ),
                                         const SizedBox(height: 6),
@@ -191,7 +219,8 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                               height: 12,
                                             ),
                                             const SizedBox(width: 8),
-                                            const Text("Unattended: 5"),
+                                            const Text("Unattended:"),
+                                            Text(" 5",style: TextStyle(color: AppColors.black),)
                                           ],
                                         ),
                                       ],

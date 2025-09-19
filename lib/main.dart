@@ -16,6 +16,7 @@ import 'package:zephyr/features/enrolled_courses/provider/enrolled_course_provid
 import 'package:zephyr/features/home/provider/home_page_provider.dart';
 import 'package:zephyr/features/live_class/provider/live_provider.dart';
 import 'package:zephyr/features/test/provider/make_test_provider.dart';
+import 'package:zephyr/features/test_series/provider/test_series_provider.dart';
 import 'package:zephyr/features/test_series/screens/test_review_screen.dart';
 import 'package:zephyr/features/test_series/testetutor.dart';
 
@@ -39,6 +40,8 @@ void main() async {
     ChangeNotifierProvider(create: (_) => LiveProvider()),
     ChangeNotifierProvider(create: (_) => AssignmentProvider()),
     ChangeNotifierProvider(create: (_) => TimelineProvider()),
+    ChangeNotifierProvider(create: (_) => TestSeriesProvider()),
+
   ], child: const MyApp()));
 }
 
@@ -58,9 +61,7 @@ class MyApp extends StatelessWidget {
       // home: BottomNavScreen(),
       // home: ChapterDetailsScreen(),
       // home: ChapterAnalysisScreen(),
-      // home: PieChartDemo(),
       // home: TestQuizScreen(),
-      // home: Testetutor(),
       // home:  TestReviewScreen(),
     );
   }
