@@ -182,6 +182,8 @@ class _VideoPlayScreenState extends State<VideoPlayScreen>
                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
               videoUrl:
                   enrolledChapterDetailsProvider.chapterVideos[index].hls ?? "",
+              batchId:
+                  "${enrolledChapterDetailsProvider.chapterVideos[index].batchVideoId}",
             );
           }),
         ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/common/provider/user_details_provider.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
@@ -40,11 +41,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     DateTime parsedDate = DateTime.parse(isoDate);
     return DateFormat('dd-MM-yyyy').format(parsedDate);
   }
-
-  String capitalize(String input) {
-  if (input.isEmpty) return input;
-  return input[0].toUpperCase() + input.substring(1).toLowerCase();
-}
 
   Future<void> loadDropDowns() async {
     final authProvider = context.read<AuthProvider>();
@@ -194,7 +190,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               "Gender",
                               style: TextStyle(color: AppColors.ratingGrey),
                             ),
-                            Text(capitalize(userDetailProvider.userDetails.gender ?? ""),
+                            Text(capitalizeFirst(userDetailProvider.userDetails.gender ?? ""),
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.w600)),
                             Divider(),

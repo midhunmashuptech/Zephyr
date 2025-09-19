@@ -22,9 +22,9 @@ class _PractiseTestScreenState extends State<PractiseTestScreen> {
   void initState() {
     super.initState();
     // Schedule after first frame
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    loadTest();
-  });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      loadTest();
+    });
   }
 
   Future<void> loadTest() async {
@@ -32,10 +32,13 @@ class _PractiseTestScreenState extends State<PractiseTestScreen> {
     final enrolledCourseProvider = context.read<EnrolledCourseProvider>();
     loadProvider.fetchEnrolledChapterTest(
         context: context,
-        enrollmentId: (enrolledCourseProvider.selectedEnrollment.enrollmentId ?? 0).toString(),
-        courseSubjectId: (loadProvider.selectedSubject.courseSubjectId ?? 0).toString(),
-        courseChapterId: (loadProvider.selectedChapter.courseChapterId ?? 0).toString()
-        );
+        enrollmentId:
+            (enrolledCourseProvider.selectedEnrollment.enrollmentId ?? 0)
+                .toString(),
+        courseSubjectId:
+            (loadProvider.selectedSubject.courseSubjectId ?? 0).toString(),
+        courseChapterId:
+            (loadProvider.selectedChapter.courseChapterId ?? 0).toString());
   }
 
   @override
@@ -56,44 +59,50 @@ class _PractiseTestScreenState extends State<PractiseTestScreen> {
       body: SafeArea(
         child: enrolledChapterDetailsProvider.isTestsLoading
             ? Center(child: CircularProgressIndicator())
-            : enrolledChapterDetailsProvider.enrolledChapterTests.isEmpty 
-            ? Center(
-                child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Lottie.asset("assets/lottie/empty_data.json", width: 250),
-                  SizedBox(height: 10),
-                  Text("No practise tests available"),
-                ],
-              ))
-            : SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
-                  child: Column(
+            : enrolledChapterDetailsProvider.enrolledChapterTests.isEmpty
+                ? Center(
+                    child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(height: 15),
-                      ListView.builder(
-                        itemCount: enrolledChapterDetailsProvider
-                            .enrolledChapterTests.length,
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return PractiseTestCard(
-                            title: enrolledChapterDetailsProvider
-                                    .enrolledChapterTests[index].title ??
-                                "Title",
-                            chapter: enrolledChapterDetailsProvider
-                                    .enrolledChapterTests[index].description ??
-                                "Chapter",
-                            uploadedDate: "22/02/2002", 
-                            isCompleted: enrolledChapterDetailsProvider.enrolledChapterTests[index].isAttended ?? false,
-                          );
-                        },
-                      ),
+                      Lottie.asset("assets/lottie/empty_data.json", width: 250),
+                      SizedBox(height: 10),
+                      Text("No practise tests available"),
                     ],
+                  ))
+                : SingleChildScrollView(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 15),
+                          ListView.builder(
+                            itemCount: enrolledChapterDetailsProvider
+                                .enrolledChapterTests.length,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return PractiseTestCard(
+                                title: enrolledChapterDetailsProvider
+                                        .enrolledChapterTests[index].title ??
+                                    "Title",
+                                chapter: enrolledChapterDetailsProvider
+                                        .enrolledChapterTests[index]
+                                        .description ??
+                                    "Chapter",
+                                uploadedDate: "22/02/2002",
+                                isCompleted: enrolledChapterDetailsProvider
+                                        .enrolledChapterTests[index]
+                                        .isAttended ??
+                                    false,
+                                batchId:
+                                    "${enrolledChapterDetailsProvider.enrolledChapterTests[index].batchPracticeTestId}",
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ),
       ),
     );
   }

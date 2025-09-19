@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/healthicons.dart';
+import 'package:provider/provider.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/drawer/provider/timeline_provider.dart';
 import 'package:zephyr/features/test/screens/test_instructions_screen.dart';
 
 class PractiseTestCard extends StatelessWidget {
@@ -9,20 +11,25 @@ class PractiseTestCard extends StatelessWidget {
   final String chapter;
   final String uploadedDate;
   final bool isCompleted;
+  final String batchId;
   const PractiseTestCard(
       {super.key,
       required this.title,
       required this.chapter,
       required this.uploadedDate,
-      required this.isCompleted
+      required this.isCompleted,
+      required this.batchId
       });
 
   @override
   Widget build(BuildContext context) {
+    final timelineProvider = context.read<TimelineProvider>();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
       child: GestureDetector(
-        onTap: () {
+        onTap: () async {
+        await timelineProvider.postTimelineActivity(
+            context: context, contentType: "practice_test", contentId: batchId);
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(

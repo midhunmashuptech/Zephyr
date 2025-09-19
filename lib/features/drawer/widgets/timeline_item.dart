@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:timeline_tile/timeline_tile.dart';
+import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/drawer/models/timeline_activity_model.dart';
 
@@ -14,6 +16,16 @@ class TimelineItem extends StatelessWidget {
     required this.isFirst,
     required this.isLast,
   });
+
+  String formatToTime(String dateTimeString) {
+    if (dateTimeString.isEmpty) return "Invalid Time";
+    try {
+      DateTime dateTime = DateTime.parse(dateTimeString).toLocal();
+      return DateFormat("hh:mm a").format(dateTime);
+    } catch (e) {
+      return "Invalid Time";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,27 +46,42 @@ class TimelineItem extends StatelessWidget {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           child: IntrinsicWidth(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    (item.contentDetails ?? ContentDetails(title: "Content Title")).title ?? "Content Title",
+                    (item.contentDetails ??
+                                ContentDetails(title: "Content Title"))
+                            .title ??
+                        "Content Title",
                     style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
-                        color: (item.timeline ?? Timeline()).contentType == "video" ? AppColors.primaryGreen : (item.timeline ?? Timeline()).contentType == "material" ? AppColors.primaryBlue : AppColors.primaryOrange),
+                        color:
+                            (item.timeline ?? Timeline()).contentType == "video"
+                                ? AppColors.primaryGreen
+                                : (item.timeline ?? Timeline()).contentType ==
+                                        "material"
+                                    ? AppColors.primaryBlue
+                                    : AppColors.primaryOrange),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        (item.timeline ?? Timeline(contentType: "Content Type")).contentType ?? "Content Type",
+                        capitalizeFirst((item.timeline ?? Timeline(contentType: "Content Type"))
+                                .contentType ??
+                            "Content Type"),
                         style:
                             const TextStyle(fontSize: 14, color: Colors.grey),
                       ),
                       Text(
-                        (item.timeline ?? Timeline(contentType: "Content Type")).accessedAt ?? "Content Type",
+                        formatToTime((item.timeline ??
+                                    Timeline(contentType: "Content Type"))
+                                .accessedAt ??
+                            "Content Type"),
                         style:
                             const TextStyle(fontSize: 14, color: Colors.grey),
                       ),

@@ -127,7 +127,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Lottie.asset("assets/lottie/empty_data.json",
+                          Lottie.asset("assets/lottie/nodata.json",
                               width: 200),
                           SizedBox(height: 20),
                           Text(
@@ -146,7 +146,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
                             item: timelineProvider.timelineActivities[index],
                             isFirst: index == 0,
                             isLast: index ==
-                                timelineProvider.timelineActivities.length,
+                                timelineProvider.timelineActivities.length-1,
                           );
                         },
                       ),

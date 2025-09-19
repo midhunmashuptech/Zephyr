@@ -1,26 +1,35 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/drawer/provider/timeline_provider.dart';
 
 // ignore: must_be_immutable
 class ChapterVideoCard extends StatelessWidget {
-  final void Function()? onPressed;
+  final void Function() onPressed;
   bool? currentlySelected = false;
   String videoTitle;
   String thumbnail;
   String videoUrl;
+  final String batchId;
   ChapterVideoCard(
       {super.key,
-      this.onPressed,
+      required this.onPressed,
       this.currentlySelected,
       required this.videoTitle,
       required this.thumbnail,
+      required this.batchId,
       required this.videoUrl});
 
   @override
   Widget build(BuildContext context) {
+    final timelineProvider = context.read<TimelineProvider>();
     return GestureDetector(
-      onTap: onPressed,
+      onTap: () async {
+        await timelineProvider.postTimelineActivity(
+            context: context, contentType: "video", contentId: batchId);
+        onPressed();
+      },
       child: Padding(
         padding: const EdgeInsets.all(5.0),
         child: Stack(
@@ -105,7 +114,8 @@ class ChapterVideoCard extends StatelessWidget {
                                 ],
                               ),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
                                     child: Row(
@@ -126,7 +136,8 @@ class ChapterVideoCard extends StatelessWidget {
                                     ),
                                   ),
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Icon(Icons.schedule_rounded, size: 20),
                                       SizedBox(width: 5),

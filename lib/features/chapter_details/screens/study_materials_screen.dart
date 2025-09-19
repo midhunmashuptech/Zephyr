@@ -22,9 +22,9 @@ class _StudyMaterialsScreenState extends State<StudyMaterialsScreen> {
   void initState() {
     super.initState();
     // Schedule after first frame
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    loadEnrolledChapterMaterials();
-  });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      loadEnrolledChapterMaterials();
+    });
   }
 
   Future<void> loadEnrolledChapterMaterials() async {
@@ -42,7 +42,8 @@ class _StudyMaterialsScreenState extends State<StudyMaterialsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    enrolledChapterDetailsProvider = context.watch<EnrolledChapterDetailsProvider>();
+    enrolledChapterDetailsProvider =
+        context.watch<EnrolledChapterDetailsProvider>();
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -55,41 +56,55 @@ class _StudyMaterialsScreenState extends State<StudyMaterialsScreen> {
         leading: BackButton(),
       ),
       body: SafeArea(
-        child: 
-        enrolledChapterDetailsProvider.isMaterialLoading
-        ? Center(child: CircularProgressIndicator())
-        : enrolledChapterDetailsProvider.enrolledChapterMaterials.isEmpty
-            ? Center(
-                child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Lottie.asset("assets/lottie/empty_data.json", width: 250),
-                  SizedBox(height: 10),
-                  Text("No Study Materials Available"),
-                ],
-              ))
-            : SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15),
-                  child: Column(
+        child: enrolledChapterDetailsProvider.isMaterialLoading
+            ? Center(child: CircularProgressIndicator())
+            : enrolledChapterDetailsProvider.enrolledChapterMaterials.isEmpty
+                ? Center(
+                    child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(height: 15),
-                      ListView.builder(
-                        itemCount: enrolledChapterDetailsProvider.enrolledChapterMaterials.length,
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return StudyMaterialCard(
-                              name: enrolledChapterDetailsProvider.enrolledChapterMaterials[index].title ?? "",
-                              chapter: enrolledChapterDetailsProvider.enrolledChapterMaterials[index].description ?? "",
-                              uploadedDate: enrolledChapterDetailsProvider.enrolledChapterMaterials[index].description ?? "",
-                               link: enrolledChapterDetailsProvider.enrolledChapterMaterials[index].link ?? "",);
-                        },
-                      ),
+                      Lottie.asset("assets/lottie/empty_data.json", width: 250),
+                      SizedBox(height: 10),
+                      Text("No Study Materials Available"),
                     ],
+                  ))
+                : SingleChildScrollView(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 15),
+                          ListView.builder(
+                            itemCount: enrolledChapterDetailsProvider
+                                .enrolledChapterMaterials.length,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return StudyMaterialCard(
+                                batchId:
+                                    "${enrolledChapterDetailsProvider.enrolledChapterMaterials[index].batchMaterialId}",
+                                name: enrolledChapterDetailsProvider
+                                        .enrolledChapterMaterials[index]
+                                        .title ??
+                                    "",
+                                chapter: enrolledChapterDetailsProvider
+                                        .enrolledChapterMaterials[index]
+                                        .description ??
+                                    "",
+                                uploadedDate: enrolledChapterDetailsProvider
+                                        .enrolledChapterMaterials[index]
+                                        .description ??
+                                    "",
+                                link: enrolledChapterDetailsProvider
+                                        .enrolledChapterMaterials[index].link ??
+                                    "",
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ),
       ),
     );
   }
