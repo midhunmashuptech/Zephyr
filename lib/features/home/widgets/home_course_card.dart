@@ -185,7 +185,7 @@ class HomeCourseCard extends StatelessWidget {
                   SizedBox(height: 10),
                   LayoutBuilder(builder: (context, constraints) {
                     final isTablet = constraints.maxWidth < 300;
-                              debugPrint("${constraints.maxWidth} $isTablet");
+                              // debugPrint("${constraints.maxWidth} $isTablet");
                     return Row(
                       children: [
                         if (discountType == "amount" &&
