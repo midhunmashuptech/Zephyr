@@ -7,6 +7,8 @@ import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/test/provider/make_test_provider.dart';
+import 'package:zephyr/features/test/screens/test_completion_screen.dart';
+import 'package:zephyr/features/test/widget/confirm_test_submit_overlay.dart';
 
 class TestQuizScreen extends StatefulWidget {
   const TestQuizScreen({super.key});
@@ -117,9 +119,9 @@ class _TestQuizScreenState extends State<TestQuizScreen> {
                     itemBuilder: (context, index) => GestureDetector(
                       onTap: () {
                         setState(() {
-                                  print(index);
-                                  _selectedOption = index.toString();
-                                });
+                          print(index);
+                          _selectedOption = index.toString();
+                        });
                       },
                       child: Container(
                         margin: EdgeInsets.all(5),
@@ -137,14 +139,14 @@ class _TestQuizScreenState extends State<TestQuizScreen> {
                                         : AppColors.grey),
                             borderRadius: BorderRadius.circular(10),
                             color: _selectedOption == null
-                                    ? AppColors.white
-                                    : (_selectedOption == index.toString())
-                                        ? (makeTestProvider.correctOption
-                                                    .toString() ==
-                                                _selectedOption)
-                                            ? AppColors.primaryGreen.withAlpha(40)
-                                            : AppColors.primaryRed.withAlpha(40)
-                                        : AppColors.white),
+                                ? AppColors.white
+                                : (_selectedOption == index.toString())
+                                    ? (makeTestProvider.correctOption
+                                                .toString() ==
+                                            _selectedOption)
+                                        ? AppColors.primaryGreen.withAlpha(40)
+                                        : AppColors.primaryRed.withAlpha(40)
+                                    : AppColors.white),
                         child: Row(
                           children: [
                             Radio<String>(
@@ -159,7 +161,8 @@ class _TestQuizScreenState extends State<TestQuizScreen> {
                             ),
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 4.0),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 4.0),
                                 child: Text(
                                   (makeTestProvider
                                           .aiGeneratedQuiz[
@@ -267,9 +270,9 @@ class _TestQuizScreenState extends State<TestQuizScreen> {
                     text: "Submit Quiz",
                     color: AppColors.primaryBlue,
                     onPressed: () {
+                      showQuizSummary(context);
                       showSnackBar("Hurray!",
                           "You have succesfully completed the quiz!");
-                      Get.offAll(BottomNavScreen());
                     },
                     textcolor: AppColors.white,
                   ),
@@ -326,6 +329,19 @@ class _TestQuizScreenState extends State<TestQuizScreen> {
           ),
         ),
       )),
+    );
+  }
+
+  void showQuizSummary(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      backgroundColor: Colors.white,
+      builder: (context) {
+        return ConfirmTestSubmitOverlay();
+      },
     );
   }
 }

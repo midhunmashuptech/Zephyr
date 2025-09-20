@@ -4,7 +4,7 @@ import 'package:iconify_flutter_plus/icons/material_symbols.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/test_series/screens/test_attended_screen.dart';
 import 'package:zephyr/features/test_series/screens/test_ongoing_screen.dart';
-import 'package:zephyr/features/test_series/screens/test_upmoning_screen.dart';
+import 'package:zephyr/features/test_series/screens/test_upcoming_screen.dart';
 import 'package:zephyr/features/test_series/widgets/test_tab_button.dart';
 
 class TestSeriesScreen extends StatefulWidget {

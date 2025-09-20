@@ -4,7 +4,7 @@ import 'package:iconify_flutter_plus/icons/healthicons.dart';
 import 'package:provider/provider.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/drawer/provider/timeline_provider.dart';
-import 'package:zephyr/features/test/screens/test_instructions_screen.dart';
+import 'package:zephyr/features/test_series/screens/test_instructions_screen.dart';
 
 class PractiseTestCard extends StatelessWidget {
   final String title;
