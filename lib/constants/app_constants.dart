@@ -17,7 +17,7 @@ class AppColors {
   static const Color dropdownblue = Color.fromRGBO(195, 227, 249, 1);
   static const Color secondaryViolet = Color(0xFF5E22A2);
   static const Color secondaryCyan = Color(0xFF16DBCC);
-  static const Color lightBlue = Color(0xFFDEE9FF);
+  static const Color lightBlue = Color.fromARGB(255, 179, 204, 255);
 
   //Grey Shades
   static const Color grey = Color.fromARGB(255, 198, 198, 198);
@@ -26,9 +26,9 @@ class AppColors {
 static const Color borderGrey = Color(0xFFFBFEFF);
 
   //Light Shades
-  static const Color lightGreen = Color(0xFFE5FFD8);
-  static const Color lightOrange = Color.fromARGB(255, 253, 248, 227);
-  static const Color lightRed = Color.fromARGB(255, 255, 231, 231);
+  static const Color lightGreen = Color.fromARGB(255, 172, 255, 130);
+  static const Color lightOrange = Color.fromARGB(255, 255, 186, 75);
+  static const Color lightRed = Color.fromARGB(255, 255, 191, 191);
 
   //Yellow
   static const Color ratingYellow = Color.fromARGB(255, 255, 242, 0);
