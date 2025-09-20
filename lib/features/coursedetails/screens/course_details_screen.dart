@@ -41,13 +41,16 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
     _tabs.addAll([
       CourseOverview(),
       buildChapterTab(), // wrapped with internal navigator
-      CourseReviews(courseId: widget.courseId,),
+      CourseReviews(
+        courseId: widget.courseId,
+      ),
     ]);
   }
 
   Future<void> loadCourseData() async {
     final loadProvider = context.read<CourseProvider>();
-    await loadProvider.getCourseDetails(courseId: widget.courseId, context: context);
+    await loadProvider.getCourseDetails(
+        courseId: widget.courseId, context: context);
   }
 
   @override
@@ -83,39 +86,39 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                     Stack(
                       children: [
                         CachedNetworkImage(
-                            imageUrl: courseProvider
-                                    .courseData.thumbnail ??
-                                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
-                            imageBuilder: (context, imageProvider) => Container(
-                              height: MediaQuery.of(context).size.height * 0.3,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: imageProvider,
-                                  fit: BoxFit.cover,
-                                ),
+                          imageUrl: courseProvider.courseData.thumbnail ??
+                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                          imageBuilder: (context, imageProvider) => Container(
+                            height: MediaQuery.of(context).size.height * 0.3,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.cover,
                               ),
-                            ),
-                            placeholder: (context, url) => Shimmer.fromColors(
-                              baseColor: AppColors.grey,
-                              highlightColor: AppColors.lightGrey,
-                              child: Container(
-                                height: MediaQuery.of(context).size.height * 0.3,
-                                width: double.infinity,
-                                color: AppColors.white,
-                              ),
-                            ),
-                            errorWidget: (context, url, error) => Container(
-                              height: MediaQuery.of(context).size.height * 0.3,
-                              width: double.infinity,
-                              color: Colors.grey.shade300,
-                              child: const Icon(Icons.error,
-                                  color: Colors.red, size: 40),
                             ),
                           ),
+                          placeholder: (context, url) => Shimmer.fromColors(
+                            baseColor: AppColors.grey,
+                            highlightColor: AppColors.lightGrey,
+                            child: Container(
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              width: double.infinity,
+                              color: AppColors.white,
+                            ),
+                          ),
+                          errorWidget: (context, url, error) => Container(
+                            height: MediaQuery.of(context).size.height * 0.3,
+                            width: double.infinity,
+                            color: Colors.grey.shade300,
+                            child: const Icon(Icons.error,
+                                color: Colors.red, size: 40),
+                          ),
+                        ),
                         Container(
-                          margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3 -40),
-                          padding: const EdgeInsets.all(20),
+                          margin: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height * 0.3 -
+                                  40),
                           width: double.infinity,
                           decoration: const BoxDecoration(
                             color: Colors.white,
@@ -126,17 +129,14 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0, vertical: 5),
-                                child: Text(
-                                    courseProvider.courseData.title ??
-                                        "Course title",
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600)),
+                              SizedBox(height: 20),
+                              Text(
+                                courseProvider.courseData.title ??
+                                    "Course title",
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w600),
                               ),
-                              const SizedBox(height: 15),
+                              SizedBox(height: 10),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
@@ -145,24 +145,27 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                                     children: [
                                       Iconify(Ic.videocam,
                                           color: AppColors.primaryGreen),
-                                      const SizedBox(width: 5),
-                                      Text("${courseProvider.courseData.videoCount} Classes"),
+                                      SizedBox(width: 4),
+                                      Text(
+                                          "${courseProvider.courseData.videoCount} Classes"),
                                     ],
                                   ),
                                   Row(
                                     children: [
                                       Icon(Icons.my_library_books_rounded,
                                           color: AppColors.primaryBlue),
-                                      const SizedBox(width: 5),
-                                      Text("${courseProvider.courseData.pdfCount} Materials"),
+                                      SizedBox(width: 4),
+                                      Text(
+                                          "${courseProvider.courseData.pdfCount} Materials"),
                                     ],
                                   ),
                                   Row(
                                     children: [
                                       Icon(Icons.star,
                                           color: AppColors.primaryOrange),
-                                      const SizedBox(width: 5),
-                                      Text("${courseProvider.courseData.averageRating}")
+                                      SizedBox(width: 4),
+                                      Text(
+                                          "${courseProvider.courseData.averageRating}")
                                     ],
                                   ),
                                 ],
@@ -172,75 +175,74 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: TabBar(
-                          controller: _tabController,
-                          labelColor: AppColors.primaryBlue,
-                          indicatorColor: AppColors.primaryOrange,
-                          dividerColor: AppColors.white,
-                          tabs: const [
-                            Tab(text: 'Overview'),
-                            Tab(text: 'Chapters'),
-                            Tab(text: 'Reviews'),
-                          ],
-                        ),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: TabBar(
+                        controller: _tabController,
+                        labelColor: AppColors.primaryBlue,
+                        indicatorColor: AppColors.primaryOrange,
+                        dividerColor: AppColors.white,
+                        tabs: const [
+                          Tab(text: 'Overview'),
+                          Tab(text: 'Chapters'),
+                          Tab(text: 'Reviews'),
+                        ],
                       ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height - MediaQuery.of(context).size.height * 0.3 - 220,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                        child: TabBarView(
-                          controller: _tabController,
-                          children: _tabs,
-                        ),
+                      height: MediaQuery.of(context).size.height -
+                          MediaQuery.of(context).size.height * 0.3 -
+                          180,
+                      child: TabBarView(
+                        controller: _tabController,
+                        children: _tabs,
                       ),
                     ),
                   ],
                 ),
                 AnimatedSwitcher(
                   duration: const Duration(milliseconds: 500),
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(30.0),
-                          child: SwipeableButtonView(
-                            buttonText:
-                                "Enroll for ₹${double.parse(courseProvider.courseData.price ?? "0.0").toInt()}",
-                            buttonWidget: const Icon(Icons.arrow_forward,
-                                color: AppColors.primaryOrange),
-                            activeColor: AppColors.primaryOrange,
-                            isFinished: isFinished,
-                            onWaitingProcess: () {
-                              Future.delayed(const Duration(seconds: 2), () {
-                                setState(() {
-                                  isFinished = true;
+                  child: SafeArea(
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 18.0, vertical: 18.0),
+                            child: SwipeableButtonView(
+                              buttonText:
+                                  "Enroll for ₹${double.parse(courseProvider.courseData.price ?? "0.0").toInt()}",
+                              buttonWidget: const Icon(Icons.arrow_forward,
+                                  color: AppColors.primaryOrange),
+                              activeColor: AppColors.primaryOrange,
+                              isFinished: isFinished,
+                              onWaitingProcess: () {
+                                Future.delayed(const Duration(seconds: 2), () {
+                                  setState(() {
+                                    isFinished = true;
+                                  });
                                 });
-                              });
-                            },
-                            onFinish: () async {
-                              // Navigate and wait for pop
-                              await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => CheckoutScreen()),
-                              );
-                              // Reset state after returning WITHOUT triggering reverse animation
-                              setState(() {
-                                isFinished = false;
-                              });
-                            },
+                              },
+                              onFinish: () async {
+                                // Navigate and wait for pop
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CheckoutScreen()),
+                                );
+                                // Reset state after returning WITHOUT triggering reverse animation
+                                setState(() {
+                                  isFinished = false;
+                                });
+                              },
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 )

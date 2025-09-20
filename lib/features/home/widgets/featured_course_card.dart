@@ -17,30 +17,36 @@ class FeaturedCourseCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         course.isEnrolled == true
-        ? Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => EnrolledCourseDetailScreen(
-                      courseId: course.id.toString(),
-                    )))
-        : Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => CourseDetailsScreen(
-                      courseId: course.id.toString(),
-                    )));
+            ? Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => EnrolledCourseDetailScreen(
+                          courseId: course.id.toString(),
+                        )))
+            : Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CourseDetailsScreen(
+                          courseId: course.id.toString(),
+                        )));
       },
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: Card(
-          color: AppColors.white,
-          clipBehavior: Clip.hardEdge,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
-                children: [
-                  SizedBox(
+      child: Card(
+        color: AppColors.white,
+        clipBehavior: Clip.hardEdge,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(5),
+                    topRight: Radius.circular(5),
+                  ),
+                  child: SizedBox(
                     height: 120,
                     child: CachedNetworkImage(
                       imageUrl: course.thumbnail ??
@@ -57,48 +63,51 @@ class FeaturedCourseCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      height: 100,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
-                          colors: [
-                            switch (index % 3) {
-                              0 => AppColors.primaryBlue,
-                              1 => AppColors.primaryGreen,
-                              2 => AppColors.primaryOrange,
-                              int() => AppColors.black,
-                            },
-                            Colors.transparent,
-                          ],
-                        ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    height: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(5),
+                        bottomRight: Radius.circular(5),
+                      ),
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [
+                          switch (index % 3) {
+                            0 => AppColors.primaryBlue,
+                            1 => AppColors.primaryGreen,
+                            2 => AppColors.primaryOrange,
+                            int() => AppColors.black,
+                          },
+                          Colors.transparent,
+                        ],
                       ),
                     ),
                   ),
-                  Positioned(bottom: 10, right: 20, child: courseStarRating()),
+                ),
+                Positioned(bottom: 10, right: 20, child: courseStarRating()),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(course.title ?? "Course Title",
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2),
                 ],
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(course.title ?? "Course Title",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2),
-                  ],
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );

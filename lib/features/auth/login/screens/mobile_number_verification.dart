@@ -1,3 +1,4 @@
+import 'package:zephyr/features/auth/login/screens/forgot_password_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lottie/lottie.dart';
@@ -5,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/features/auth/login/screens/login.dart';
+
 import 'package:zephyr/features/auth/provider/auth_provider.dart';
 import 'package:zephyr/features/auth/registration/screens/registration_screen.dart';
 
@@ -18,24 +19,48 @@ class MobileNumberVerification extends StatefulWidget {
 }
 
 class _MobileNumberVerificationState extends State<MobileNumberVerification> {
+  @override
+  void initState() {
+    super.initState();
+    passwordController.addListener(_onPasswordChanged);
+  }
+
+  void _onPasswordChanged() {
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    passwordController.removeListener(_onPasswordChanged);
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  // Helper to get current phone/country/iso for forgot password
+  String get currentPhone => authProvider.phoneNumber;
+  String get currentCountry => authProvider.countryCode;
+  String get currentIso => authProvider.countryISOCode;
   AuthProvider authProvider = AuthProvider();
+  final TextEditingController passwordController = TextEditingController();
+  ValueNotifier<bool> isPasswordVisible = ValueNotifier<bool>(false);
+  bool showPasswordField = false;
+  bool isLoading = false;
+  String loginError = '';
 
   Future<void> checkMobileNumber() async {
-    if (!authProvider.isValidNumber) return; // prevent call if invalid
-
+    if (!authProvider.isValidNumber) return;
+    setState(() {
+      isLoading = true;
+    });
     await authProvider.verifyPhoneNumber(
         context, authProvider.phoneNumber, authProvider.countryCode);
-
+    setState(() {
+      isLoading = false;
+    });
     if (authProvider.userExist == "true") {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => Login(
-              phoneNumber: authProvider.phoneNumber,
-              countryCode: authProvider.countryCode,
-              isoCode: authProvider.countryISOCode),
-        ),
-      );
+      setState(() {
+        showPasswordField = true;
+      });
     } else if (authProvider.userExist == "false") {
       Navigator.push(
         context,
@@ -49,6 +74,26 @@ class _MobileNumberVerificationState extends State<MobileNumberVerification> {
     } else {
       showSnackBar("Error", "Something went wrong. Please try again");
     }
+  }
+
+  Future<void> handleLogin() async {
+    setState(() {
+      isLoading = true;
+      loginError = '';
+    });
+    await authProvider.userLogin(
+      context,
+      passwordController.text,
+    );
+    setState(() {
+      isLoading = false;
+    });
+    if (authProvider.isPasswordEmpty) {
+      setState(() {
+        loginError = "Password is required";
+      });
+    }
+    // If userLogin shows error via snackbar, we don't need to handle it here
   }
 
   @override
@@ -66,22 +111,22 @@ class _MobileNumberVerificationState extends State<MobileNumberVerification> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Lottie.asset(
-                    'assets/lottie/login.json',
-                    width: MediaQuery.of(context).size.width * 0.7,
+                  CircleAvatar(
+                    radius: 95,
+                    backgroundColor: Colors.transparent,
+                    backgroundImage:
+                        AssetImage('assets/logo/zephyr_digital_logo.png'),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Verify Your Mobile Number",
-                      style:
-                          TextStyle(fontSize: 23, fontWeight: FontWeight.w600),
-                    ),
+                  const SizedBox(height: 60),
+                  Text(
+                    showPasswordField
+                        ? "Login to your account"
+                        : "Verify Your Mobile Number",
+                    style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600),
                   ),
-                  const SizedBox(height: 10),
-
-                  // Mobile number field
+                  const SizedBox(height: 28),
                   IntlPhoneField(
+                    enabled: !showPasswordField,
                     decoration: InputDecoration(
                       labelText: 'Mobile Number',
                       errorText: authProvider.errorText.isNotEmpty
@@ -93,24 +138,91 @@ class _MobileNumberVerificationState extends State<MobileNumberVerification> {
                       ),
                     ),
                     initialCountryCode: 'IN',
-                    onChanged: (value) {
-                      context.read<AuthProvider>().updatePhoneNumber(value);
-                    },
+                    initialValue: authProvider.phoneNumber,
+                    onChanged: showPasswordField
+                        ? null
+                        : (value) {
+                            context
+                                .read<AuthProvider>()
+                                .updatePhoneNumber(value);
+                          },
                   ),
-                  const SizedBox(height: 10),
-                  authProvider.isVerifyingPhone
+                  if (showPasswordField) ...[
+                    const SizedBox(height: 28),
+                    ValueListenableBuilder(
+                      valueListenable: isPasswordVisible,
+                      builder: (context, value, _) {
+                        return TextFormField(
+                          controller: passwordController,
+                          obscureText: !value,
+                          decoration: InputDecoration(
+                            labelText: 'Password',
+                            errorText:
+                                loginError.isNotEmpty ? loginError : null,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                              borderSide: const BorderSide(),
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                value ? Icons.visibility : Icons.visibility_off,
+                                color:
+                                    value ? AppColors.primaryBlue : Colors.grey,
+                              ),
+                              onPressed: () {
+                                isPasswordVisible.value =
+                                    !isPasswordVisible.value;
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ForgotPasswordScreen(
+                                  phoneNumber: currentPhone,
+                                  countryCode: currentCountry,
+                                  isoCode: currentIso,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            "Forgot Password?",
+                            style: TextStyle(color: AppColors.primaryBlue),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                  const SizedBox(height: 28),
+                  isLoading
                       ? const Center(child: CircularProgressIndicator())
                       : CustomButton(
-                          text: "Verify",
-                          color: authProvider.isValidNumber
+                          text: showPasswordField ? "Login" : "Verify",
+                          color: (showPasswordField
+                                  ? passwordController.text.isNotEmpty
+                                  : authProvider.isValidNumber)
                               ? AppColors.primaryBlue
                               : Colors.grey,
                           textcolor: AppColors.white,
-                          onPressed: authProvider.isValidNumber
-                              ? () {
-                                  checkMobileNumber();
-                                }
-                              : null,
+                          onPressed: showPasswordField
+                              ? (passwordController.text.isNotEmpty
+                                  ? () async {
+                                      await handleLogin();
+                                    }
+                                  : null)
+                              : (authProvider.isValidNumber
+                                  ? () => checkMobileNumber()
+                                  : null),
                         ),
                 ],
               ),

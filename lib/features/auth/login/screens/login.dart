@@ -66,10 +66,11 @@ class _LoginState extends State<Login> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Center(
-                  child: Lottie.asset(
-                    'assets/lottie/login.json',
-                    height: 300,
-                    width: 300,
+                  child: CircleAvatar(
+                    radius: 70,
+                    backgroundColor: Colors.transparent,
+                    backgroundImage:
+                        AssetImage('assets/logo/zephyr_digital_logo.png'),
                   ),
                 ),
                 const Text(

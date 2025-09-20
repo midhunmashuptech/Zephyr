@@ -130,7 +130,7 @@ class _SplashScreenState extends State<SplashScreen>
         child: FadeTransition(
           opacity: _animation,
           child: Image.asset(
-            'assets/logo/dummy_logo.png', // Replace with your logo path
+            'assets/logo/zephyr_digital_logo.png', // Replace with your logo path
             width: 200,
           ),
         ),

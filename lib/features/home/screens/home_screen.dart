@@ -63,153 +63,146 @@ class _HomeScreenState extends State<HomeScreen> {
       key: _scaffoldKey,
       drawer: DrawerWidget(),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              /// Top Section with Profile and Menu
-              Padding(
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            IconButton(
-                                onPressed: () {
-                                  _scaffoldKey.currentState!.openDrawer();
-                                },
-                                icon: Iconify(
-                                  Mi.menu,
-                                  color: AppColors.primaryBlue,
-                                )),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ProfileScreen()));
-                              },
-                              child: Row(
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: AppColors.black.withAlpha(
-                                              50), // changed this - withOpacity(0.2)
-                                          blurRadius: 6,
-                                          spreadRadius: 2,
-                                          offset: Offset(0, 3),
-                                        ),
-                                      ],
-                                    ),
-                                    child: CircleAvatar(
-                                      radius: 25,
-                                      backgroundColor: AppColors.white,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(2.0),
-                                        child: CircleAvatar(
-                                          radius: 25,
-                                          foregroundImage:
-                                              CachedNetworkImageProvider(
-                                                  userDetailsProvider
-                                                          .userDetails.image ??
-                                                      ""),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(width: 10),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text("Hello, Welcome",
-                                          style: TextStyle(fontSize: 13)),
-                                      Text(
-                                        userDetailsProvider.userDetails.name ??
-                                            "User",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
                         IconButton(
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Notifications()));
+                              _scaffoldKey.currentState!.openDrawer();
                             },
-                            icon: Iconify(Mdi.bell_notification, size: 30))
+                            icon: Iconify(
+                              Mi.menu,
+                              color: AppColors.primaryBlue,
+                            )),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProfileScreen()));
+                          },
+                          child: Row(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppColors.black.withAlpha(50),
+                                      blurRadius: 6,
+                                      spreadRadius: 2,
+                                      offset: Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
+                                child: CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: AppColors.white,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: CircleAvatar(
+                                      radius: 25,
+                                      foregroundImage:
+                                          CachedNetworkImageProvider(
+                                              userDetailsProvider
+                                                      .userDetails.image ??
+                                                  ""),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("Hello, Welcome",
+                                      style: TextStyle(fontSize: 13)),
+                                  Text(
+                                    userDetailsProvider.userDetails.name ??
+                                        "User",
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
                       ],
                     ),
-                    
-                    SizedBox(height: 20),
-                    
-                    CustomSearchBar(
-                      color: AppColors.primaryBlue,
-                      onChanged: (value) {
-                        homePageProvider.filterActiveCourses(value);
-                      },
-                    ),
-                    
-                    SizedBox(height: 20),
-                    
-                    Text(
-                      "Featured Courses",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                    ),
+                    IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Notifications()));
+                        },
+                        icon: Iconify(Mdi.bell_notification, size: 30))
                   ],
                 ),
               ),
-          
-              homePageProvider.isFeaturedCourseLoading
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: CustomSearchBar(
+                  color: AppColors.primaryBlue,
+                  onChanged: (value) {
+                    homePageProvider.filterActiveCourses(value);
+                  },
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(child: SizedBox(height: 20)),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Text(
+                  "Featured Courses",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(child: SizedBox(height: 10)),
+            SliverToBoxAdapter(
+              child: homePageProvider.isFeaturedCourseLoading
                   ? Center(
-                      child: Column(children: [
-                        Lottie.asset("assets/lottie/loading.json",
-                            height: 100),
-                      ]),
+                      child: Lottie.asset("assets/lottie/loading.json",
+                          height: 100),
                     )
                   : SizedBox(
                       height: 200,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         padding: EdgeInsets.only(left: 20, right: 20),
-                        shrinkWrap: true,
-                        physics:
-                            BouncingScrollPhysics(), // or AlwaysScrollableScrollPhysics()
-                        itemCount:
-                            homePageProvider.featuredCourses.length,
+                        itemCount: homePageProvider.featuredCourses.length,
                         itemBuilder: (context, index) => Padding(
                           padding: const EdgeInsets.only(right: 10),
                           child: FeaturedCourseCard(
-                            course:
-                                homePageProvider.featuredCourses[index],
+                            course: homePageProvider.featuredCourses[index],
                             index: index,
                           ),
                         ),
                       ),
                     ),
-          
-              Padding(
-                padding: const EdgeInsets.all(20.0),
+            ),
+            SliverToBoxAdapter(child: SizedBox(height: 20)),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    /// Course Categories
+                    // Course Categories
                     (searchValue == "" || searchValue == null)
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -221,138 +214,142 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               SizedBox(height: 10),
                               homePageProvider.isCategoryCourseLoading
-                                  ? Container(
-                                      child: Center(
+                                  ? Center(
                                       child: Lottie.asset(
                                           "assets/lottie/loading.json",
                                           height: 100),
-                                    ))
+                                    )
                                   : Wrap(
                                       alignment: WrapAlignment.start,
                                       children: homePageProvider
                                           .categoryBasedCourses
                                           .map((category) => GestureDetector(
-                                                onTap: () =>
-                                                    homePageProvider.changeCategory(
+                                                onTap: () => homePageProvider
+                                                    .changeCategory(
                                                         category.id ?? 0),
                                                 child: CategoryWidget(
                                                     isSelected: homePageProvider
                                                             .selectedCategory ==
                                                         category.id,
-                                                    categoryName: category.title ??
-                                                        "Category Name"),
-                                              )) // Assuming CategoryWidget fits dynamically
+                                                    categoryName:
+                                                        category.title ??
+                                                            "Category Name"),
+                                              ))
                                           .toList(),
                                     ),
                               SizedBox(height: 20),
                             ],
                           )
-                        : SizedBox(height: 0),
-                    
-                    /// Recommended Section
+                        : SizedBox.shrink(),
+                    // Recommended Section
                     Text(
                       homePageProvider.isCategoryCourseLoading
                           ? "All Courses for you"
                           : "${homePageProvider.selectedCategoryCourses.title} Courses for you",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    
+                    SizedBox(height: 10),
                     homePageProvider.isCategoryCourseLoading
-                        ? Container(
-                            height: MediaQuery.of(context).size.height * 0.3,
-                            child: Center(
-                              child: Lottie.asset("assets/lottie/loading.json",
-                                  height: 100),
-                            ))
-                        : GridView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2),
-                            itemCount:
-                                homePageProvider.selectedCategoryCourses.id == 0
-                                    ? homePageProvider.activeCourses.length
-                                    : (homePageProvider
-                                                .selectedCategoryCourses.courses ??
+                        ? Center(
+                            child: Lottie.asset("assets/lottie/loading.json",
+                                height: 100),
+                          )
+                        : (homePageProvider.selectedCategoryCourses.id == 0
+                            ? (homePageProvider.activeCourses.isEmpty
+                                ? Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 40.0),
+                                      child: Column(
+                                        children: [
+                                          Lottie.asset(
+                                              "assets/lottie/nodata.json",
+                                              height: 200),
+                                          Text("No Matching Courses found!"),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                : ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount:
+                                        homePageProvider.activeCourses.length,
+                                    itemBuilder: (context, index) {
+                                      final courseData =
+                                          homePageProvider.activeCourses[index];
+                                      return Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 12.0),
+                                        child: HomeCourseCard(
+                                          index: index,
+                                          courseId: courseData.id.toString(),
+                                          courseName:
+                                              courseData.title ?? "Course Name",
+                                          courseRating: "3.2",
+                                          isEnrolled:
+                                              courseData.isEnrolled ?? false,
+                                          thumbnail: courseData.thumbnail ??
+                                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                                        ),
+                                      );
+                                    },
+                                  ))
+                            : ((homePageProvider
+                                            .selectedCategoryCourses.courses ??
+                                        [])
+                                    .isEmpty
+                                ? Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 40.0),
+                                      child: Column(
+                                        children: [
+                                          Lottie.asset(
+                                              "assets/lottie/nodata.json",
+                                              height: 200),
+                                          Text("No Matching Courses found!"),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                : ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount: (homePageProvider
+                                                .selectedCategoryCourses
+                                                .courses ??
                                             [])
                                         .length,
-                            itemBuilder: (context, index) {
-                              if (homePageProvider.selectedCategoryCourses.id ==
-                                  0) {
-                                final courseData =
-                                    (homePageProvider.activeCourses)[index];
-                                return (homePageProvider.activeCourses).isEmpty
-                                    ? Center(
-                                        child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 40.0),
-                                        child: Column(
-                                          children: [
-                                            Lottie.asset(
-                                                "assets/lottie/nodata.json",
-                                                height: 200),
-                                            Text("No Matching Courses found!"),
-                                          ],
+                                    itemBuilder: (context, index) {
+                                      final courseData = (homePageProvider
+                                              .selectedCategoryCourses
+                                              .courses ??
+                                          [])[index];
+                                      return Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 12.0),
+                                        child: HomeCourseCard(
+                                          index: index,
+                                          courseId: courseData.id.toString(),
+                                          courseName:
+                                              courseData.title ?? "Course Name",
+                                          courseRating: "3.2",
+                                          isEnrolled:
+                                              courseData.isEnrolled ?? false,
+                                          thumbnail: courseData.thumbnail ??
+                                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
                                         ),
-                                      ))
-                                    : HomeCourseCard(
-                                        index: index,
-                                        courseId: courseData.id.toString(),
-                                        courseName:
-                                            courseData.title ?? "Course Name",
-                                        courseRating: "3.2",
-                                        isEnrolled: courseData.isEnrolled ?? false,
-                                        thumbnail: courseData.thumbnail ??
-                                            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
                                       );
-                              } else {
-                                final courseData = (homePageProvider
-                                        .selectedCategoryCourses.courses ??
-                                    [])[index];
-                                return (homePageProvider
-                                                .selectedCategoryCourses.courses ??
-                                            [])
-                                        .isEmpty
-                                    ? Center(
-                                        child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 40.0),
-                                        child: Column(
-                                          children: [
-                                            Lottie.asset(
-                                                "assets/lottie/nodata.json",
-                                                height: 200),
-                                            Text("No Matching Courses found!"),
-                                          ],
-                                        ),
-                                      ))
-                                    : HomeCourseCard(
-                                        index: index,
-                                        courseId: courseData.id.toString(),
-                                        courseName:
-                                            courseData.title ?? "Course Name",
-                                        courseRating: "3.2",
-                                        isEnrolled: courseData.isEnrolled ?? false,
-                                        thumbnail: courseData.thumbnail ??
-                                            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
-                                      );
-                              }
-                            }),
+                                    },
+                                  ))),
                   ],
                 ),
-              )
-              // Wrap(
-              //     children: List.generate(
-              //         homePageProvider.filteredActiveCourses.length,
-              //         (index) => HomeCourseCard(
-              //             course: homePageProvider
-              //                 .filteredActiveCourses[index],
-              //             index: index))),
-            ],
-          ),
+              ),
+            ),
+            SliverToBoxAdapter(child: SizedBox(height: 30)),
+          ],
         ),
       ),
     );
