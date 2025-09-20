@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/features/test/widget/confirm_test_submit_overlay.dart';
+import 'package:zephyr/features/test/screens/make_your_test_solution.dart';
 
 class TestCompletionScreen extends StatelessWidget {
   const TestCompletionScreen({super.key});
@@ -85,22 +88,20 @@ class TestCompletionScreen extends StatelessWidget {
                 text: "Show Solutions",
                 color: AppColors.primaryOrange,
                 textcolor: AppColors.white,
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MakeYourTestSolution()));
+                },
               ),
-              SizedBox(
-                height: 10,
-              ),
-              CustomButton(
-                  text: "Show Analytics",
-                  color: AppColors.secondaryCyan,
-                  textcolor: AppColors.white),
               SizedBox(
                 height: 10,
               ),
               CustomButton(
                   text: "Close Test",
                   onPressed: () {
-                    // Navigator.pop(context);
-                    showQuizSummary(context);
+                    Get.offAll(BottomNavScreen());
                   },
                   color: AppColors.secondaryViolet,
                   textcolor: AppColors.white),
@@ -109,19 +110,6 @@ class TestCompletionScreen extends StatelessWidget {
           ),
         ),
       )),
-    );
-  }
-
-  void showQuizSummary(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      backgroundColor: Colors.white,
-      builder: (context) {
-        return ConfirmTestSubmitOverlay();
-      },
     );
   }
 }
