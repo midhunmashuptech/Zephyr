@@ -32,7 +32,7 @@ class _CourseChaptersState extends State<CourseChapters> {
               onPressed: () {
                 Navigator.of(context, rootNavigator: true).pop();
                 Navigator.of(context, rootNavigator: true).push(
-                    MaterialPageRoute(builder: (contex) => CheckoutScreen()));
+                    MaterialPageRoute(builder: (contex) => CheckoutScreen(courseId: "1",)));
               },
               child: Text("Subscribe")),
         ],
