@@ -16,6 +16,7 @@ import 'package:zephyr/features/enrolled_courses/provider/enrolled_course_provid
 import 'package:zephyr/features/home/provider/home_page_provider.dart';
 import 'package:zephyr/features/live_class/provider/live_provider.dart';
 import 'package:zephyr/features/test/provider/make_test_provider.dart';
+import 'package:zephyr/features/test/screens/make_your_test_solution.dart';
 import 'package:zephyr/features/test/screens/test_completion_screen.dart';
 import 'package:zephyr/features/test/screens/test_quiz_screen.dart';
 import 'package:zephyr/features/test_series/provider/test_series_provider.dart';
@@ -58,13 +59,10 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Poppins',
           useMaterial3: true,
           scaffoldBackgroundColor: AppColors.white),
-      home: SplashScreen(),
+      // home: SplashScreen(),
       // home: BottomNavScreen(),
       // home: ChapterDetailsScreen(),
-      // home: ChapterAnalysisScreen(),
-      // home: TestQuizScreen(),
-      // home:  TestReviewScreen(),
-      // home: TestCompletionScreen(),
+      home: MakeYourTestSolution() ,
 
     );
   }
