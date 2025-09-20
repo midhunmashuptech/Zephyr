@@ -41,7 +41,6 @@ void main() async {
     ChangeNotifierProvider(create: (_) => AssignmentProvider()),
     ChangeNotifierProvider(create: (_) => TimelineProvider()),
     ChangeNotifierProvider(create: (_) => TestSeriesProvider()),
-
   ], child: const MyApp()));
 }
 

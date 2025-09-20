@@ -12,18 +12,35 @@ class HomeCourseCard extends StatelessWidget {
   final String courseRating;
   final String thumbnail;
   final bool isEnrolled;
+  final String price;
+  final String discountType; // "no discount" or "amount"
+  final String? discountValue; // discount amount if discountType == "amount"
 
-  const HomeCourseCard(
-      {super.key,
-      required this.index,
-      required this.courseId,
-      required this.courseName,
-      required this.courseRating,
-      required this.thumbnail,
-      required this.isEnrolled});
+  const HomeCourseCard({
+    super.key,
+    required this.index,
+    required this.courseId,
+    required this.courseName,
+    required this.courseRating,
+    required this.thumbnail,
+    required this.isEnrolled,
+    required this.price,
+    required this.discountType,
+    this.discountValue,
+  });
 
   @override
   Widget build(BuildContext context) {
+    double? original =
+        double.tryParse(price.replaceAll(RegExp(r'[^0-9.]'), ''));
+    double? discount = (discountType == "amount" &&
+            discountValue != null &&
+            discountValue!.isNotEmpty)
+        ? double.tryParse(discountValue!.replaceAll(RegExp(r'[^0-9.]'), ''))
+        : null;
+    double? finalPrice =
+        (original != null && discount != null) ? (original - discount) : null;
+
     return GestureDetector(
       onTap: () {
         debugPrint("ID: $courseId");
@@ -160,6 +177,171 @@ class HomeCourseCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                   ),
+                  SizedBox(height: 8),
+                  Divider(
+                    color: AppColors.lightGrey,
+                    thickness: 1,
+                    height: 1,
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      if (discountType == "amount" &&
+                          discount != null &&
+                          discount > 0) ...[
+                        Text(
+                          '₹$price',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                            color: AppColors.grey,
+                            decoration: TextDecoration.lineThrough,
+                          ),
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          finalPrice != null
+                              ? '₹${finalPrice.toStringAsFixed(2).replaceAll(RegExp(r'\.00'), '')}'
+                              : '₹-',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            color: AppColors.primaryBlue,
+                          ),
+                        ),
+                        Spacer(),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryGreen.withOpacity(0.15),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                                color: AppColors.primaryGreen, width: 1),
+                          ),
+                          child: Text(
+                            'Discount of ₹${discountValue ?? ''} applied',
+                            style: TextStyle(
+                              color: AppColors.primaryGreen,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 12.5,
+                            ),
+                          ),
+                        ),
+                      ] else ...[
+                        Text(
+                          '₹$price',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            color: AppColors.primaryBlue,
+                          ),
+                        ),
+                      ]
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  isEnrolled
+                      ? SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.deepPurpleAccent,
+                              foregroundColor: Colors.white,
+                              elevation: 2,
+                              shadowColor:
+                                  Colors.deepPurpleAccent.withOpacity(0.25),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              textStyle: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      EnrolledCourseDetailScreen(
+                                    courseId: courseId,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Text("Start Learning",
+                                style: TextStyle(fontWeight: FontWeight.w600)),
+                          ),
+                        )
+                      : Row(
+                          children: [
+                            Expanded(
+                              child: OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                  backgroundColor:
+                                      AppColors.primaryGreen.withOpacity(0.12),
+                                  foregroundColor: AppColors.primaryGreen,
+                                  side: BorderSide(
+                                      color: AppColors.primaryGreen,
+                                      width: 1.2),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8),
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              CourseDetailsScreen(
+                                                courseId: courseId,
+                                              )));
+                                },
+                                child: Text("Explore",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w600)),
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            Expanded(
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      AppColors.primaryBlue.withOpacity(0.9),
+                                  foregroundColor: Colors.white,
+                                  elevation: 2,
+                                  shadowColor:
+                                      AppColors.primaryBlue.withOpacity(0.25),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  textStyle: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              CourseDetailsScreen(
+                                                courseId: courseId,
+                                              )));
+                                },
+                                child: Text("Subscribe",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w600)),
+                              ),
+                            ),
+                          ],
+                        ),
                 ],
               ),
             ),
