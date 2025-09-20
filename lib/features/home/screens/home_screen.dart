@@ -301,7 +301,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                             courseId: courseData.id.toString(),
                                             courseName: courseData.title ??
                                                 "Course Name",
-                                            courseRating: "3.2",
+                                            courseRating:
+                                                (courseData.averageRating ??
+                                                        1.0)
+                                                    .toString(),
                                             isEnrolled:
                                                 courseData.isEnrolled ?? false,
                                             thumbnail: courseData.thumbnail ??
@@ -311,6 +314,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                             discountValue:
                                                 courseData.discountValue ?? "0",
                                             price: courseData.price ?? "0.00",
+                                            start: courseData.start ?? "N/A",
+                                            end: courseData.end ?? "N/A",
+                                            duration: courseData.duration ?? 0,
+                                            level: courseData.level ?? "N/A",
+                                            type: courseData.type ?? "N/A",
                                           );
                                         },
                                       )
@@ -326,26 +334,34 @@ class _HomeScreenState extends State<HomeScreen> {
                                             padding: const EdgeInsets.only(
                                                 bottom: 12.0),
                                             child: HomeCourseCard(
-                                                index: index,
-                                                courseId:
-                                                    courseData.id.toString(),
-                                                courseName: courseData.title ??
-                                                    "Course Name",
-                                                courseRating: "3.2",
-                                                isEnrolled:
-                                                    courseData.isEnrolled ??
-                                                        false,
-                                                thumbnail: courseData
-                                                        .thumbnail ??
-                                                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
-                                                discountType:
-                                                    courseData.discountType ??
-                                                        "0",
-                                                discountValue:
-                                                    courseData.discountValue ??
-                                                        "0",
-                                                price:
-                                                    courseData.price ?? "0.00"),
+                                              index: index,
+                                              courseId:
+                                                  courseData.id.toString(),
+                                              courseName: courseData.title ??
+                                                  "Course Name",
+                                              courseRating:
+                                                  (courseData.averageRating ??
+                                                          0.0)
+                                                      .toString(),
+                                              isEnrolled:
+                                                  courseData.isEnrolled ??
+                                                      false,
+                                              thumbnail: courseData.thumbnail ??
+                                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                                              discountType:
+                                                  courseData.discountType ??
+                                                      "0",
+                                              discountValue:
+                                                  courseData.discountValue ??
+                                                      "0",
+                                              price: courseData.price ?? "0.00",
+                                              start: courseData.start ?? "N/A",
+                                              end: courseData.end ?? "N/A",
+                                              duration:
+                                                  courseData.duration ?? 0,
+                                              level: courseData.level ?? "N/A",
+                                              type: courseData.type ?? "N/A",
+                                            ),
                                           );
                                         },
                                       );
@@ -385,25 +401,29 @@ class _HomeScreenState extends State<HomeScreen> {
                                           final courseData =
                                               selectedCourses[index];
                                           return HomeCourseCard(
-                                              index: index,
-                                              courseId:
-                                                  courseData.id.toString(),
-                                              courseName: courseData.title ??
-                                                  "Course Name",
-                                              courseRating: "3.2",
-                                              isEnrolled:
-                                                  courseData.isEnrolled ??
-                                                      false,
-                                              thumbnail: courseData.thumbnail ??
-                                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
-                                              discountType:
-                                                  courseData.discountType ??
-                                                      "0",
-                                              discountValue:
-                                                  courseData.discountValue ??
-                                                      "0",
-                                              price:
-                                                  courseData.price ?? "0.00");
+                                            index: index,
+                                            courseId: courseData.id.toString(),
+                                            courseName: courseData.title ??
+                                                "Course Name",
+                                            courseRating:
+                                                (courseData.averageRating ??
+                                                        0.0)
+                                                    .toString(),
+                                            isEnrolled:
+                                                courseData.isEnrolled ?? false,
+                                            thumbnail: courseData.thumbnail ??
+                                                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                                            discountType:
+                                                courseData.discountType ?? "0",
+                                            discountValue:
+                                                courseData.discountValue ?? "0",
+                                            price: courseData.price ?? "0.00",
+                                            start: courseData.start ?? "N/A",
+                                            end: courseData.end ?? "N/A",
+                                            duration: courseData.duration ?? 0,
+                                            level: courseData.level ?? "N/A",
+                                            type: courseData.type ?? "N/A",
+                                          );
                                         },
                                       )
                                     : ListView.builder(
@@ -417,26 +437,34 @@ class _HomeScreenState extends State<HomeScreen> {
                                             padding: const EdgeInsets.only(
                                                 bottom: 12.0),
                                             child: HomeCourseCard(
-                                                index: index,
-                                                courseId:
-                                                    courseData.id.toString(),
-                                                courseName: courseData.title ??
-                                                    "Course Name",
-                                                courseRating: "3.2",
-                                                isEnrolled:
-                                                    courseData.isEnrolled ??
-                                                        false,
-                                                thumbnail: courseData
-                                                        .thumbnail ??
-                                                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
-                                                discountType:
-                                                    courseData.discountType ??
-                                                        "0",
-                                                discountValue:
-                                                    courseData.discountValue ??
-                                                        "0",
-                                                price:
-                                                    courseData.price ?? "0.00"),
+                                              index: index,
+                                              courseId:
+                                                  courseData.id.toString(),
+                                              courseName: courseData.title ??
+                                                  "Course Name",
+                                              courseRating:
+                                                  (courseData.averageRating ??
+                                                          0.0)
+                                                      .toString(),
+                                              isEnrolled:
+                                                  courseData.isEnrolled ??
+                                                      false,
+                                              thumbnail: courseData.thumbnail ??
+                                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                                              discountType:
+                                                  courseData.discountType ??
+                                                      "0",
+                                              discountValue:
+                                                  courseData.discountValue ??
+                                                      "0",
+                                              price: courseData.price ?? "0.00",
+                                              start: courseData.start ?? "N/A",
+                                              end: courseData.end ?? "N/A",
+                                              duration:
+                                                  courseData.duration ?? 0,
+                                              level: courseData.level ?? "N/A",
+                                              type: courseData.type ?? "N/A",
+                                            ),
                                           );
                                         },
                                       );

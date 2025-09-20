@@ -111,10 +111,6 @@ class _MakeYourTestScreenState extends State<MakeYourTestScreen> {
                                                 .classes[index].title ??
                                             "Option Value"),
                                   )
-                                  // DropdownMenuEntry(value: "1", label: "Course 1"),
-                                  // DropdownMenuEntry(value: "2", label: "Course 2"),
-                                  // DropdownMenuEntry(value: "3", label: "Course 3"),
-                                  // DropdownMenuEntry(value: "4", label: "Course 4")
                                 ]),
                             SizedBox(
                                 width:
@@ -131,18 +127,7 @@ class _MakeYourTestScreenState extends State<MakeYourTestScreen> {
                                             makeTestProvider.subjects[index].id,
                                         label: makeTestProvider
                                                 .subjects[index].title ??
-                                            "Option Value"))
-                                // [
-                                //   DropdownMenuEntry(
-                                //       value: "1", label: "Chemistry"),
-                                //   DropdownMenuEntry(
-                                //       value: "2", label: "Biology"),
-                                //   DropdownMenuEntry(
-                                //       value: "3", label: "Mathematics"),
-                                //   DropdownMenuEntry(
-                                //       value: "4", label: "Physics")
-                                // ]
-                                ),
+                                            "Option Value"))),
                           ],
                         ),
                         SizedBox(
@@ -168,8 +153,7 @@ class _MakeYourTestScreenState extends State<MakeYourTestScreen> {
                         SizedBox(
                             height: MediaQuery.of(context).size.width * 0.02),
                         IgnorePointer(
-                          ignoring: makeTestProvider
-                              .topics.isEmpty,
+                          ignoring: makeTestProvider.topics.isEmpty,
                           child: DropdownMenu(
                               hintText: "Topic",
                               width: MediaQuery.of(context).size.width * 0.8,
@@ -179,9 +163,9 @@ class _MakeYourTestScreenState extends State<MakeYourTestScreen> {
                                   makeTestProvider.topics.length,
                                   (index) => DropdownMenuEntry(
                                       value: makeTestProvider.topics[index].id,
-                                      label:
-                                          makeTestProvider.topics[index].title ??
-                                              "Option Value"))),
+                                      label: makeTestProvider
+                                              .topics[index].title ??
+                                          "Option Value"))),
                         ),
                         SizedBox(height: 10),
                         DropdownMenu(

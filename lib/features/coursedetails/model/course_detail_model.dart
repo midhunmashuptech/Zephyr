@@ -147,7 +147,7 @@ class Subjects {
 
   Subjects.fromJson(Map<String, dynamic> json) {
     classId = json['class_id'];
-    className = json['class_name'];
+    className = json['class'];
     subjectId = json['subject_id'];
     courseSubjectId = json['course_subject_id'];
     subject = json['subject'];
@@ -162,7 +162,7 @@ class Subjects {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['class_id'] = this.classId;
-    data['class_name'] = this.className;
+    data['class'] = this.className;
     data['subject_id'] = this.subjectId;
     data['course_subject_id'] = this.courseSubjectId;
     data['subject'] = this.subject;

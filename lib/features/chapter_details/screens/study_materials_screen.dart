@@ -87,14 +87,14 @@ class _StudyMaterialsScreenState extends State<StudyMaterialsScreen> {
                                         .enrolledChapterMaterials[index]
                                         .title ??
                                     "",
-                                chapter: enrolledChapterDetailsProvider
-                                        .enrolledChapterMaterials[index]
-                                        .description ??
-                                    "",
-                                uploadedDate: enrolledChapterDetailsProvider
-                                        .enrolledChapterMaterials[index]
-                                        .description ??
-                                    "",
+                                // chapter: enrolledChapterDetailsProvider
+                                //         .enrolledChapterMaterials[index]
+                                //         .description ??
+                                //     "",
+                                // uploadedDate: enrolledChapterDetailsProvider
+                                //         .enrolledChapterMaterials[index]
+                                //         .description ??
+                                //     "",
                                 link: enrolledChapterDetailsProvider
                                         .enrolledChapterMaterials[index].link ??
                                     "",

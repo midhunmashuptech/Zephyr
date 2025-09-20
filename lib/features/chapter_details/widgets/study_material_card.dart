@@ -8,14 +8,14 @@ import 'package:zephyr/features/drawer/provider/timeline_provider.dart';
 class StudyMaterialCard extends StatelessWidget {
   final String name;
   final String batchId;
-  final String chapter;
-  final String uploadedDate;
+  // final String chapter;
+  // final String uploadedDate;
   final String link;
 
   const StudyMaterialCard({
     required this.name,
-    required this.chapter,
-    required this.uploadedDate,
+    // required this.chapter,
+    // required this.uploadedDate,
     required this.link,
     required this.batchId,
     super.key,
@@ -88,25 +88,25 @@ class StudyMaterialCard extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
-                          Text(
-                            chapter,
-                            style:
-                                TextStyle(fontSize: 12, color: AppColors.black),
-                          ),
+                          // Text(
+                          //   chapter,
+                          //   style:
+                          //       TextStyle(fontSize: 12, color: AppColors.black),
+                          // ),
                         ],
                       ),
                       SizedBox(height: 8),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.schedule_rounded,
-                            size: 18,
-                          ),
-                          SizedBox(width: 5),
-                          Text("uploaded on $uploadedDate",
-                              style: TextStyle(fontSize: 12))
-                        ],
-                      )
+                      // Row(
+                      //   children: [
+                      //     Icon(
+                      //       Icons.schedule_rounded,
+                      //       size: 18,
+                      //     ),
+                      //     SizedBox(width: 5),
+                      //     Text("uploaded on $uploadedDate",
+                      //         style: TextStyle(fontSize: 12))
+                      //   ],
+                      // )
                     ],
                   ),
                 )

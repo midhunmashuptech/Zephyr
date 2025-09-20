@@ -49,7 +49,7 @@ class _EnrolledCourseChapterState extends State<EnrolledCourseChapter> {
                             .length, (index) {
                       return EnrolledChapterCard(
                         title:
-                            "${(enrolledCourseProvider.selectedCourseDetails.subjects ?? [])[index].className} | ${(enrolledCourseProvider.selectedCourseDetails.subjects ?? [])[index].subject}",
+                            "${(enrolledCourseProvider.selectedCourseDetails.subjects ?? [])[index].subject}",
                         items: (enrolledCourseProvider
                                         .selectedCourseDetails.subjects ??
                                     [])[index]

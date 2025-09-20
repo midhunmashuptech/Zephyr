@@ -6,6 +6,7 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:swipeable_button_view/swipeable_button_view.dart';
+import 'package:zephyr/common/widgets/course_info_chip.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/coursedetails/provider/course_provider.dart';
 import 'package:zephyr/features/coursedetails/screens/chapter_navigator_observer.dart';
@@ -136,37 +137,30 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.w600),
                               ),
-                              SizedBox(height: 10),
+                              SizedBox(height: 20),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Row(
-                                    children: [
-                                      Iconify(Ic.videocam,
-                                          color: AppColors.primaryGreen),
-                                      SizedBox(width: 4),
-                                      Text(
-                                          "${courseProvider.courseData.videoCount} Classes"),
-                                    ],
+                                  CourseInfoChip(
+                                    icon: Iconify(Ic.videocam,
+                                        color: AppColors.primaryGreen,
+                                        size: 20),
+                                    label:
+                                        "${courseProvider.courseData.videoCount} Classes",
                                   ),
-                                  Row(
-                                    children: [
-                                      Icon(Icons.my_library_books_rounded,
-                                          color: AppColors.primaryBlue),
-                                      SizedBox(width: 4),
-                                      Text(
-                                          "${courseProvider.courseData.pdfCount} Materials"),
-                                    ],
+                                  CourseInfoChip(
+                                    icon: Icon(Icons.my_library_books_rounded,
+                                        color: AppColors.primaryBlue, size: 20),
+                                    label:
+                                        "${courseProvider.courseData.pdfCount} Materials",
                                   ),
-                                  Row(
-                                    children: [
-                                      Icon(Icons.star,
-                                          color: AppColors.primaryOrange),
-                                      SizedBox(width: 4),
-                                      Text(
-                                          "${courseProvider.courseData.averageRating}")
-                                    ],
+                                  CourseInfoChip(
+                                    icon: Icon(Icons.star,
+                                        color: AppColors.primaryOrange,
+                                        size: 20),
+                                    label:
+                                        "${courseProvider.courseData.averageRating}",
                                   ),
                                 ],
                               ),
@@ -232,7 +226,9 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                                 await Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => CheckoutScreen(courseId: widget.courseId,)),
+                                      builder: (context) => CheckoutScreen(
+                                            courseId: widget.courseId,
+                                          )),
                                 );
                                 // Reset state after returning WITHOUT triggering reverse animation
                                 setState(() {

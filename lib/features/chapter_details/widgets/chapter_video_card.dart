@@ -9,16 +9,20 @@ class ChapterVideoCard extends StatelessWidget {
   final void Function() onPressed;
   bool? currentlySelected = false;
   String videoTitle;
+  String subtitle;
   String thumbnail;
   String videoUrl;
+  String duration;
   final String batchId;
   ChapterVideoCard(
       {super.key,
       required this.onPressed,
       this.currentlySelected,
       required this.videoTitle,
+      required this.subtitle,
       required this.thumbnail,
       required this.batchId,
+      required this.duration,
       required this.videoUrl});
 
   @override
@@ -36,7 +40,7 @@ class ChapterVideoCard extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(5),
                 boxShadow: [
                   BoxShadow(
                       color: AppColors.black.withAlpha(20),
@@ -59,7 +63,7 @@ class ChapterVideoCard extends StatelessWidget {
                             border: Border.all(
                                 color: AppColors.primaryBlue, width: 3)),
                         child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(4),
                             child: Stack(
                               alignment: Alignment.center,
                               children: [
@@ -126,7 +130,8 @@ class ChapterVideoCard extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "Mathematics",
+                                          subtitle,
+                                          maxLines: 1,
                                           style: TextStyle(
                                             fontSize: MediaQuery.of(context)
                                                     .size
@@ -145,7 +150,7 @@ class ChapterVideoCard extends StatelessWidget {
                                       Icon(Icons.schedule_rounded, size: 20),
                                       SizedBox(width: 5),
                                       Text(
-                                        "12:45",
+                                        duration,
                                         style: TextStyle(
                                             fontWeight: FontWeight.w600),
                                       ),

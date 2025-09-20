@@ -38,6 +38,12 @@ class Course {
   int? featured;
   bool? isEnrolled;
   double? averageRating;
+  int? duration;
+  String? level;
+  String? type;
+  String? start;
+  String? end;
+
   List<CourseRatings>? courseRatings;
 
   Course(
@@ -52,6 +58,11 @@ class Course {
       this.featured,
       this.isEnrolled,
       this.averageRating,
+      this.duration,
+      this.level,
+      this.type,
+      this.start,
+      this.end,
       this.courseRatings});
 
   Course.fromJson(Map<String, dynamic> json) {
@@ -66,6 +77,7 @@ class Course {
     featured = json['featured'];
     isEnrolled = json['is_enrolled'];
     averageRating = double.parse(json['average_rating'].toString());
+    // print('Average Rating: ${json['average_rating']}');
     if (json['course_ratings'] != null) {
       courseRatings = <CourseRatings>[];
       json['course_ratings'].forEach((v) {
@@ -94,4 +106,3 @@ class Course {
     return data;
   }
 }
-

@@ -130,19 +130,19 @@ class HomePageProvider extends ChangeNotifier {
     } else {
       if (response.type == "success") {
         _categoryBasedCourses = response.allCourses ?? [];
-        List<category_based_courses_model.Courses> _allCourses = [];
-        for (var category in _categoryBasedCourses) {
-          for (var course in (category.courses ?? [])) {
-            _allCourses.add(course);
-          }
-        }
-        _categoryBasedCourses.add(category_based_courses_model.AllCourses(
-            id: 0,
-            title: "All",
-            status: 1,
-            createdAt: "",
-            updatedAt: "",
-            courses: _allCourses));
+        // List<category_based_courses_model.Courses> _allCourses = [];
+        // for (var category in _categoryBasedCourses) {
+        //   for (var course in (category.courses ?? [])) {
+        //     _allCourses.add(course);
+        //   }
+        // }
+        // _categoryBasedCourses.add(category_based_courses_model.AllCourses(
+        //     id: 0,
+        //     title: "All",
+        //     status: 1,
+        //     createdAt: "",
+        //     updatedAt: "",
+        //     courses: _allCourses));
         // people.sort((a, b) => a.name.compareTo(b.name));
         _categoryBasedCourses
             .sort((a, b) => (a.title ?? "").compareTo(b.title ?? ""));

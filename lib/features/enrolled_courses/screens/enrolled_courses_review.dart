@@ -64,7 +64,8 @@ class _EnrolledCoursesReviewState extends State<EnrolledCoursesReview> {
 
   Future<void> loadReviews() async {
     final loadProvider = context.read<EnrolledCourseProvider>();
-    await loadProvider.getCourseReviews(courseId: widget.courseId, context: context);
+    await loadProvider.getCourseReviews(
+        courseId: widget.courseId, context: context);
   }
 
   @override
@@ -85,7 +86,8 @@ class _EnrolledCoursesReviewState extends State<EnrolledCoursesReview> {
                   padding: const EdgeInsets.symmetric(vertical: 40.0),
                   child: Column(
                     children: [
-                      Lottie.asset("assets/lottie/no_comments.json", height: 200),
+                      Lottie.asset("assets/lottie/no_comments.json",
+                          height: 200),
                       Text("No Reviews Yet!"),
                     ],
                   ),

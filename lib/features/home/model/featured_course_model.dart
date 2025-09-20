@@ -39,6 +39,7 @@ class Courses {
   double? averageRating;
   bool? isEnrolled;
   List<CourseRatings>? courseRatings;
+  String? type;
 
   Courses(
       {this.id,
@@ -52,7 +53,8 @@ class Courses {
       this.featured,
       this.averageRating,
       this.isEnrolled,
-      this.courseRatings});
+      this.courseRatings,
+      this.type});
 
   Courses.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -72,6 +74,7 @@ class Courses {
         courseRatings!.add(new CourseRatings.fromJson(v));
       });
     }
+    type = json['type'];
   }
 
   Map<String, dynamic> toJson() {
@@ -91,7 +94,7 @@ class Courses {
       data['course_ratings'] =
           this.courseRatings!.map((v) => v.toJson()).toList();
     }
+    data['type'] = this.type;
     return data;
   }
 }
-

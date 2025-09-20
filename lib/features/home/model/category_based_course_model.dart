@@ -91,6 +91,7 @@ class Courses {
   String? createdAt;
   String? updatedAt;
   Pivot? pivot;
+  double? averageRating;
 
   Courses(
       {this.id,
@@ -114,7 +115,8 @@ class Courses {
       this.isEnrolled,
       this.createdAt,
       this.updatedAt,
-      this.pivot});
+      this.pivot,
+      this.averageRating});
 
   Courses.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -139,6 +141,9 @@ class Courses {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     pivot = json['pivot'] != null ? new Pivot.fromJson(json['pivot']) : null;
+    averageRating = (json['average_rating'] is int)
+        ? (json['average_rating'] as int).toDouble()
+        : json['average_rating'];
   }
 
   Map<String, dynamic> toJson() {
@@ -167,6 +172,7 @@ class Courses {
     if (this.pivot != null) {
       data['pivot'] = this.pivot!.toJson();
     }
+    data['average_rating'] = this.averageRating;
     return data;
   }
 }

@@ -31,8 +31,11 @@ class _CourseChaptersState extends State<CourseChapters> {
           ElevatedButton(
               onPressed: () {
                 Navigator.of(context, rootNavigator: true).pop();
-                Navigator.of(context, rootNavigator: true).push(
-                    MaterialPageRoute(builder: (contex) => CheckoutScreen(courseId: "1",)));
+                Navigator.of(context, rootNavigator: true)
+                    .push(MaterialPageRoute(
+                        builder: (contex) => CheckoutScreen(
+                              courseId: "1",
+                            )));
               },
               child: Text("Subscribe")),
         ],
@@ -45,9 +48,9 @@ class _CourseChaptersState extends State<CourseChapters> {
     courseDetailProvider = context.watch<CourseProvider>();
     return Scaffold(
       body: courseDetailProvider.isLoading
-      ? CircularProgressIndicator()
-      : (courseDetailProvider.courseData.subjects ?? []).isEmpty
-      ? Center(
+          ? CircularProgressIndicator()
+          : (courseDetailProvider.courseData.subjects ?? []).isEmpty
+              ? Center(
                   child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 40.0),
                   child: Column(
@@ -57,42 +60,64 @@ class _CourseChaptersState extends State<CourseChapters> {
                     ],
                   ),
                 ))
-      : SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Column(
-            children: [
-              const SizedBox(height: 10),
-              ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => CourseChapterCard(
-                        title: (courseDetailProvider.courseData.subjects ?? [])[index].subject ?? "Subject Name",
-                        subtitle: (courseDetailProvider.courseData.subjects ?? [])[index].className ?? "Class Name",
-                        items: ((courseDetailProvider.courseData.subjects ?? [])[index].chapters ?? []).map((chapter) => chapter.chapterTitle ?? "Chapter Title").toList(),
-                        onSelected: (value) {},
-                        onTap: () {
-                          setState(() {
-                            expandedSectionIndex =
-                                expandedSectionIndex == index ? null : index;
-                          });
-                        },
-                        isExpanded: expandedSectionIndex == index,
-                        onFreeItemTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => CourseChapterContent()),
-                          );
-                        },
-                        onLockedTap: (index) => _showSubscribePopup(context),
-                      ),
-                  // separatorBuilder: (context, index) => SizedBox(height: 5),
-                  itemCount: (courseDetailProvider.courseData.subjects ?? []).length),
-            ],
-          ),
-        ),
-      ),
+              : SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 10),
+                        ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) => CourseChapterCard(
+                                  title: (courseDetailProvider
+                                                  .courseData.subjects ??
+                                              [])[index]
+                                          .subject ??
+                                      "Subject Name",
+                                  subtitle: (courseDetailProvider
+                                                  .courseData.subjects ??
+                                              [])[index]
+                                          .className ??
+                                      "Class Name",
+                                  items: ((courseDetailProvider
+                                                      .courseData.subjects ??
+                                                  [])[index]
+                                              .chapters ??
+                                          [])
+                                      .map((chapter) =>
+                                          chapter.chapterTitle ??
+                                          "Chapter Title")
+                                      .toList(),
+                                  onSelected: (value) {},
+                                  onTap: () {
+                                    setState(() {
+                                      expandedSectionIndex =
+                                          expandedSectionIndex == index
+                                              ? null
+                                              : index;
+                                    });
+                                  },
+                                  isExpanded: expandedSectionIndex == index,
+                                  onFreeItemTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) =>
+                                              CourseChapterContent()),
+                                    );
+                                  },
+                                  onLockedTap: (index) =>
+                                      _showSubscribePopup(context),
+                                ),
+                            // separatorBuilder: (context, index) => SizedBox(height: 5),
+                            itemCount:
+                                (courseDetailProvider.courseData.subjects ?? [])
+                                    .length),
+                      ],
+                    ),
+                  ),
+                ),
     );
   }
 }

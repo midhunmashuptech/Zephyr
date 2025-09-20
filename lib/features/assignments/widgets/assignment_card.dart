@@ -9,103 +9,135 @@ class AssignmentCard extends StatelessWidget {
   final String type;
   final String assignmentId;
 
-  const AssignmentCard(
-      {super.key,
-      required this.heading,
-      required this.date,
-      required this.type,
-      required this.assignmentId});
+  const AssignmentCard({
+    super.key,
+    required this.heading,
+    required this.date,
+    required this.type,
+    required this.assignmentId,
+  });
 
   String formatDateTime(String dateTimeStr) {
-    if (dateTimeStr == "") return "Date not Specified";
+    if (dateTimeStr.isEmpty) return "Date not specified";
     DateTime dateTime = DateTime.parse(dateTimeStr);
-    String formatted = DateFormat("MMMM d, yyyy | hh:mm a").format(dateTime);
-    return formatted;
+    return DateFormat("MMM d, yyyy • hh:mm a").format(dateTime);
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    final theme = Theme.of(context);
+    return InkWell(
+      borderRadius: BorderRadius.circular(16),
       onTap: () {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => AssignmentUploadScreen(
-                      contentType: type, assignmentId: assignmentId,
-                    )));
+          context,
+          MaterialPageRoute(
+            builder: (context) => AssignmentUploadScreen(
+              assignmentTitle: heading,
+              contentType: type,
+              assignmentId: assignmentId,
+            ),
+          ),
+        );
       },
       child: Card(
-          color: AppColors.white,
-          elevation: 2,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Row(
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.16 > 60
-                      ? 60
-                      : MediaQuery.of(context).size.width * 0.16,
-                  height: MediaQuery.of(context).size.width * 0.16 > 60
-                      ? 60
-                      : MediaQuery.of(context).size.width * 0.16,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(
-                        MediaQuery.of(context).size.width),
-                    color: AppColors.primaryGreen,
+        color: AppColors.white,
+        elevation: 4,
+        shadowColor: AppColors.primaryBlue.withOpacity(0.08),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+          child: Row(
+            children: [
+              Container(
+                width: 54,
+                height: 54,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Colors.lightBlueAccent, Colors.blueAccent],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
-                  child: Icon(
-                    Icons.assignment,
-                    size: MediaQuery.of(context).size.width * 0.1 > 35
-                        ? 35
-                        : MediaQuery.of(context).size.width * 0.1,
-                    color: AppColors.white,
-                  ),
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.primaryBlue.withOpacity(0.08),
+                      blurRadius: 8,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  width: 10,
+                child: Icon(
+                  Icons.assignment_rounded,
+                  size: 32,
+                  color: Colors.white,
                 ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        heading,
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(width: 18),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      heading,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.primaryBlue,
+                        letterSpacing: 0.1,
                       ),
-                      // Text(author,
-                      //     style: TextStyle(
-                      //     fontSize: 13, fontWeight: FontWeight.w400)),
-                      Row(
-                        children: [
-                          Text(
-                            "Due date: ",
-                            style: TextStyle(fontSize: 12),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.calendar_today_rounded,
+                          size: 16,
+                          color: AppColors.primaryGreen,
+                        ),
+                        const SizedBox(width: 6),
+                        Expanded(
+                          child: Text(
+                            formatDateTime(date),
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: AppColors.primaryGreen,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          Expanded(
-                            child: Text(
-                              formatDateTime(date),
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.primaryBlue),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(width: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryBlue.withOpacity(0.08),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            type.toUpperCase() == "HTML"
+                                ? "TEXT"
+                                : type.toUpperCase(),
+                            style: theme.textTheme.labelSmall?.copyWith(
+                              color: AppColors.primaryBlue,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.2,
                             ),
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          )),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

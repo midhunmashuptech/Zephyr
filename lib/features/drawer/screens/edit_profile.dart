@@ -19,7 +19,6 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-
   UserDetailsProvider userDetailsProvider = UserDetailsProvider();
   EditProfileProvider editProfileProvider = EditProfileProvider();
   AuthProvider authProvider = AuthProvider();
@@ -29,9 +28,6 @@ class _EditProfileState extends State<EditProfile> {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      // setState(() {
-      //   selectedImage = File(pickedFile.path);
-      // });
       editProfileProvider.uploadProfileImage(
           filePath: pickedFile.path, context: context);
     }
@@ -78,9 +74,9 @@ class _EditProfileState extends State<EditProfile> {
     countryController.text = loadProvider.userDetails.country ?? "";
     stateController.text = loadProvider.userDetails.state ?? "";
     districtController.text = loadProvider.userDetails.district ?? "";
-    secondaryMobileController.text = loadProvider.userDetails.secondaryPhone ?? "";
+    secondaryMobileController.text =
+        loadProvider.userDetails.secondaryPhone ?? "";
     dobController.text = formatIsoDate(loadProvider.userDetails.dob ?? "");
-    print(optionsProvider.classDropdownOptions.length);
     classController.text = optionsProvider.classDropdownOptions
             .firstWhere(
                 (option) =>
@@ -107,251 +103,389 @@ class _EditProfileState extends State<EditProfile> {
     editProvider.loadingFalse();
   }
 
+  Widget _buildTextField(
+      {required TextEditingController controller,
+      required String label,
+      IconData? icon,
+      bool readOnly = false,
+      TextInputType? keyboardType,
+      String? hintText,
+      Widget? suffixIcon,
+      int maxLines = 1,
+      Color? fillColor,
+      bool enabled = true,
+      String? errorText}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextField(
+        controller: controller,
+        readOnly: readOnly,
+        keyboardType: keyboardType,
+        maxLines: maxLines,
+        enabled: enabled,
+        style: TextStyle(
+          color: enabled ? Colors.black : AppColors.grey,
+          fontWeight: FontWeight.w500,
+        ),
+        decoration: InputDecoration(
+          labelText: label,
+          hintText: hintText,
+          prefixIcon: icon != null ? Icon(icon, color: AppColors.black) : null,
+          suffixIcon: suffixIcon,
+          filled: true,
+          fillColor: fillColor ?? AppColors.lightGrey.withOpacity(0.2),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: BorderSide(
+              color: AppColors.grey,
+              width: 1.2,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: BorderSide(
+              color: AppColors.grey,
+              width: 1.2,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: BorderSide(
+              color: AppColors.black,
+              width: 1.5,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: BorderSide(
+              color: Colors.red,
+              width: 1.2,
+            ),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: BorderSide(
+              color: Colors.red,
+              width: 1.5,
+            ),
+          ),
+          errorText: errorText,
+          errorMaxLines: 2,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSectionTitle(String title) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 18.0, bottom: 6.0),
+      child: Text(
+        title,
+        style: TextStyle(
+          fontSize: 18,
+          color: AppColors.black,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 0.5,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     userDetailsProvider = context.watch<UserDetailsProvider>();
     editProfileProvider = context.watch<EditProfileProvider>();
     authProvider = context.watch<AuthProvider>();
+
     return Scaffold(
+      // backgroundColor: AppColors.background,
       appBar: AppBar(
-        leading: BackButton(),
-        title: Text("Edit Profile"),
+        elevation: 0,
+        // backgroundColor: AppColors.background,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: AppColors.black),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            "Edit Profile",
+            style: TextStyle(
+              color: AppColors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 22,
+            ),
+          ),
+        ),
+        centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: SafeArea(
-            child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              Center(
-                child: Stack(
+      body: SafeArea(
+        child: editProfileProvider.isDataLoading
+            ? Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Column(
                   children: [
-                    CircleAvatar(
-                      radius: 80,
-                      child: editProfileProvider.isProfilePictureLoading 
-                      ? Center(child: CircularProgressIndicator())
-                      : ClipOval(
-                        child: CachedNetworkImage(height: 160,width: 160, fit: BoxFit.cover, imageUrl: 
-                                userDetailsProvider.userDetails.image ?? ""),
+                    Center(
+                      child: Stack(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.black.withOpacity(0.2),
+                                  blurRadius: 16,
+                                  offset: Offset(0, 8),
+                                ),
+                              ],
+                            ),
+                            child: CircleAvatar(
+                              radius: 60,
+                              backgroundColor: AppColors.white,
+                              child: editProfileProvider.isProfilePictureLoading
+                                  ? Center(child: CircularProgressIndicator())
+                                  : ClipOval(
+                                      child: CachedNetworkImage(
+                                        height: 120,
+                                        width: 120,
+                                        fit: BoxFit.cover,
+                                        imageUrl: userDetailsProvider
+                                                .userDetails.image ??
+                                            "",
+                                        placeholder: (context, url) =>
+                                            Container(
+                                          color: AppColors.lightGrey,
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.person,
+                                                size: 60,
+                                                color: AppColors.grey),
+                                      ),
+                                    ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 4,
+                            child: GestureDetector(
+                              onTap: pickImage,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: AppColors.black,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                      color: AppColors.white, width: 2),
+                                ),
+                                padding: EdgeInsets.all(8),
+                                child: Icon(Icons.edit,
+                                    color: AppColors.white, size: 22),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Positioned(
-                      bottom: 5,
-                      right: 5,
-                      child: CircleAvatar(
-                        backgroundColor: AppColors.primaryOrange,
-                        child: IconButton(
-                          onPressed: () => pickImage(),
-                          icon: Icon(
-                            Icons.edit,
-                            size: 23,
+                    SizedBox(height: 18),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 7, vertical: 18),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildSectionTitle("Personal Information"),
+                          _buildTextField(
+                            controller: usernameController,
+                            label: "Name",
+                            icon: Icons.person,
                           ),
-                          color: AppColors.white,
-                        ),
+                          _buildTextField(
+                            controller: emailController,
+                            label: "Email",
+                            icon: Icons.email,
+                          ),
+                          _buildTextField(
+                            controller: schoolController,
+                            label: "School Name",
+                            icon: Icons.school,
+                          ),
+                          GestureDetector(
+                            onTap: () async {
+                              DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1900),
+                                lastDate: DateTime.now(),
+                              );
+                              if (pickedDate != null) {
+                                setState(() {
+                                  dobController.text = DateFormat('yyyy-MM-dd')
+                                      .format(pickedDate);
+                                });
+                              }
+                            },
+                            child: AbsorbPointer(
+                              child: _buildTextField(
+                                controller: dobController,
+                                label: "Date of Birth",
+                                icon: Icons.cake,
+                                suffixIcon: Icon(Icons.calendar_month,
+                                    color: AppColors.black),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Gender:",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(width: 16),
+                                Row(
+                                  children: [
+                                    Radio<String>(
+                                      value: "male",
+                                      groupValue:
+                                          editProfileProvider.checkedOption,
+                                      activeColor: AppColors.black,
+                                      onChanged: (value) {
+                                        editProfileProvider.radiocheck(value);
+                                      },
+                                    ),
+                                    Text("Male"),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Radio<String>(
+                                      value: "female",
+                                      groupValue:
+                                          editProfileProvider.checkedOption,
+                                      activeColor: AppColors.black,
+                                      onChanged: (value) {
+                                        editProfileProvider.radiocheck(value);
+                                      },
+                                    ),
+                                    Text("Female"),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          _buildSectionTitle("Academic Details"),
+                          DropdownWidget(
+                            label: 'Syllabus',
+                            items: authProvider.syllabusDropdownOptions
+                                .map((item) => item.title ?? "Syllabus Option")
+                                .toList(),
+                            controller: syllabusController,
+                          ),
+                          DropdownWidget(
+                            label: 'Class Studying',
+                            items: authProvider.classDropdownOptions
+                                .map((item) => item.title ?? "Class Option")
+                                .toList(),
+                            controller: classController,
+                          ),
+                          _buildSectionTitle("Contact Information"),
+                          _buildTextField(
+                            controller: addressController,
+                            label: "Address",
+                            icon: Icons.location_on,
+                            maxLines: 2,
+                          ),
+                          _buildTextField(
+                            controller: countryController,
+                            label: "Country",
+                            icon: Icons.flag,
+                          ),
+                          _buildTextField(
+                            controller: stateController,
+                            label: "State",
+                            icon: Icons.map,
+                          ),
+                          _buildTextField(
+                            controller: districtController,
+                            label: "District",
+                            icon: Icons.location_city,
+                          ),
+                          _buildTextField(
+                            controller: secondaryMobileController,
+                            label: "Secondary Phone",
+                            icon: Icons.phone_android,
+                            keyboardType: TextInputType.number,
+                          ),
+                          _buildTextField(
+                            controller: mobileController,
+                            label: "Mobile Number",
+                            icon: Icons.phone,
+                            readOnly: true,
+                            enabled: false,
+                            errorText:
+                                "Disclaimer: For mobile number changes, kindly contact our support team.",
+                          ),
+                          SizedBox(height: 24),
+                          editProfileProvider.isUpdating
+                              ? Center(child: CircularProgressIndicator())
+                              : CustomButton(
+                                  text: "Update",
+                                  onPressed: () {
+                                    editProfileProvider.updateDetails(
+                                        context: context,
+                                        name: usernameController.text,
+                                        email: emailController.text,
+                                        gender:
+                                            editProfileProvider.checkedOption ??
+                                                "",
+                                        dob: dobController.text,
+                                        school: schoolController.text,
+                                        classStudying:
+                                            authProvider.classDropdownOptions
+                                                .firstWhere(
+                                                  (classes) =>
+                                                      classes.title ==
+                                                      classController.text,
+                                                  orElse: () =>
+                                                      ClassStudying(id: 0),
+                                                )
+                                                .id
+                                                .toString(),
+                                        syllabusId:
+                                            authProvider.syllabusDropdownOptions
+                                                .firstWhere(
+                                                  (syllabus) =>
+                                                      syllabus.title ==
+                                                      syllabusController.text,
+                                                  orElse: () => Syllabus(id: 0),
+                                                )
+                                                .id
+                                                .toString(),
+                                        address: addressController.text,
+                                        district: districtController.text,
+                                        state: stateController.text,
+                                        country: countryController.text,
+                                        secondaryPhone:
+                                            secondaryMobileController.text);
+                                    editProfileProvider.setUpdatedProfile(
+                                        usernameController.text,
+                                        emailController.text);
+                                  },
+                                  color: AppColors.black,
+                                  textcolor: AppColors.white,
+                                ),
+                        ],
                       ),
-                    )
+                    ),
+                    SizedBox(height: 24),
                   ],
                 ),
               ),
-              SizedBox(
-                height: 15,
-              ),
-              editProfileProvider.isDataLoading
-                  ? Padding(
-                      padding: const EdgeInsets.only(top: 15.0),
-                      child: Center(child: CircularProgressIndicator()),
-                    )
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextField(
-                          controller: usernameController,
-                          decoration:
-                              InputDecoration(hintText: "Enter user name"),
-                        ),
-                        SizedBox(height: 10),
-                        TextField(
-                          controller: emailController,
-                          decoration:
-                              InputDecoration(hintText: "Enter email address"),
-                        ),
-                        SizedBox(height: 10),
-                        TextField(
-                          controller: schoolController,
-                          decoration:
-                              InputDecoration(hintText: "Enter School Name"),
-                        ),
-                        SizedBox(height: 10),
-                        GestureDetector(
-                          onTap: () async {
-                            DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(1900),
-                              lastDate: DateTime.now(),
-                            );
-                            if (pickedDate != null) {
-                              setState(() {
-                                dobController.text =
-                                    "${pickedDate.toLocal()}".split(' ')[0];
-                              });
-                            }
-                          },
-                          child: AbsorbPointer(
-                            child: TextField(
-                              controller: dobController,
-                              decoration: InputDecoration(
-                                  suffixIcon: Icon(Icons.calendar_month),
-                                  hintText: "Enter Date of Birth"),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Text("Gender"),
-                        Row(
-                          children: [
-                            Radio<String>(
-                                value: "male",
-                                groupValue: editProfileProvider.checkedOption,
-                                onChanged: (value) {
-                                  editProfileProvider.radiocheck(value);
-                                }),
-                            Text(
-                              "Male",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            SizedBox(width: 7),
-                            Row(
-                              children: [
-                                Radio<String>(
-                                    value: "female",
-                                    groupValue:
-                                        editProfileProvider.checkedOption,
-                                    onChanged: (value) {
-                                      editProfileProvider.radiocheck(value);
-                                    }),
-                                // SizedBox(width:4),
-                                Text(
-                                  "Female",
-                                  style: TextStyle(fontSize: 16),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                        DropdownWidget(
-                          label: 'Syllabus',
-                          items: authProvider.syllabusDropdownOptions
-                              .map((item) => item.title ?? "Syllabus Option")
-                              .toList(),
-                          controller: syllabusController,
-                        ),
-                        TextField(
-                          controller: addressController,
-                          decoration:
-                              InputDecoration(hintText: "Enter Address"),
-                        ),
-                        SizedBox(height: 10),
-                        TextField(
-                          controller: countryController,
-                          decoration:
-                              InputDecoration(hintText: "Enter Country"),
-                        ),
-                        SizedBox(height: 10),
-                        TextField(
-                          controller: stateController,
-                          decoration: InputDecoration(hintText: "Enter State"),
-                        ),
-                        SizedBox(height: 10),
-                        TextField(
-                          controller: districtController,
-                          decoration:
-                              InputDecoration(hintText: "Enter District"),
-                        ),
-                        SizedBox(height: 5),
-                        DropdownWidget(
-                          label: 'Class Studying',
-                          items: authProvider.classDropdownOptions
-                              .map((item) => item.title ?? "Class Option")
-                              .toList(),
-                          controller: classController,
-                        ),
-                        SizedBox(height: 10),
-                        TextField(
-                          keyboardType: TextInputType.number,
-                          controller: secondaryMobileController,
-                          decoration: InputDecoration(
-                              hintText: "Enter Secondary Phone Number"),
-                        ),
-                        SizedBox(height: 10),
-                        TextField(
-                          style: TextStyle(color: AppColors.grey),
-                          readOnly: true,
-                          controller: mobileController,
-                          decoration: InputDecoration(
-                            errorText:
-                                "Disclaimer: For mobile number changes, kindly contact our support team.",
-                            errorMaxLines: 2,
-                            focusedBorder: InputBorder.none,
-                            border: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            // hintText: "Enter mobile number"
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        editProfileProvider.isUpdating
-                            ? Center(child: CircularProgressIndicator())
-                            : CustomButton(
-                                text: "Update",
-                                onPressed: () {
-                                  editProfileProvider.updateDetails(
-                                      context: context,
-                                      name: usernameController.text,
-                                      email: emailController.text,
-                                      gender:
-                                          editProfileProvider.checkedOption ??
-                                              "",
-                                      dob: dobController.text,
-                                      school: schoolController.text,
-                                      classStudying: authProvider
-                                          .classDropdownOptions
-                                          .firstWhere(
-                                            (classes) =>
-                                                classes.title ==
-                                                classController.text,
-                                            orElse: () => ClassStudying(id: 0),
-                                          )
-                                          .id
-                                          .toString(),
-                                      syllabusId:
-                                          authProvider.syllabusDropdownOptions
-                                              .firstWhere(
-                                                (syllabus) =>
-                                                    syllabus.title ==
-                                                    syllabusController.text,
-                                                orElse: () => Syllabus(id: 0),
-                                              )
-                                              .id
-                                              .toString(),
-                                      address: addressController.text,
-                                      district: districtController.text,
-                                      state: stateController.text,
-                                      country: countryController.text,
-                                      secondaryPhone:
-                                          secondaryMobileController.text);
-                                  editProfileProvider.setUpdatedProfile(
-                                      usernameController.text,
-                                      emailController.text);
-                                },
-                                color: AppColors.primaryOrange,
-                                textcolor: AppColors.white,
-                              ),
-                              SizedBox(height: 10),
-                      ],
-                    ),
-            ],
-          ),
-        )),
       ),
     );
   }

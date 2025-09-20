@@ -182,6 +182,11 @@ class _VideoPlayScreenState extends State<VideoPlayScreen>
                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
               videoUrl:
                   enrolledChapterDetailsProvider.chapterVideos[index].hls ?? "",
+              subtitle: "",
+              duration: (enrolledChapterDetailsProvider
+                          .chapterVideos[index].duration ??
+                      0.0)
+                  .toStringAsFixed(2),
               batchId:
                   "${enrolledChapterDetailsProvider.chapterVideos[index].batchVideoId}",
             );

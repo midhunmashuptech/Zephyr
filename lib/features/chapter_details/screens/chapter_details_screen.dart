@@ -129,7 +129,22 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
                 Positioned(
                   top: 10,
                   left: 10,
-                  child: BackButton(),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 4,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: BackButton(
+                      color: Colors.black,
+                    ),
+                  ),
                 )
               ],
             ),
@@ -243,6 +258,11 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
                               videoUrl: enrolledChapterDetailsProvider
                                       .chapterVideos[index].hls ??
                                   "",
+                              subtitle: "",
+                              duration: (enrolledChapterDetailsProvider
+                                          .chapterVideos[index].duration ??
+                                      0.0)
+                                  .toStringAsFixed(2),
                               batchId:
                                   "${enrolledChapterDetailsProvider.chapterVideos[index].batchVideoId}",
                             );

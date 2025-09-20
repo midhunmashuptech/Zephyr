@@ -16,6 +16,11 @@ class HomeCourseCard extends StatelessWidget {
   final String price;
   final String discountType; // "no discount" or "amount"
   final String? discountValue; // discount amount if discountType == "amount"
+  final String start;
+  final String end;
+  final int duration;
+  final String level;
+  final String type;
 
   const HomeCourseCard({
     super.key,
@@ -27,7 +32,12 @@ class HomeCourseCard extends StatelessWidget {
     required this.isEnrolled,
     required this.price,
     required this.discountType,
-    this.discountValue,
+    required this.discountValue,
+    required this.start,
+    required this.end,
+    required this.duration,
+    required this.level,
+    required this.type,
   });
 
   @override
@@ -128,7 +138,9 @@ class HomeCourseCard extends StatelessWidget {
                     ],
                   ),
                   child: Text(
-                    isEnrolled ? "Enrolled" : "Enroll",
+                    type.isNotEmpty
+                        ? "${type[0].toUpperCase()}${type.substring(1)} Class"
+                        : "",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -138,7 +150,7 @@ class HomeCourseCard extends StatelessWidget {
                   ),
                 ),
               ),
-    
+
               Positioned(bottom: 7, left: 7, child: courseStarRating()),
             ],
           ),
@@ -160,6 +172,135 @@ class HomeCourseCard extends StatelessWidget {
                     maxLines: 2,
                   ),
                 ),
+                Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  spacing: 10,
+                  runSpacing: 6,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.calendar_today,
+                            size: 16, color: AppColors.primaryBlue),
+                        SizedBox(width: 5),
+                        Text(
+                          'Starts on ${start.isEmpty || start == "null" ? "NA" : formatReadableDate(start)}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: AppColors.grey,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Icon(Icons.arrow_forward,
+                        size: 16, color: AppColors.primaryBlue),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.event,
+                            size: 16, color: AppColors.primaryBlue),
+                        SizedBox(width: 5),
+                        Text(
+                          "Ends on ${end.isEmpty || end == "null" ? "NA" : formatReadableDate(end)}",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: AppColors.grey,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.live_tv,
+                                  size: 18, color: AppColors.primaryBlue),
+                              SizedBox(width: 4),
+                              Text(
+                                "Live Lectures",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: AppColors.black,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.play_circle_fill,
+                                  size: 18, color: AppColors.primaryGreen),
+                              SizedBox(width: 4),
+                              Text(
+                                "Recorded Lectures",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: AppColors.black,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.assignment,
+                                  size: 18, color: AppColors.primaryOrange),
+                              SizedBox(width: 4),
+                              Text(
+                                "DPP's & Quizzes",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: AppColors.black,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.help_outline,
+                                  size: 18, color: AppColors.primaryBlue),
+                              SizedBox(width: 4),
+                              Text(
+                                "Doubt Clearance",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: AppColors.black,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
                 SizedBox(height: 8),
                 Divider(
                   color: AppColors.lightGrey,
@@ -169,7 +310,7 @@ class HomeCourseCard extends StatelessWidget {
                 SizedBox(height: 10),
                 LayoutBuilder(builder: (context, constraints) {
                   final isTablet = constraints.maxWidth < 300;
-                            // debugPrint("${constraints.maxWidth} $isTablet");
+                  // debugPrint("${constraints.maxWidth} $isTablet");
                   return Row(
                     children: [
                       if (discountType == "amount" &&
@@ -213,8 +354,7 @@ class HomeCourseCard extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(12),
                                       boxShadow: [
                                         BoxShadow(
-                                          color:
-                                              Colors.black.withOpacity(0.08),
+                                          color: Colors.black.withOpacity(0.08),
                                           blurRadius: 4,
                                           offset: Offset(0, 2),
                                         ),
@@ -232,7 +372,7 @@ class HomeCourseCard extends StatelessWidget {
                                 ],
                               )
                             : Expanded(
-                              child: Row(
+                                child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
@@ -288,7 +428,7 @@ class HomeCourseCard extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                            ),
+                              ),
                       ] else ...[
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -373,8 +513,7 @@ class HomeCourseCard extends StatelessWidget {
                                     AppColors.primaryGreen.withOpacity(0.12),
                                 foregroundColor: AppColors.primaryGreen,
                                 side: BorderSide(
-                                    color: AppColors.primaryGreen,
-                                    width: 1.2),
+                                    color: AppColors.primaryGreen, width: 1.2),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
@@ -419,8 +558,7 @@ class HomeCourseCard extends StatelessWidget {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            CheckoutScreen(
+                                        builder: (context) => CheckoutScreen(
                                               courseId: courseId,
                                             )));
                               },
@@ -488,4 +626,34 @@ class HomeCourseCard extends StatelessWidget {
       ),
     );
   }
+}
+
+String formatReadableDate(String isoDate) {
+  try {
+    final date = DateTime.parse(isoDate);
+    // Example: 31 Jul 2025
+    return "${date.day.toString().padLeft(2, '0')} "
+        "${_monthAbbreviation(date.month)} "
+        "${date.year}";
+  } catch (e) {
+    return isoDate;
+  }
+}
+
+String _monthAbbreviation(int month) {
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ];
+  return (month >= 1 && month <= 12) ? months[month - 1] : '';
 }
