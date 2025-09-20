@@ -41,7 +41,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> loadActiveCourses() async {
-    debugPrint("Screen Width: ${MediaQuery.of(context).size.width}");
     final homePageProvider = context.read<HomePageProvider>();
     await homePageProvider.fetchActiveCouses(context);
     await homePageProvider.fetchFeaturedCourses(context: context);
@@ -181,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: 100),
                     )
                   : SizedBox(
-                      height: 200,
+                      height: 310,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         padding: EdgeInsets.only(left: 20, right: 20),
@@ -189,6 +188,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemBuilder: (context, index) => Padding(
                           padding: const EdgeInsets.only(right: 10),
                           child: FeaturedCourseCard(
+                            isEnrolled: homePageProvider
+                                    .featuredCourses[index].isEnrolled ??
+                                false,
                             course: homePageProvider.featuredCourses[index],
                             index: index,
                           ),
@@ -259,6 +261,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         : LayoutBuilder(
                             builder: (context, constraints) {
                               final isTablet = constraints.maxWidth > 500;
+                              // debugPrint("${constraints.maxWidth} $isTablet");
                               if (homePageProvider.selectedCategoryCourses.id ==
                                   0) {
                                 if (homePageProvider.activeCourses.isEmpty) {
@@ -284,9 +287,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                         gridDelegate:
                                             SliverGridDelegateWithFixedCrossAxisCount(
                                           crossAxisCount: 2,
-                                          childAspectRatio: 2.8,
-                                          mainAxisSpacing: 14,
-                                          crossAxisSpacing: 14,
+                                          childAspectRatio: 0.75,
+                                          mainAxisSpacing: 5,
+                                          crossAxisSpacing: 5,
                                         ),
                                         itemCount: homePageProvider
                                             .activeCourses.length,
@@ -373,9 +376,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                         gridDelegate:
                                             SliverGridDelegateWithFixedCrossAxisCount(
                                           crossAxisCount: 2,
-                                          childAspectRatio: 2.8,
-                                          mainAxisSpacing: 14,
-                                          crossAxisSpacing: 14,
+                                          childAspectRatio: 0.75,
+                                          mainAxisSpacing: 5,
+                                          crossAxisSpacing: 5,
                                         ),
                                         itemCount: selectedCourses.length,
                                         itemBuilder: (context, index) {

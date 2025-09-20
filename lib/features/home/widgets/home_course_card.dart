@@ -154,12 +154,8 @@ class HomeCourseCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Star rating
-                Positioned(
-                  bottom: 7,
-                  left: 7,
-                  child: courseStarRating(),
-                ),
+
+                Positioned(bottom: 7, left: 7, child: courseStarRating()),
               ],
             ),
             Padding(
@@ -167,15 +163,18 @@ class HomeCourseCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    courseName,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.black,
+                  SizedBox(
+                    height: 45,
+                    child: Text(
+                      courseName,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.black,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
                     ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
                   ),
                   SizedBox(height: 8),
                   Divider(
@@ -184,62 +183,168 @@ class HomeCourseCard extends StatelessWidget {
                     height: 1,
                   ),
                   SizedBox(height: 10),
-                  Row(
-                    children: [
-                      if (discountType == "amount" &&
-                          discount != null &&
-                          discount > 0) ...[
-                        Text(
-                          '₹$price',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14,
-                            color: AppColors.grey,
-                            decoration: TextDecoration.lineThrough,
+                  LayoutBuilder(builder: (context, constraints) {
+                    final isTablet = constraints.maxWidth < 300;
+                              debugPrint("${constraints.maxWidth} $isTablet");
+                    return Row(
+                      children: [
+                        if (discountType == "amount" &&
+                            discount != null &&
+                            discount > 0) ...[
+                          isTablet
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          '₹$price',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 12,
+                                            color: AppColors.grey,
+                                            decoration:
+                                                TextDecoration.lineThrough,
+                                          ),
+                                        ),
+                                        SizedBox(width: 8),
+                                        Text(
+                                          finalPrice != null
+                                              ? '₹${finalPrice.toStringAsFixed(2).replaceAll(RegExp(r'\.00'), '')}'
+                                              : '₹-',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                            color: AppColors.primaryBlue,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 4),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.primaryOrange
+                                            .withOpacity(0.9),
+                                        borderRadius: BorderRadius.circular(12),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color:
+                                                Colors.black.withOpacity(0.08),
+                                            blurRadius: 4,
+                                            offset: Offset(0, 2),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Text(
+                                        'Discount of ₹${discountValue ?? ''} applied',
+                                        style: TextStyle(
+                                          color: AppColors.white,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 11,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : Expanded(
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            '₹$price',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 12,
+                                              color: AppColors.grey,
+                                              decoration:
+                                                  TextDecoration.lineThrough,
+                                            ),
+                                          ),
+                                          SizedBox(width: 8),
+                                          Text(
+                                            finalPrice != null
+                                                ? '₹${finalPrice.toStringAsFixed(2).replaceAll(RegExp(r'\.00'), '')}'
+                                                : '₹-',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              color: AppColors.primaryBlue,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 4),
+                                        decoration: BoxDecoration(
+                                          color: AppColors.primaryOrange
+                                              .withOpacity(0.9),
+                                          borderRadius: BorderRadius.circular(12),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.black.withOpacity(0.08),
+                                              blurRadius: 4,
+                                              offset: Offset(0, 2),
+                                            ),
+                                          ],
+                                        ),
+                                        child: Text(
+                                          'Discount of ₹${discountValue ?? ''} applied',
+                                          style: TextStyle(
+                                            color: AppColors.white,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 11,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                              ),
+                        ] else ...[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '₹$price',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  color: AppColors.primaryBlue,
+                                ),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 4),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  // boxShadow: [
+                                  //   BoxShadow(
+                                  //     color: Colors.black.withOpacity(0.08),
+                                  //     blurRadius: 4,
+                                  //     offset: Offset(0, 2),
+                                  //   ),
+                                  // ],
+                                ),
+                                child: Text(
+                                  '',
+                                  style: TextStyle(
+                                    color: AppColors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 11,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        SizedBox(width: 8),
-                        Text(
-                          finalPrice != null
-                              ? '₹${finalPrice.toStringAsFixed(2).replaceAll(RegExp(r'\.00'), '')}'
-                              : '₹-',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            color: AppColors.primaryBlue,
-                          ),
-                        ),
-                        Spacer(),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: AppColors.primaryGreen.withOpacity(0.15),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                                color: AppColors.primaryGreen, width: 1),
-                          ),
-                          child: Text(
-                            'Discount of ₹${discountValue ?? ''} applied',
-                            style: TextStyle(
-                              color: AppColors.primaryGreen,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 12.5,
-                            ),
-                          ),
-                        ),
-                      ] else ...[
-                        Text(
-                          '₹$price',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            color: AppColors.primaryBlue,
-                          ),
-                        ),
-                      ]
-                    ],
-                  ),
+                        ]
+                      ],
+                    );
+                  }),
                   SizedBox(height: 10),
                   isEnrolled
                       ? SizedBox(

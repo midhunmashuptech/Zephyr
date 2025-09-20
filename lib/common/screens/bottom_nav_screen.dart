@@ -33,7 +33,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
       body: _pages[_currentIndex],
       bottomNavigationBar: SalomonBottomBar(
         currentIndex: _currentIndex,
-        backgroundColor: AppColors.lightOrange,
+        backgroundColor: AppColors.bottomNavBarColor,
         onTap: (i) => setState(() => _currentIndex = i),
         items: [
           /// Home
