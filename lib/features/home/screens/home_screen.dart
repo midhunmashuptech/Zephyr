@@ -41,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> loadActiveCourses() async {
+    debugPrint("Screen Width: ${MediaQuery.of(context).size.width}");
     final homePageProvider = context.read<HomePageProvider>();
     await homePageProvider.fetchActiveCouses(context);
     await homePageProvider.fetchFeaturedCourses(context: context);
@@ -257,7 +258,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           )
                         : LayoutBuilder(
                             builder: (context, constraints) {
-                              final isTablet = constraints.maxWidth > 700;
+                              final isTablet = constraints.maxWidth > 500;
                               if (homePageProvider.selectedCategoryCourses.id ==
                                   0) {
                                 if (homePageProvider.activeCourses.isEmpty) {
