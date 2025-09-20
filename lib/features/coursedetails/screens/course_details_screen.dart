@@ -232,7 +232,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                                 await Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => CheckoutScreen()),
+                                      builder: (context) => CheckoutScreen(courseId: widget.courseId,)),
                                 );
                                 // Reset state after returning WITHOUT triggering reverse animation
                                 setState(() {

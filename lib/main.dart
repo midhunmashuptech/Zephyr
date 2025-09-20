@@ -15,6 +15,7 @@ import 'package:zephyr/features/drawer/provider/timeline_provider.dart';
 import 'package:zephyr/features/enrolled_courses/provider/enrolled_course_provider.dart';
 import 'package:zephyr/features/home/provider/home_page_provider.dart';
 import 'package:zephyr/features/live_class/provider/live_provider.dart';
+import 'package:zephyr/features/payment/provider/payment_provider.dart';
 import 'package:zephyr/features/test/provider/make_test_provider.dart';
 import 'package:zephyr/features/test/screens/test_completion_screen.dart';
 import 'package:zephyr/features/test/screens/test_quiz_screen.dart';
@@ -43,6 +44,7 @@ void main() async {
     ChangeNotifierProvider(create: (_) => AssignmentProvider()),
     ChangeNotifierProvider(create: (_) => TimelineProvider()),
     ChangeNotifierProvider(create: (_) => TestSeriesProvider()),
+    ChangeNotifierProvider(create: (_) => PaymentProvider()),
   ], child: const MyApp()));
 }
 
