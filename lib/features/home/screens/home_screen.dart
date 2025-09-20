@@ -255,9 +255,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Lottie.asset("assets/lottie/loading.json",
                                 height: 100),
                           )
-                        : (homePageProvider.selectedCategoryCourses.id == 0
-                            ? (homePageProvider.activeCourses.isEmpty
-                                ? Center(
+                        : LayoutBuilder(
+                            builder: (context, constraints) {
+                              final isTablet = constraints.maxWidth > 700;
+                              if (homePageProvider.selectedCategoryCourses.id ==
+                                  0) {
+                                if (homePageProvider.activeCourses.isEmpty) {
+                                  return Center(
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 40.0),
@@ -270,37 +274,70 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ],
                                       ),
                                     ),
-                                  )
-                                : ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount:
-                                        homePageProvider.activeCourses.length,
-                                    itemBuilder: (context, index) {
-                                      final courseData =
-                                          homePageProvider.activeCourses[index];
-                                      return Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 12.0),
-                                        child: HomeCourseCard(
-                                          index: index,
-                                          courseId: courseData.id.toString(),
-                                          courseName:
-                                              courseData.title ?? "Course Name",
-                                          courseRating: "3.2",
-                                          isEnrolled:
-                                              courseData.isEnrolled ?? false,
-                                          thumbnail: courseData.thumbnail ??
-                                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                                  );
+                                }
+                                return isTablet
+                                    ? GridView.builder(
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        gridDelegate:
+                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          childAspectRatio: 2.8,
+                                          mainAxisSpacing: 14,
+                                          crossAxisSpacing: 14,
                                         ),
+                                        itemCount: homePageProvider
+                                            .activeCourses.length,
+                                        itemBuilder: (context, index) {
+                                          final courseData = homePageProvider
+                                              .activeCourses[index];
+                                          return HomeCourseCard(
+                                            index: index,
+                                            courseId: courseData.id.toString(),
+                                            courseName: courseData.title ??
+                                                "Course Name",
+                                            courseRating: "3.2",
+                                            isEnrolled:
+                                                courseData.isEnrolled ?? false,
+                                            thumbnail: courseData.thumbnail ??
+                                                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                                          );
+                                        },
+                                      )
+                                    : ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: homePageProvider
+                                            .activeCourses.length,
+                                        itemBuilder: (context, index) {
+                                          final courseData = homePageProvider
+                                              .activeCourses[index];
+                                          return Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 12.0),
+                                            child: HomeCourseCard(
+                                              index: index,
+                                              courseId:
+                                                  courseData.id.toString(),
+                                              courseName: courseData.title ??
+                                                  "Course Name",
+                                              courseRating: "3.2",
+                                              isEnrolled:
+                                                  courseData.isEnrolled ??
+                                                      false,
+                                              thumbnail: courseData.thumbnail ??
+                                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                                            ),
+                                          );
+                                        },
                                       );
-                                    },
-                                  ))
-                            : ((homePageProvider
-                                            .selectedCategoryCourses.courses ??
-                                        [])
-                                    .isEmpty
-                                ? Center(
+                              } else {
+                                final selectedCourses = homePageProvider
+                                        .selectedCategoryCourses.courses ??
+                                    [];
+                                if (selectedCourses.isEmpty) {
+                                  return Center(
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 40.0),
@@ -313,37 +350,65 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ],
                                       ),
                                     ),
-                                  )
-                                : ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: (homePageProvider
-                                                .selectedCategoryCourses
-                                                .courses ??
-                                            [])
-                                        .length,
-                                    itemBuilder: (context, index) {
-                                      final courseData = (homePageProvider
-                                              .selectedCategoryCourses
-                                              .courses ??
-                                          [])[index];
-                                      return Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 12.0),
-                                        child: HomeCourseCard(
-                                          index: index,
-                                          courseId: courseData.id.toString(),
-                                          courseName:
-                                              courseData.title ?? "Course Name",
-                                          courseRating: "3.2",
-                                          isEnrolled:
-                                              courseData.isEnrolled ?? false,
-                                          thumbnail: courseData.thumbnail ??
-                                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                                  );
+                                }
+                                return isTablet
+                                    ? GridView.builder(
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        gridDelegate:
+                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          childAspectRatio: 2.8,
+                                          mainAxisSpacing: 14,
+                                          crossAxisSpacing: 14,
                                         ),
+                                        itemCount: selectedCourses.length,
+                                        itemBuilder: (context, index) {
+                                          final courseData =
+                                              selectedCourses[index];
+                                          return HomeCourseCard(
+                                            index: index,
+                                            courseId: courseData.id.toString(),
+                                            courseName: courseData.title ??
+                                                "Course Name",
+                                            courseRating: "3.2",
+                                            isEnrolled:
+                                                courseData.isEnrolled ?? false,
+                                            thumbnail: courseData.thumbnail ??
+                                                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                                          );
+                                        },
+                                      )
+                                    : ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: selectedCourses.length,
+                                        itemBuilder: (context, index) {
+                                          final courseData =
+                                              selectedCourses[index];
+                                          return Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 12.0),
+                                            child: HomeCourseCard(
+                                              index: index,
+                                              courseId:
+                                                  courseData.id.toString(),
+                                              courseName: courseData.title ??
+                                                  "Course Name",
+                                              courseRating: "3.2",
+                                              isEnrolled:
+                                                  courseData.isEnrolled ??
+                                                      false,
+                                              thumbnail: courseData.thumbnail ??
+                                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                                            ),
+                                          );
+                                        },
                                       );
-                                    },
-                                  ))),
+                              }
+                            },
+                          ),
                   ],
                 ),
               ),
