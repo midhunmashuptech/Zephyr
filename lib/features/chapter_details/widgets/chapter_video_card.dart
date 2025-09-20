@@ -52,7 +52,7 @@ class ChapterVideoCard extends StatelessWidget {
                   children: [
                     Container(
                         height: MediaQuery.of(context).size.width * 0.17,
-                                  width: MediaQuery.of(context).size.width * 0.22,
+                        width: MediaQuery.of(context).size.width * 0.22,
                         clipBehavior: Clip.hardEdge,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -65,7 +65,8 @@ class ChapterVideoCard extends StatelessWidget {
                               children: [
                                 CachedNetworkImage(
                                   imageUrl: thumbnail,
-                                  width: MediaQuery.of(context).size.width * 0.22,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.22,
                                   height:
                                       MediaQuery.of(context).size.width * 0.17,
                                   fit: BoxFit.cover,

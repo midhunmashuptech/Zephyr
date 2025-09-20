@@ -147,32 +147,42 @@ class _MakeYourTestScreenState extends State<MakeYourTestScreen> {
                         ),
                         SizedBox(
                             height: MediaQuery.of(context).size.width * 0.02),
-                        DropdownMenu(
+                        IgnorePointer(
+                          ignoring: makeTestProvider
+                              .chapters.isEmpty, // true means disabled
+                          child: DropdownMenu(
                             hintText: "Chapter",
                             width: MediaQuery.of(context).size.width * 0.8,
                             onSelected: (value) =>
                                 makeTestProvider.setSelectedChapter(value),
                             dropdownMenuEntries: List.generate(
-                                makeTestProvider.chapters.length,
-                                (index) => DropdownMenuEntry(
-                                    value: makeTestProvider.chapters[index].id,
-                                    label: makeTestProvider
-                                            .chapters[index].title ??
-                                        "Option Value"))),
+                              makeTestProvider.chapters.length,
+                              (index) => DropdownMenuEntry(
+                                value: makeTestProvider.chapters[index].id,
+                                label: makeTestProvider.chapters[index].title ??
+                                    "Option Value",
+                              ),
+                            ),
+                          ),
+                        ),
                         SizedBox(
                             height: MediaQuery.of(context).size.width * 0.02),
-                        DropdownMenu(
-                            hintText: "Topic",
-                            width: MediaQuery.of(context).size.width * 0.8,
-                            onSelected: (value) =>
-                                makeTestProvider.setSelectedTopic(value),
-                            dropdownMenuEntries: List.generate(
-                                makeTestProvider.topics.length,
-                                (index) => DropdownMenuEntry(
-                                    value: makeTestProvider.topics[index].id,
-                                    label:
-                                        makeTestProvider.topics[index].title ??
-                                            "Option Value"))),
+                        IgnorePointer(
+                          ignoring: makeTestProvider
+                              .topics.isEmpty,
+                          child: DropdownMenu(
+                              hintText: "Topic",
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              onSelected: (value) =>
+                                  makeTestProvider.setSelectedTopic(value),
+                              dropdownMenuEntries: List.generate(
+                                  makeTestProvider.topics.length,
+                                  (index) => DropdownMenuEntry(
+                                      value: makeTestProvider.topics[index].id,
+                                      label:
+                                          makeTestProvider.topics[index].title ??
+                                              "Option Value"))),
+                        ),
                         SizedBox(height: 10),
                         DropdownMenu(
                             hintText: "Difficulty Level",
@@ -194,7 +204,8 @@ class _MakeYourTestScreenState extends State<MakeYourTestScreen> {
                             textcolor: AppColors.white,
                             onPressed: () async {
                               makeTestProvider.printAllSelectedValues();
-                              await makeTestProvider.prepareGeneratedQuiz(context);
+                              await makeTestProvider
+                                  .prepareGeneratedQuiz(context);
                             }),
                       ],
                     ),
