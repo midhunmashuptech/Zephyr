@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Poppins',
           useMaterial3: true,
           scaffoldBackgroundColor: AppColors.white),
-      // home: SplashScreen(),
+      home: SplashScreen(),
       // home: BottomNavScreen(),
       // home: ChapterDetailsScreen(),
       // home: ChapterAnalysisScreen(),
