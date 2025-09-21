@@ -73,27 +73,24 @@ class _TestOngoingScreenState extends State<TestOngoingScreen> {
                       Expanded(
                           child: ListView.separated(
                               itemBuilder: (context, index) => TestSeriesCard(
-                                    isOngoing: true,
-                                    title: testSeriesProvider
-                                            .ongoingTestsList[index].title ??
-                                        "Title",
-                                    startDate: formatDateTime(testSeriesProvider
-                                            .ongoingTestsList[index].start ??
-                                        ""),
-                                    endDate: formatDateTime(testSeriesProvider
-                                            .ongoingTestsList[index].end ??
-                                        ""),
-                                    duration: (testSeriesProvider
-                                                .ongoingTestsList[index]
-                                                .duration ??
-                                            "")
-                                        .toString(),
-                                    questions: "10",
-                                  ),
-                              separatorBuilder: (context, _) =>
-                                  SizedBox(height: 5),
-                              itemCount:
-                                  testSeriesProvider.ongoingTestsList.length)),
+                                  type: "main_test",
+                                  testid: testSeriesProvider
+                                      .ongoingTestsList[index].id
+                                      .toString(),
+                                  isOngoing: true,
+                                  title: testSeriesProvider
+                                          .ongoingTestsList[index].title ??
+                                      "Title",
+                                  startDate: formatDateTime(testSeriesProvider
+                                          .ongoingTestsList[index].start ??
+                                      ""),
+                                  endDate: formatDateTime(
+                                      testSeriesProvider.ongoingTestsList[index].end ?? ""),
+                                  duration: (testSeriesProvider.ongoingTestsList[index].duration ?? "").toString(),
+                                  questions: (testSeriesProvider.ongoingTestsList[index].totalQuestions ?? 0).toString(),
+                                  maxMarks: (testSeriesProvider.ongoingTestsList[index].maxMarks ?? 0).toString()),
+                              separatorBuilder: (context, _) => SizedBox(height: 5),
+                              itemCount: testSeriesProvider.ongoingTestsList.length)),
                     ],
                   ),
       )),

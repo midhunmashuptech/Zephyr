@@ -48,10 +48,14 @@ class _TestAttendedScreenState extends State<TestAttendedScreen> {
             Expanded(
                 child: ListView.builder(
                     itemBuilder: (context, index) => TestSeriesCard(
+                          testid: "0",
+                          type: "main_test",
                           isAttended: true,
                           title: attendedTests[index].title,
                           submissionDate: attendedTests[index].submittedDate,
                           duration: attendedTests[index].duration,
+                          questions: "30",
+                          maxMarks: "100",
                         ),
                     itemCount: attendedTests.length)),
           ],

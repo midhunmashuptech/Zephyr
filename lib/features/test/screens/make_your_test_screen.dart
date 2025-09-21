@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:zephyr/common/provider/user_details_provider.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/test/provider/make_test_provider.dart';
+import 'package:zephyr/features/test/screens/attend_ai_test_screen.dart';
 
 class MakeYourTestScreen extends StatefulWidget {
   const MakeYourTestScreen({super.key});
@@ -31,6 +33,8 @@ class _MakeYourTestScreenState extends State<MakeYourTestScreen> {
   //   await loadProvider.fetchClassSubjectsOptions();
   // }
 
+  UserDetailsProvider userDetailsProvider = UserDetailsProvider();
+
   @override
   void initState() {
     super.initState();
@@ -40,7 +44,7 @@ class _MakeYourTestScreenState extends State<MakeYourTestScreen> {
   @override
   Widget build(BuildContext context) {
     makeTestProvider = context.watch<MakeTestProvider>();
-
+    userDetailsProvider = context.watch<UserDetailsProvider>();
     return Scaffold(
       backgroundColor: AppColors.white,
       body: SafeArea(
@@ -187,9 +191,64 @@ class _MakeYourTestScreenState extends State<MakeYourTestScreen> {
                             color: AppColors.primaryOrange,
                             textcolor: AppColors.white,
                             onPressed: () async {
-                              makeTestProvider.printAllSelectedValues();
-                              await makeTestProvider
-                                  .prepareGeneratedQuiz(context);
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => AttendAiTestScreen(
+                                    userid: userDetailsProvider.userDetails.id
+                                        .toString(),
+                                    questionsCount:
+                                        (makeTestProvider.selectedQuesCount ??
+                                                10)
+                                            .toString(),
+                                    className: makeTestProvider.classes
+                                            .firstWhere(
+                                                (element) =>
+                                                    element.id ==
+                                                    makeTestProvider
+                                                        .selectedClass,
+                                                orElse: () => throw Exception(
+                                                    'Class not found'))
+                                            .title ??
+                                        "",
+                                    subject: makeTestProvider.subjects
+                                            .firstWhere(
+                                                (element) =>
+                                                    element.id ==
+                                                    makeTestProvider
+                                                        .selectedSubject,
+                                                orElse: () => throw Exception(
+                                                    'Subject not found'))
+                                            .title ??
+                                        "",
+                                    chapter: makeTestProvider.chapters
+                                            .firstWhere(
+                                                (element) =>
+                                                    element.id ==
+                                                    makeTestProvider
+                                                        .selectedChapter,
+                                                orElse: () => throw Exception(
+                                                    'Chapter not found'))
+                                            .title ??
+                                        "",
+                                    topic: makeTestProvider.topics
+                                            .firstWhere(
+                                                (element) =>
+                                                    element.id ==
+                                                    makeTestProvider
+                                                        .selectedTopic,
+                                                orElse: () => throw Exception(
+                                                    'Topic not found'))
+                                            .title ??
+                                        "",
+                                    difficulty: makeTestProvider
+                                            .selectedDifficultyLevel ??
+                                        "medium",
+                                  ),
+                                ),
+                              );
+                              // makeTestProvider.printAllSelectedValues();
+                              // await makeTestProvider
+                              //     .prepareGeneratedQuiz(context);
                             }),
                       ],
                     ),

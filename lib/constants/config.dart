@@ -46,7 +46,6 @@ const resetPasswordAuthUrl = "${baseUrl}reset-password";
 const ongoingTestSeriesUrl = "${baseUrl}get-ongoing-test-series";
 const upcomingTestSeriesUrl = "${baseUrl}get-upcoming-test-series";
 
-
 // Timeline APIs
 const getTimelineActivitiesUrl = "${baseUrl}get-timeline-activity";
 const postTimelineActivityUrl = "${baseUrl}post-timeline-activity";
@@ -67,10 +66,16 @@ const getCourseReviewsUrl = "${baseUrl}get-course-reviews/";
 const postCourseReviewUrl = "${baseUrl}post-course-reviews";
 
 // Base URL for webview
-const webBaseUrl = "https://zephyrentrance.in/";
+const webBaseUrl = "https://zephyrdigital.in/";
 
 // WebView endpoint
 const testUrl = "${webBaseUrl}events";
 const termsAndCondition = "${webBaseUrl}contact";
 const helpAndSupport = "${webBaseUrl}contact";
 const aboutUs = "${webBaseUrl}about";
+
+// quiz related endpoints
+const attendTest =
+    "${webBaseUrl}quiz/attend-test"; // test id will be appended attend-test/{type}/{userid}/{testid}
+const attendAiTest =
+    "${webBaseUrl}quiz/attend-ai-quiz"; // test id will be appended attend-ai-quiz/{type}/{userid}/{testid}

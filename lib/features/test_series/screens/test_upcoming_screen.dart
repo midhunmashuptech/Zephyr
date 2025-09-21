@@ -87,22 +87,24 @@ class _TestUpmoningScreenState extends State<TestUpmoningScreen> {
                       Expanded(
                           child: ListView.separated(
                         itemBuilder: (context, index) => TestSeriesCard(
-                          isUpcoming: true,
-                          title: testSeriesProvider
-                                  .upcomingTestsList[index].title ??
-                              "Title",
-                          startDate: formatDateTime(testSeriesProvider
-                                  .upcomingTestsList[index].start ??
-                              "Date"),
-                          endDate: formatDateTime(
-                              testSeriesProvider.upcomingTestsList[index].end ??
-                                  "Date"),
-                          duration: (testSeriesProvider
-                                      .upcomingTestsList[index].duration ??
-                                  "Duration")
-                              .toString(),
-                          questions: "27",
-                        ),
+                            type: "main_test",
+                            testid: testSeriesProvider.upcomingTestsList[index].id
+                                .toString(),
+                            isUpcoming: true,
+                            title: testSeriesProvider.upcomingTestsList[index].title ??
+                                "Title",
+                            startDate: formatDateTime(testSeriesProvider
+                                    .upcomingTestsList[index].start ??
+                                "Date"),
+                            endDate: formatDateTime(
+                                testSeriesProvider.upcomingTestsList[index].end ??
+                                    "Date"),
+                            duration: (testSeriesProvider
+                                        .upcomingTestsList[index].duration ??
+                                    "Duration")
+                                .toString(),
+                            questions: (testSeriesProvider.upcomingTestsList[index].totalQuestions ?? 0).toString(),
+                            maxMarks: (testSeriesProvider.upcomingTestsList[index].maxMarks ?? 0).toString()),
                         itemCount: testSeriesProvider.upcomingTestsList.length,
                         separatorBuilder: (context, index) =>
                             SizedBox(height: 5),
