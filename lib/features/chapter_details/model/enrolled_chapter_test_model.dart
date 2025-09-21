@@ -32,6 +32,9 @@ class Tests {
   String? title;
   String? description;
   bool? isAttended;
+  int? totalQuestions;
+  int? duration;
+  int? maxMarks;
 
   Tests(
       {this.batchPracticeTestId,
@@ -40,7 +43,10 @@ class Tests {
       this.testId,
       this.title,
       this.description,
-      this.isAttended});
+      this.isAttended,
+      this.totalQuestions,
+      this.duration,
+      this.maxMarks});
 
   Tests.fromJson(Map<String, dynamic> json) {
     batchPracticeTestId = json['batch_practice_test_id'];
@@ -50,6 +56,9 @@ class Tests {
     title = json['title'];
     description = json['description'];
     isAttended = json['is_attended'];
+    totalQuestions = json['total_questions'];
+    duration = json['duration'];
+    maxMarks = json['max_marks'];
   }
 
   Map<String, dynamic> toJson() {
@@ -61,6 +70,9 @@ class Tests {
     data['title'] = this.title;
     data['description'] = this.description;
     data['is_attended'] = this.isAttended;
+    data['total_questions'] = this.totalQuestions;
+    data['total_marks'] = this.duration;
+    data['max_marks'] = this.maxMarks;
     return data;
   }
 }

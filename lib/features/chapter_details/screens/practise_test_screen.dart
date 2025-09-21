@@ -89,6 +89,16 @@ class _PractiseTestScreenState extends State<PractiseTestScreen> {
                                         .enrolledChapterTests[index]
                                         .description ??
                                     "Chapter",
+                                duration: enrolledChapterDetailsProvider
+                                        .enrolledChapterTests[index].duration ??
+                                    0,
+                                maxMarks: enrolledChapterDetailsProvider
+                                        .enrolledChapterTests[index].maxMarks ??
+                                    0,
+                                totalQuestions: enrolledChapterDetailsProvider
+                                        .enrolledChapterTests[index]
+                                        .totalQuestions ??
+                                    0,
                                 uploadedDate: "22/02/2002",
                                 isCompleted: enrolledChapterDetailsProvider
                                         .enrolledChapterTests[index]

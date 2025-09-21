@@ -45,6 +45,8 @@ class TestSeries {
   int? status;
   String? createdAt;
   String? updatedAt;
+  int? totalQuestions;
+  int? maxMarks;
 
   TestSeries(
       {this.id,
@@ -66,6 +68,8 @@ class TestSeries {
       this.videoId,
       this.status,
       this.createdAt,
+      this.totalQuestions,
+      this.maxMarks,
       this.updatedAt});
 
   TestSeries.fromJson(Map<String, dynamic> json) {
@@ -94,6 +98,8 @@ class TestSeries {
     status = json['status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    totalQuestions = json['total_questions'];
+    maxMarks = json['max_marks'];
   }
 
   Map<String, dynamic> toJson() {
@@ -119,6 +125,8 @@ class TestSeries {
     data['video_id'] = this.videoId;
     data['status'] = this.status;
     data['created_at'] = this.createdAt;
+    data['total_questions'] = this.totalQuestions;
+    data['max_marks'] = this.maxMarks;
     data['updated_at'] = this.updatedAt;
     return data;
   }

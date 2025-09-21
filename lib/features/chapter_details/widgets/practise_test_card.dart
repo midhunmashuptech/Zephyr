@@ -12,14 +12,21 @@ class PractiseTestCard extends StatelessWidget {
   final String uploadedDate;
   final bool isCompleted;
   final String batchId;
-  const PractiseTestCard(
-      {super.key,
-      required this.title,
-      required this.chapter,
-      required this.uploadedDate,
-      required this.isCompleted,
-      required this.batchId
-      });
+  // New fields for duration, maxMarks, totalQuestions
+  final int duration;
+  final int maxMarks;
+  final int totalQuestions;
+  const PractiseTestCard({
+    super.key,
+    required this.title,
+    required this.chapter,
+    required this.uploadedDate,
+    required this.isCompleted,
+    required this.batchId,
+    required this.duration,
+    required this.maxMarks,
+    required this.totalQuestions,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +35,21 @@ class PractiseTestCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
       child: GestureDetector(
         onTap: () async {
-        await timelineProvider.postTimelineActivity(
-            context: context, contentType: "practice_test", contentId: batchId);
+          await timelineProvider.postTimelineActivity(
+              context: context,
+              contentType: "practice_test",
+              contentId: batchId);
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) => TestInstructionsScreen()));
+                  builder: (context) => TestInstructionsScreen(
+                        testId: batchId,
+                        type: "practice_test",
+                        duration: duration,
+                        maxMarks: maxMarks,
+                        title: title,
+                        totalQuestions: totalQuestions,
+                      )));
         },
         child: Container(
           width: MediaQuery.of(context).size.width,
@@ -59,15 +75,16 @@ class PractiseTestCard extends StatelessWidget {
                       : MediaQuery.of(context).size.width * 0.16,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4),
-                      color: isCompleted 
-                      ?AppColors.primaryGreen.withAlpha(20)
-                       :AppColors.primaryOrange.withAlpha(20)),
+                      color: isCompleted
+                          ? AppColors.primaryGreen.withAlpha(20)
+                          : AppColors.primaryOrange.withAlpha(20)),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Iconify(Healthicons.i_exam_multiple_choice_outline,
-                        size: 16, color: isCompleted 
-                      ?AppColors.primaryGreen
-                       :AppColors.primaryOrange),
+                        size: 16,
+                        color: isCompleted
+                            ? AppColors.primaryGreen
+                            : AppColors.primaryOrange),
                   ),
                 ),
                 SizedBox(width: 15),
@@ -111,15 +128,33 @@ class PractiseTestCard extends StatelessWidget {
                                     size: 14, color: AppColors.primaryGreen)
                               ],
                             )
-                          : Row(
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Icon(
-                                  Icons.schedule_rounded,
-                                  size: 18,
+                                Row(
+                                  children: [
+                                    Icon(Icons.timer_outlined, size: 16),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      "$duration min",
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                    SizedBox(width: 12),
+                                    Icon(Icons.help_outline, size: 16),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      "$totalQuestions Qs",
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                    SizedBox(width: 12),
+                                    Icon(Icons.grade_outlined, size: 16),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      "$maxMarks marks",
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(width: 5),
-                                Text("due date on $uploadedDate",
-                                    style: TextStyle(fontSize: 12))
                               ],
                             ),
                     ],

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/healthicons.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/test_series/screens/test_instructions_screen.dart';
 import 'package:zephyr/features/test_series/screens/test_review_screen.dart';
 
 class TestSeriesCard extends StatelessWidget {
@@ -15,6 +16,9 @@ class TestSeriesCard extends StatelessWidget {
   final bool isOngoing;
   final bool isUpcoming;
   final bool isAttended;
+  final String testid;
+  final String type;
+  final String maxMarks;
   const TestSeriesCard(
       {super.key,
       this.isOngoing = false,
@@ -25,7 +29,10 @@ class TestSeriesCard extends StatelessWidget {
       this.startDate = "",
       this.endDate = "",
       this.duration = "",
-      this.questions = ""});
+      required this.testid,
+      required this.type,
+      required this.maxMarks,
+      required this.questions});
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +91,22 @@ class TestSeriesCard extends StatelessWidget {
                           ),
                           if (isOngoing)
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            TestInstructionsScreen(
+                                              testId: testid,
+                                              type: type,
+                                              title: title,
+                                              totalQuestions:
+                                                  int.parse(questions),
+                                              maxMarks: int.parse(maxMarks),
+                                              duration: int.parse(
+                                                  duration.split(" ")[0]),
+                                            )));
+                              },
                               child: Column(
                                 children: [
                                   Icon(
