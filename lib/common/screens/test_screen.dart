@@ -1,142 +1,62 @@
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:zephyr/features/home/widgets/home_tablet_course_card.dart';
 
-void main() {
-  runApp(const PieChartDemo());
-}
-
-class PieChartDemo extends StatelessWidget {
-  const PieChartDemo({super.key});
+class HomeCardTestScreen extends StatefulWidget {
+  const HomeCardTestScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(title: const Text("Syncfusion Pie Charts")),
-        body: const PieChartExamples(),
-      ),
-    );
-  }
+  State<HomeCardTestScreen> createState() => _HomeCardTestScreenState();
 }
 
-class PieChartExamples extends StatelessWidget {
-  const PieChartExamples({super.key});
-
+class _HomeCardTestScreenState extends State<HomeCardTestScreen> {
   @override
   Widget build(BuildContext context) {
-    final List<ChartData> chartData = [
-      ChartData('Apple', 35),
-      ChartData('Banana', 28),
-      ChartData('Orange', 34),
-      ChartData('Grapes', 32),
-      ChartData('Others', 10),
-    ];
-
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
-        const Text("1. Basic Pie Chart",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        SfCircularChart(
-          series: <CircularSeries>[
-            PieSeries<ChartData, String>(
-              dataSource: chartData,
-              xValueMapper: (ChartData data, _) => data.category,
-              yValueMapper: (ChartData data, _) => data.value,
-            )
-          ],
-        ),
-
-        const Text("2. Doughnut Chart",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        SfCircularChart(
-          series: <CircularSeries>[
-            DoughnutSeries<ChartData, String>(
-              dataSource: chartData,
-              xValueMapper: (ChartData data, _) => data.category,
-              yValueMapper: (ChartData data, _) => data.value,
-              innerRadius: '60%',
-            )
-          ],
-        ),
-
-        const Text("3. Semi Pie Chart",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        SfCircularChart(
-          series: <CircularSeries>[
-            PieSeries<ChartData, String>(
-              dataSource: chartData,
-              xValueMapper: (ChartData data, _) => data.category,
-              yValueMapper: (ChartData data, _) => data.value,
-              startAngle: 270,
-              endAngle: 90,
-            )
-          ],
-        ),
-
-        const Text("4. Exploded Pie Chart",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        SfCircularChart(
-          series: <CircularSeries>[
-            PieSeries<ChartData, String>(
-              dataSource: chartData,
-              xValueMapper: (ChartData data, _) => data.category,
-              yValueMapper: (ChartData data, _) => data.value,
-              explode: true,
-              explodeIndex: 1,
-            )
-          ],
-        ),
-
-        const Text("5. Grouped Pie Chart",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        SfCircularChart(
-          series: <CircularSeries>[
-            PieSeries<ChartData, String>(
-              dataSource: chartData,
-              xValueMapper: (ChartData data, _) => data.category,
-              yValueMapper: (ChartData data, _) => data.value,
-              groupMode: CircularChartGroupMode.value,
-              groupTo: 20, // group values < 20
-            )
-          ],
-        ),
-
-        const Text("6. Pie Chart with Data Labels",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        SfCircularChart(
-          series: <CircularSeries>[
-            PieSeries<ChartData, String>(
-              dataSource: chartData,
-              xValueMapper: (ChartData data, _) => data.category,
-              yValueMapper: (ChartData data, _) => data.value,
-              dataLabelSettings: const DataLabelSettings(
-                isVisible: true,
-                labelPosition: ChartDataLabelPosition.outside,
-              ),
-            )
-          ],
-        ),
-
-        const Text("7. 3D Pie Chart",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        SfCircularChart(
-          series: <CircularSeries>[
-            PieSeries<ChartData, String>(
-              dataSource: chartData,
-              xValueMapper: (ChartData data, _) => data.category,
-              yValueMapper: (ChartData data, _) => data.value,
-            )
-          ],
-        ),
-      ],
+    return Scaffold(
+      body: SafeArea(
+          child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                children: [
+                  HomeTabletCourseCard(
+                    index: 1,
+                    courseId: "1",
+                    courseName: 'Repeaters 2025 (Mediacal Engineering) Course',
+                    courseRating: '4.3',
+                    thumbnail:
+                        "https://d333c2xue188ia.cloudfront.net/images/courses/tot7sXXKYxE8gUyc4In2ycktCYgHzp4XrmvAUn92.png",
+                    isEnrolled: 1 % 2 == 0 ? false : true,
+                    price: '37,000',
+                    discountType: 'aamount',
+                    discountValue: '2000',
+                    start: '2025-07-31T00:00:00.000000Z',
+                    end: '2025-08-03T00:00:00.000000Z',
+                    duration: 34,
+                    level: 'basic',
+                    type: 'Online Class',
+                  ),
+                ],
+              )
+              // ListView.separated(
+              //     itemBuilder: (context, index) => HomeTabletCourseCard(
+              //           index: index,
+              //           courseId: "1",
+              //           courseName: 'Repeaters 2025 (Mediacal Engineering)',
+              //           courseRating: '4.3',
+              //           thumbnail:
+              //               "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+              //           isEnrolled: index % 2 == 0 ? true : false,
+              //           price: '37,000',
+              //           discountType: 'amount',
+              //           discountValue: '2000',
+              //           start: '2025-07-31T00:00:00.000000Z',
+              //           end: '2025-08-03T00:00:00.000000Z',
+              //           duration: 34,
+              //           level: 'basic',
+              //           type: 'Online Class',
+              //         ),
+              //     separatorBuilder: (context, index) => SizedBox(height: 5),
+              //     itemCount: 3)
+              )),
     );
   }
-}
-
-class ChartData {
-  ChartData(this.category, this.value);
-  final String category;
-  final double value;
 }

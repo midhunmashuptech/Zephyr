@@ -6,6 +6,7 @@ import 'package:iconify_flutter_plus/icons/mi.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:zephyr/common/provider/user_details_provider.dart';
+import 'package:zephyr/common/screens/test_screen.dart';
 import 'package:zephyr/common/widgets/custom_search_bar.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/data_class/course.dart';
@@ -15,6 +16,7 @@ import 'package:zephyr/features/home/provider/home_page_provider.dart';
 import 'package:zephyr/features/home/widgets/category_widget.dart';
 import 'package:zephyr/features/home/widgets/featured_course_card.dart';
 import 'package:zephyr/features/home/widgets/home_course_card.dart';
+import 'package:zephyr/features/home/widgets/home_tablet_course_card.dart';
 import 'package:zephyr/features/notification/screens/notifications.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -144,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Notifications()));
+                                  builder: (context) => HomeCardTestScreen()));
                         },
                         icon: Iconify(Mdi.bell_notification, size: 30))
                   ],
@@ -280,49 +282,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   );
                                 }
-                                return isTablet
-                                    ? GridView.builder(
-                                        shrinkWrap: true,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        gridDelegate:
-                                            SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 2,
-                                          childAspectRatio: 0.75,
-                                          mainAxisSpacing: 5,
-                                          crossAxisSpacing: 5,
-                                        ),
-                                        itemCount: homePageProvider
-                                            .activeCourses.length,
-                                        itemBuilder: (context, index) {
-                                          final courseData = homePageProvider
-                                              .activeCourses[index];
-                                          return HomeCourseCard(
-                                            index: index,
-                                            courseId: courseData.id.toString(),
-                                            courseName: courseData.title ??
-                                                "Course Name",
-                                            courseRating:
-                                                (courseData.averageRating ??
-                                                        1.0)
-                                                    .toString(),
-                                            isEnrolled:
-                                                courseData.isEnrolled ?? false,
-                                            thumbnail: courseData.thumbnail ??
-                                                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
-                                            discountType:
-                                                courseData.discountType ?? "0",
-                                            discountValue:
-                                                courseData.discountValue ?? "0",
-                                            price: courseData.price ?? "0.00",
-                                            start: courseData.start ?? "N/A",
-                                            end: courseData.end ?? "N/A",
-                                            duration: courseData.duration ?? 0,
-                                            level: courseData.level ?? "N/A",
-                                            type: courseData.type ?? "N/A",
-                                          );
-                                        },
-                                      )
-                                    : ListView.builder(
+                                return ListView.builder(
                                         shrinkWrap: true,
                                         physics: NeverScrollableScrollPhysics(),
                                         itemCount: homePageProvider
@@ -330,7 +290,41 @@ class _HomeScreenState extends State<HomeScreen> {
                                         itemBuilder: (context, index) {
                                           final courseData = homePageProvider
                                               .activeCourses[index];
-                                          return Padding(
+                                          return isTablet
+                                          ? Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 12.0),
+                                            child: HomeTabletCourseCard(
+                                              index: index,
+                                              courseId:
+                                                  courseData.id.toString(),
+                                              courseName: courseData.title ??
+                                                  "Course Name",
+                                              courseRating:
+                                                  (courseData.averageRating ??
+                                                          0.0)
+                                                      .toString(),
+                                              isEnrolled:
+                                                  courseData.isEnrolled ??
+                                                      false,
+                                              thumbnail: courseData.thumbnail ??
+                                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                                              discountType:
+                                                  courseData.discountType ??
+                                                      "0",
+                                              discountValue:
+                                                  courseData.discountValue ??
+                                                      "0",
+                                              price: courseData.price ?? "0.00",
+                                              start: courseData.start ?? "N/A",
+                                              end: courseData.end ?? "N/A",
+                                              duration:
+                                                  courseData.duration ?? 0,
+                                              level: courseData.level ?? "N/A",
+                                              type: courseData.type ?? "N/A",
+                                            ),
+                                          )
+                                          : Padding(
                                             padding: const EdgeInsets.only(
                                                 bottom: 12.0),
                                             child: HomeCourseCard(
@@ -385,55 +379,48 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   );
                                 }
-                                return isTablet
-                                    ? GridView.builder(
-                                        shrinkWrap: true,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        gridDelegate:
-                                            SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 2,
-                                          childAspectRatio: 0.6,
-                                          mainAxisSpacing: 5,
-                                          crossAxisSpacing: 5,
-                                        ),
-                                        itemCount: selectedCourses.length,
-                                        itemBuilder: (context, index) {
-                                          final courseData =
-                                              selectedCourses[index];
-                                          return HomeCourseCard(
-                                            index: index,
-                                            courseId: courseData.id.toString(),
-                                            courseName: courseData.title ??
-                                                "Course Name",
-                                            courseRating:
-                                                (courseData.averageRating ??
-                                                        0.0)
-                                                    .toString(),
-                                            isEnrolled:
-                                                courseData.isEnrolled ?? false,
-                                            thumbnail: courseData.thumbnail ??
-                                                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
-                                            discountType:
-                                                courseData.discountType ?? "0",
-                                            discountValue:
-                                                courseData.discountValue ?? "0",
-                                            price: courseData.price ?? "0.00",
-                                            start: courseData.start ?? "N/A",
-                                            end: courseData.end ?? "N/A",
-                                            duration: courseData.duration ?? 0,
-                                            level: courseData.level ?? "N/A",
-                                            type: courseData.type ?? "N/A",
-                                          );
-                                        },
-                                      )
-                                    : ListView.builder(
-                                        shrinkWrap: true,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        itemCount: selectedCourses.length,
-                                        itemBuilder: (context, index) {
-                                          final courseData =
-                                              selectedCourses[index];
-                                          return Padding(
+                                return ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: selectedCourses.length,
+                                  itemBuilder: (context, index) {
+                                    final courseData = selectedCourses[index];
+
+                                    return isTablet
+                                        ? Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 12.0),
+                                            child: HomeTabletCourseCard(
+                                              index: index,
+                                              courseId:
+                                                  courseData.id.toString(),
+                                              courseName: courseData.title ??
+                                                  "Course Name",
+                                              courseRating:
+                                                  (courseData.averageRating ??
+                                                          0.0)
+                                                      .toString(),
+                                              isEnrolled:
+                                                  courseData.isEnrolled ??
+                                                      false,
+                                              thumbnail: courseData.thumbnail ??
+                                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                                              discountType:
+                                                  courseData.discountType ??
+                                                      "0",
+                                              discountValue:
+                                                  courseData.discountValue ??
+                                                      "0",
+                                              price: courseData.price ?? "0.00",
+                                              start: courseData.start ?? "N/A",
+                                              end: courseData.end ?? "N/A",
+                                              duration:
+                                                  courseData.duration ?? 0,
+                                              level: courseData.level ?? "N/A",
+                                              type: courseData.type ?? "N/A",
+                                            ),
+                                          )
+                                        : Padding(
                                             padding: const EdgeInsets.only(
                                                 bottom: 12.0),
                                             child: HomeCourseCard(
@@ -466,8 +453,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                               type: courseData.type ?? "N/A",
                                             ),
                                           );
-                                        },
-                                      );
+                                  },
+                                );
                               }
                             },
                           ),
@@ -475,7 +462,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            SliverToBoxAdapter(child: SizedBox(height: 30)),
+            // SliverToBoxAdapter(child: SizedBox(height: 30)),
           ],
         ),
       ),
