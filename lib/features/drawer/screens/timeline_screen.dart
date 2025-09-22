@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/data_class/timelinedata.dart';
 import 'package:zephyr/features/drawer/provider/timeline_provider.dart';
 import 'package:zephyr/features/drawer/widgets/timeline_item.dart';
 

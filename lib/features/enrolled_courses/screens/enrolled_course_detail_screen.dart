@@ -68,30 +68,33 @@ class _EnrolledCourseDetailScreenState extends State<EnrolledCourseDetailScreen>
                         background: Stack(
                           fit: StackFit.expand,
                           children: [
-                            CachedNetworkImage(
-                              imageUrl: enrolledCourseProvider
-                                      .selectedCourseDetails.thumbnail ??
-                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
-                              imageBuilder: (context, imageProvider) =>
-                                  Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: imageProvider,
-                                    fit: BoxFit.cover,
+                            SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                              child: CachedNetworkImage(
+                                imageUrl: enrolledCourseProvider
+                                        .selectedCourseDetails.thumbnail ??
+                                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: imageProvider,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              placeholder: (context, url) => Shimmer.fromColors(
-                                baseColor: AppColors.grey,
-                                highlightColor: AppColors.lightGrey,
-                                child: Container(
-                                  color: AppColors.white,
+                                placeholder: (context, url) => Shimmer.fromColors(
+                                  baseColor: AppColors.grey,
+                                  highlightColor: AppColors.lightGrey,
+                                  child: Container(
+                                    color: AppColors.white,
+                                  ),
                                 ),
-                              ),
-                              errorWidget: (context, url, error) => Container(
-                                color: Colors.grey.shade300,
-                                child: const Icon(Icons.error,
-                                    color: Colors.red, size: 40),
+                                errorWidget: (context, url, error) => Container(
+                                  color: Colors.grey.shade300,
+                                  child: const Icon(Icons.error,
+                                      color: Colors.red, size: 40),
+                                ),
                               ),
                             ),
                             // Dropdown at top right
@@ -132,7 +135,7 @@ class _EnrolledCourseDetailScreenState extends State<EnrolledCourseDetailScreen>
                         ),
                       ),
                       bottom: PreferredSize(
-                        preferredSize: Size.fromHeight(140),
+                        preferredSize: Size.fromHeight(160),
                         child: Container(
                           width: double.infinity,
                           decoration: const BoxDecoration(
@@ -143,10 +146,9 @@ class _EnrolledCourseDetailScreenState extends State<EnrolledCourseDetailScreen>
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
+                            children: [SizedBox(height: 10,),
                               Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0, vertical: 5),
+                                padding: const EdgeInsets.all(10),
                                 child: Text(
                                     enrolledCourseProvider
                                             .selectedCourseDetails.title ??
@@ -156,38 +158,41 @@ class _EnrolledCourseDetailScreenState extends State<EnrolledCourseDetailScreen>
                                         fontWeight: FontWeight.w600)),
                               ),
                               const SizedBox(height: 10),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  CourseInfoChip(
-                                    icon: Iconify(
-                                      Ic.videocam,
-                                      color: AppColors.primaryGreen,
-                                      size: 20,
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal:12.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    CourseInfoChip(
+                                      icon: Iconify(
+                                        Ic.videocam,
+                                        color: AppColors.primaryGreen,
+                                        size: 20,
+                                      ),
+                                      label:
+                                          "${enrolledCourseProvider.selectedCourseDetails.videoCount} Classes",
                                     ),
-                                    label:
-                                        "${enrolledCourseProvider.selectedCourseDetails.videoCount} Classes",
-                                  ),
-                                  CourseInfoChip(
-                                    icon: Icon(
-                                      Icons.my_library_books_rounded,
-                                      color: AppColors.primaryBlue,
-                                      size: 20,
+                                    CourseInfoChip(
+                                      icon: Icon(
+                                        Icons.my_library_books_rounded,
+                                        color: AppColors.primaryBlue,
+                                        size: 20,
+                                      ),
+                                      label:
+                                          "${enrolledCourseProvider.selectedCourseDetails.pdfCount} Materials",
                                     ),
-                                    label:
-                                        "${enrolledCourseProvider.selectedCourseDetails.pdfCount} Materials",
-                                  ),
-                                  CourseInfoChip(
-                                    icon: Icon(
-                                      Icons.star,
-                                      color: AppColors.primaryOrange,
-                                      size: 20,
+                                    CourseInfoChip(
+                                      icon: Icon(
+                                        Icons.star,
+                                        color: AppColors.primaryOrange,
+                                        size: 20,
+                                      ),
+                                      label:
+                                          "${enrolledCourseProvider.selectedCourseDetails.averageRating}",
                                     ),
-                                    label:
-                                        "${enrolledCourseProvider.selectedCourseDetails.averageRating}",
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                               const SizedBox(height: 10),
                               Padding(

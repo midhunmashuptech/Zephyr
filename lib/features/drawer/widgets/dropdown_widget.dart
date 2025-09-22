@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zephyr/constants/app_constants.dart';
 
 class DropdownWidget extends StatelessWidget {
   final String label;
@@ -19,10 +20,30 @@ class DropdownWidget extends StatelessWidget {
     return DropdownButtonFormField<String>(
       value: controller.text.isNotEmpty ? controller.text : null,
       decoration: InputDecoration(
-        hintText: label,
-        border: const UnderlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 70, 70, 70))), // default underline
-        focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.black87, width: 0.7)),
-        enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 0, 0, 0))),
+        hintText: label,border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: BorderSide(
+              color: AppColors.grey,
+              width: 1.2,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: BorderSide(
+              color: AppColors.grey,
+              width: 1.2,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: BorderSide(
+              color: AppColors.black,
+              width: 1.5,
+            ),
+          ),
+        // border: const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 70, 70, 70))), // default underline
+        // focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.black87, width: 0.7)),
+        // enabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: Color.fromARGB(255, 0, 0, 0))),
       ),
       items: items
           .map((item) => DropdownMenuItem(

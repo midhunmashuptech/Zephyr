@@ -130,7 +130,7 @@ class _AssignmentUploadScreenState extends State<AssignmentUploadScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
-                      color: AppColors.lightGrey.withOpacity(0.5),
+                      color: AppColors.lightOrange,
                       child: Padding(
                         padding: const EdgeInsets.all(18.0),
                         child: Row(

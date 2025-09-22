@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:zephyr/common/provider/user_details_provider.dart';
 import 'package:zephyr/common/screens/error_screen.dart';
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/constants/widgets/layout_gradient.dart';
 import 'package:zephyr/features/auth/login/screens/mobile_number_verification.dart';
 import 'package:zephyr/features/drawer/screens/about_us.dart';
 import 'package:zephyr/features/drawer/screens/edit_profile.dart';
@@ -184,7 +183,8 @@ class DrawerWidget extends StatelessWidget {
                                   ),
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.redAccent,
+                                      // backgroundColor: AppColors.grey,
+                                      overlayColor: AppColors.lightBlue
                                     ),
                                     onPressed: () async {
                                       FlutterSecureStorage _secureStorage =
@@ -198,7 +198,7 @@ class DrawerWidget extends StatelessWidget {
                               ),
                             );
                           },
-                        ),
+                        ), 
                         _ModernDrawerItem(
                           icon: Icons.delete_forever,
                           label: "Delete Account",

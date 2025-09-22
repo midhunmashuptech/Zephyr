@@ -3,7 +3,6 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/common/widgets/floating_card.dart';
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/constants/config.dart';
 import 'package:zephyr/constants/widgets/layout_gradient.dart';
 import 'package:zephyr/features/auth/login/screens/mobile_number_verification.dart';
 

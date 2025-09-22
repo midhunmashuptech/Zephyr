@@ -94,7 +94,7 @@ class AssignmentCard extends StatelessWidget {
                     Row(
                       children: [
                         Icon(
-                          Icons.calendar_today_rounded,
+                          Icons.calendar_month,
                           size: 16,
                           color: AppColors.primaryGreen,
                         ),
