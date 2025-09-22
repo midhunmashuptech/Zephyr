@@ -44,7 +44,9 @@ class AppColors {
   //Red
   static const Color darkred = Color(0xFFC00000);
 
-  // color gradients
+  /// color gradients
+  
+//Blue
   static const Gradient blueGradient = LinearGradient(
     colors: [
       lightBlueGradient,
@@ -54,6 +56,8 @@ class AppColors {
     end: Alignment.bottomCenter,
   );
 
+
+//Green
   static const Gradient greenGradient = LinearGradient(
     colors: [
       lightGreenGradient,
@@ -63,15 +67,8 @@ class AppColors {
     end: Alignment.bottomCenter,
   );
 
-  static const Gradient orangeGradient = LinearGradient(
-    colors: [
-      lightOrangeGradient,
-      Color(0xFFFFFFFF),
-    ],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-  );
 
+//Red
   static const Gradient redGradient = LinearGradient(
     colors: [
       lightRed,
@@ -81,6 +78,27 @@ class AppColors {
     end: Alignment.bottomCenter,
   );
 
+//Orange
+  static const Gradient orangeGradient = LinearGradient(
+    colors: [
+      lightOrangeGradient,
+      Color(0xFFFFFFFF),
+    ],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+  );
+
+  //Orange2
+   static const Gradient profileorangeGradient = LinearGradient(
+    colors: [
+      lightOrange,
+      Color(0xFFFFFFFF),
+    ],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+  );
+
+//Orange3
   static const Gradient orangeCourseActionGradient = LinearGradient(
     colors: [
       Color(0xFFF5A101), // #F39E00 with 52% opacity
@@ -90,6 +108,8 @@ class AppColors {
     end: Alignment.bottomRight,
   );
 
+
+//Green2
   static const Gradient greenCourseActionGradient = LinearGradient(
     colors: [
       Color(0xFF68BD00), // #F39E00 with 52% opacity

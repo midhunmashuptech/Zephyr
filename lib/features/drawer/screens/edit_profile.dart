@@ -379,6 +379,7 @@ class _EditProfileState extends State<EditProfile> {
                             ),
                           ),
                           _buildSectionTitle("Academic Details"),
+                          
                           DropdownWidget(
                             label: 'Syllabus',
                             items: authProvider.syllabusDropdownOptions
@@ -386,6 +387,7 @@ class _EditProfileState extends State<EditProfile> {
                                 .toList(),
                             controller: syllabusController,
                           ),
+                          SizedBox(height: 10,),
                           DropdownWidget(
                             label: 'Class Studying',
                             items: authProvider.classDropdownOptions

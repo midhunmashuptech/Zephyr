@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
-import 'package:iconify_flutter_plus/icons/ci.dart';
 import 'package:iconify_flutter_plus/icons/fa_solid.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:provider/provider.dart';
@@ -8,8 +7,6 @@ import 'package:zephyr/common/provider/user_details_provider.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/test/screens/attend_test_screen.dart';
-import 'package:zephyr/features/test/screens/test_completion_screen.dart';
-import 'package:zephyr/features/test/widgets/instruction_card.dart';
 
 class TestInstructionsScreen extends StatelessWidget {
   final String testId;
@@ -82,23 +79,30 @@ class TestInstructionsScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _ModernInfoCard(
-                      icon: Mdi.question_mark,
-                      label: totalQuestions.toString(),
-                      subLabel: "Questions",
-                      color: AppColors.primaryOrange,
+                    Expanded(
+                      child: _ModernInfoCard(
+                        icon: Mdi.question_mark,
+                        label: totalQuestions.toString(),
+                        subLabel: "Questions",
+                        color: AppColors.primaryOrange,
+                      ),
                     ),
-                    _ModernInfoCard(
-                      icon: FaSolid.award,
-                      label: maxMarks.toString(),
-                      subLabel: "Max Marks",
-                      color: AppColors.darkBlue,
-                    ),
-                    _ModernInfoCard(
-                      icon: Mdi.timer_outline,
-                      label: "${duration ~/ 60}h ${duration % 60}m",
-                      subLabel: "Duration",
-                      color: AppColors.primaryGreen,
+                    SizedBox(width: 5,),
+                    Expanded(
+                      child: _ModernInfoCard(
+                        icon: FaSolid.award,
+                        label: maxMarks.toString(),
+                        subLabel: "Max Marks",
+                        color: AppColors.darkBlue,
+                      ),
+                    ),SizedBox(width: 5,),
+                    Expanded(
+                      child: _ModernInfoCard(
+                        icon: Mdi.timer_outline,
+                        label: "${duration ~/ 60}h ${duration % 60}m",
+                        subLabel: "Duration",
+                        color: AppColors.primaryGreen,
+                      ),
                     ),
                   ],
                 ),

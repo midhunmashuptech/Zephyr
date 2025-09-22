@@ -118,8 +118,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                         ),
                         Container(
                           margin: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.height * 0.3 -
-                                  40),
+                              top: MediaQuery.of(context).size.height * 0.3 - 40),
                           width: double.infinity,
                           decoration: const BoxDecoration(
                             color: Colors.white,
@@ -187,13 +186,12 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height -
-                          MediaQuery.of(context).size.height * 0.3 -
-                          180,
+                          MediaQuery.of(context).size.height * 0.3 - 270,
                       child: TabBarView(
                         controller: _tabController,
                         children: _tabs,
                       ),
-                    ),
+                    ), 
                   ],
                 ),
                 AnimatedSwitcher(

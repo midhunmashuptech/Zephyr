@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/constants/config.dart';
-import 'package:zephyr/features/home/screens/home_screen.dart';
-import 'package:zephyr/features/home/widgets/home_course_card.dart';
 
 class AttendAiTestScreen extends StatefulWidget {
   final String userid;

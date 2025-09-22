@@ -63,7 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           : SafeArea(
               child: Stack(
               children: [
-                LayoutGradient(gradient: AppColors.orangeGradient),
+                LayoutGradient(gradient: AppColors.profileorangeGradient),
                 SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

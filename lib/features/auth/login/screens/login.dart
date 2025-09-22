@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';

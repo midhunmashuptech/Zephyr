@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
-import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/test/provider/make_test_provider.dart';
-import 'package:zephyr/features/test/screens/test_completion_screen.dart';
 import 'package:zephyr/features/test/widget/confirm_test_submit_overlay.dart';
 
 class TestQuizScreen extends StatefulWidget {
