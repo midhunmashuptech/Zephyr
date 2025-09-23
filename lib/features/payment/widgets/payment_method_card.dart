@@ -3,6 +3,7 @@ import 'package:zephyr/constants/app_constants.dart';
 
 class PaymentMethodCard extends StatefulWidget {
   final String value;
+  final String subtitle;
   final String? selectedMethod;
   final String image;
   final Function() onTap;
@@ -12,6 +13,7 @@ class PaymentMethodCard extends StatefulWidget {
       required this.image,
       required this.selectedMethod,
       required this.value,
+      required this.subtitle,
       required this.onTap,
       required this.onChanged});
 
@@ -34,15 +36,38 @@ class _PaymentMethodCardState extends State<PaymentMethodCard> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Container(
+                      clipBehavior: Clip.antiAlias,
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          border: Border.all(
+                              strokeAlign: BorderSide.strokeAlignOutside,
+                              width: 2,
+                              color: AppColors.lightBlue)),
+                      child: Image.asset(widget.image),
+                    ),
+                    SizedBox(width: 10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(widget.value, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                        Text(widget.subtitle, style: TextStyle(color: AppColors.ratingGrey)),
+                      ],
+                    )
+                  ],
+                ),
+              ),
               Radio(
                   activeColor: AppColors.primaryGreen,
                   value: widget.value,
                   groupValue: widget.selectedMethod,
                   onChanged: widget.onChanged),
-              SizedBox(height: 30, width: 80, child: Image.asset(widget.image)),
-              SizedBox(
-                width: 10,
-              )
             ],
           ),
         ),

@@ -78,6 +78,8 @@ const attendTest =
 const attendAiTest =
     "${webBaseUrl}quiz/attend-ai-quiz"; // test id will be appended attend-ai-quiz/{type}/{userid}/{testid}
 
+const viewTestSolution =
+    "${webBaseUrl}quiz/view-solution";
 
 
 // WebView endpoint

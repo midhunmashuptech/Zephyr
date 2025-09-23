@@ -76,44 +76,6 @@ class _EnrolledCourseChapterState extends State<EnrolledCourseChapter> {
                             "Class Name",
                       );
                     }),
-                    // EnrolledChapterCard(
-                    //   title: "Physics",
-                    //   items: enrolledCourseProvider.chapterList,
-                    //   onSelected: (value) {},
-                    //   onTap: () {
-                    //     setState(() {
-                    //       expandedSectionIndex = expandedSectionIndex == 0 ? null : 0;
-                    //     });
-                    //   },
-                    //   isExpanded: expandedSectionIndex == 0,
-                    //   subtitle: 'Class 7',
-                    // ),
-
-                    // EnrolledChapterCard(
-                    //   title: "Mathematics",
-                    //   items: ["Chapter 1", "Chapter 2", "Chapter 3"],
-                    //   onSelected: (value) {},
-                    //   onTap: () {
-                    //     setState(() {
-                    //       expandedSectionIndex = expandedSectionIndex == 1 ? null : 1;
-                    //     });
-                    //   },
-                    //   isExpanded: expandedSectionIndex == 1,
-                    //   subtitle: 'Class 7',
-                    // ),
-                    // EnrolledChapterCard(
-                    //   title: "Biology",
-                    //   items: ["Chapter 1", "Chapter 2", "Chapter 3"],
-                    //   onSelected: (value) {},
-                    //   onTap: () {
-                    //     setState(() {
-                    //       expandedSectionIndex = expandedSectionIndex == 2 ? null : 2;
-                    //     });
-                    //   },
-                    //   isExpanded: expandedSectionIndex == 2,
-                    //   subtitle: 'Class 7',
-                    // ),
-                    SizedBox(height: 20)
                   ],
                 ),
               ),

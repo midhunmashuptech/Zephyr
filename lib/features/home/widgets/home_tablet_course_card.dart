@@ -1002,7 +1002,6 @@ class HomeTabletCourseCard extends StatelessWidget {
     );
   }
 }
-// Color mattanam
 
 String formatReadableDate(String isoDate) {
   try {

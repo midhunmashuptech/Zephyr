@@ -137,31 +137,34 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                                     fontSize: 20, fontWeight: FontWeight.w600),
                               ),
                               SizedBox(height: 20),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  CourseInfoChip(
-                                    icon: Iconify(Ic.videocam,
-                                        color: AppColors.primaryGreen,
-                                        size: 20),
-                                    label:
-                                        "${courseProvider.courseData.videoCount} Classes",
-                                  ),
-                                  CourseInfoChip(
-                                    icon: Icon(Icons.my_library_books_rounded,
-                                        color: AppColors.primaryBlue, size: 20),
-                                    label:
-                                        "${courseProvider.courseData.pdfCount} Materials",
-                                  ),
-                                  CourseInfoChip(
-                                    icon: Icon(Icons.star,
-                                        color: AppColors.primaryOrange,
-                                        size: 20),
-                                    label:
-                                        "${courseProvider.courseData.averageRating}",
-                                  ),
-                                ],
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    CourseInfoChip(
+                                      icon: Iconify(Ic.videocam,
+                                          color: AppColors.primaryGreen,
+                                          size: 20),
+                                      label:
+                                          "${courseProvider.courseData.videoCount} Classes",
+                                    ),
+                                    CourseInfoChip(
+                                      icon: Icon(Icons.my_library_books_rounded,
+                                          color: AppColors.primaryBlue, size: 20),
+                                      label:
+                                          "${courseProvider.courseData.pdfCount} Materials",
+                                    ),
+                                    CourseInfoChip(
+                                      icon: Icon(Icons.star,
+                                          color: AppColors.primaryOrange,
+                                          size: 20),
+                                      label:
+                                          "${courseProvider.courseData.averageRating}",
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),

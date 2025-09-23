@@ -1,26 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/icons/ion.dart';
 import 'package:iconify_flutter_plus/icons/ph.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:zephyr/common/provider/user_details_provider.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/test_series/screens/test_series_rank_list.dart';
+import 'package:zephyr/features/test_series/screens/test_series_solutions_screen.dart';
 import 'package:zephyr/features/test_series/widgets/test_detail_widget.dart';
 import 'package:zephyr/features/test_series/widgets/test_report_card.dart';
 
 class TestReviewScreen extends StatefulWidget {
-  const TestReviewScreen({super.key});
+  final String type;
+  final String testid;
+  const TestReviewScreen({super.key, required this.type, required this.testid});
 
   @override
   State<TestReviewScreen> createState() => _TestReviewScreenState();
 }
 
 class _TestReviewScreenState extends State<TestReviewScreen> {
+  UserDetailsProvider userDetailsProvider = UserDetailsProvider();
+
   @override
   Widget build(BuildContext context) {
+    userDetailsProvider = context.watch<UserDetailsProvider>();
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
         title: const Text("Test Review"),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            child: TextButton(
+                onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TestSeriesSolutionsScreen(
+                            type: widget.type, testid: widget.testid, userid: userDetailsProvider.userDetails.id.toString()))),
+                child: Text(
+                  "View Solution",
+                  style: TextStyle(color: AppColors.primaryBlue),
+                )),
+          )
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -39,11 +63,14 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                     ),
                     const SizedBox(height: 10),
 
-                    /// View Solution Button
+                    /// View Ranklist Button
                     CustomButton(
-                      text: 'View Solution',
+                      text: 'View Ranklist',
                       color: AppColors.primaryOrange,
-                      onPressed: () {},
+                      onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => TestSeriesRankList())),
                       textcolor: AppColors.white,
                     ),
                     const SizedBox(height: 20),
@@ -114,7 +141,9 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
                                 children: [
-                                  SizedBox(height: 15,),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
                                   SizedBox(
                                     height: 250,
                                     child: SfCartesianChart(
@@ -168,7 +197,12 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                             ),
                                             const SizedBox(width: 8),
                                             const Text("Correct:"),
-                                            Text("20",style: TextStyle(color: AppColors.primaryGreen),)
+                                            Text(
+                                              "20",
+                                              style: TextStyle(
+                                                  color:
+                                                      AppColors.primaryGreen),
+                                            )
                                           ],
                                         ),
                                         const SizedBox(height: 6),
@@ -185,7 +219,10 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                             ),
                                             const SizedBox(width: 8),
                                             const Text("Incorrect:"),
-                                            Text(" 20",style: TextStyle(color: AppColors.primaryRed))
+                                            Text(" 20",
+                                                style: TextStyle(
+                                                    color:
+                                                        AppColors.primaryRed))
                                           ],
                                         ),
                                         const SizedBox(height: 6),
@@ -202,8 +239,11 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                             ),
                                             const SizedBox(width: 8),
                                             const Text("Reviewed:"),
-                                            Text(" 16",style: TextStyle(color: AppColors.primaryBlue),)
-                                          
+                                            Text(
+                                              " 16",
+                                              style: TextStyle(
+                                                  color: AppColors.primaryBlue),
+                                            )
                                           ],
                                         ),
                                         const SizedBox(height: 6),
@@ -220,7 +260,11 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                             ),
                                             const SizedBox(width: 8),
                                             const Text("Unattended:"),
-                                            Text(" 5",style: TextStyle(color: AppColors.black),)
+                                            Text(
+                                              " 5",
+                                              style: TextStyle(
+                                                  color: AppColors.black),
+                                            )
                                           ],
                                         ),
                                       ],
@@ -301,7 +345,7 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                           width: 7,
                         ),
                     scrollDirection: Axis.horizontal,
-                    itemCount: 2,
+                    itemCount: 3,
                     itemBuilder: (context, index) => _buildPieChart("Biology", [
                           ChartData("Correct", 30, AppColors.primaryGreen),
                           ChartData("Incorrect", 40, AppColors.primaryRed),
@@ -332,6 +376,7 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                           ChartData("Unattended", 10, AppColors.grey),
                         ])),
               ),
+              SizedBox(height: 20)
             ],
           ),
         ),
@@ -343,7 +388,7 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
   Widget _buildPieChart(String title, List<ChartData> data) {
     return Container(
       height: 405,
-      padding: EdgeInsets.symmetric(vertical: 32),
+      padding: EdgeInsets.symmetric(vertical: 30),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: AppColors.grey)),
@@ -354,7 +399,7 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
           SizedBox(
-            width: 250,
+            width: 260,
             child: SfCircularChart(
               legend: Legend(
                 isVisible: true,
