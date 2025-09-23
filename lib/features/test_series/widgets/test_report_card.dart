@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/material_symbols.dart';
+import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/constants/app_constants.dart';
 
 class TestReportCard extends StatelessWidget {
+  final String title;
   final String date;
   final String duration;
   final String questionno;
 
-  const TestReportCard({super.key, required this.date, required this.duration, required this.questionno});
+  const TestReportCard(
+      {super.key,
+      required this.title,
+      required this.date,
+      required this.duration,
+      required this.questionno});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +38,7 @@ class TestReportCard extends StatelessWidget {
                   width: 6,
                 ),
                 Text(
-                  "Weekly Test Series 1",
+                  title,
                   style: TextStyle(
                       fontSize: 20,
                       color: AppColors.white,
@@ -51,19 +58,16 @@ class TestReportCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Duration:",
-                        style: TextStyle(color: AppColors.white)),
-                    Text("Total Questions:",
+                    Text("Duration: $duration", style: TextStyle(color: AppColors.white)),
+                    Text("Total Questions: $questionno",
                         style: TextStyle(color: AppColors.white))
                   ],
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text("Date",
-                        style: TextStyle(color: AppColors.white)),
-                    Text(date,
-                        style: TextStyle(color: AppColors.white))
+                    Text("Date", style: TextStyle(color: AppColors.white)),
+                    Text(date, style: TextStyle(color: AppColors.white))
                   ],
                 )
               ],
