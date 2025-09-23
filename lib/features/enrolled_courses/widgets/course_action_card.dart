@@ -8,14 +8,14 @@ class CourseActionCard extends StatefulWidget {
   final Color iconColor;
   final IconData icon;
   final Function() onPressed;
-  
+
   const CourseActionCard(
       {required this.icon,
       required this.iconColor,
       required this.title,
       required this.bgcolor,
       required this.onPressed,
-       super.key});
+      super.key});
 
   @override
   State<CourseActionCard> createState() => _CourseActionCardState();
@@ -29,13 +29,17 @@ class _CourseActionCardState extends State<CourseActionCard> {
       child: Container(
         height: MediaQuery.of(context).size.width * .3,
         // width: MediaQuery.of(context).size.width * .7,
+        clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
             gradient: widget.bgcolor,
             borderRadius: BorderRadius.circular(15),
             boxShadow: [
               BoxShadow(color: AppColors.grey, blurRadius: 7, spreadRadius: 3)
             ],
-            border: Border.all(color: AppColors.white, width: 3)),
+            border: Border.all(
+                color: AppColors.white,
+                width: 3,
+                strokeAlign: BorderSide.strokeAlignOutside)),
         child: Stack(
           children: [
             Positioned(

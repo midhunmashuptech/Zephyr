@@ -59,38 +59,41 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
               SizedBox(
                 height: 10,
               ),
-              Row(
-                children: [
-                  Expanded(
-                      child: CourseActionCard(
-                    title: 'Assignments',
-                    bgcolor: AppColors.orangeCourseActionGradient,
-                    icon: HugeIcons.strokeRoundedAssignments,
-                    iconColor: AppColors.primaryOrange,
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (contex) => AssignmentsScreen()));
-                    },
-                  )),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Expanded(
-                      child: CourseActionCard(
-                    title: 'Make a Test',
-                    bgcolor: AppColors.greenCourseActionGradient,
-                    icon: HugeIcons.strokeRoundedTestTube01,
-                    iconColor: AppColors.primaryGreen,
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (contex) => MakeYourTestScreen()));
-                    },
-                  )),
-                ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: CourseActionCard(
+                      title: 'Assignments',
+                      bgcolor: AppColors.orangeCourseActionGradient,
+                      icon: HugeIcons.strokeRoundedAssignments,
+                      iconColor: AppColors.primaryOrange,
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (contex) => AssignmentsScreen()));
+                      },
+                    )),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Expanded(
+                        child: CourseActionCard(
+                      title: 'Make a Test',
+                      bgcolor: AppColors.greenCourseActionGradient,
+                      icon: HugeIcons.strokeRoundedTestTube01,
+                      iconColor: AppColors.primaryGreen,
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (contex) => MakeYourTestScreen()));
+                      },
+                    )),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 20,

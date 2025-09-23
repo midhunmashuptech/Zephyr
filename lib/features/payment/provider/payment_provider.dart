@@ -10,6 +10,13 @@ class PaymentProvider extends ChangeNotifier {
   Data _courseData = Data();
   Data get courseData => _courseData;
 
+  double _totalPayable = 0.0;
+  double get totalPayable => _totalPayable;
+  
+
+  void applyCouponDiscount(){}
+  void removeCouponDiscount(){}
+
   Future<void> getCourseDetails(
       {required String courseId, required BuildContext context}) async {
     _isLoading = true;
@@ -24,6 +31,13 @@ class PaymentProvider extends ChangeNotifier {
     } else {
       if (response.type == "success") {
         _courseData = response.data ?? Data();
+        if (_courseData.type == "amount") {
+          _totalPayable =
+              ((_courseData.price ?? 0) - (_courseData.discountValue ?? 0))
+                  .toDouble();
+        } else {
+          _totalPayable = (_courseData.price ?? 0).toDouble();
+        }
         notifyListeners();
         _isLoading = false;
         notifyListeners();
