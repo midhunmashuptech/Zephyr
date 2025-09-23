@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:zephyr/constants/app_constants.dart';
@@ -18,26 +19,71 @@ class RankCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isTopRank = rank == 1;
+    // bool isTopRank = rank == 1;
 
     return Container(
       decoration: BoxDecoration(
-        gradient: isTopRank
-            ? const LinearGradient(
-                colors: [Color(0xFFFFE082), Color(0xFFFFC107)],
+        gradient: rank == 1
+            ? LinearGradient(
+                colors: [
+                  Color(0xFFFFE082),
+                  Color(0xFFFFC107)
+                ], // light gold → rich gold
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               )
-            : null,
-        color: isTopRank ? null : AppColors.lightGrey,
+            : rank == 2
+                ? LinearGradient(
+                    colors: [
+                      Color(0xFFE0E0E0),
+                      Color(0xFFB0BEC5)
+                    ], 
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  )
+                : rank == 3
+                    ? LinearGradient(
+                        colors: [
+                          Color(0xFFD7CCC8),
+                          Color.fromARGB(255, 184, 174, 169)
+                        ], 
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      )
+                    : rank == 4
+                        ? const LinearGradient(
+                            colors: [
+                              AppColors.lightBlue,
+                              Color.fromARGB(255, 129, 191, 224)
+                            ], 
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          )
+                        : null,
+        color: rank == 1
+            ? null
+            : rank == 2
+                ? null
+                : rank == 3
+                    ? null
+                    : AppColors.lightGrey,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.07),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        border: rank == 1
+            ? null
+            : rank == 2
+                ? null
+                : rank == 3
+                    ? null
+                    : Border.all(
+                        color: const Color.fromARGB(232, 209, 209, 209),
+                        width: 1),
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Colors.black.withOpacity(0.07),
+        //     blurRadius: 8,
+        //     offset: const Offset(0, 4),
+        //   ),
+        // ],
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14),
@@ -54,22 +100,62 @@ class RankCard extends StatelessWidget {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    gradient: isTopRank
+                    gradient: rank == 1
                         ? const LinearGradient(
                             colors: [Colors.amber, Colors.deepOrange],
                           )
-                        : null,
-                    color: isTopRank ? null : AppColors.primaryGreen,
+                        : rank == 2
+                            ? LinearGradient(
+                                colors: [Colors.grey, Colors.blueGrey],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              )
+                            : rank == 3
+                                ? LinearGradient(
+                                    colors: [
+                                      Color(0xFFD7CCC8),
+                                      Color(0xFF8D6E63)
+                                    ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  )
+                                : null,
+                    color: rank == 1
+                        ? null
+                        : rank == 2
+                            ? null
+                            : rank == 3
+                                ? null
+                                : AppColors.primaryGreen,
                     shape: BoxShape.circle,
                     border: Border.all(color: Colors.white, width: 2),
                   ),
                   padding: const EdgeInsets.all(6),
-                  child: isTopRank
-                      ? const Icon(
+                  child: rank == 1 || rank == 2 || rank == 3
+                      ? Icon(
                           HugeIcons.strokeRoundedAward05,
                           color: Colors.white,
                           size: 16,
                         )
+                      //  rank == 1
+                      //     ?
+                      //     const Icon(
+                      //         HugeIcons.strokeRoundedCrown,
+                      //         color: Colors.white,
+                      //         size: 16,
+                      //       )
+                      //     : rank == 2
+                      //         ? const Icon(
+                      //             HugeIcons.strokeRoundedGold,
+                      //             color: Colors.white,
+                      //             size: 16,
+                      //           )
+                      //         : rank == 3
+                      //             ? const Icon(
+                      //                 HugeIcons.strokeRoundedAward05,
+                      //                 color: Colors.white,
+                      //                 size: 16,
+                      //               )
                       : Text(
                           "$rank",
                           style: const TextStyle(
@@ -81,9 +167,7 @@ class RankCard extends StatelessWidget {
                 ),
               ],
             ),
-    
             const SizedBox(width: 14),
-    
             // Name + Score
             Expanded(
               child: Column(
@@ -101,23 +185,27 @@ class RankCard extends StatelessWidget {
                     score,
                     style: TextStyle(
                       fontSize: 14,
-                      color: isTopRank ? Colors.black87 : Colors.black54,
+                      color: Colors.black87,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],
               ),
             ),
-    
+
             // Rank Display
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
-                  isTopRank
-                      ? HugeIcons.strokeRoundedAward01
-                      : HugeIcons.strokeRoundedAward05,
-                  color: isTopRank ? Colors.amber[800] : Colors.orange,
+                  rank == 1
+                      ? FluentIcons.crown_16_filled
+                      : rank == 2
+                          ? HugeIcons.strokeRoundedMedalSecondPlace
+                          : rank == 3
+                              ? HugeIcons.strokeRoundedMedalThirdPlace
+                              : HugeIcons.strokeRoundedAward04,
+                  color: rank == 1 ? Colors.amber[900] : AppColors.black,
                   size: 28,
                 ),
                 const SizedBox(height: 4),
@@ -126,7 +214,7 @@ class RankCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
-                    color: isTopRank ? Colors.amber[900] : Colors.black87,
+                    color: rank == 1 ? Colors.amber[900] : Colors.black87,
                   ),
                 ),
               ],
