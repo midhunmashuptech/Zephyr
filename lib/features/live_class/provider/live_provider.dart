@@ -38,6 +38,7 @@ class LiveProvider extends ChangeNotifier {
 
   //OnGoing Live
   Future<void> fetchOngoingLive({required BuildContext context}) async {
+    _ongoingLive = [];
     _isOngoingLoading = true;
     notifyListeners();
     final response = await LiveService().getOnGoingLive(context: context);
@@ -61,6 +62,7 @@ class LiveProvider extends ChangeNotifier {
 
   //Upcoming Live
   Future<void> fetchUpcomingLive({required BuildContext context}) async {
+    _upcomingLive = [];
     _isUpcomingLoading = true;
     notifyListeners();
     final response = await LiveService().getUpcomingLive(context: context);
@@ -80,13 +82,14 @@ class LiveProvider extends ChangeNotifier {
   }
 
   //Recordings Live
-  Future<void> fetchRecordingLive(
-      {required BuildContext context}) async {
+  Future<void> fetchRecordingLive({required BuildContext context}) async {
+    _recordingLive = [];
     _isRecordingLoading = true;
     _recordingLive = [];
     notifyListeners();
-    final response =
-        await LiveService().getRecordingsLive(context: context, date: DateFormat("dd-MM-yyyy").format(_recordingSelectedDate));
+    final response = await LiveService().getRecordingsLive(
+        context: context,
+        date: DateFormat("dd-MM-yyyy").format(_recordingSelectedDate));
     if (response == null) {
       showSnackBar("Error", "Something went wrong");
       _isRecordingLoading = false;

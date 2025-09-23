@@ -35,7 +35,7 @@ class _TestAttendedScreenState extends State<TestAttendedScreen> {
 
   Future<void> loadAttendedTestSeries() async {
     final loadProvider = context.read<TestSeriesProvider>();
-    await loadProvider.fetchAttendedTestSeriesModel(context: context);
+    await loadProvider.fetchAttendedTestSeries(context: context);
   }
 
   String formatDateTime(String dateTimeString) {
@@ -61,7 +61,7 @@ class _TestAttendedScreenState extends State<TestAttendedScreen> {
                           children: [
                             Lottie.asset("assets/lottie/nodata.json",
                                 height: 200),
-                            Text("No Recordings found!"),
+                            Text("No attended test found!"),
                             SizedBox(height: 10),
                           ],
                         ),

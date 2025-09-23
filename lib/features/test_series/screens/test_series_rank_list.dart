@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/test/widget/rank_card.dart';
+import 'package:zephyr/features/test_series/provider/test_series_provider.dart';
 
 class TestSeriesRankList extends StatefulWidget {
-  const TestSeriesRankList({super.key});
+  final String testId;
+  const TestSeriesRankList({required this.testId, super.key});
 
   @override
   State<TestSeriesRankList> createState() => _TestSeriesRankListState();
@@ -85,10 +89,24 @@ List<RankList> rankList = [
     image: "assets/images/profile.jpg",
   ),
 ];
+TestSeriesProvider testSeriesProvider = TestSeriesProvider();
 
 class _TestSeriesRankListState extends State<TestSeriesRankList> {
   @override
+  void initState() {
+    super.initState();
+    loadLeaderboard();
+  }
+
+  Future<void> loadLeaderboard() async {
+    final loadProvider = context.read<TestSeriesProvider>();
+    await loadProvider.fetchLeaderBoard(
+        context: context, testId: widget.testId);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final testSeriesProvider = context.watch<TestSeriesProvider>();
     return Scaffold(
       body: Column(
         children: [
@@ -160,15 +178,29 @@ class _TestSeriesRankListState extends State<TestSeriesRankList> {
           SizedBox(
             height: 10,
           ),
-          Expanded(
+          testSeriesProvider.isLeaderBoardLoading?
+          Center(child: CircularProgressIndicator())
+           : testSeriesProvider.leaderBoardList.isEmpty
+           ? Center(
+                  child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 40.0),
+                  child: Column(
+                    children: [
+                      Lottie.asset("assets/lottie/nodata.json", height: 200),
+                      Text("No Rank List available!"),
+                    ],
+                  ),
+                ))
+
+          :Expanded(
             child: ListView.separated(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20 ),
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                 separatorBuilder: (context, index) => SizedBox(height: 5),
-                itemCount: rankList.length,
+                itemCount: testSeriesProvider.leaderBoardList.length,
                 itemBuilder: (context, index) => RankCard(
-                    name: rankList[index].name,
-                    score: rankList[index].score,
-                    rank: rankList[index].rank,
+                    name: testSeriesProvider.leaderBoardList[index].name ?? "Name",
+                    score: "${testSeriesProvider.leaderBoardList[index].score}/maxmark" ,
+                    rank: testSeriesProvider.leaderBoardList[index].rank ?? 0,
                     image: rankList[index].image)),
           ),
         ],

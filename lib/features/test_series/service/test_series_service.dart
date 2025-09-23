@@ -4,6 +4,7 @@ import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/constants/config.dart';
 import 'package:zephyr/features/test_series/model/attended_testseries_model.dart';
 import 'package:zephyr/features/test_series/model/ongoing_testseries_model.dart';
+import 'package:zephyr/features/test_series/model/testseries_leaderboard_model.dart';
 import 'package:zephyr/features/test_series/model/upcoming_testseries_model.dart';
 
 class TestSeriesService {
@@ -50,6 +51,22 @@ class TestSeriesService {
           AttendedTestSeriesModel.fromJson(responseJson);
       showSnackBar("Success", "Successfully loaded Attended Test Series");
       return attendedTestSeriesModel;
+    }
+    return null;
+  }
+
+  //Test Series LeaderBoard
+  Future<TestSeriesLeaderBoardModel?> getLeaderBoard(
+      {required BuildContext context, required String testId}) async {
+    final responseJson =
+        await ApiService().getRequest(url: "$testSeriesLeaderBoardUrl$testId");
+    if (responseJson == null) {
+      showSnackBar("Error", "Something went wrong");
+    } else {
+      final testSeriesLeaderBoardModel =
+          TestSeriesLeaderBoardModel.fromJson(responseJson);
+      showSnackBar("Success", "Successfully loaded leaderboard");
+      return testSeriesLeaderBoardModel;
     }
     return null;
   }
