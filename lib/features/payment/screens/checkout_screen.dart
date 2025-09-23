@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/payment/provider/payment_provider.dart';
@@ -25,10 +26,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   PaymentProvider paymentProvider = PaymentProvider();
 
   List<List<String>> paymentMethods = [
-    ["1", "assets/payment_icons/gpay.png"],
-    ["2", "assets/payment_icons/paytm.png"],
-    ["3", "assets/payment_icons/phonepe.png"],
-    ["4", "assets/payment_icons/razorpay.png"],
+    ["Razorpay", "assets/payment_icons/razorpay.png"],
+    ["In-App Purchase", "assets/payment_icons/inapp.png"]
   ];
 
   @override
@@ -113,21 +112,62 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            paymentProvider
-                                            .courseData.title ?? "Couse title",
+                                            paymentProvider.courseData.title ??
+                                                "Couse title",
                                             style: TextStyle(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w600),
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
                                           ),
-                                          Text(
-                                            "by Athulya Ajayakumar",
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.grey),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
+                                          Wrap(
+                                            crossAxisAlignment:
+                                                WrapCrossAlignment.center,
+                                            spacing: 10,
+                                            runSpacing: 6,
+                                            children: [
+                                              Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Icon(Icons.calendar_today,
+                                                      size: 16,
+                                                      color: AppColors
+                                                          .primaryBlue),
+                                                  SizedBox(width: 5),
+                                                  Text(
+                                                    'Starts: ${(paymentProvider.courseData.startDate ?? "").isEmpty || paymentProvider.courseData.startDate == "null" ? "NA" : formatDate(paymentProvider.courseData.startDate ?? "", "dd/MM/yyyy")}',
+                                                    style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: AppColors.grey,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Icon(Icons.arrow_forward,
+                                                  size: 16,
+                                                  color: AppColors.primaryBlue),
+                                              Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Icon(Icons.event,
+                                                      size: 16,
+                                                      color: AppColors
+                                                          .primaryBlue),
+                                                  SizedBox(width: 5),
+                                                  Text(
+                                                    "Ends: ${(paymentProvider.courseData.endDate ?? "").isEmpty || paymentProvider.courseData.endDate == "null" ? "NA" : formatDate(paymentProvider.courseData.endDate ?? "N/A", "dd/MM/yyy")}",
+                                                    style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: AppColors.grey,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
@@ -137,8 +177,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                         children: [
                                           Text("Course Fee:"),
                                           Text(
-                                            "${(paymentProvider
-                                            .courseData.price ?? "0")}/-",
+                                            "${(paymentProvider.courseData.price ?? "0")}/-",
                                             style: TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.w600),
@@ -168,8 +207,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text("Subtotal"),
-                                  Text("+${(paymentProvider
-                                            .courseData.price ?? "0")}",),
+                                  Text(
+                                    "+${(paymentProvider.courseData.price ?? "0")}",
+                                  ),
                                 ],
                               ),
                               Row(
@@ -177,7 +217,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text("Coupon"),
-                                  Text("- 2000",),
+                                  Text(
+                                    "- 2000",
+                                  ),
                                 ],
                               ),
                               SizedBox(
@@ -197,8 +239,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                         fontWeight: FontWeight.w500),
                                   ),
                                   Text(
-                                    "${(paymentProvider
-                                            .courseData.price ?? "0")}/-",
+                                    "${(paymentProvider.courseData.price ?? "0")}/-",
                                     style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.w500,
@@ -284,132 +325,38 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         SizedBox(height: 10),
                         Column(
                           children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                    child: PaymentMethodCard(
-                                  value: paymentMethods[0][0],
-                                  selectedMethod: selectedMethod,
-                                  image: paymentMethods[0][1],
-                                  onChanged: (String? value) {
-                                    setState(() {
-                                      selectedMethod = value ?? "";
-                                    });
-                                  },
-                                  onTap: () {
-                                    setState(() {
-                                      selectedMethod = paymentMethods[0][0];
-                                    });
-                                  },
-                                )),
-                                SizedBox(width: 10),
-                                Expanded(
-                                    child: PaymentMethodCard(
-                                  value: paymentMethods[1][0],
-                                  selectedMethod: selectedMethod,
-                                  image: paymentMethods[1][1],
-                                  onChanged: (String? value) {
-                                    setState(() {
-                                      selectedMethod = value ?? "";
-                                    });
-                                  },
-                                  onTap: () {
-                                    setState(() {
-                                      selectedMethod = paymentMethods[1][0];
-                                    });
-                                  },
-                                ))
-                              ],
-                            ),
-                            SizedBox(height: 10),
-                            Row(
-                              children: [
-                                Expanded(
-                                    child: PaymentMethodCard(
-                                  value: paymentMethods[2][0],
-                                  selectedMethod: selectedMethod,
-                                  image: paymentMethods[2][1],
-                                  onChanged: (String? value) {
-                                    setState(() {
-                                      selectedMethod = value ?? "";
-                                    });
-                                  },
-                                  onTap: () {
-                                    setState(() {
-                                      selectedMethod = paymentMethods[2][0];
-                                    });
-                                  },
-                                )),
-                                SizedBox(width: 10),
-                                Expanded(
-                                  child: PaymentMethodCard(
-                                    value: paymentMethods[3][0],
-                                    selectedMethod: selectedMethod,
-                                    image: paymentMethods[3][1],
-                                    onChanged: (String? value) {
-                                      setState(() {
-                                        selectedMethod = value ?? "";
-                                      });
-                                    },
-                                    onTap: () {
-                                      setState(() {
-                                        selectedMethod = paymentMethods[3][0];
-                                      });
-                                    },
-                                  ),
-                                )
-                              ],
-                            ),
-                            SizedBox(height: 10),
-                            GestureDetector(
-                              onTap: () {
+                            PaymentMethodCard(
+                              value: paymentMethods[0][0],
+                              selectedMethod: selectedMethod,
+                              image: paymentMethods[0][1],
+                              onChanged: (String? value) {
                                 setState(() {
-                                  selectedMethod = "5";
+                                  selectedMethod = value ?? "";
                                 });
                               },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                        width: 1, color: AppColors.grey),
-                                    color: AppColors.grey.withAlpha(30)),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(3.0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Radio(
-                                          value: "5",
-                                          activeColor: AppColors.primaryGreen,
-                                          groupValue: selectedMethod,
-                                          onChanged: (selected) {
-                                            setState(() {
-                                              selectedMethod = selected;
-                                            });
-                                          }),
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.credit_card_rounded,
-                                            color: AppColors.ratingGrey,
-                                          ),
-                                          SizedBox(width: 5),
-                                          Text(
-                                            "Debit/Credit Card",
-                                            style: TextStyle(
-                                                color: AppColors.ratingGrey,
-                                                fontWeight: FontWeight.w600),
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
+                              onTap: () {
+                                setState(() {
+                                  selectedMethod = paymentMethods[0][0];
+                                });
+                              },
+                              subtitle: 'Card, UPI, Net Banking & Wallets',
+                            ),
+                            SizedBox(height: 10),
+                            PaymentMethodCard(
+                              value: paymentMethods[1][0],
+                              selectedMethod: selectedMethod,
+                              image: paymentMethods[1][1],
+                              onChanged: (String? value) {
+                                setState(() {
+                                  selectedMethod = value ?? "";
+                                });
+                              },
+                              onTap: () {
+                                setState(() {
+                                  selectedMethod = paymentMethods[1][0];
+                                });
+                              },
+                              subtitle: 'Google Pay/ Play Store',
                             )
                           ],
                         ),

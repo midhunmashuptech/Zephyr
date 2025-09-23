@@ -123,8 +123,10 @@ class TestSeriesCard extends StatelessWidget {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            TestReviewScreen()));
+                                        builder: (context) => TestReviewScreen(
+                                              type: type,
+                                              testid: testid,
+                                            )));
                               },
                               child: Column(
                                 children: [

@@ -79,3 +79,5 @@ const attendTest =
     "${webBaseUrl}quiz/attend-test"; // test id will be appended attend-test/{type}/{userid}/{testid}
 const attendAiTest =
     "${webBaseUrl}quiz/attend-ai-quiz"; // test id will be appended attend-ai-quiz/{type}/{userid}/{testid}
+const viewTestSolution =
+    "${webBaseUrl}quiz/view-solution";
