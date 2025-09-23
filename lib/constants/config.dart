@@ -1,12 +1,26 @@
 //Base URL for  all API calls
 const baseUrl = "https://zephyrdigital.in/api/";
 
+// Base URL for webview
+const webBaseUrl = "https://zephyrdigital.in/";
+
 // Authentication API Endpoints
 const verifyPhoneUrl = "${baseUrl}verify-phone";
 const loginUrl = "${baseUrl}login";
 const registerUrl = "${baseUrl}register";
 const registrationDropdownOptionsUrl =
     "${baseUrl}registration-dropdown-options";
+    
+// Password rest API
+const resetPasswordUrl = "${baseUrl}reset-user-password";
+
+// Password rest API
+const resetPasswordAuthUrl = "${baseUrl}reset-password";
+
+// Home Page API
+const getActiveCoursesUrl = "${baseUrl}get-active-course";
+const getFeaturedCourseUrl = "${baseUrl}get-featured-courses";
+const getCategoryBasedCourseUrl = "${baseUrl}get-category-based-courses";
 
 // get User Details API's
 const getUserDetailsUrl = "${baseUrl}get-user-details";
@@ -36,24 +50,16 @@ const getAssignmentDetailsUrl = "${baseUrl}get-assignment-details";
 const getSubmittedAssignmentUrl = "${baseUrl}get-submitted-assignments";
 const submitAssignmentUrl = "${baseUrl}submit-assignment";
 
-// Password rest API
-const resetPasswordUrl = "${baseUrl}reset-user-password";
-
-// Password rest API
-const resetPasswordAuthUrl = "${baseUrl}reset-password";
 
 //Test Series API's
 const ongoingTestSeriesUrl = "${baseUrl}get-ongoing-test-series";
 const upcomingTestSeriesUrl = "${baseUrl}get-upcoming-test-series";
+const attendedTestSeriesUrl = "${baseUrl}get-attended-test-series";
 
 // Timeline APIs
 const getTimelineActivitiesUrl = "${baseUrl}get-timeline-activity";
 const postTimelineActivityUrl = "${baseUrl}post-timeline-activity";
 
-// Home Page API
-const getActiveCoursesUrl = "${baseUrl}get-active-course";
-const getFeaturedCourseUrl = "${baseUrl}get-featured-courses";
-const getCategoryBasedCourseUrl = "${baseUrl}get-category-based-courses";
 
 // Make Your Test API's
 const getClassSubjectOptionsUrl = "${baseUrl}get-class-and-subjects";
@@ -65,17 +71,17 @@ const generateAiQuizUrl = "${baseUrl}generate-ai-practice-quiz";
 const getCourseReviewsUrl = "${baseUrl}get-course-reviews/";
 const postCourseReviewUrl = "${baseUrl}post-course-reviews";
 
-// Base URL for webview
-const webBaseUrl = "https://zephyrdigital.in/";
-
-// WebView endpoint
-const testUrl = "${webBaseUrl}events";
-const termsAndCondition = "${webBaseUrl}contact";
-const helpAndSupport = "${webBaseUrl}contact";
-const aboutUs = "${webBaseUrl}about";
 
 // quiz related endpoints
 const attendTest =
     "${webBaseUrl}quiz/attend-test"; // test id will be appended attend-test/{type}/{userid}/{testid}
 const attendAiTest =
     "${webBaseUrl}quiz/attend-ai-quiz"; // test id will be appended attend-ai-quiz/{type}/{userid}/{testid}
+
+
+
+// WebView endpoint
+const testUrl = "${webBaseUrl}events";
+const termsAndCondition = "${webBaseUrl}contact";
+const helpAndSupport = "${webBaseUrl}contact";
+const aboutUs = "${webBaseUrl}about";
