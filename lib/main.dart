@@ -17,6 +17,7 @@ import 'package:zephyr/features/live_class/provider/live_provider.dart';
 import 'package:zephyr/features/payment/provider/payment_provider.dart';
 import 'package:zephyr/features/test/provider/make_test_provider.dart';
 import 'package:zephyr/features/test_series/provider/test_series_provider.dart';
+import 'package:zephyr/features/test_series/screens/test_series_rank_list.dart';
 void main() async {
   // print("App starting");
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,7 +55,8 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Poppins',
           useMaterial3: true,
           scaffoldBackgroundColor: AppColors.white),
-      home: SplashScreen(),
+      // home: SplashScreen(),
+      home: TestSeriesRankList(),
     );
   }
 }

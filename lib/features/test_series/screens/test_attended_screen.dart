@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:zephyr/features/test_series/model/attended_testseries_model.dart';
 import 'package:zephyr/features/test_series/provider/test_series_provider.dart';
@@ -50,7 +51,22 @@ class _TestAttendedScreenState extends State<TestAttendedScreen> {
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        child: Column(
+        child: 
+        testSeriesProvider.isAttendedTestLoading
+        ?Center(child: CircularProgressIndicator())
+        :testSeriesProvider.attendedTestList.isEmpty
+        ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Lottie.asset("assets/lottie/nodata.json",
+                                height: 200),
+                            Text("No Recordings found!"),
+                            SizedBox(height: 10),
+                          ],
+                        ),
+                      )
+        :Column(
           children: [
             Expanded(
                 child: ListView.separated(
