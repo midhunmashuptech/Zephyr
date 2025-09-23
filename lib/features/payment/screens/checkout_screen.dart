@@ -78,24 +78,64 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.35 >
+                                Stack(
+                                  children: [
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                                  0.35 >
                                               200
                                           ? 200
                                           : MediaQuery.of(context).size.width *
                                               0.35,
-                                  height: double.infinity,
-                                  child: CachedNetworkImage(
-                                    imageUrl: paymentProvider
-                                            .courseData.thumbnail ??
-                                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
-                                    fit: BoxFit.cover,
-                                  ),
-                                  // Image.asset(
-                                  //   "assets/images/course_bg1.jpg",
-                                  //   fit: BoxFit.cover,
-                                  // ),
+                                      height: double.infinity,
+                                      child: CachedNetworkImage(
+                                        imageUrl: paymentProvider
+                                                .courseData.thumbnail ??
+                                            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                                        fit: BoxFit.cover,
+                                      ),
+                                      // Image.asset(
+                                      //   "assets/images/course_bg1.jpg",
+                                      //   fit: BoxFit.cover,
+                                      // ),
+                                    ),
+                                    Positioned(
+                                      top: 7,
+                                      right: 7,
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 5),
+                                        decoration: BoxDecoration(
+                                          color: paymentProvider.courseData == "online"
+                                              ? AppColors.primaryGreen
+                                                  .withOpacity(0.9)
+                                              : AppColors.primaryBlue
+                                                  .withOpacity(0.9),
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black
+                                                  .withOpacity(0.08),
+                                              blurRadius: 4,
+                                              offset: Offset(0, 2),
+                                            ),
+                                          ],
+                                        ),
+                                        child: Text(
+                                          (paymentProvider.courseData.type ?? "").isNotEmpty
+                                              ? "${(paymentProvider.courseData.type ?? "")[0].toUpperCase()}${(paymentProvider.courseData.type ?? "").substring(1)} Class"
+                                              : "",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 10,
+                                            letterSpacing: 0.5,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 SizedBox(width: 10),
                                 Expanded(
@@ -177,7 +217,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                         children: [
                                           Text("Course Fee:"),
                                           Text(
-                                            "${(paymentProvider.courseData.price ?? "0")}/-",
+                                            "${(paymentProvider.courseData.price ?? 0)}/-",
                                             style: TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.w600),
@@ -208,7 +248,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 children: [
                                   Text("Subtotal"),
                                   Text(
-                                    "+${(paymentProvider.courseData.price ?? "0")}",
+                                    "+${(paymentProvider.courseData.price ?? 0)}",
                                   ),
                                 ],
                               ),
@@ -216,9 +256,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("Coupon"),
+                                  Text("Discount"),
                                   Text(
-                                    "- 2000",
+                                    "- ${paymentProvider.courseData.discountValue}",
                                   ),
                                 ],
                               ),
@@ -239,7 +279,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                         fontWeight: FontWeight.w500),
                                   ),
                                   Text(
-                                    "${(paymentProvider.courseData.price ?? "0")}/-",
+                                    "₹${paymentProvider.totalPayable}/-",
                                     style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.w500,

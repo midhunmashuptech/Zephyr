@@ -210,7 +210,7 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                                 horizontal: 18.0, vertical: 18.0),
                             child: SwipeableButtonView(
                               buttonText:
-                                  "Enroll for ₹${double.parse(courseProvider.courseData.price ?? "0.0").toInt()}",
+                                  "Enroll for ₹${double.parse((courseProvider.courseData.price ?? 0).toString())}",
                               buttonWidget: const Icon(Icons.arrow_forward,
                                   color: AppColors.primaryOrange),
                               activeColor: AppColors.primaryOrange,

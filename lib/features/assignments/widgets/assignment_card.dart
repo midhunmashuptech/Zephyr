@@ -46,6 +46,7 @@ class AssignmentCard extends StatelessWidget {
         shadowColor: AppColors.primaryBlue.withOpacity(0.08),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
+          side: BorderSide(color: AppColors.lightBlue)
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
@@ -56,7 +57,7 @@ class AssignmentCard extends StatelessWidget {
                 height: 54,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Colors.lightBlueAccent, Colors.blueAccent],
+                    colors: [AppColors.lightBlueGradient, AppColors.primaryBlue],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),

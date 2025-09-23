@@ -183,8 +183,8 @@ class _EditProfileState extends State<EditProfile> {
         title,
         style: TextStyle(
           fontSize: 18,
-          color: AppColors.black,
-          fontWeight: FontWeight.bold,
+          color: AppColors.primaryBlue,
+          fontWeight: FontWeight.w600,
           letterSpacing: 0.5,
         ),
       ),
@@ -227,6 +227,7 @@ class _EditProfileState extends State<EditProfile> {
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Column(
                   children: [
+                          SizedBox(height: 10),
                     Center(
                       child: Stack(
                         children: [
@@ -236,8 +237,8 @@ class _EditProfileState extends State<EditProfile> {
                               boxShadow: [
                                 BoxShadow(
                                   color: AppColors.black.withOpacity(0.2),
-                                  blurRadius: 16,
-                                  offset: Offset(0, 8),
+                                  blurRadius: 5,
+                                  offset: Offset(0, 4),
                                 ),
                               ],
                             ),
@@ -273,7 +274,7 @@ class _EditProfileState extends State<EditProfile> {
                               onTap: pickImage,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: AppColors.black,
+                                  color: AppColors.primaryOrange,
                                   shape: BoxShape.circle,
                                   border: Border.all(
                                       color: AppColors.white, width: 2),
@@ -478,7 +479,7 @@ class _EditProfileState extends State<EditProfile> {
                                         usernameController.text,
                                         emailController.text);
                                   },
-                                  color: AppColors.black,
+                                  color: AppColors.primaryOrange,
                                   textcolor: AppColors.white,
                                 ),
                         ],

@@ -28,7 +28,9 @@ class Data {
   String? thumbnail;
   String? type;
   String? level;
-  String? price;
+  int? price;
+  int? discountValue;
+  String? discountType;
   String? description;
   String? duration;
   String? startDate;
@@ -51,6 +53,8 @@ class Data {
       this.type,
       this.level,
       this.price,
+      this.discountValue,
+      this.discountType,
       this.description,
       this.duration,
       this.startDate,
@@ -73,6 +77,8 @@ class Data {
     type = json['type'];
     level = json['level'];
     price = json['price'];
+    discountValue = json['discount_value'];
+    discountType = json['discount_type'];
     description = json['description'];
     duration = json['duration'];
     startDate = json['start_date'];
@@ -107,6 +113,8 @@ class Data {
     data['type'] = this.type;
     data['level'] = this.level;
     data['price'] = this.price;
+    data['discount_value'] = this.discountValue;
+    data['discount_type'] = this.discountType;
     data['description'] = this.description;
     data['duration'] = this.duration;
     data['start_date'] = this.startDate;
