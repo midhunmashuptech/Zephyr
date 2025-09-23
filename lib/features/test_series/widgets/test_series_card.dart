@@ -125,7 +125,7 @@ class TestSeriesCard extends StatelessWidget {
                                     MaterialPageRoute(
                                         builder: (context) => TestReviewScreen(
                                               type: type,
-                                              testid: testid,
+                                              testid: testid, title: title, date: submissionDate,
                                             )));
                               },
                               child: Column(

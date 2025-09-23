@@ -55,6 +55,7 @@ const submitAssignmentUrl = "${baseUrl}submit-assignment";
 const ongoingTestSeriesUrl = "${baseUrl}get-ongoing-test-series";
 const upcomingTestSeriesUrl = "${baseUrl}get-upcoming-test-series";
 const attendedTestSeriesUrl = "${baseUrl}get-attended-test-series";
+const testSeriesAnalysisUrl = "${baseUrl}get-test-analysis";
 const testSeriesLeaderBoardUrl = "${baseUrl}get-test-leaderboard/";
 
 // Timeline APIs
