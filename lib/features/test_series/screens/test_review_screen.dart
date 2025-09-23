@@ -70,7 +70,7 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                       onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => TestSeriesRankList())),
+                              builder: (context) => TestSeriesRankList(testId: widget.testid,))),
                       textcolor: AppColors.white,
                     ),
                     const SizedBox(height: 20),

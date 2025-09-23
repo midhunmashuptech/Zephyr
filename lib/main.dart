@@ -55,8 +55,8 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Poppins',
           useMaterial3: true,
           scaffoldBackgroundColor: AppColors.white),
-      // home: SplashScreen(),
-      home: TestSeriesRankList(),
+      home: SplashScreen(),
+      // home: TestSeriesRankList(testId: '',),
     );
   }
 }
