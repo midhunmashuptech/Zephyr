@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:zephyr/features/test_series/model/attended_testseries_model.dart';
+import 'package:zephyr/features/test_series/provider/test_series_provider.dart';
 import 'package:zephyr/features/test_series/widgets/test_series_card.dart';
 
 class AttendedTestModel {
@@ -22,23 +25,27 @@ class TestAttendedScreen extends StatefulWidget {
 }
 
 class _TestAttendedScreenState extends State<TestAttendedScreen> {
-  List<AttendedTestModel> attendedTests = [
-    AttendedTestModel(
-        title: "Weekly Test 1 Class 06 (19-11-2023)",
-        submittedDate: "20 Aug, 2025 |  17:30",
-        duration: "30 Min"),
-    AttendedTestModel(
-        title: "Weekly Test 2 Class 06 (19-11-2023)",
-        submittedDate: "20 Aug, 2025 |  17:30",
-        duration: "30 Min"),
-    AttendedTestModel(
-        title: "Weekly Test 3 Class 06 (19-11-2023)",
-        submittedDate: "20 Aug, 2025 |  17:30",
-        duration: "30 Min"),
-  ];
+  TestSeriesProvider testSeriesProvider = TestSeriesProvider();
+  @override
+  void initState() {
+    super.initState();
+    loadAttendedTestSeries();
+  }
 
+  Future<void> loadAttendedTestSeries() async {
+    final loadProvider = context.read<TestSeriesProvider>();
+    await loadProvider.fetchAttendedTestSeriesModel(context: context);
+  }
+
+  String formatDateTime(String dateTimeString) {
+    final dateTime = DateTime.parse(dateTimeString).toLocal();
+    final formatter = DateFormat("dd MMMM, yyyy | hh:mm a");
+    return formatter.format(dateTime);
+  }
+  
   @override
   Widget build(BuildContext context) {
+    final testSeriesProvider = context.watch<TestSeriesProvider>();
     return Scaffold(
       body: SafeArea(
           child: Padding(
@@ -46,18 +53,33 @@ class _TestAttendedScreenState extends State<TestAttendedScreen> {
         child: Column(
           children: [
             Expanded(
-                child: ListView.builder(
-                    itemBuilder: (context, index) => TestSeriesCard(
-                          testid: "0",
-                          type: "main_test",
-                          isAttended: true,
-                          title: attendedTests[index].title,
-                          submissionDate: attendedTests[index].submittedDate,
-                          duration: attendedTests[index].duration,
-                          questions: "30",
-                          maxMarks: "100",
-                        ),
-                    itemCount: attendedTests.length)),
+                child: ListView.separated(
+              itemCount: testSeriesProvider.attendedTestList.length,
+              separatorBuilder: (context, index) => SizedBox(
+                height: 10,
+              ),
+              itemBuilder: (context, index) => TestSeriesCard(
+                testid:
+                    (testSeriesProvider.attendedTestList[index].testId ?? "")
+                        .toString(),
+                title: (testSeriesProvider.attendedTestList[index].test ??
+                            Test(title: "Title"))
+                        .title ??
+                    "",
+                submissionDate: formatDateTime(
+                    testSeriesProvider.attendedTestList[index].submitTime ??
+                        ""),
+                duration: ((testSeriesProvider.attendedTestList[index].test ??
+                                Test(duration: 20))
+                            .duration ??
+                        "")
+                    .toString(),
+                questions: "30",
+                maxMarks: "100",
+                type: "main_test",
+                isAttended: true,
+              ),
+            )),
           ],
         ),
       )),

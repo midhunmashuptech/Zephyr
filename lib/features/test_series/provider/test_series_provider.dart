@@ -5,6 +5,8 @@ import 'package:zephyr/features/test_series/model/upcoming_testseries_model.dart
 import 'package:zephyr/features/test_series/model/ongoing_testseries_model.dart'
     as ongoing_test_model;
 import 'package:zephyr/features/test_series/service/test_series_service.dart';
+import 'package:zephyr/features/test_series/model/attended_testseries_model.dart'
+    as attended_test_model;
 
 class TestSeriesProvider extends ChangeNotifier {
   bool _isOngoingTestLoading = false;
@@ -12,6 +14,13 @@ class TestSeriesProvider extends ChangeNotifier {
 
   bool _isUpcomingTestLoading = false;
   bool get isUpcomingTestLoading => _isUpcomingTestLoading;
+
+  bool _isAttendedTestLoading = false;
+  bool get isAttendedTestLoading => _isAttendedTestLoading;
+
+  List<attended_test_model.TestSeries> _attendedTestList = [];
+  List<attended_test_model.TestSeries> get attendedTestList =>
+      _attendedTestList;
 
   List<upcoming_test_model.TestSeries> _upcomingTestsList = [];
   List<upcoming_test_model.TestSeries> get upcomingTestsList =>
@@ -58,6 +67,28 @@ class TestSeriesProvider extends ChangeNotifier {
         notifyListeners();
         showSnackBar("Success", "Successfully Fetched Upcoming Tests");
         _isUpcomingTestLoading = false;
+        notifyListeners();
+      }
+    }
+  }
+
+  Future<void> fetchAttendedTestSeriesModel(
+      {required BuildContext context}) async {
+    _isAttendedTestLoading = true;
+    notifyListeners();
+    final response =
+        await TestSeriesService().getAttendedTestSeries(context: context);
+
+    if (response == null) {
+      showSnackBar("Error", "Error fetching attended Test Series");
+      _isAttendedTestLoading = false;
+      notifyListeners();
+    } else {
+      if (response.type == "success") {
+        _attendedTestList = response.testSeries ?? [];
+        notifyListeners();
+        showSnackBar("Success", "Successfully fetched attended Test Series");
+        _isAttendedTestLoading = false;
         notifyListeners();
       }
     }
