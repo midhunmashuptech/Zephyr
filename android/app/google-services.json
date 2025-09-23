@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "622300969616",
+    "project_id": "zephyr-digital-844a8",
+    "storage_bucket": "zephyr-digital-844a8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:622300969616:android:e1310ffd5001087e5a7615",
+        "android_client_info": {
+          "package_name": "com.mashuptech.zephyrdigital"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqmCQVbbYPREKOhKFIyheHwJ4CaZZnzVY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

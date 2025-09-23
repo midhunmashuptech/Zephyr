@@ -18,6 +18,7 @@ import 'package:zephyr/features/payment/provider/payment_provider.dart';
 import 'package:zephyr/features/test/provider/make_test_provider.dart';
 import 'package:zephyr/features/test_series/provider/test_series_provider.dart';
 import 'package:zephyr/features/test_series/screens/test_series_rank_list.dart';
+
 void main() async {
   // print("App starting");
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,7 +50,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
+      title: 'Zephyr Digital Learning App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           fontFamily: 'Poppins',
