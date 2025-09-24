@@ -4,8 +4,8 @@ import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/constants/config.dart';
 import 'package:zephyr/features/auth/registration/model/registration_dropdown_options_model.dart';
 import 'package:zephyr/features/auth/registration/model/registration_model.dart';
-
 class RegistrationService {
+  //Dropdown Options
   Future<RegistrationDropdownOptionsModel?> getRegisterDropdownOptions() async {
     final responseJson = await ApiService().authGetRequest(
       url: registrationDropdownOptionsUrl,
@@ -25,6 +25,7 @@ class RegistrationService {
     }
   }
 
+//Registration
   Future<RegistrationModel?> registerUser(
     BuildContext context, {
     required String name,
@@ -65,4 +66,6 @@ class RegistrationService {
       }
     }
   }
+
+  
 }
