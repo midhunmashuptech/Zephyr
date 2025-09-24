@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
@@ -8,8 +9,10 @@ import 'package:zephyr/common/provider/user_details_provider.dart';
 import 'package:zephyr/common/screens/bottom_nav_screen.dart';
 import 'package:zephyr/features/auth/login/screens/login.dart';
 import 'package:zephyr/features/auth/login/screens/mobile_number_verification.dart';
+import 'package:zephyr/features/auth/login/screens/reset_password_login.dart';
 import 'package:zephyr/features/auth/registration/model/registration_dropdown_options_model.dart'
     as dropdown_model;
+import 'package:zephyr/features/auth/registration/model/verify_reset_password_model.dart';
 import 'package:zephyr/features/auth/service/login_service.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:zephyr/features/auth/service/registration_service.dart';
@@ -22,6 +25,15 @@ class AuthProvider extends ChangeNotifier {
 
   bool _isLogining = false;
   bool get isLogining => _isLogining;
+
+  bool _isotpSend = false;
+  bool get isOtpsend => _isotpSend;
+
+  bool _isOtpVerified = false;
+  bool get isOtpVerified => _isOtpVerified;
+
+  String _otpStatus = "";
+  String get otpStatus => _otpStatus;
 
   bool _isPwdReset = false;
   bool get isPwdReset => _isPwdReset;
@@ -61,6 +73,16 @@ class AuthProvider extends ChangeNotifier {
 
   // Registration Password Variable
   String registrationPassword = "123456";
+
+// OTP Button Enable/Disable
+bool _isOtpfilled = false; // start with false so button is disabled initially
+bool get isOtpfilled => _isOtpfilled;
+
+void updateOtpfilledState(bool otpfilled) {
+  _isOtpfilled = otpfilled;
+  notifyListeners();
+}
+
 
   void setPassword(String enterdPassword) {
     registrationPassword = enterdPassword;
@@ -310,5 +332,73 @@ class AuthProvider extends ChangeNotifier {
         notifyListeners();
       }
     }
+  }
+
+  //Send Otp Reset Password
+  Future<void> resetPasswordSendOtp({required BuildContext context}) async {
+    _isotpSend = true;
+    notifyListeners();
+    final response = await LoginService().sendResetOtp(
+        phone: phoneNumber,
+        countryCode: countryCode.substring(1),
+        context: context);
+    if (response == null) {
+      showSnackBar("Error", "Error Sending Otp");
+      _isotpSend = false;
+      notifyListeners();
+    } else {
+      if (response.type == "success") {
+        _otpStatus = "sent";
+        debugPrint(response.otp.toString());
+        showSnackBar("Otp Sent", "successfully sent the otp");
+        _isotpSend = false;
+        notifyListeners();
+      } else {
+        _otpStatus = "error";
+        showSnackBar(
+            "Otp Not Sent", "Something went wrong.Please try again later");
+        _isotpSend = false;
+        notifyListeners();
+      }
+    }
+  }
+
+  //Verify Reset Password Otp
+  Future<VerifyResetPasswordModel?> verifyPasswordOtp(
+      {required BuildContext context, required String otp}) async {
+    _isOtpVerified = true;
+    notifyListeners();
+    final response = await LoginService().verifyResetOtp(
+        phone: phoneNumber,
+        countryCode: countryCode.substring(1),
+        otp: otp,
+        context: context);
+    if (response == null) {
+      _isOtpVerified = false;
+      notifyListeners();
+      showSnackBar("Error", "Verification Error");
+      return null;
+    } else {
+      if (response.type == "success") {
+        showSnackBar("Otp Verified", "Successfully verified otp");
+        _otpStatus = "success";
+        _isOtpVerified = false;
+        notifyListeners();
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ResetPasswordLogin()));
+      } else if (response.type == "error") {
+        _otpStatus = "invalid";
+        _isOtpVerified = false;
+        notifyListeners();
+        showSnackBar("Otp Verification Failed",
+            "Invalid otp.Please try again or resend otp");
+      } else {
+        _otpStatus = "error";
+        _isOtpVerified = false;
+        notifyListeners();
+        showSnackBar("Error", "Something went wrong");
+      }
+    }
+    return null;
   }
 }

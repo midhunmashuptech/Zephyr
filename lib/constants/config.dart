@@ -13,6 +13,8 @@ const registrationDropdownOptionsUrl =
     
 // Password rest API
 const resetPasswordUrl = "${baseUrl}reset-user-password";
+const sendresetPasswordUrl = "${baseUrl}send-reset-password-otp";
+const verifyResetPasswordUrl = "${baseUrl}verify-reset-password-otp";
 
 // Password rest API
 const resetPasswordAuthUrl = "${baseUrl}reset-password";

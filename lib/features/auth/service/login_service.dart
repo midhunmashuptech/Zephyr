@@ -8,6 +8,8 @@ import 'package:zephyr/constants/config.dart';
 import 'package:zephyr/features/auth/login/model/login_model.dart';
 import 'package:zephyr/features/auth/login/model/reset_password_login_model.dart';
 import 'package:zephyr/features/auth/login/model/verify_phone_model.dart';
+import 'package:zephyr/features/auth/registration/model/send_reset_password_model.dart';
+import 'package:zephyr/features/auth/registration/model/verify_reset_password_model.dart';
 
 class LoginService {
   final ApiService _apiService = ApiService();
@@ -131,7 +133,7 @@ class LoginService {
       required String countryCode,
       required String password}) async {
     final responseJson = await ApiService().authPostRequest(
-        url: resetPasswordUrl,
+        url: resetPasswordAuthUrl,
         fields: {
           "phone": phone,
           "country_code": countryCode.substring(1),
@@ -144,5 +146,43 @@ class LoginService {
       showSnackBar("success", "reset successful");
     }
     return resetPasswordLoginModel;
+  }
+
+  //Send Request Password Otp
+  Future<SendResetPasswordModel?> sendResetOtp(
+      {required String phone,
+      required String countryCode,
+      required BuildContext context}) async {
+    final responseJson = await ApiService().authPostRequest(
+        url: sendresetPasswordUrl,
+        fields: {"phone": phone, "country_code": countryCode});
+    if (responseJson == null) {
+      showSnackBar("Error", "Something went wrong");
+      return null;
+    } else {
+      final sendResetPasswordModel =
+          SendResetPasswordModel.fromJson(responseJson);
+      return sendResetPasswordModel;
+    }
+  }
+
+  //Verify Request Password Otp
+  Future<VerifyResetPasswordModel?> verifyResetOtp(
+      {required String phone,
+      required String countryCode,
+      required String otp,
+      required BuildContext context}) async {
+    debugPrint("otp "+otp);
+    final responseJson = await ApiService().authPostRequest(
+        url: verifyResetPasswordUrl,
+        fields: {"phone": phone, "country_code": countryCode, "otp": otp});
+    if (responseJson == null) {
+      showSnackBar("Error", "Something went wrong");
+      return null;
+    } else {
+      final verifyResetPasswordModel =
+          VerifyResetPasswordModel.fromJson(responseJson);
+      return verifyResetPasswordModel;
+    }
   }
 }
