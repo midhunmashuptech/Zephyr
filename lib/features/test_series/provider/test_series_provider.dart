@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
-import 'package:zephyr/features/test_series/model/testseries_leaderboard_model.dart';
 import 'package:zephyr/features/test_series/model/testseries_analysis_model.dart';
+import 'package:zephyr/features/test_series/model/testseries_leaderboard_model.dart';
 import 'package:zephyr/features/test_series/model/upcoming_testseries_model.dart'
     as upcoming_test_model;
 import 'package:zephyr/features/test_series/model/ongoing_testseries_model.dart'
@@ -108,6 +108,55 @@ class TestSeriesProvider extends ChangeNotifier {
         notifyListeners();
         showSnackBar("Success", "Successfully fetched attended Test Series");
         _isAttendedTestLoading = false;
+        notifyListeners();
+      }
+    }
+  }
+
+
+  // Test Series Analysis
+  Future<void> fetchTestSeriesAnalysis(
+      {required BuildContext context, required String testId}) async {
+    _isAnalysisLoading = true;
+    notifyListeners();
+
+    final response =
+        await TestSeriesService().getTestSeriesAnalysis(context: context, testId: testId);
+
+    if (response == null) {
+      showSnackBar("Error", "Error fetching Test Series Analysis");
+      _isAnalysisLoading = false;
+      notifyListeners();
+    } else {
+      if (response.type == "success") {
+        _testseriesAnalysisModel = response;
+        notifyListeners();
+        showSnackBar("Success", "Successfully fetched Test Series Analysis");
+        _isAnalysisLoading = false;
+        notifyListeners();
+      } else {
+        _isAnalysisLoading = false;
+      }
+    }
+      }
+
+  //Test Series LeaderBoard
+  Future<void> fetchLeaderBoard(
+      {required BuildContext context, required String testId}) async {
+    _leaderBoardList = [];
+    _isLeaderBoardLoading = true;
+    notifyListeners();
+    final response = await TestSeriesService()
+        .getLeaderBoard(context: context, testId: testId);
+    if (response == null) {
+      showSnackBar("Error", "Error Fetching LeaderBoard");
+      _isLeaderBoardLoading = false;
+      notifyListeners();
+    } else {
+      if (response.type == "success") {
+        _leaderBoardList = response.ranklist ?? [];
+        notifyListeners();
+        _isLeaderBoardLoading = false;
         notifyListeners();
       }
     }

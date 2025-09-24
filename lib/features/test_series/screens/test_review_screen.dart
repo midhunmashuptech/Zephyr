@@ -111,7 +111,7 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        TestSeriesRankList())),
+                                        TestSeriesRankList(testId: widget.testid))),
                             textcolor: AppColors.white,
                           ),
                           const SizedBox(height: 20),
