@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
+import 'package:provider/provider.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/coursedetails/model/course_detail_model.dart';
+import 'package:zephyr/features/coursedetails/provider/course_provider.dart';
+import 'package:zephyr/features/coursedetails/screens/course_chapter_content.dart';
 
 class CourseChapterCard extends StatelessWidget {
   final String title;
   final String subtitle;
-  final List<String> items;
+  final List<Chapters> items;
   final void Function(String) onSelected;
   final VoidCallback onTap;
   final bool isExpanded;
-  final void Function(int index)? onLockedTap;
-  final void Function()? onFreeItemTap;
 
   const CourseChapterCard({
     super.key,
@@ -21,12 +23,11 @@ class CourseChapterCard extends StatelessWidget {
     required this.onSelected,
     required this.onTap,
     required this.isExpanded,
-    this.onLockedTap,
-    this.onFreeItemTap,
   });
 
   @override
   Widget build(BuildContext context) {
+    final courseDetailProvider = context.watch<CourseProvider>();
     return Card(
       color: AppColors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -94,66 +95,36 @@ class CourseChapterCard extends StatelessWidget {
             size: 28,
           ),
           children: List.generate(items.length, (index) {
-            final isFree = index == 0;
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 4),
               child: Material(
-                color: isFree
-                    ? AppColors.primaryBlue.withOpacity(0.07)
-                    : AppColors.grey.withOpacity(0.07),
+                color: AppColors.lightBlueGradient.withAlpha(70),
                 borderRadius: BorderRadius.circular(5),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(10),
                   onTap: () {
-                    if (isFree && onFreeItemTap != null) {
-                      onFreeItemTap!();
-                    } else if (!isFree && onLockedTap != null) {
-                      onLockedTap!(index);
-                    }
+                    courseDetailProvider
+                        .setSelectedChapterContents(items[index]);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => CourseChapterContent()),
+                    );
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 10),
+                        horizontal: 15, vertical: 15),
                     child: Row(
                       children: [
-                        Iconify(
-                          isFree ? Mdi.lock_open : Mdi.lock,
-                          color: isFree
-                              ? const Color.fromARGB(255, 27, 162, 15)
-                              : AppColors.grey,
-                          size: 22,
-                        ),
-                        const SizedBox(width: 14),
                         Expanded(
                           child: Text(
-                            items[index],
+                            items[index].chapterTitle ?? "Chapter Title",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
-                              color: isFree
-                                  ? AppColors.primaryBlue
-                                  : AppColors.black.withOpacity(0.85),
+                              color: AppColors.black.withOpacity(0.85),
                             ),
                           ),
                         ),
-                        if (isFree)
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 27, 162, 15)
-                                  .withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: const Text(
-                              "Free",
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 27, 162, 15),
-                                fontWeight: FontWeight.w600,
-                                fontSize: 13,
-                              ),
-                            ),
-                          ),
                       ],
                     ),
                   ),

@@ -17,6 +17,14 @@ class CourseProvider extends ChangeNotifier {
   List<Reviews> _courseReviews = [];
   List<Reviews> get courseReviews => _courseReviews;
 
+  Chapters _selectedChapter = Chapters();
+  Chapters get selectedChapter => _selectedChapter;
+
+  void setSelectedChapterContents(Chapters chapter) {
+    _selectedChapter = chapter;
+    notifyListeners();
+  }
+
   Future<void> getCourseDetails(
       {required String courseId, required BuildContext context}) async {
     _isLoading = true;

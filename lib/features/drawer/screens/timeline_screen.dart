@@ -14,6 +14,7 @@ class TimelineScreen extends StatefulWidget {
 }
 
 class _TimelineScreenState extends State<TimelineScreen> {
+  final ScrollController _scrollController = ScrollController();
   TimelineProvider timelineProvider = TimelineProvider();
 
   // Function to get the formatted label for Today, Tomorrow, and Yesterday
@@ -40,22 +41,48 @@ class _TimelineScreenState extends State<TimelineScreen> {
         date1.day == date2.day;
   }
 
-  Future<void> loadTimeline(DateTime date) async {
-    final loadProvider = context.read<TimelineProvider>();
-    loadProvider.setSelectedDate(date);
-    await loadProvider.fetchTimelineActivities(context: context);
-  }
-
   @override
   void initState() {
     super.initState();
     loadTimeline(DateTime.now());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollToSelectedDate(DateTime.now());
+    });
+  }
+
+  void _scrollToSelectedDate(DateTime date) {
+    double itemWidth = 66; // 50 width + 16 horizontal margin
+    DateTime today = DateTime.now();
+    DateTime startDate = today.subtract(const Duration(days: 30));
+
+    int selectedIndex = date.difference(startDate).inDays;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double targetOffset =
+        (selectedIndex * itemWidth) - (screenWidth / 2) + (itemWidth / 2);
+
+    _scrollController.animateTo(
+      targetOffset.clamp(0, _scrollController.position.maxScrollExtent),
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  Future<void> loadTimeline(DateTime date) async {
+    final loadProvider = context.read<TimelineProvider>();
+    loadProvider.setSelectedDate(date);
+    await loadProvider.fetchTimelineActivities(context: context);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollToSelectedDate(date);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     timelineProvider = context.watch<TimelineProvider>();
-    String formattedDate = DateFormat('MMM d, yyyy').format(timelineProvider.currentSelectedDate);
+    String formattedDate =
+        DateFormat('MMM d, yyyy').format(timelineProvider.currentSelectedDate);
     String formattedDay = getDayLabel(timelineProvider.currentSelectedDate);
 
     return Scaffold(
@@ -105,7 +132,8 @@ class _TimelineScreenState extends State<TimelineScreen> {
                     IconButton(
                       icon:
                           const Icon(Icons.calendar_today, color: Colors.black),
-                      onPressed: () => _selectDate(context, timelineProvider.currentSelectedDate),
+                      onPressed: () => _selectDate(
+                          context, timelineProvider.currentSelectedDate),
                     ),
                   ],
                 ),
@@ -119,37 +147,40 @@ class _TimelineScreenState extends State<TimelineScreen> {
             const Divider(thickness: 1),
 
             Expanded(
-              child:timelineProvider.isTimelineLoading
-              ? Center(child: CircularProgressIndicator()) 
-              : timelineProvider.timelineActivities.isEmpty
-                  ? Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Lottie.asset("assets/lottie/nodata.json",
-                              width: 200),
-                          SizedBox(height: 20),
-                          Text(
-                            "No Activities!",
-                            style: TextStyle(fontSize: 20),
+              child: timelineProvider.isTimelineLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : timelineProvider.timelineActivities.isEmpty
+                      ? Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Lottie.asset("assets/lottie/nodata.json",
+                                  width: 200),
+                              SizedBox(height: 20),
+                              Text(
+                                "No Activities!",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                      child: ListView.builder(
-                        itemCount: timelineProvider.timelineActivities.length,
-                        itemBuilder: (context, index) {
-                          return TimelineItem(
-                            item: timelineProvider.timelineActivities[index],
-                            isFirst: index == 0,
-                            isLast: index ==
-                                timelineProvider.timelineActivities.length-1,
-                          );
-                        },
-                      ),
-                    ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                          child: ListView.builder(
+                            itemCount:
+                                timelineProvider.timelineActivities.length,
+                            itemBuilder: (context, index) {
+                              return TimelineItem(
+                                item:
+                                    timelineProvider.timelineActivities[index],
+                                isFirst: index == 0,
+                                isLast: index ==
+                                    timelineProvider.timelineActivities.length -
+                                        1,
+                              );
+                            },
+                          ),
+                        ),
             ),
           ],
         ),
@@ -159,12 +190,16 @@ class _TimelineScreenState extends State<TimelineScreen> {
 
   // Horizontally scrollable date picker
   Widget _buildDateSelector(DateTime selectedDate) {
-    DateTime startDate = selectedDate.subtract(const Duration(days: 3));
+    DateTime today = DateTime.now();
+    DateTime startDate = today.subtract(const Duration(days: 30));
+    int totalDays = today.difference(startDate).inDays + 1;
+
     return SizedBox(
       height: 80,
       child: ListView.builder(
+        controller: _scrollController,
         scrollDirection: Axis.horizontal,
-        itemCount: 7, // Show 7 days (3 before, selected, and 3 after)
+        itemCount: totalDays,
         itemBuilder: (context, index) {
           DateTime date = startDate.add(Duration(days: index));
           bool isSelected = isSameDay(date, selectedDate);
@@ -184,7 +219,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    DateFormat('E').format(date), // Short weekday (e.g., "Mon")
+                    DateFormat('E').format(date),
                     style: TextStyle(
                       fontSize: 12,
                       color: isSelected ? Colors.white : Colors.black54,
@@ -209,7 +244,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
   }
 
   // Open date picker and update UI
-  Future<void> _selectDate(BuildContext context, DateTime selectedDate ) async {
+  Future<void> _selectDate(BuildContext context, DateTime selectedDate) async {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: selectedDate,

@@ -31,7 +31,7 @@ class PaymentProvider extends ChangeNotifier {
     } else {
       if (response.type == "success") {
         _courseData = response.data ?? Data();
-        if (_courseData.type == "amount") {
+        if (_courseData.discountType == "amount") {
           _totalPayable =
               ((_courseData.price ?? 0) - (_courseData.discountValue ?? 0))
                   .toDouble();

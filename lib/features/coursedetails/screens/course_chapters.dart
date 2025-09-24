@@ -17,32 +17,6 @@ class _CourseChaptersState extends State<CourseChapters> {
   CourseProvider courseDetailProvider = CourseProvider();
   int? expandedSectionIndex;
 
-  void _showSubscribePopup(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: Text("Start Learning Today"),
-        content: Text(
-            "Subscribe to gain unlimited access to all lessons and resources."),
-        actions: [
-          TextButton(
-              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
-              child: Text("Cancel")),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.of(context, rootNavigator: true).pop();
-                Navigator.of(context, rootNavigator: true)
-                    .push(MaterialPageRoute(
-                        builder: (contex) => CheckoutScreen(
-                              courseId: "1",
-                            )));
-              },
-              child: Text("Subscribe")),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     courseDetailProvider = context.watch<CourseProvider>();
@@ -80,15 +54,11 @@ class _CourseChaptersState extends State<CourseChapters> {
                                               [])[index]
                                           .className ??
                                       "Class Name",
-                                  items: ((courseDetailProvider
+                                  items: (courseDetailProvider
                                                       .courseData.subjects ??
                                                   [])[index]
                                               .chapters ??
-                                          [])
-                                      .map((chapter) =>
-                                          chapter.chapterTitle ??
-                                          "Chapter Title")
-                                      .toList(),
+                                          [],
                                   onSelected: (value) {},
                                   onTap: () {
                                     setState(() {
@@ -99,16 +69,6 @@ class _CourseChaptersState extends State<CourseChapters> {
                                     });
                                   },
                                   isExpanded: expandedSectionIndex == index,
-                                  onFreeItemTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) =>
-                                              CourseChapterContent()),
-                                    );
-                                  },
-                                  onLockedTap: (index) =>
-                                      _showSubscribePopup(context),
                                 ),
                             // separatorBuilder: (context, index) => SizedBox(height: 5),
                             itemCount:
