@@ -1,31 +1,84 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/coursedetails/provider/course_provider.dart';
+import 'package:zephyr/features/coursedetails/screens/sample_chapter_pdf_viewer.dart';
+import 'package:zephyr/features/coursedetails/screens/sample_chapter_video_player.dart';
+import 'package:zephyr/features/payment/screens/checkout_screen.dart';
 
 class CourseContentCard extends StatefulWidget {
+  final String type;
   final String title;
+  final String url;
   final String subtitle;
   final Color bgcolor;
   final IconData icon;
-  final IconData lockicon;
+  final bool isFree;
 
-  const CourseContentCard({
-    required this.title,
-    required this.subtitle,
-    required this.icon,
-    required this.bgcolor,
-    required this.lockicon,
-    super.key});
+  const CourseContentCard(
+      {required this.type,
+      required this.title,
+      required this.url,
+      required this.subtitle,
+      required this.icon,
+      required this.bgcolor,
+      required this.isFree,
+      super.key});
 
   @override
   State<CourseContentCard> createState() => _CourseContentCardState();
 }
 
+void _showSubscribePopup(BuildContext context) {
+  final courseProvider = context.read<CourseProvider>();
+  showDialog(
+    context: context,
+    builder: (_) => AlertDialog(
+      title: Text("Start Learning Today"),
+      content: Text(
+          "Subscribe to gain unlimited access to all lessons and resources."),
+      actions: [
+        TextButton(
+            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+            child: Text("Cancel")),
+        ElevatedButton(
+            onPressed: () {
+              Navigator.of(context, rootNavigator: true).pop();
+              Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+                  builder: (contex) => CheckoutScreen(
+                        courseId: "${courseProvider.courseData.id ?? 0}",
+                      )));
+            },
+            child: Text("Subscribe")),
+      ],
+    ),
+  );
+}
+
 class _CourseContentCardState extends State<CourseContentCard> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
+    return GestureDetector(
+      onTap: () {
+        if (widget.isFree) {
+          if (widget.type == "video") {
+            Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+                builder: (contex) => SampleChapterVideoPlayer(
+                      videoUrl: widget.url,
+                      videoName: widget.title,
+                    )));
+          } else if (widget.type == "material") {
+            Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+                builder: (contex) => SampleChapterPdfViewer(
+                    title: widget.title,
+                    url:
+                        "https://d333c2xue188ia.cloudfront.net/materials/files/H9ljm7oz3vDhxijnOZgbFobRZkXtBpZ1GdmeM6ZY.pdf")));
+          } else if (widget.type == "test") {}
+        } else {
+          _showSubscribePopup(context);
+        }
+      },
       child: Container(
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
@@ -42,21 +95,16 @@ class _CourseContentCardState extends State<CourseContentCard> {
           child: Row(
             children: [
               Container(
-                width: MediaQuery.of(context).size.width * 0.16 > 120
-                    ? 120
-                    : MediaQuery.of(context).size.width * 0.16,
-                height: MediaQuery.of(context).size.width * 0.16 > 120
-                    ? 120
-                    : MediaQuery.of(context).size.width * 0.16,
+                width: 70,
+                height: 70,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4),
                   color: widget.bgcolor.withAlpha(20),
                 ),
-                child: Icon(widget.icon,
+                child: Icon(
+                  widget.icon,
                   // FluentIcons.document_pdf_24_regular,
-                  size: MediaQuery.of(context).size.width * 0.1 > 70
-                      ? 70
-                      : MediaQuery.of(context).size.width * 0.1,
+                  size: 40,
                   color: widget.bgcolor,
                 ),
               ),
@@ -69,7 +117,8 @@ class _CourseContentCardState extends State<CourseContentCard> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(widget.title,
+                        Text(
+                          widget.title,
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
@@ -78,7 +127,8 @@ class _CourseContentCardState extends State<CourseContentCard> {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        Text(widget.subtitle,
+                        Text(
+                          widget.subtitle,
                           style:
                               TextStyle(fontSize: 12, color: AppColors.black),
                         ),
@@ -87,7 +137,9 @@ class _CourseContentCardState extends State<CourseContentCard> {
                   ],
                 ),
               ),
-              Icon(widget.lockicon)
+              Icon(widget.isFree ? Icons.lock_open : Icons.lock,
+                  color:
+                      widget.isFree ? AppColors.primaryGreen : AppColors.grey)
             ],
           ),
         ),

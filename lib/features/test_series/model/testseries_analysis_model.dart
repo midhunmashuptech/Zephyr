@@ -90,6 +90,10 @@ class Performance {
 
 class Overall {
   int? score;
+  int? maxMarks;
+  int? accuracy;
+  double? averageTimePerQuestion;
+  Null? pass;
   Count? count;
   Time? time;
   int? correctScore;
@@ -97,6 +101,10 @@ class Overall {
 
   Overall(
       {this.score,
+      this.maxMarks,
+      this.accuracy,
+      this.averageTimePerQuestion,
+      this.pass,
       this.count,
       this.time,
       this.correctScore,
@@ -104,6 +112,10 @@ class Overall {
 
   Overall.fromJson(Map<String, dynamic> json) {
     score = json['score'];
+    maxMarks = json['max_marks'];
+    accuracy = json['accuracy'];
+    averageTimePerQuestion = json['average_time_per_question'];
+    pass = json['pass'];
     count = json['count'] != null ? new Count.fromJson(json['count']) : null;
     time = json['time'] != null ? new Time.fromJson(json['time']) : null;
     correctScore = json['correct_score'];
@@ -113,6 +125,10 @@ class Overall {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['score'] = this.score;
+    data['max_marks'] = this.maxMarks;
+    data['accuracy'] = this.accuracy;
+    data['average_time_per_question'] = this.averageTimePerQuestion;
+    data['pass'] = this.pass;
     if (this.count != null) {
       data['count'] = this.count!.toJson();
     }
