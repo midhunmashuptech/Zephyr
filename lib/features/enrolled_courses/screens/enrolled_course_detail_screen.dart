@@ -28,7 +28,10 @@ class _EnrolledCourseDetailScreenState extends State<EnrolledCourseDetailScreen>
   @override
   void initState() {
     super.initState();
-    loadCourses();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+     loadCourses();
+  });
+   
     _tabController = TabController(length: 2, vsync: this);
   }
 
