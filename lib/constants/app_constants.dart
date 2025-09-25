@@ -46,6 +46,27 @@ class AppColors {
 
   /// color gradients
   
+  
+  //Leaderboard Podium 
+  static const Gradient mainPodiumGradient = LinearGradient(
+    colors: [
+      Color(0xFF0002B2),
+      Color(0xFF00028E),
+    ],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+  );
+
+  static const Gradient sidePodiumGradient = LinearGradient(
+    colors: [
+      Color.fromARGB(255, 9, 11, 159),
+      Color.fromARGB(255, 0, 2, 114),
+    ],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+  );
+
+  
 //Blue
   static const Gradient blueGradient = LinearGradient(
     colors: [

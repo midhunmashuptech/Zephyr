@@ -51,7 +51,7 @@ class Ranklist {
     slNo = json['sl_no'];
     rank = json['rank'];
     name = json['name'];
-    userId = json['user_id'];
+    userId = json['userid'];
     score = json['score'];
     totalCorrect = json['total_correct'];
     totalIncorrect = json['total_incorrect'];
