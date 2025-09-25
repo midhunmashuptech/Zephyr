@@ -8,7 +8,8 @@ import 'package:zephyr/features/test_series/provider/test_series_provider.dart';
 class TestSeriesRankList extends StatefulWidget {
   final String testId;
   final String maxMark;
-  const TestSeriesRankList({required this.testId, required this.maxMark, super.key});
+  const TestSeriesRankList(
+      {required this.testId, required this.maxMark, super.key});
 
   @override
   State<TestSeriesRankList> createState() => _TestSeriesRankListState();
@@ -16,11 +17,30 @@ class TestSeriesRankList extends StatefulWidget {
 
 TestSeriesProvider testSeriesProvider = TestSeriesProvider();
 
-class _TestSeriesRankListState extends State<TestSeriesRankList> {
+class _TestSeriesRankListState extends State<TestSeriesRankList>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _scaleAnimation;
+
   @override
   void initState() {
     super.initState();
     loadLeaderboard();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 5000),
+    );
+    _scaleAnimation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.elasticOut,
+    );
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   Future<void> loadLeaderboard() async {
@@ -56,79 +76,118 @@ class _TestSeriesRankListState extends State<TestSeriesRankList> {
                 SizedBox(
                   height: 20,
                 ),
-                // Text(
-                //   "🏆",
-                //   style: TextStyle(
-                //       fontSize: 50,
-                //       fontWeight: FontWeight.w500,
-                //       color: AppColors.white),
-                // ),
-                Image.asset("assets/images/trophy.png", width: MediaQuery.of(context).size.width * 0.2,),
+                // Animated trophy with bounce effect
+                ScaleTransition(
+                  scale: _scaleAnimation,
+                  child: Image.asset(
+                    "assets/images/trophy.png",
+                    width: MediaQuery.of(context).size.width * 0.2,
+                  ),
+                ),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Container(height: MediaQuery.of(context).size.width * .16, width: MediaQuery.of(context).size.width * .2, decoration: BoxDecoration(
-                      gradient: AppColors.sidePodiumGradient
-                    )),
-                    Container(height: MediaQuery.of(context).size.width * .22, width: MediaQuery.of(context).size.width * .2, decoration: BoxDecoration(
-                      gradient: AppColors.mainPodiumGradient
-                    ), child: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text("Rank", style: TextStyle(color: AppColors.white, fontWeight: FontWeight.w500)),Text("24", style: TextStyle(color: AppColors.white, fontSize: 35, fontWeight: FontWeight.w700))],)),),
-                    Container(height: MediaQuery.of(context).size.width * .12, width: MediaQuery.of(context).size.width * .2, decoration: BoxDecoration(
-                      gradient: AppColors.sidePodiumGradient
-                    )),
+                    Container(
+                        height: MediaQuery.of(context).size.width * .16,
+                        width: MediaQuery.of(context).size.width * .2,
+                        decoration: BoxDecoration(
+                            gradient: AppColors.sidePodiumGradient)),
+                    Container(
+                      height: MediaQuery.of(context).size.width * .22,
+                      width: MediaQuery.of(context).size.width * .2,
+                      decoration:
+                          BoxDecoration(gradient: AppColors.mainPodiumGradient),
+                      child: Center(
+                          child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Rank",
+                              style: TextStyle(
+                                  color: AppColors.white,
+                                  fontWeight: FontWeight.w500)),
+                          // Animated rank number
+                          ScaleTransition(
+                            scale: _scaleAnimation,
+                            child: Text("24",
+                                style: TextStyle(
+                                    color: AppColors.white,
+                                    fontSize: 35,
+                                    fontWeight: FontWeight.w700)),
+                          )
+                        ],
+                      )),
+                    ),
+                    Container(
+                        height: MediaQuery.of(context).size.width * .12,
+                        width: MediaQuery.of(context).size.width * .2,
+                        decoration: BoxDecoration(
+                            gradient: AppColors.sidePodiumGradient)),
                   ],
                 )
               ],
             ),
           ),
-          // SizedBox(
-          //   height: 20,
-          // ),
-          // Text(
-          //   "🏆 Top Rankers",
-          //   style: TextStyle(
-          //     fontSize: 22,
-          //     fontWeight: FontWeight.bold,
-          //   ),
-          // ),
-          // SizedBox(height: 4),
-          // Text(
-          //   "Leaderboard for the Test",
-          //   style: TextStyle(
-          //     fontSize: 15,
-          //     fontWeight: FontWeight.w500,
-          //   ),
-          // ),
-          // SizedBox(
-          //   height: 10,
-          // ),
-          testSeriesProvider.isLeaderBoardLoading?
-          Expanded(child: Center(child: CircularProgressIndicator()))
-           : testSeriesProvider.leaderBoardList.isEmpty
-           ? Center(
-                  child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 40.0),
-                  child: Column(
-                    children: [
-                      Lottie.asset("assets/lottie/nodata.json", height: 200),
-                      Text("No Rank List available!"),
-                    ],
-                  ),
-                ))
-
-          :Expanded(
-            child: ListView.separated(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                separatorBuilder: (context, index) => SizedBox(height: 5),
-                itemCount: testSeriesProvider.leaderBoardList.length,
-                itemBuilder: (context, index) => RankCard(
-                    name: testSeriesProvider.leaderBoardList[index].name ?? "Name",
-                    score: "${testSeriesProvider.leaderBoardList[index].score}/${widget.maxMark}" ,
-                    rank: testSeriesProvider.leaderBoardList[index].rank ?? 0,
-                    image: "assets/images/profile.jpg", 
-                    userId: testSeriesProvider.leaderBoardList[index].userId ?? -1,)),
-          ),
+          testSeriesProvider.isLeaderBoardLoading
+              ? Expanded(child: Center(child: CircularProgressIndicator()))
+              : testSeriesProvider.leaderBoardList.isEmpty
+                  ? Center(
+                      child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 40.0),
+                      child: Column(
+                        children: [
+                          // Animated no data Lottie
+                          Lottie.asset("assets/lottie/nodata.json",
+                              height: 200),
+                          Text("No Rank List available!"),
+                        ],
+                      ),
+                    ))
+                  : Expanded(
+                      child: ListView.separated(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                        separatorBuilder: (context, index) =>
+                            SizedBox(height: 5),
+                        itemCount: testSeriesProvider.leaderBoardList.length,
+                        itemBuilder: (context, index) {
+                          final duration =
+                              Duration(milliseconds: 200 + index * 80);
+                          return TweenAnimationBuilder<Offset>(
+                            tween: Tween<Offset>(
+                              begin: const Offset(0, 0.2),
+                              end: Offset.zero,
+                            ),
+                            duration: duration,
+                            curve: Curves.easeOutCubic,
+                            builder: (context, offset, child) {
+                              return AnimatedOpacity(
+                                opacity: offset == Offset.zero ? 1 : 0,
+                                duration: const Duration(milliseconds: 300),
+                                child: Transform.translate(
+                                  offset: Offset(0, offset.dy * 40),
+                                  child: child,
+                                ),
+                              );
+                            },
+                            child: RankCard(
+                              name: testSeriesProvider
+                                      .leaderBoardList[index].name ??
+                                  "Name",
+                              score:
+                                  "${testSeriesProvider.leaderBoardList[index].score}/${widget.maxMark}",
+                              rank: testSeriesProvider
+                                      .leaderBoardList[index].rank ??
+                                  0,
+                              image: "assets/images/profile.jpg",
+                              userId: testSeriesProvider
+                                      .leaderBoardList[index].userId ??
+                                  -1,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
         ],
       ),
     );

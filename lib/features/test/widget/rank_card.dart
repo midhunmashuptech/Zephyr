@@ -23,7 +23,8 @@ class RankCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userProvider = context.watch<UserDetailsProvider>();
-    debugPrint("${userProvider.userDetails.id} ${userId} : ${userProvider.userDetails.id == userId}");
+    debugPrint(
+        "${userProvider.userDetails.id} ${userId} : ${userProvider.userDetails.id == userId}");
 
     return Padding(
       padding: userProvider.userDetails.id == userId
