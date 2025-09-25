@@ -137,6 +137,14 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                             .totalUnattended ??
                                         0))
                                 .toString(),
+                            isPassed: ((testSeriesProvider
+                                                    .testseriesAnalysisModel
+                                                    .performance ??
+                                                Performance())
+                                            .overall ??
+                                        Overall())
+                                    .pass ??
+                                true,
                           ),
                           const SizedBox(height: 10),
 
@@ -211,7 +219,7 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                               ]),
                               const SizedBox(height: 20),
 
-                              /// Score Analysis (Bar Chart)
+                              /// Overall Analysis (Bar Chart)
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: const Text(
@@ -304,11 +312,12 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.all(10.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
+                                          child: Wrap(
+                                            spacing: 15,
+                                            runSpacing: 5,
                                             children: [
                                               Row(
+                                                mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   Container(
                                                     decoration: BoxDecoration(
@@ -335,11 +344,11 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                                     style: TextStyle(
                                                         color: AppColors
                                                             .primaryGreen),
-                                                  )
+                                                  ),
                                                 ],
                                               ),
-                                              const SizedBox(height: 6),
                                               Row(
+                                                mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   Container(
                                                     decoration: BoxDecoration(
@@ -365,11 +374,11 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                                           .toString(),
                                                       style: TextStyle(
                                                           color: AppColors
-                                                              .primaryRed))
+                                                              .primaryRed)),
                                                 ],
                                               ),
-                                              const SizedBox(height: 6),
                                               Row(
+                                                mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   Container(
                                                     decoration: BoxDecoration(
@@ -389,11 +398,11 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                                     "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).count ?? Count()).totalUnanswered ?? 0}",
                                                     style: TextStyle(
                                                         color: AppColors.black),
-                                                  )
+                                                  ),
                                                 ],
                                               ),
-                                              const SizedBox(height: 6),
                                               Row(
+                                                mainAxisSize: MainAxisSize.min,
                                                 children: [
                                                   Container(
                                                     decoration: BoxDecoration(
@@ -412,7 +421,7 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                                     "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).count ?? Count()).totalUnattended ?? 0}",
                                                     style: TextStyle(
                                                         color: AppColors.black),
-                                                  )
+                                                  ),
                                                 ],
                                               ),
                                             ],
