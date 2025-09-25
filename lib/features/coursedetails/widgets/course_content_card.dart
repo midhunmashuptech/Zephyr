@@ -72,8 +72,7 @@ class _CourseContentCardState extends State<CourseContentCard> {
             Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
                 builder: (contex) => SampleChapterPdfViewer(
                     title: widget.title,
-                    url:
-                        "https://d333c2xue188ia.cloudfront.net/materials/files/H9ljm7oz3vDhxijnOZgbFobRZkXtBpZ1GdmeM6ZY.pdf")));
+                    url:widget.url)));
           } else if (widget.type == "test") {}
         } else {
           _showSubscribePopup(context);

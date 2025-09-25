@@ -207,31 +207,11 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                                   dataSource: [
                                                     ChartData(
                                                         "Correct",
-                                                        (((((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ??
-                                                                                Overall())
-                                                                            .count ??
-                                                                        Count())
-                                                                    .totalCorrect ??
-                                                                0) *
-                                                            (((testSeriesProvider.testseriesAnalysisModel.performance ??
-                                                                                Performance())
-                                                                            .overall ??
-                                                                        Overall())
-                                                                    .correctScore ??
-                                                                1)),
+                                                        ((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).correctScore ?? 0,
                                                         AppColors.primaryGreen),
                                                     ChartData(
                                                         "Incorrect",
-                                                        ((((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ??
-                                                                            Overall())
-                                                                        .count ??
-                                                                    Count())
-                                                                .totalIncorrect ??
-                                                            0 *
-                                                                (((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ??
-                                                                            Overall())
-                                                                        .incorrectScore ??
-                                                                    -1)),
+                                                        ((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).incorrectScore ?? 0,
                                                         AppColors.primaryRed),
                                                     // ChartData("Reviewed", 16,
                                                     //     AppColors.primaryBlue),
@@ -280,20 +260,7 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                                   const SizedBox(width: 5),
                                                   const Text("Correct:"),
                                                   const SizedBox(width: 10),
-                                                  Text(
-                                                    (((((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ??
-                                                                                Overall())
-                                                                            .count ??
-                                                                        Count())
-                                                                    .totalCorrect ??
-                                                                0) *
-                                                            (((testSeriesProvider.testseriesAnalysisModel.performance ??
-                                                                                Performance())
-                                                                            .overall ??
-                                                                        Overall())
-                                                                    .correctScore ??
-                                                                1))
-                                                        .toString(),
+                                                  Text((((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).correctScore ?? 0).toString(),
                                                     style: TextStyle(
                                                         color: AppColors
                                                             .primaryGreen),
@@ -317,18 +284,7 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                                   const SizedBox(width: 5),
                                                   const Text("Incorrect:"),
                                                   const SizedBox(width: 10),
-                                                  Text(
-                                                      ((((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ??
-                                                                              Overall())
-                                                                          .count ??
-                                                                      Count())
-                                                                  .totalIncorrect ??
-                                                              0 *
-                                                                  (((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ??
-                                                                              Overall())
-                                                                          .incorrectScore ??
-                                                                      -1))
-                                                          .toString(),
+                                                  Text((((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).incorrectScore ?? 0).toString(),
                                                       style: TextStyle(
                                                           color: AppColors
                                                               .primaryRed))
@@ -348,10 +304,10 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                                     height: 12,
                                                   ),
                                                   const SizedBox(width: 5),
-                                                  const Text("Max Mark:"),
+                                                  const Text("Total Mark:"),
                                                   const SizedBox(width: 10),
                                                   Text(
-                                                    "${((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).maxMarks}",
+                                                    "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).correctScore ?? 0) + (((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).incorrectScore ?? 0)}",
                                                     style: TextStyle(
                                                         color: AppColors.black),
                                                   )
