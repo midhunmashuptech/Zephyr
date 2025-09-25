@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/material_symbols.dart';
-import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/constants/app_constants.dart';
 
 class TestReportCard extends StatelessWidget {
@@ -9,13 +8,16 @@ class TestReportCard extends StatelessWidget {
   final String date;
   final String duration;
   final String questionno;
+  final bool isPassed;
 
   const TestReportCard(
       {super.key,
       required this.title,
       required this.date,
       required this.duration,
-      required this.questionno});
+      required this.questionno,
+      required this.isPassed
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +60,8 @@ class TestReportCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Duration: $duration", style: TextStyle(color: AppColors.white)),
+                    Text("Duration: $duration",
+                        style: TextStyle(color: AppColors.white)),
                     Text("Total Questions: $questionno",
                         style: TextStyle(color: AppColors.white))
                   ],
@@ -76,6 +79,7 @@ class TestReportCard extends StatelessWidget {
           SizedBox(
             height: 15,
           ),
+          isPassed?
           Container(
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
@@ -83,15 +87,32 @@ class TestReportCard extends StatelessWidget {
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10)),
               color: AppColors.primaryGreen,
+            ))
+            :Container(
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10)),
+              color: const Color.fromARGB(255, 223, 52, 52),
             ),
-            child: Center(
+            child:
+             Center(
                 child: Padding(
               padding: const EdgeInsets.all(15.0),
-              child: Text(
+              child: 
+             
+             isPassed?
+              Text(
                 "Passed",
                 style: TextStyle(
                     color: AppColors.white, fontWeight: FontWeight.w600),
-              ),
+              )
+              :Text(
+                "Failed",
+                style: TextStyle(
+                    color: AppColors.white, fontWeight: FontWeight.w600),
+              )
             )),
           ),
         ],
