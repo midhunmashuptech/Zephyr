@@ -99,7 +99,44 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                         .totalTime
                                         ?.toString() ??
                                     "0",
-                            questionno: "20",
+                            questionno: (((((testSeriesProvider.testseriesAnalysisModel
+                                                                    .performance ??
+                                                                Performance())
+                                                            .overall ??
+                                                        Overall())
+                                                    .count ??
+                                                Count())
+                                            .totalCorrect ??
+                                        0) +
+                                    ((((testSeriesProvider
+                                                                    .testseriesAnalysisModel
+                                                                    .performance ??
+                                                                Performance())
+                                                            .overall ??
+                                                        Overall())
+                                                    .count ??
+                                                Count())
+                                            .totalIncorrect ??
+                                        0) +
+                                    ((((testSeriesProvider.testseriesAnalysisModel
+                                                                    .performance ??
+                                                                Performance())
+                                                            .overall ??
+                                                        Overall())
+                                                    .count ??
+                                                Count())
+                                            .totalUnanswered ??
+                                        0) +
+                                    ((((testSeriesProvider.testseriesAnalysisModel
+                                                                    .performance ??
+                                                                Performance())
+                                                            .overall ??
+                                                        Overall())
+                                                    .count ??
+                                                Count())
+                                            .totalUnattended ??
+                                        0))
+                                .toString(),
                           ),
                           const SizedBox(height: 10),
 
@@ -111,7 +148,10 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => TestSeriesRankList(
-                                        testId: widget.testid))),
+                                          testId: widget.testid,
+                                          maxMark:
+                                              "${((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).maxMarks}",
+                                        ))),
                             textcolor: AppColors.white,
                           ),
                           const SizedBox(height: 20),
@@ -175,7 +215,7 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: const Text(
-                                  "Score Analysis",
+                                  "Overall Analysis",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16),
@@ -207,16 +247,40 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                                   dataSource: [
                                                     ChartData(
                                                         "Correct",
-                                                        ((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).correctScore ?? 0,
+                                                        (((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ??
+                                                                            Overall())
+                                                                        .count ??
+                                                                    Count())
+                                                                .totalCorrect ??
+                                                            0,
                                                         AppColors.primaryGreen),
                                                     ChartData(
                                                         "Incorrect",
-                                                        ((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).incorrectScore ?? 0,
+                                                        (((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ??
+                                                                            Overall())
+                                                                        .count ??
+                                                                    Count())
+                                                                .totalIncorrect ??
+                                                            0,
                                                         AppColors.primaryRed),
-                                                    // ChartData("Reviewed", 16,
-                                                    //     AppColors.primaryBlue),
-                                                    // ChartData("Unattended", 5,
-                                                    //     AppColors.grey),
+                                                    ChartData(
+                                                        "Unanswered",
+                                                        (((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ??
+                                                                            Overall())
+                                                                        .count ??
+                                                                    Count())
+                                                                .totalUnanswered ??
+                                                            0,
+                                                        AppColors.primaryBlue),
+                                                    ChartData(
+                                                        "Unattended",
+                                                        (((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ??
+                                                                            Overall())
+                                                                        .count ??
+                                                                    Count())
+                                                                .totalUnattended ??
+                                                            0,
+                                                        AppColors.grey),
                                                   ],
                                                   xValueMapper:
                                                       (ChartData d, _) =>
@@ -260,7 +324,14 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                                   const SizedBox(width: 5),
                                                   const Text("Correct:"),
                                                   const SizedBox(width: 10),
-                                                  Text((((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).correctScore ?? 0).toString(),
+                                                  Text(
+                                                    ((((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ??
+                                                                            Overall())
+                                                                        .count ??
+                                                                    Count())
+                                                                .totalIncorrect ??
+                                                            0)
+                                                        .toString(),
                                                     style: TextStyle(
                                                         color: AppColors
                                                             .primaryGreen),
@@ -284,10 +355,41 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                                   const SizedBox(width: 5),
                                                   const Text("Incorrect:"),
                                                   const SizedBox(width: 10),
-                                                  Text((((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).incorrectScore ?? 0).toString(),
+                                                  Text(
+                                                      ((((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ??
+                                                                              Overall())
+                                                                          .count ??
+                                                                      Count())
+                                                                  .totalIncorrect ??
+                                                              0)
+                                                          .toString(),
                                                       style: TextStyle(
                                                           color: AppColors
                                                               .primaryRed))
+                                                ],
+                                              ),
+                                              const SizedBox(height: 6),
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              50),
+                                                      color:
+                                                          AppColors.primaryBlue,
+                                                    ),
+                                                    width: 12,
+                                                    height: 12,
+                                                  ),
+                                                  const SizedBox(width: 5),
+                                                  const Text("Unanswered:"),
+                                                  const SizedBox(width: 10),
+                                                  Text(
+                                                    "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).count ?? Count()).totalUnanswered ?? 0}",
+                                                    style: TextStyle(
+                                                        color: AppColors.black),
+                                                  )
                                                 ],
                                               ),
                                               const SizedBox(height: 6),
@@ -304,10 +406,10 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                                     height: 12,
                                                   ),
                                                   const SizedBox(width: 5),
-                                                  const Text("Total Mark:"),
+                                                  const Text("Unattended:"),
                                                   const SizedBox(width: 10),
                                                   Text(
-                                                    "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).correctScore ?? 0) + (((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).incorrectScore ?? 0)}",
+                                                    "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).count ?? Count()).totalUnattended ?? 0}",
                                                     style: TextStyle(
                                                         color: AppColors.black),
                                                   )
