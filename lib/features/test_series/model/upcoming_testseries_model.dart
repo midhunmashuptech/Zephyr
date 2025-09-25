@@ -35,7 +35,7 @@ class TestSeries {
   String? syllabus;
   String? instructions;
   String? description;
-  String? passMark;
+  int? passMark;
   bool? ranklist;
   bool? answersheet;
   bool? solution;

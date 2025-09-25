@@ -93,7 +93,7 @@ class Overall {
   int? maxMarks;
   int? accuracy;
   double? averageTimePerQuestion;
-  Null? pass;
+  bool? pass;
   Count? count;
   Time? time;
   int? correctScore;

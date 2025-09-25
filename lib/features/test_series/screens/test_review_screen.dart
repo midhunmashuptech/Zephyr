@@ -81,45 +81,144 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Lottie.asset("assets/lottie/chart.json", height: 200),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Your Performance is not yet generated.Please try again later!",textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500),
-                          )
-                        ],
-                      ),
-                    ),
-                  )
-                : SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              /// Report Card
-                              TestReportCard(
-                                title: widget.title,
-                                date: formatDate(
-                                    '${(testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).submitTime}',
-                                    "dd/MM/yyyy"),
-                                duration:
-                                    (((testSeriesProvider.testseriesAnalysisModel
+                          /// Report Card
+                          TestReportCard(
+                            title: widget.title,
+                            date: formatDate(
+                                '${(testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).submitTime}',
+                                "dd/MM/yyyy"),
+                            duration:
+                                (((testSeriesProvider.testseriesAnalysisModel
+                                                                .performance ??
+                                                            Performance())
+                                                        .overall ??
+                                                    Overall())
+                                                .time ??
+                                            Time())
+                                        .totalTime
+                                        ?.toString() ??
+                                    "0",
+                            questionno: (((((testSeriesProvider.testseriesAnalysisModel
                                                                     .performance ??
                                                                 Performance())
                                                             .overall ??
                                                         Overall())
-                                                    .time ??
-                                                Time())
-                                            .totalTime
-                                            ?.toString() ??
-                                        "0",
-                                questionno: "20",
+                                                    .count ??
+                                                Count())
+                                            .totalCorrect ??
+                                        0) +
+                                    ((((testSeriesProvider
+                                                                    .testseriesAnalysisModel
+                                                                    .performance ??
+                                                                Performance())
+                                                            .overall ??
+                                                        Overall())
+                                                    .count ??
+                                                Count())
+                                            .totalIncorrect ??
+                                        0) +
+                                    ((((testSeriesProvider.testseriesAnalysisModel
+                                                                    .performance ??
+                                                                Performance())
+                                                            .overall ??
+                                                        Overall())
+                                                    .count ??
+                                                Count())
+                                            .totalUnanswered ??
+                                        0) +
+                                    ((((testSeriesProvider.testseriesAnalysisModel
+                                                                    .performance ??
+                                                                Performance())
+                                                            .overall ??
+                                                        Overall())
+                                                    .count ??
+                                                Count())
+                                            .totalUnattended ??
+                                        0))
+                                .toString(),
+                          ),
+                          const SizedBox(height: 10),
+
+                          /// View Ranklist Button
+                          CustomButton(
+                            text: 'View Ranklist',
+                            color: AppColors.primaryOrange,
+                            onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => TestSeriesRankList(
+                                          testId: widget.testid,
+                                          maxMark:
+                                              "${((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).maxMarks}",
+                                        ))),
+                            textcolor: AppColors.white,
+                          ),
+                          const SizedBox(height: 20),
+
+                          /// Test Detail Widgets (2 rows of 2)
+                          Column(
+                            children: [
+                              Column(children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        child: TestDetailWidget(
+                                            label: "Score",
+                                            value:
+                                                '${((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).score}/${((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).maxMarks}',
+                                            icon: Ph.star_fill,
+                                            size: 80,
+                                            color: AppColors.primaryBlue)),
+                                    SizedBox(width: 10),
+                                    Expanded(
+                                        child: TestDetailWidget(
+                                            label: "Average Time",
+                                            value:
+                                                '${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).averageTimePerQuestion ?? 0.0)} sec',
+                                            icon: Ph.clock_fill,
+                                            size: 80,
+                                            color: AppColors.primaryGreen))
+                                  ],
+                                ),
+                                SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        child: TestDetailWidget(
+                                            label: "Accuracy",
+                                            value:
+                                                '${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).accuracy ?? 0)}%',
+                                            icon: Ph.target_bold,
+                                            size: 100,
+                                            color: AppColors.primaryOrange)),
+                                    SizedBox(width: 10),
+                                    Expanded(
+                                        child: TestDetailWidget(
+                                            label: "Rank",
+                                            value: ((testSeriesProvider
+                                                                .testseriesAnalysisModel
+                                                                .performance ??
+                                                            Performance())
+                                                        .rank ??
+                                                    0)
+                                                .toString(),
+                                            icon: Ion.md_trophy,
+                                            size: 100,
+                                            color: AppColors.primaryRed))
+                                  ],
+                                )
+                              ]),
+                              const SizedBox(height: 20),
+
+                              /// Score Analysis (Bar Chart)
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: const Text(
+                                  "Overall Analysis",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                ),
                               ),
                               const SizedBox(height: 10),
 
@@ -165,111 +264,98 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                     SizedBox(height: 10),
                                     Row(
                                       children: [
-                                        Expanded(
-                                            child: TestDetailWidget(
-                                                label: "Accuracy",
-                                                value:
-                                                    '${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).accuracy ?? 0)}%',
-                                                icon: Ph.target_bold,
-                                                size: 100,
-                                                color:
-                                                    AppColors.primaryOrange)),
-                                        SizedBox(width: 10),
-                                        Expanded(
-                                            child: TestDetailWidget(
-                                                label: "Rank",
-                                                value: ((testSeriesProvider
-                                                                    .testseriesAnalysisModel
-                                                                    .performance ??
-                                                                Performance())
-                                                            .rank ??
-                                                        0)
-                                                    .toString(),
-                                                icon: Ion.md_trophy,
-                                                size: 100,
-                                                color: AppColors.primaryRed))
-                                      ],
-                                    )
-                                  ]),
-                                  const SizedBox(height: 20),
-
-                                  /// Score Analysis (Bar Chart)
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: const Text(
-                                      "Score Analysis",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                              color: AppColors.grey)),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          children: [
-                                            const SizedBox(height: 10),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: SizedBox(
-                                                height: 230,
-                                                child: SfCartesianChart(
-                                                  primaryXAxis: CategoryAxis(),
-                                                  primaryYAxis: NumericAxis(),
-                                                  series: <CartesianSeries<
-                                                      ChartData, String>>[
-                                                    ColumnSeries<ChartData,
-                                                        String>(
-                                                      dataSource: [
-                                                        ChartData(
-                                                            "Correct",
-                                                            ((testSeriesProvider.testseriesAnalysisModel.performance ??
-                                                                                Performance())
-                                                                            .overall ??
-                                                                        Overall())
-                                                                    .correctScore ??
-                                                                0,
-                                                            AppColors
-                                                                .primaryGreen),
-                                                        ChartData(
-                                                            "Incorrect",
-                                                            ((testSeriesProvider.testseriesAnalysisModel.performance ??
-                                                                                Performance())
-                                                                            .overall ??
-                                                                        Overall())
-                                                                    .incorrectScore ??
-                                                                0,
-                                                            AppColors
-                                                                .primaryRed),
-                                                        // ChartData("Reviewed", 16,
-                                                        //     AppColors.primaryBlue),
-                                                        // ChartData("Unattended", 5,
-                                                        //     AppColors.grey),
-                                                      ],
-                                                      xValueMapper:
-                                                          (ChartData d, _) =>
-                                                              d.category,
-                                                      yValueMapper:
-                                                          (ChartData d, _) =>
-                                                              d.value,
-                                                      pointColorMapper:
-                                                          (ChartData d, _) =>
-                                                              d.color,
-                                                      dataLabelSettings:
-                                                          const DataLabelSettings(
-                                                              isVisible: true),
-                                                    ),
+                                        const SizedBox(height: 10),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: SizedBox(
+                                            height: 230,
+                                            child: SfCartesianChart(
+                                              primaryXAxis: CategoryAxis(),
+                                              primaryYAxis: NumericAxis(),
+                                              series: <CartesianSeries<
+                                                  ChartData, String>>[
+                                                ColumnSeries<ChartData, String>(
+                                                  dataSource: [
+                                                    ChartData(
+                                                        "Correct",
+                                                        (((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ??
+                                                                            Overall())
+                                                                        .count ??
+                                                                    Count())
+                                                                .totalCorrect ??
+                                                            0,
+                                                        AppColors.primaryGreen),
+                                                    ChartData(
+                                                        "Incorrect",
+                                                        (((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ??
+                                                                            Overall())
+                                                                        .count ??
+                                                                    Count())
+                                                                .totalIncorrect ??
+                                                            0,
+                                                        AppColors.primaryRed),
+                                                    ChartData(
+                                                        "Unanswered",
+                                                        (((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ??
+                                                                            Overall())
+                                                                        .count ??
+                                                                    Count())
+                                                                .totalUnanswered ??
+                                                            0,
+                                                        AppColors.primaryBlue),
+                                                    ChartData(
+                                                        "Unattended",
+                                                        (((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ??
+                                                                            Overall())
+                                                                        .count ??
+                                                                    Count())
+                                                                .totalUnattended ??
+                                                            0,
+                                                        AppColors.grey),
                                                   ],
                                                 ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              50),
+                                                      color: AppColors
+                                                          .primaryGreen,
+                                                    ),
+                                                    width: 12,
+                                                    height: 12,
+                                                  ),
+                                                  const SizedBox(width: 5),
+                                                  const Text("Correct:"),
+                                                  const SizedBox(width: 10),
+                                                  Text(
+                                                    ((((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ??
+                                                                            Overall())
+                                                                        .count ??
+                                                                    Count())
+                                                                .totalIncorrect ??
+                                                            0)
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        color: AppColors
+                                                            .primaryGreen),
+                                                  )
+                                                ],
                                               ),
                                             ),
                                             SizedBox(
@@ -314,61 +400,67 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                                       )
                                                     ],
                                                   ),
-                                                  const SizedBox(height: 6),
-                                                  Row(
-                                                    children: [
-                                                      Container(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(50),
+                                                  const SizedBox(width: 5),
+                                                  const Text("Incorrect:"),
+                                                  const SizedBox(width: 10),
+                                                  Text(
+                                                      ((((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ??
+                                                                              Overall())
+                                                                          .count ??
+                                                                      Count())
+                                                                  .totalIncorrect ??
+                                                              0)
+                                                          .toString(),
+                                                      style: TextStyle(
                                                           color: AppColors
-                                                              .primaryRed,
-                                                        ),
-                                                        width: 12,
-                                                        height: 12,
-                                                      ),
-                                                      const SizedBox(width: 5),
-                                                      const Text("Incorrect:"),
-                                                      const SizedBox(width: 10),
-                                                      Text(
-                                                          (((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance())
-                                                                              .overall ??
-                                                                          Overall())
-                                                                      .incorrectScore ??
-                                                                  0)
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                              color: AppColors
-                                                                  .primaryRed))
-                                                    ],
+                                                              .primaryRed))
+                                                ],
+                                              ),
+                                              const SizedBox(height: 6),
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              50),
+                                                      color:
+                                                          AppColors.primaryBlue,
+                                                    ),
+                                                    width: 12,
+                                                    height: 12,
                                                   ),
-                                                  const SizedBox(height: 6),
-                                                  Row(
-                                                    children: [
-                                                      Container(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(50),
-                                                          color: AppColors.grey,
-                                                        ),
-                                                        width: 12,
-                                                        height: 12,
-                                                      ),
-                                                      const SizedBox(width: 5),
-                                                      const Text("Total Mark:"),
-                                                      const SizedBox(width: 10),
-                                                      Text(
-                                                        "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).correctScore ?? 0) + (((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).incorrectScore ?? 0)}",
-                                                        style: TextStyle(
-                                                            color: AppColors
-                                                                .black),
-                                                      )
-                                                    ],
+                                                  const SizedBox(width: 5),
+                                                  const Text("Unanswered:"),
+                                                  const SizedBox(width: 10),
+                                                  Text(
+                                                    "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).count ?? Count()).totalUnanswered ?? 0}",
+                                                    style: TextStyle(
+                                                        color: AppColors.black),
+                                                  )
+                                                ],
+                                              ),
+                                              const SizedBox(height: 6),
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              50),
+                                                      color: AppColors.grey,
+                                                    ),
+                                                    width: 12,
+                                                    height: 12,
                                                   ),
+                                                  const SizedBox(width: 5),
+                                                  const Text("Unattended:"),
+                                                  const SizedBox(width: 10),
+                                                  Text(
+                                                    "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).count ?? Count()).totalUnattended ?? 0}",
+                                                    style: TextStyle(
+                                                        color: AppColors.black),
+                                                  )
                                                 ],
                                               ),
                                             ),

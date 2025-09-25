@@ -7,7 +7,8 @@ import 'package:zephyr/features/test_series/provider/test_series_provider.dart';
 
 class TestSeriesRankList extends StatefulWidget {
   final String testId;
-  const TestSeriesRankList({required this.testId, super.key});
+  final String maxMark;
+  const TestSeriesRankList({required this.testId, required this.maxMark, super.key});
 
   @override
   State<TestSeriesRankList> createState() => _TestSeriesRankListState();
@@ -199,7 +200,7 @@ class _TestSeriesRankListState extends State<TestSeriesRankList> {
                 itemCount: testSeriesProvider.leaderBoardList.length,
                 itemBuilder: (context, index) => RankCard(
                     name: testSeriesProvider.leaderBoardList[index].name ?? "Name",
-                    score: "${testSeriesProvider.leaderBoardList[index].score}/maxmark" ,
+                    score: "${testSeriesProvider.leaderBoardList[index].score}/${widget.maxMark}" ,
                     rank: testSeriesProvider.leaderBoardList[index].rank ?? 0,
                     image: rankList[index].image)),
           ),
