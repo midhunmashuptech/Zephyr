@@ -30,7 +30,10 @@ class _TestAttendedScreenState extends State<TestAttendedScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
     loadAttendedTestSeries();
+  });
+    
   }
 
   Future<void> loadAttendedTestSeries() async {

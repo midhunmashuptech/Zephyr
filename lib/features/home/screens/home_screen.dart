@@ -39,7 +39,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
     loadActiveCourses();
+  });
   }
 
   Future<void> loadActiveCourses() async {

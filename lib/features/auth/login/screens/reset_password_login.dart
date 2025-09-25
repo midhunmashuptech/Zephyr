@@ -130,6 +130,7 @@ class _ResetPasswordLoginState extends State<ResetPasswordLogin> {
                       );
                     }),
                 SizedBox(height: 10),
+                
                 CustomButton(
                   text: "Reset Password",
                   onPressed: () async {
@@ -137,9 +138,6 @@ class _ResetPasswordLoginState extends State<ResetPasswordLogin> {
                       authprovider.resetPassword(
                           context: context, password: _passwordController.text);
 
-                      // remove setstate and use value notifier for password visible
-                      // make provider and call function in provider
-                      // make efunctions in service and provider
                     }
                   },
                   color: AppColors.primaryBlue,

@@ -23,8 +23,10 @@ class _LiveRecordingScreenState extends State<LiveRecordingScreen> {
   @override
   void initState() {
     super.initState();
-
+ WidgetsBinding.instance.addPostFrameCallback((_) {
     loadRecordings(DateTime.now());
+  });
+    
   }
 
   Future<void> loadRecordings(DateTime date) async {

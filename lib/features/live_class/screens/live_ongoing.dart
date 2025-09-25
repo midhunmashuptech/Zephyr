@@ -18,7 +18,10 @@ class _LiveOngoingState extends State<LiveOngoing> {
 
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
     loadOngoingLiveClass();
+  });
+    
     super.initState();
   }
 
