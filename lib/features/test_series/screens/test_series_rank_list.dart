@@ -14,82 +14,6 @@ class TestSeriesRankList extends StatefulWidget {
   State<TestSeriesRankList> createState() => _TestSeriesRankListState();
 }
 
-class RankList {
-  final String name;
-  final String score;
-  final int rank;
-  final String image;
-
-  const RankList({
-    required this.name,
-    required this.score,
-    required this.rank,
-    required this.image,
-  });
-}
-
-List<RankList> rankList = [
-  RankList(
-    name: 'Midhun Murali',
-    score: '99/100',
-    rank: 1,
-    image: "assets/images/profilenew.png",
-  ),
-  RankList(
-    name: 'Athulya Ajayakumar',
-    score: '98/100',
-    rank: 2,
-    image: "assets/images/profile.jpg",
-  ),
-  RankList(
-    name: 'Alankritha Sreekumar',
-    score: '98/100',
-    rank: 3,
-    image: "assets/images/profile.jpg",
-  ),
-  RankList(
-    name: 'Athira Ajayakumar',
-    score: '94/100',
-    rank: 4,
-    image: "assets/images/profile.jpg",
-  ),
-  RankList(
-    name: 'Aswin Menon',
-    score: '98/100',
-    rank: 5,
-    image: "assets/images/profile.jpg",
-  ),
-  RankList(
-    name: 'Dony Baby',
-    score: '98/100',
-    rank: 6,
-    image: "assets/images/profile.jpg",
-  ),
-  RankList(
-    name: 'Aravind Babu',
-    score: '94/100',
-    rank: 7,
-    image: "assets/images/profile.jpg",
-  ),
-  RankList(
-    name: 'Aswin Menon',
-    score: '98/100',
-    rank: 8,
-    image: "assets/images/profile.jpg",
-  ),
-  RankList(
-    name: 'Dony Baby',
-    score: '98/100',
-    rank: 9,
-    image: "assets/images/profile.jpg",
-  ),
-  RankList(
-    name: 'Aravind Babu',
-    score: '94/100',
-    rank: 10,
-    image: "assets/images/profile.jpg",
-  ),
-];
 TestSeriesProvider testSeriesProvider = TestSeriesProvider();
 
 class _TestSeriesRankListState extends State<TestSeriesRankList> {
@@ -113,74 +37,74 @@ class _TestSeriesRankListState extends State<TestSeriesRankList> {
         children: [
           Container(
             width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(10),
                     bottomRight: Radius.circular(10)),
                 color: AppColors.primaryBlue),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  SizedBox(height: 20),
-                  Text(
-                    "🎉 Congratulations!",
-                    style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.white),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Text(
-                    "Your Rank",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.white),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Text(
-                    "#3",
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.white),
-                  ),
-                  SizedBox(
-                    height: 50,
-                  ),
-                ],
-              ),
+            child: Column(
+              children: [
+                SizedBox(height: 80),
+                Text(
+                  "You have been placed among 20\nparticipants in this exam at",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.white),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                // Text(
+                //   "🏆",
+                //   style: TextStyle(
+                //       fontSize: 50,
+                //       fontWeight: FontWeight.w500,
+                //       color: AppColors.white),
+                // ),
+                Image.asset("assets/images/trophy.png", width: MediaQuery.of(context).size.width * 0.2,),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Container(height: MediaQuery.of(context).size.width * .16, width: MediaQuery.of(context).size.width * .2, decoration: BoxDecoration(
+                      gradient: AppColors.sidePodiumGradient
+                    )),
+                    Container(height: MediaQuery.of(context).size.width * .22, width: MediaQuery.of(context).size.width * .2, decoration: BoxDecoration(
+                      gradient: AppColors.mainPodiumGradient
+                    ), child: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text("Rank", style: TextStyle(color: AppColors.white, fontWeight: FontWeight.w500)),Text("24", style: TextStyle(color: AppColors.white, fontSize: 35, fontWeight: FontWeight.w700))],)),),
+                    Container(height: MediaQuery.of(context).size.width * .12, width: MediaQuery.of(context).size.width * .2, decoration: BoxDecoration(
+                      gradient: AppColors.sidePodiumGradient
+                    )),
+                  ],
+                )
+              ],
             ),
           ),
-          SizedBox(
-            height: 20,
-          ),
-          Text(
-            "🏆 Top Rankers",
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(height: 4),
-          Text(
-            "Leaderboard for the Test",
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
+          // SizedBox(
+          //   height: 20,
+          // ),
+          // Text(
+          //   "🏆 Top Rankers",
+          //   style: TextStyle(
+          //     fontSize: 22,
+          //     fontWeight: FontWeight.bold,
+          //   ),
+          // ),
+          // SizedBox(height: 4),
+          // Text(
+          //   "Leaderboard for the Test",
+          //   style: TextStyle(
+          //     fontSize: 15,
+          //     fontWeight: FontWeight.w500,
+          //   ),
+          // ),
+          // SizedBox(
+          //   height: 10,
+          // ),
           testSeriesProvider.isLeaderBoardLoading?
-          Center(child: CircularProgressIndicator())
+          Expanded(child: Center(child: CircularProgressIndicator()))
            : testSeriesProvider.leaderBoardList.isEmpty
            ? Center(
                   child: Padding(
@@ -202,7 +126,8 @@ class _TestSeriesRankListState extends State<TestSeriesRankList> {
                     name: testSeriesProvider.leaderBoardList[index].name ?? "Name",
                     score: "${testSeriesProvider.leaderBoardList[index].score}/${widget.maxMark}" ,
                     rank: testSeriesProvider.leaderBoardList[index].rank ?? 0,
-                    image: rankList[index].image)),
+                    image: "assets/images/profile.jpg", 
+                    userId: testSeriesProvider.leaderBoardList[index].userId ?? -1,)),
           ),
         ],
       ),
