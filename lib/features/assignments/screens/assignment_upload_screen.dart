@@ -88,7 +88,10 @@ class _AssignmentUploadScreenState extends State<AssignmentUploadScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
     loadAssignmentDetails();
+  });
+    
   }
 
   @override

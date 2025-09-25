@@ -19,7 +19,10 @@ class _EnrolledCourseChapterState extends State<EnrolledCourseChapter> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
     loadChapters();
+  });
+    
   }
 
   Future<void> loadChapters() async {

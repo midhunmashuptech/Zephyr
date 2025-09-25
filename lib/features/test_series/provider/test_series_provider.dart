@@ -40,6 +40,8 @@ class TestSeriesProvider extends ChangeNotifier {
   bool _isAnalysisLoading = false;
   bool get isAnalysisLoading => _isAnalysisLoading;
 
+  bool _isResultPublished = false;
+  bool get isResultPublished => _isResultPublished;
 
   TestseriesAnalysisModel _testseriesAnalysisModel = TestseriesAnalysisModel();
   TestseriesAnalysisModel get testseriesAnalysisModel =>
@@ -113,15 +115,14 @@ class TestSeriesProvider extends ChangeNotifier {
     }
   }
 
-
   // Test Series Analysis
   Future<void> fetchTestSeriesAnalysis(
       {required BuildContext context, required String testId}) async {
     _isAnalysisLoading = true;
     notifyListeners();
 
-    final response =
-        await TestSeriesService().getTestSeriesAnalysis(context: context, testId: testId);
+    final response = await TestSeriesService()
+        .getTestSeriesAnalysis(context: context, testId: testId);
 
     if (response == null) {
       showSnackBar("Error", "Error fetching Test Series Analysis");
@@ -133,12 +134,15 @@ class TestSeriesProvider extends ChangeNotifier {
         notifyListeners();
         showSnackBar("Success", "Successfully fetched Test Series Analysis");
         _isAnalysisLoading = false;
+        _isResultPublished = true;
         notifyListeners();
       } else {
         _isAnalysisLoading = false;
+        _isResultPublished = false;
+        notifyListeners();
       }
     }
-      }
+  }
 
   //Test Series LeaderBoard
   Future<void> fetchLeaderBoard(

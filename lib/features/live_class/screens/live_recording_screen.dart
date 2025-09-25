@@ -85,7 +85,7 @@ class _LiveRecordingScreenState extends State<LiveRecordingScreen> {
                   children: [
                     Iconify(Bxs.videos),
                     SizedBox(width: 4),
-                    Text("245"),
+                    Text(liveProvider.recordingLive.length.toString()),
                   ],
                 ),
                 Row(
