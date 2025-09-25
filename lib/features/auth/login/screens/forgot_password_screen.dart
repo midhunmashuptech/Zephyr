@@ -33,7 +33,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Future<void> loadSentOtp() async {
     final loadProvider = context.read<AuthProvider>();
     await loadProvider.resetPasswordSendOtp(context: context);
-    
   }
 
   final defaultPinTheme = PinTheme(
@@ -143,14 +142,33 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           ),
                           SizedBox(height: 10),
                           TextButton(
-                              onPressed: () {
-                                authProvider.resetPasswordSendOtp(
-                                    context: context);
-                              },
-                              child: Text("Resend OTP",
-                                  style: TextStyle(
-                                    color: AppColors.primaryBlue,
-                                  ))),
+                            onPressed: authProvider.canResendOtp
+                                ? () {
+                                    authProvider.resendPasswordOtp(
+                                      context: context,
+                                      phoneNumber: widget.phoneNumber,
+                                      countryCode: widget.countryCode,
+                                    );
+                                  }
+                                : null, // disable when timer running
+                            child: authProvider.isResendOtpLoading
+                                ? const SizedBox(
+                                    height: 16,
+                                    width: 16,
+                                    child: CircularProgressIndicator(
+                                        strokeWidth: 2),
+                                  )
+                                : Text(
+                                    authProvider.canResendOtp
+                                        ? "Resend OTP"
+                                        : "Resend in 00:${authProvider.resendSeconds.toString().padLeft(2, '0')}s",
+                                    style: TextStyle(
+                                      color: authProvider.canResendOtp
+                                          ? AppColors.primaryBlue
+                                          : AppColors.grey,
+                                    ),
+                                  ),
+                          ),
                           authProvider.isOtpVerified
                               ? Center(child: CircularProgressIndicator())
                               : CustomButton(
@@ -165,7 +183,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                             otp: otpController.text,
                                           );
                                         }
-                                      : null, // disables the button
+                                      : null,
                                   textcolor: AppColors.white,
                                 ),
                           SizedBox(height: 20),

@@ -48,7 +48,9 @@ class _TestUpmoningScreenState extends State<TestUpmoningScreen> {
   @override
   void initState() {
     super.initState();
-    loadUpcomingTests();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      loadUpcomingTests();
+    });
   }
 
   Future<void> loadUpcomingTests() async {

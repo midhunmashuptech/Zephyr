@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
@@ -75,14 +77,110 @@ class AuthProvider extends ChangeNotifier {
   String registrationPassword = "123456";
 
 // OTP Button Enable/Disable
-bool _isOtpfilled = false; // start with false so button is disabled initially
-bool get isOtpfilled => _isOtpfilled;
+  bool _isOtpfilled = false;
+  bool get isOtpfilled => _isOtpfilled;
 
-void updateOtpfilledState(bool otpfilled) {
-  _isOtpfilled = otpfilled;
+  bool _isResendOtpLoading = false;
+  bool get isResendOtpLoading => _isResendOtpLoading;
+
+
+// inside AuthProvider
+
+Timer? _resendTimer;
+int _resendSeconds = 0;
+
+bool get canResendOtp => _resendSeconds == 0;
+int get resendSeconds => _resendSeconds;
+
+Future<void> resendPasswordOtp({
+  required BuildContext context,
+  required String phoneNumber,
+  required String countryCode,
+}) async {
+  if (!canResendOtp) return; // prevent multiple clicks
+
+  _isResendOtpLoading = true;
   notifyListeners();
+
+  final response = await LoginService().sendResetOtp(
+    phone: phoneNumber,
+    countryCode: countryCode.substring(1),
+    context: context,
+  );
+
+  if (response == null) {
+    showSnackBar("Error", "Error Resending Otp");
+    _isResendOtpLoading = false;
+    notifyListeners();
+  } else {
+    if (response.type == "success") {
+      _otpStatus = "sent";
+      debugPrint(response.otp.toString());
+      showSnackBar("Otp Sent", "Successfully resent the otp");
+
+      // ✅ Start countdown after success
+      startResendTimer();
+
+      _isResendOtpLoading = false;
+      notifyListeners();
+    } else {
+      _otpStatus = "error";
+      showSnackBar(
+          "Otp Not Sent", "Something went wrong. Please try again later");
+      _isResendOtpLoading = false;
+      notifyListeners();
+    }
+  }
 }
 
+/// Start 60s timer
+void startResendTimer() {
+  _resendSeconds = 60;
+  _resendTimer?.cancel();
+  _resendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    if (_resendSeconds > 0) {
+      _resendSeconds--;
+      notifyListeners();
+    } else {
+      _resendTimer?.cancel();
+      notifyListeners();
+    }
+  });
+}
+
+@override
+void dispose() {
+  _resendTimer?.cancel();
+  super.dispose();
+}
+
+  //  // Timer fields
+  // Timer? _resendTimer;
+  // int _resendSeconds = 0;
+
+  // int get resendSeconds => _resendSeconds;
+  // bool get canResendOtp => _resendSeconds == 0;
+
+  //  /// Start a 1-minute countdown
+  // void startResendTimer() {
+  //   _resendSeconds = 60; // 1 min
+  //   _resendTimer?.cancel();
+  //   _resendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+  //     if (_resendSeconds > 0) {
+  //       _resendSeconds--;
+  //       notifyListeners();
+  //     } else {
+  //       _resendTimer?.cancel();
+  //       notifyListeners();
+  //     }
+  //   });
+  //   notifyListeners();
+  // }
+
+  void updateOtpfilledState(bool otpfilled) {
+    _isOtpfilled = otpfilled;
+    notifyListeners();
+  }
 
   void setPassword(String enterdPassword) {
     registrationPassword = enterdPassword;
@@ -337,6 +435,7 @@ void updateOtpfilledState(bool otpfilled) {
   //Send Otp Reset Password
   Future<void> resetPasswordSendOtp({required BuildContext context}) async {
     _isotpSend = true;
+    _isOtpfilled = false;
     notifyListeners();
     final response = await LoginService().sendResetOtp(
         phone: phoneNumber,
@@ -362,6 +461,36 @@ void updateOtpfilledState(bool otpfilled) {
       }
     }
   }
+
+  // //Resend Otp
+  // Future<void> resendPasswordOtp({required BuildContext context}) async {
+  //   _isResendOtpLoading = true;
+  //   notifyListeners();
+  //   // _isOtpfilled = false;
+  //   final response = await LoginService().sendResetOtp(
+  //       phone: phoneNumber,
+  //       countryCode: countryCode.substring(1),
+  //       context: context);
+  //   if (response == null) {
+  //     showSnackBar("Error", "Error Resending Otp");
+  //     _isResendOtpLoading = false;
+  //     notifyListeners();
+  //   } else {
+  //     if (response.type == "success") {
+  //       _otpStatus = "sent";
+  //       debugPrint(response.otp.toString());
+  //       showSnackBar("Otp Sent", "successfully Resend the otp");
+  //       _isResendOtpLoading = false;
+  //       notifyListeners();
+  //     } else {
+  //       _otpStatus = "error";
+  //       showSnackBar(
+  //           "Otp Not Sent", "Something went wrong.Please try again later");
+  //       _isResendOtpLoading = false;
+  //       notifyListeners();
+  //     }
+  //   }
+  // }
 
   //Verify Reset Password Otp
   Future<VerifyResetPasswordModel?> verifyPasswordOtp(

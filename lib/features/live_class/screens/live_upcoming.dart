@@ -17,7 +17,10 @@ class _LiveUpcomingState extends State<LiveUpcoming> {
   LiveProvider liveProvider = LiveProvider();
   @override
   void initState() {
+     WidgetsBinding.instance.addPostFrameCallback((_) {
     loadUpcomingLiveClasses();
+  });
+    
     super.initState();
   }
 
