@@ -96,7 +96,11 @@ class _CourseChapterContentState extends State<CourseChapterContent> {
                                   itemBuilder: (context, index) =>
                                       CourseContentCard(
                                         type: "video",
-                                        url: "",
+                                        url: (courseProvider.selectedChapter
+                                                        .videos ??
+                                                    [])[index]
+                                                .hls ??
+                                            "Video Title",
                                         title: (courseProvider.selectedChapter
                                                         .videos ??
                                                     [])[index]
@@ -147,7 +151,7 @@ class _CourseChapterContentState extends State<CourseChapterContent> {
                                   itemBuilder: (context, index) =>
                                       CourseContentCard(
                                         type: "material",
-                                        url: "",
+                                        url: (courseProvider.selectedChapter.materials ?? [])[index].link ?? "https://d333c2xue188ia.cloudfront.net/assignments/vhFzVyubuJjRPqKilB0vSLEXRnYtKXNnYknZs5hA.pdf",
                                         title: (courseProvider.selectedChapter.materials ?? [])[index].title ?? "Material Title",
                                         subtitle:
                                             'Tap to see the Study Material',

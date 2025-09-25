@@ -114,7 +114,7 @@ class Overall {
     score = json['score'];
     maxMarks = json['max_marks'];
     accuracy = json['accuracy'];
-    averageTimePerQuestion = json['average_time_per_question'];
+    averageTimePerQuestion = double.parse(json['average_time_per_question'].toString());
     pass = json['pass'];
     count = json['count'] != null ? new Count.fromJson(json['count']) : null;
     time = json['time'] != null ? new Time.fromJson(json['time']) : null;

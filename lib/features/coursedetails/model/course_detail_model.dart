@@ -246,8 +246,25 @@ class Videos {
   bool? free;
   int? id;
   String? type;
+  String? source;
+  String? videoid;
+  int? duration;
+  String? thumbnail;
+  String? hls;
+  String? embededlink;
 
-  Videos({this.chapterContentId, this.title, this.free, this.id, this.type});
+  Videos(
+      {this.chapterContentId,
+      this.title,
+      this.free,
+      this.id,
+      this.type,
+      this.source,
+      this.videoid,
+      this.duration,
+      this.thumbnail,
+      this.hls,
+      this.embededlink});
 
   Videos.fromJson(Map<String, dynamic> json) {
     chapterContentId = json['chapter_content_id'];
@@ -255,6 +272,12 @@ class Videos {
     free = json['free'];
     id = json['id'];
     type = json['type'];
+    source = json['source'];
+    videoid = json['videoid'];
+    duration = json['duration'];
+    thumbnail = json['thumbnail'];
+    hls = json['hls'];
+    embededlink = json['embededlink'];
   }
 
   Map<String, dynamic> toJson() {
@@ -264,6 +287,12 @@ class Videos {
     data['free'] = this.free;
     data['id'] = this.id;
     data['type'] = this.type;
+    data['source'] = this.source;
+    data['videoid'] = this.videoid;
+    data['duration'] = this.duration;
+    data['thumbnail'] = this.thumbnail;
+    data['hls'] = this.hls;
+    data['embededlink'] = this.embededlink;
     return data;
   }
 }
@@ -299,8 +328,19 @@ class Materials {
   bool? free;
   int? id;
   String? type;
+  String? link;
+  String? description;
+  String? thumbnail;
 
-  Materials({this.chapterContentId, this.title, this.free, this.id, this.type});
+  Materials(
+      {this.chapterContentId,
+      this.title,
+      this.free,
+      this.id,
+      this.type,
+      this.link,
+      this.description,
+      this.thumbnail});
 
   Materials.fromJson(Map<String, dynamic> json) {
     chapterContentId = json['chapter_content_id'];
@@ -308,6 +348,9 @@ class Materials {
     free = json['free'];
     id = json['id'];
     type = json['type'];
+    link = json['link'];
+    description = json['description'];
+    thumbnail = json['thumbnail'];
   }
 
   Map<String, dynamic> toJson() {
@@ -317,6 +360,9 @@ class Materials {
     data['free'] = this.free;
     data['id'] = this.id;
     data['type'] = this.type;
+    data['link'] = this.link;
+    data['description'] = this.description;
+    data['thumbnail'] = this.thumbnail;
     return data;
   }
 }

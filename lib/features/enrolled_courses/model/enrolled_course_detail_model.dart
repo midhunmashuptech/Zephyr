@@ -28,7 +28,7 @@ class Data {
   String? thumbnail;
   String? type;
   String? level;
-  String? price;
+  int? price;
   String? description;
   String? duration;
   String? startDate;
