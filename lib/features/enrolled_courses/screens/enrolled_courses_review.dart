@@ -71,7 +71,10 @@ class _EnrolledCoursesReviewState extends State<EnrolledCoursesReview> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
     loadReviews();
+  });
+   
   }
 
   @override

@@ -135,7 +135,7 @@ Future<void> resendPasswordOtp({
 
 /// Start 60s timer
 void startResendTimer() {
-  _resendSeconds = 60;
+  _resendSeconds = 59;
   _resendTimer?.cancel();
   _resendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
     if (_resendSeconds > 0) {

@@ -38,7 +38,10 @@ class _MakeYourTestScreenState extends State<MakeYourTestScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
     loadClassSubjectOptions();
+  });
+    
   }
 
   @override

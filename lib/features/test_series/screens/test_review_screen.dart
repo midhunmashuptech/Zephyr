@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/icons/ion.dart';
 import 'package:iconify_flutter_plus/icons/ph.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
@@ -74,13 +75,11 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
       body: SafeArea(
         child: testSeriesProvider.isAnalysisLoading
             ? Center(child: CircularProgressIndicator())
-            : SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
+            : !(testSeriesProvider.isResultPublished)
+                ? Center(
+                    child: SizedBox(width: MediaQuery.of(context).size.width *.5,
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           /// Report Card
                           TestReportCard(
@@ -221,17 +220,49 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                       fontSize: 16),
                                 ),
                               ),
-                              SizedBox(
-                                height: 10,
+                              const SizedBox(height: 10),
+
+                              /// View Ranklist Button
+                              CustomButton(
+                                text: 'View Ranklist',
+                                color: AppColors.primaryOrange,
+                                onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            TestSeriesRankList(
+                                                testId: widget.testid))),
+                                textcolor: AppColors.white,
                               ),
-                              Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border:
-                                          Border.all(color: AppColors.grey)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
+                              const SizedBox(height: 20),
+
+                              /// Test Detail Widgets (2 rows of 2)
+                              Column(
+                                children: [
+                                  Column(children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                            child: TestDetailWidget(
+                                                label: "Score",
+                                                value:
+                                                    '${((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).score}/${((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).maxMarks}',
+                                                icon: Ph.star_fill,
+                                                size: 80,
+                                                color: AppColors.primaryBlue)),
+                                        SizedBox(width: 10),
+                                        Expanded(
+                                            child: TestDetailWidget(
+                                                label: "Average Time",
+                                                value:
+                                                    '${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).averageTimePerQuestion ?? 0.0)} sec',
+                                                icon: Ph.clock_fill,
+                                                size: 80,
+                                                color: AppColors.primaryGreen))
+                                      ],
+                                    ),
+                                    SizedBox(height: 10),
+                                    Row(
                                       children: [
                                         const SizedBox(height: 10),
                                         Padding(
@@ -282,18 +313,6 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                                             0,
                                                         AppColors.grey),
                                                   ],
-                                                  xValueMapper:
-                                                      (ChartData d, _) =>
-                                                          d.category,
-                                                  yValueMapper:
-                                                      (ChartData d, _) =>
-                                                          d.value,
-                                                  pointColorMapper:
-                                                      (ChartData d, _) =>
-                                                          d.color,
-                                                  dataLabelSettings:
-                                                      const DataLabelSettings(
-                                                          isVisible: true),
                                                 ),
                                               ],
                                             ),
@@ -338,19 +357,48 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                                   )
                                                 ],
                                               ),
-                                              const SizedBox(height: 6),
-                                              Row(
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(10.0),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
                                                 children: [
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              50),
-                                                      color:
-                                                          AppColors.primaryRed,
-                                                    ),
-                                                    width: 12,
-                                                    height: 12,
+                                                  Row(
+                                                    children: [
+                                                      Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(50),
+                                                          color: AppColors
+                                                              .primaryGreen,
+                                                        ),
+                                                        width: 12,
+                                                        height: 12,
+                                                      ),
+                                                      const SizedBox(width: 5),
+                                                      const Text("Correct:"),
+                                                      const SizedBox(width: 10),
+                                                      Text(
+                                                        (((testSeriesProvider.testseriesAnalysisModel.performance ??
+                                                                                Performance())
+                                                                            .overall ??
+                                                                        Overall())
+                                                                    .correctScore ??
+                                                                0)
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            color: AppColors
+                                                                .primaryGreen),
+                                                      )
+                                                    ],
                                                   ),
                                                   const SizedBox(width: 5),
                                                   const Text("Incorrect:"),
@@ -415,142 +463,145 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                                   )
                                                 ],
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                            const SizedBox(height: 10),
+                                          ],
                                         ),
-                                        const SizedBox(height: 10),
-                                      ],
-                                    ),
-                                  )),
+                                      )),
 
-                              const SizedBox(height: 20),
+                                  const SizedBox(height: 20),
 
-                              /// Test Summary
-                              const Text("Test Summary",
+                                  /// Test Summary
+                                  const Text("Test Summary",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16)),
+                                  const SizedBox(height: 10),
+                                  Container(
+                                      decoration: BoxDecoration(
+                                          color: AppColors.borderGrey,
+                                          border:
+                                              Border.all(color: AppColors.grey),
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(12.0),
+                                        child: Column(
+                                          children: [
+                                            _buildSummaryRow(
+                                                "Total time taken:",
+                                                "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).time ?? Time()).totalTime ?? 0} sec"),
+                                            Divider(),
+                                            _buildSummaryRow(
+                                                "Number of Qtns Correctly Answered:",
+                                                "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).count ?? Count()).totalCorrect ?? 0}"),
+                                            Divider(),
+                                            _buildSummaryRow(
+                                                "Time taken for correct Answer:",
+                                                "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).time ?? Time()).correctTime ?? 0} sec"),
+                                            Divider(),
+                                            _buildSummaryRow(
+                                                "Number of Qtns Incorrectly Answered:",
+                                                "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).count ?? Count()).totalIncorrect ?? 0}"),
+                                            Divider(),
+                                            _buildSummaryRow(
+                                                "Time taken for incorrect Answer:",
+                                                "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).time ?? Time()).incorrectTime ?? 0} sec"),
+                                            Divider(),
+                                            _buildSummaryRow(
+                                                "Number of Qtns Unanswered:",
+                                                "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).count ?? Count()).totalUnanswered ?? 0}"),
+                                            _buildSummaryRow(
+                                                "Avg time taken for unanswered Answer:",
+                                                "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).time ?? Time()).unansweredTime ?? 0} sec"),
+                                            Divider(),
+                                            _buildSummaryRow(
+                                                "Number of Qtns Unattended:",
+                                                "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).count ?? Count()).totalUnattended ?? 0}"),
+                                            Divider(),
+                                            _buildSummaryRow(
+                                                "Avg time taken for unattended Answer:",
+                                                "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).time ?? Time()).unattendedTime ?? 0} sec"),
+                                          ],
+                                        ),
+                                      )),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Column(
+                            children: [
+                              /// Subject vs Time Analysis (Pie Charts)
+                              const Text("Subject vs Time Analysis",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16)),
                               const SizedBox(height: 10),
-                              Container(
-                                  decoration: BoxDecoration(
-                                      color: AppColors.borderGrey,
-                                      border: Border.all(color: AppColors.grey),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(12.0),
-                                    child: Column(
-                                      children: [
-                                        _buildSummaryRow("Total time taken:",
-                                            "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).time ?? Time()).totalTime ?? 0} sec"),
-                                        Divider(),
-                                        _buildSummaryRow(
-                                            "Number of Qtns Correctly Answered:",
-                                            "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).count ?? Count()).totalCorrect ?? 0}"),
-                                        Divider(),
-                                        _buildSummaryRow(
-                                            "Time taken for correct Answer:",
-                                            "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).time ?? Time()).correctTime ?? 0} sec"),
-                                        Divider(),
-                                        _buildSummaryRow(
-                                            "Number of Qtns Incorrectly Answered:",
-                                            "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).count ?? Count()).totalIncorrect ?? 0}"),
-                                        Divider(),
-                                        _buildSummaryRow(
-                                            "Time taken for incorrect Answer:",
-                                            "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).time ?? Time()).incorrectTime ?? 0} sec"),
-                                        Divider(),
-                                        _buildSummaryRow(
-                                            "Number of Qtns Unanswered:",
-                                            "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).count ?? Count()).totalUnanswered ?? 0}"),
-                                        _buildSummaryRow(
-                                            "Avg time taken for unanswered Answer:",
-                                            "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).time ?? Time()).unansweredTime ?? 0} sec"),
-                                        Divider(),
-                                        _buildSummaryRow(
-                                            "Number of Qtns Unattended:",
-                                            "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).count ?? Count()).totalUnattended ?? 0}"),
-                                        Divider(),
-                                        _buildSummaryRow(
-                                            "Avg time taken for unattended Answer:",
-                                            "${(((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).time ?? Time()).unattendedTime ?? 0} sec"),
-                                      ],
-                                    ),
-                                  )),
+                              ListView.separated(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(height: 15),
+                                itemCount: ((testSeriesProvider
+                                                    .testseriesAnalysisModel
+                                                    .performance ??
+                                                Performance())
+                                            .subjectAnalysis ??
+                                        [])
+                                    .length,
+                                itemBuilder: (context, index) {
+                                  final subjectData = ((testSeriesProvider
+                                                  .testseriesAnalysisModel
+                                                  .performance ??
+                                              Performance())
+                                          .subjectAnalysis ??
+                                      [])[index];
+
+                                  return _buildPieChartTime(subjectData);
+                                },
+                              ),
+
+                              const SizedBox(height: 20),
+
+                              /// Subject vs Score (Pie Charts)
+                              const Text("Subject vs Score Analysis",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16)),
+                              const SizedBox(height: 10),
+
+                              ListView.separated(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(height: 15),
+                                itemCount: ((testSeriesProvider
+                                                    .testseriesAnalysisModel
+                                                    .performance ??
+                                                Performance())
+                                            .subjectAnalysis ??
+                                        [])
+                                    .length,
+                                itemBuilder: (context, index) {
+                                  final subjectData = ((testSeriesProvider
+                                                  .testseriesAnalysisModel
+                                                  .performance ??
+                                              Performance())
+                                          .subjectAnalysis ??
+                                      [])[index];
+
+                                  return _buildPieChartScore(subjectData);
+                                },
+                              ),
                             ],
                           ),
-                        ],
-                      ),
+                        )
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Column(
-                        children: [
-                          /// Subject vs Time Analysis (Pie Charts)
-                          const Text("Subject vs Time Analysis",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16)),
-                          const SizedBox(height: 10),
-                          ListView.separated(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            separatorBuilder: (context, index) =>
-                                const SizedBox(height: 15),
-                            itemCount: ((testSeriesProvider
-                                                .testseriesAnalysisModel
-                                                .performance ??
-                                            Performance())
-                                        .subjectAnalysis ??
-                                    [])
-                                .length,
-                            itemBuilder: (context, index) {
-                              final subjectData = ((testSeriesProvider
-                                              .testseriesAnalysisModel
-                                              .performance ??
-                                          Performance())
-                                      .subjectAnalysis ??
-                                  [])[index];
-
-                              return _buildPieChartTime(subjectData);
-                            },
-                          ),
-
-                          const SizedBox(height: 20),
-
-                          /// Subject vs Score (Pie Charts)
-                          const Text("Subject vs Score Analysis",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16)),
-                          const SizedBox(height: 10),
-
-                          ListView.separated(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            separatorBuilder: (context, index) =>
-                                const SizedBox(height: 15),
-                            itemCount: ((testSeriesProvider
-                                                .testseriesAnalysisModel
-                                                .performance ??
-                                            Performance())
-                                        .subjectAnalysis ??
-                                    [])
-                                .length,
-                            itemBuilder: (context, index) {
-                              final subjectData = ((testSeriesProvider
-                                              .testseriesAnalysisModel
-                                              .performance ??
-                                          Performance())
-                                      .subjectAnalysis ??
-                                  [])[index];
-
-                              return _buildPieChartScore(subjectData);
-                            },
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
+                  ),
       ),
     );
   }
