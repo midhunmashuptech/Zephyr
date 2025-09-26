@@ -7,10 +7,13 @@ const webBaseUrl = "https://zephyrdigital.in/";
 // Authentication API Endpoints
 const verifyPhoneUrl = "${baseUrl}verify-phone";
 const loginUrl = "${baseUrl}login";
+
 const registerUrl = "${baseUrl}register";
 const registrationDropdownOptionsUrl =
     "${baseUrl}registration-dropdown-options";
-    
+const sendRegistrationOtpUrl = "${baseUrl}send-registration-otp";
+const verifyRegistrationOtpUrl = "${baseUrl}verify-registration-otp";
+
 // Password rest API
 const resetPasswordUrl = "${baseUrl}reset-user-password";
 const sendresetPasswordUrl = "${baseUrl}send-reset-password-otp";
@@ -52,7 +55,6 @@ const getAssignmentDetailsUrl = "${baseUrl}get-assignment-details";
 const getSubmittedAssignmentUrl = "${baseUrl}get-submitted-assignments";
 const submitAssignmentUrl = "${baseUrl}submit-assignment";
 
-
 //Test Series API's
 const ongoingTestSeriesUrl = "${baseUrl}get-ongoing-test-series";
 const upcomingTestSeriesUrl = "${baseUrl}get-upcoming-test-series";
@@ -64,7 +66,6 @@ const testSeriesLeaderBoardUrl = "${baseUrl}get-test-leaderboard/";
 const getTimelineActivitiesUrl = "${baseUrl}get-timeline-activity";
 const postTimelineActivityUrl = "${baseUrl}post-timeline-activity";
 
-
 // Make Your Test API's
 const getClassSubjectOptionsUrl = "${baseUrl}get-class-and-subjects";
 const getChapterOptionsUrl = "${baseUrl}get-chapters";
@@ -75,16 +76,13 @@ const generateAiQuizUrl = "${baseUrl}generate-ai-practice-quiz";
 const getCourseReviewsUrl = "${baseUrl}get-course-reviews/";
 const postCourseReviewUrl = "${baseUrl}post-course-reviews";
 
-
 // quiz related endpoints
 const attendTest =
     "${webBaseUrl}quiz/attend-test"; // test id will be appended attend-test/{type}/{userid}/{testid}
 const attendAiTest =
     "${webBaseUrl}quiz/attend-ai-quiz"; // test id will be appended attend-ai-quiz/{type}/{userid}/{testid}
 
-const viewTestSolution =
-    "${webBaseUrl}quiz/view-solution";
-
+const viewTestSolution = "${webBaseUrl}quiz/view-solution";
 
 // WebView endpoint
 const testUrl = "${webBaseUrl}events";

@@ -14,6 +14,7 @@ import 'package:zephyr/features/auth/login/screens/mobile_number_verification.da
 import 'package:zephyr/features/auth/login/screens/reset_password_login.dart';
 import 'package:zephyr/features/auth/registration/model/registration_dropdown_options_model.dart'
     as dropdown_model;
+import 'package:zephyr/features/auth/registration/model/verify_registration_otp_model.dart';
 import 'package:zephyr/features/auth/registration/model/verify_reset_password_model.dart';
 import 'package:zephyr/features/auth/service/login_service.dart';
 import 'package:intl_phone_field/phone_number.dart';
@@ -83,118 +84,23 @@ class AuthProvider extends ChangeNotifier {
   bool _isResendOtpLoading = false;
   bool get isResendOtpLoading => _isResendOtpLoading;
 
+  Timer? _resendTimer;
+  int _resendSeconds = 0;
 
-// inside AuthProvider
+  bool get canResendOtp => _resendSeconds == 0;
+  int get resendSeconds => _resendSeconds;
 
-Timer? _resendTimer;
-int _resendSeconds = 0;
-
-bool get canResendOtp => _resendSeconds == 0;
-int get resendSeconds => _resendSeconds;
-
-Future<void> resendPasswordOtp({
-  required BuildContext context,
-  required String phoneNumber,
-  required String countryCode,
-}) async {
-  if (!canResendOtp) return; // prevent multiple clicks
-
-  _isResendOtpLoading = true;
-  notifyListeners();
-
-  final response = await LoginService().sendResetOtp(
-    phone: phoneNumber,
-    countryCode: countryCode.substring(1),
-    context: context,
-  );
-
-  if (response == null) {
-    showSnackBar("Error", "Error Resending Otp");
-    _isResendOtpLoading = false;
-    notifyListeners();
-  } else {
-    if (response.type == "success") {
-      _otpStatus = "sent";
-      debugPrint(response.otp.toString());
-      showSnackBar("Otp Sent", "Successfully resent the otp");
-
-      // ✅ Start countdown after success
-      startResendTimer();
-
-      _isResendOtpLoading = false;
-      notifyListeners();
-    } else {
-      _otpStatus = "error";
-      showSnackBar(
-          "Otp Not Sent", "Something went wrong. Please try again later");
-      _isResendOtpLoading = false;
-      notifyListeners();
-    }
+  @override
+  void dispose() {
+    _resendTimer?.cancel();
+    _regResendTimer?.cancel();
+    super.dispose();
   }
-}
 
-/// Start 60s timer
-void startResendTimer() {
-  _resendSeconds = 59;
-  _resendTimer?.cancel();
-  _resendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-    if (_resendSeconds > 0) {
-      _resendSeconds--;
-      notifyListeners();
-    } else {
-      _resendTimer?.cancel();
-      notifyListeners();
-    }
-  });
-}
-
-@override
-void dispose() {
-  _resendTimer?.cancel();
-  super.dispose();
-}
-
-  //  // Timer fields
-  // Timer? _resendTimer;
-  // int _resendSeconds = 0;
-
-  // int get resendSeconds => _resendSeconds;
-  // bool get canResendOtp => _resendSeconds == 0;
-
-  //  /// Start a 1-minute countdown
-  // void startResendTimer() {
-  //   _resendSeconds = 60; // 1 min
-  //   _resendTimer?.cancel();
-  //   _resendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-  //     if (_resendSeconds > 0) {
-  //       _resendSeconds--;
-  //       notifyListeners();
-  //     } else {
-  //       _resendTimer?.cancel();
-  //       notifyListeners();
-  //     }
-  //   });
-  //   notifyListeners();
-  // }
-
-  void updateOtpfilledState(bool otpfilled) {
-    _isOtpfilled = otpfilled;
-    notifyListeners();
-  }
 
   void setPassword(String enterdPassword) {
     registrationPassword = enterdPassword;
     notifyListeners();
-    // print(registrationPassword);
-    // print(selectedSyllabusId);
-    // print(fullName);
-    // print(dob);
-    // print(email);
-    // print(schoolName);
-    // print(classId);
-    // print(selectedGender);
-    // print(phoneNumber);
-    // print(countryCode);
   }
 
   //registration
@@ -340,9 +246,6 @@ void dispose() {
             .setUserDetails(response.user ?? User());
 
         print(token);
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => BottomNavScreen()),);
         Get.offAll(BottomNavScreen())?.then((value) {
           _isLogining = false;
           notifyListeners();
@@ -462,36 +365,6 @@ void dispose() {
     }
   }
 
-  // //Resend Otp
-  // Future<void> resendPasswordOtp({required BuildContext context}) async {
-  //   _isResendOtpLoading = true;
-  //   notifyListeners();
-  //   // _isOtpfilled = false;
-  //   final response = await LoginService().sendResetOtp(
-  //       phone: phoneNumber,
-  //       countryCode: countryCode.substring(1),
-  //       context: context);
-  //   if (response == null) {
-  //     showSnackBar("Error", "Error Resending Otp");
-  //     _isResendOtpLoading = false;
-  //     notifyListeners();
-  //   } else {
-  //     if (response.type == "success") {
-  //       _otpStatus = "sent";
-  //       debugPrint(response.otp.toString());
-  //       showSnackBar("Otp Sent", "successfully Resend the otp");
-  //       _isResendOtpLoading = false;
-  //       notifyListeners();
-  //     } else {
-  //       _otpStatus = "error";
-  //       showSnackBar(
-  //           "Otp Not Sent", "Something went wrong.Please try again later");
-  //       _isResendOtpLoading = false;
-  //       notifyListeners();
-  //     }
-  //   }
-  // }
-
   //Verify Reset Password Otp
   Future<VerifyResetPasswordModel?> verifyPasswordOtp(
       {required BuildContext context, required String otp}) async {
@@ -529,5 +402,195 @@ void dispose() {
       }
     }
     return null;
+  }
+
+  //Resend Password OTP
+  Future<void> resendPasswordOtp({
+    required BuildContext context,
+    required String phoneNumber,
+    required String countryCode,
+  }) async {
+    if (!canResendOtp) return; // prevent multiple clicks
+
+    _isResendOtpLoading = true;
+    notifyListeners();
+
+    final response = await LoginService().sendResetOtp(
+      phone: phoneNumber,
+      countryCode: countryCode.substring(1),
+      context: context,
+    );
+
+    if (response == null) {
+      showSnackBar("Error", "Error Resending Otp");
+      _isResendOtpLoading = false;
+      notifyListeners();
+    } else {
+      if (response.type == "success") {
+        _otpStatus = "sent";
+        debugPrint(response.otp.toString());
+        showSnackBar("Otp Sent", "Successfully resent the otp");
+
+        // ✅ Start countdown after success
+        startResendTimer();
+
+        _isResendOtpLoading = false;
+        notifyListeners();
+      } else {
+        _otpStatus = "error";
+        showSnackBar(
+            "Otp Not Sent", "Something went wrong. Please try again later");
+        _isResendOtpLoading = false;
+        notifyListeners();
+      }
+    }
+  }
+
+  /// Start 60s timer
+  void startResendTimer() {
+    _resendSeconds = 59;
+    _resendTimer?.cancel();
+    _resendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_resendSeconds > 0) {
+        _resendSeconds--;
+        notifyListeners();
+      } else {
+        _resendTimer?.cancel();
+        notifyListeners();
+      }
+    });
+  }
+
+  ////Registration OTP////
+
+//loading variable
+  bool _isRegOtpSending = false;
+  bool get isRegOtpSending => _isRegOtpSending;
+
+  bool _isRegOtpVerifying = false;
+  bool get isRegOtpVerifying => _isRegOtpVerifying;
+
+  // OTP Button Enable/Disable
+  bool _isRegOtpfilled = false;
+  bool get isRegOtpfilled => _isRegOtpfilled;
+  
+  void updateOtpfilledState(bool otpfilled) {
+    _isOtpfilled = otpfilled;
+    notifyListeners();
+  }
+
+
+//Timer variable
+  Timer? _regResendTimer;
+  int _regResendSeconds = 0;
+
+//Otp Status variable
+  bool _isRegOtpVerified = false;
+  bool get isRegOtpVerified => _isRegOtpVerified;
+
+  bool get canRegResendOtp => _regResendSeconds == 0;
+  int get regresendSeconds => _regResendSeconds;
+
+  /// Timer for registration OTP
+  void regResendTimer() {
+    _regResendSeconds = 59;
+    _regResendTimer?.cancel();
+    _regResendTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_regResendSeconds > 0) {
+        _regResendSeconds--;
+        notifyListeners();
+      } else {
+        _regResendTimer?.cancel();
+        notifyListeners();
+      }
+    });
+  }
+
+  void updateRegOtpfilledState(bool isRegOtpfilled) {
+    _isRegOtpfilled = isRegOtpfilled;
+    notifyListeners();
+  }
+
+  bool _isResendRegOtpLoading = false;
+  bool get isResetRegOtpLoading => _isResendRegOtpLoading;
+
+  //ReSend Registration OTP
+  Future<void> resendRegOtp({required BuildContext context}) async {
+    if (!canRegResendOtp) return;
+    _isResendRegOtpLoading = true;
+    notifyListeners();
+    final response = await RegistrationService().sendRegistrationOtp(
+        context: context,
+        phone: phoneNumber,
+        countryCode: countryCode.substring(1));
+    if (response == null) {
+      _isResendRegOtpLoading = false;
+      notifyListeners();
+      showSnackBar("Error", "Couldnt Sent OTP");
+    } else {
+      if (response.type == "success") {
+        debugPrint(response.otp.toString());
+        showSnackBar("Otp Sent", "Successfully resent the otp");
+        // ✅ Start countdown after success
+        regResendTimer();
+        _isResendRegOtpLoading = false;
+        notifyListeners();
+      }
+    }
+  }
+
+  //send Registration OTP
+  Future<void> sendRegOtp({required BuildContext context}) async {
+    _isRegOtpfilled = false;
+    _isRegOtpVerified = false;
+    _isRegOtpSending = true;
+    notifyListeners();
+    final response = await RegistrationService().sendRegistrationOtp(
+        context: context,
+        phone: phoneNumber,
+        countryCode: countryCode.substring(1));
+    if (response == null) {
+      _isRegOtpSending = false;
+      notifyListeners();
+      showSnackBar("Error", "Something went wrong");
+    } else {
+      if (response.type == "success") {
+        debugPrint(response.otp.toString());
+        _isRegOtpSending = false;
+        notifyListeners();
+        showSnackBar("Success", "We've Sent an OTP to your mobile number");
+      }
+    }
+  }
+
+  //Verify Registration OTP
+  Future<void> verifyRegOtp(
+      {required BuildContext context, required String otp}) async {
+    _isRegOtpVerifying = true;
+    _isRegOtpVerified = false;
+    notifyListeners();
+    final response = await RegistrationService().verifyRegistrationOtp(
+        phone: phoneNumber,
+        countryCode: countryCode,
+        otp: otp,
+        context: context);
+    if (response == null) {
+      _isRegOtpVerified = false;
+      _isRegOtpVerifying = false;
+      notifyListeners();
+      showSnackBar("Error", "Verification Error");
+    } else {
+      if (response.type == "success") {
+        showSnackBar("Success", "Successfully verified Registration OTP");
+        _isRegOtpVerified = true;
+        _isRegOtpVerifying = false;
+        notifyListeners();
+      } else {
+        showSnackBar("Error", "Error Verifying Registration OTP");
+        _isRegOtpVerifying = false;
+        _isRegOtpVerified = false;
+        notifyListeners();
+      }
+    }
   }
 }
