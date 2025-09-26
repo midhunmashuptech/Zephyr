@@ -75,15 +75,14 @@ class _TestUpmoningScreenState extends State<TestUpmoningScreen> {
             ? Center(child: CircularProgressIndicator())
             : testSeriesProvider.upcomingTestsList.isEmpty
                 ? Center(
-                    child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 40.0),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Lottie.asset("assets/lottie/nodata.json", height: 200),
-                        Text("No Assignments Found"),
+                        Text("No Upcoming Test Series Found"),
+                        SizedBox(height: 40,)
                       ],
-                    ),
-                  ))
+                    ))
                 : Column(
                     children: [
                       Expanded(

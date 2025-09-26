@@ -100,132 +100,139 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
         child: testSeriesProvider.isAnalysisLoading
             ? const Center(child: CircularProgressIndicator())
             : SingleChildScrollView(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                // padding:
+                //     const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Modern Card for Report
-                    _ModernTestReportCard(
-                      title: widget.title,
-                      date: formatDate(
-                        '${(testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).submitTime}',
-                        "dd/MM/yyyy hh:mm a",
-                      ),
-                      duration: (((testSeriesProvider.testseriesAnalysisModel
-                                                      .performance ??
-                                                  Performance())
-                                              .overall ??
-                                          Overall())
-                                      .time ??
-                                  Time())
-                              .totalTime
-                              ?.toString() ??
-                          "0",
-                      questionno: (((((testSeriesProvider.testseriesAnalysisModel
-                                                              .performance ??
-                                                          Performance())
-                                                      .overall ??
-                                                  Overall())
-                                              .count ??
-                                          Count())
-                                      .totalCorrect ??
-                                  0) +
-                              ((((testSeriesProvider.testseriesAnalysisModel
-                                                              .performance ??
-                                                          Performance())
-                                                      .overall ??
-                                                  Overall())
-                                              .count ??
-                                          Count())
-                                      .totalIncorrect ??
-                                  0) +
-                              ((((testSeriesProvider.testseriesAnalysisModel
-                                                              .performance ??
-                                                          Performance())
-                                                      .overall ??
-                                                  Overall())
-                                              .count ??
-                                          Count())
-                                      .totalUnanswered ??
-                                  0) +
-                              ((((testSeriesProvider.testseriesAnalysisModel
-                                                              .performance ??
-                                                          Performance())
-                                                      .overall ??
-                                                  Overall())
-                                              .count ??
-                                          Count())
-                                      .totalUnattended ??
-                                  0))
-                          .toString(),
-                      isPassed: ((testSeriesProvider.testseriesAnalysisModel
-                                              .performance ??
-                                          Performance())
-                                      .overall ??
-                                  Overall())
-                              .pass ??
-                          true,
-                    ),
-                    const SizedBox(height: 18),
-
-                    // Modern Ranklist Button
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton.icon(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryOrange,
-                          foregroundColor: Colors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      child: Column(
+                        children: [
+                          _ModernTestReportCard(
+                            title: widget.title,
+                            date: formatDate(
+                              '${(testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).submitTime}',
+                              "dd/MM/yyyy hh:mm a",
+                            ),
+                            duration: (((testSeriesProvider.testseriesAnalysisModel
+                                                            .performance ??
+                                                        Performance())
+                                                    .overall ??
+                                                Overall())
+                                            .time ??
+                                        Time())
+                                    .totalTime
+                                    ?.toString() ??
+                                "0",
+                            questionno: (((((testSeriesProvider.testseriesAnalysisModel
+                                                                    .performance ??
+                                                                Performance())
+                                                            .overall ??
+                                                        Overall())
+                                                    .count ??
+                                                Count())
+                                            .totalCorrect ??
+                                        0) +
+                                    ((((testSeriesProvider.testseriesAnalysisModel
+                                                                    .performance ??
+                                                                Performance())
+                                                            .overall ??
+                                                        Overall())
+                                                    .count ??
+                                                Count())
+                                            .totalIncorrect ??
+                                        0) +
+                                    ((((testSeriesProvider.testseriesAnalysisModel
+                                                                    .performance ??
+                                                                Performance())
+                                                            .overall ??
+                                                        Overall())
+                                                    .count ??
+                                                Count())
+                                            .totalUnanswered ??
+                                        0) +
+                                    ((((testSeriesProvider.testseriesAnalysisModel
+                                                                    .performance ??
+                                                                Performance())
+                                                            .overall ??
+                                                        Overall())
+                                                    .count ??
+                                                Count())
+                                            .totalUnattended ??
+                                        0))
+                                .toString(),
+                            isPassed: ((testSeriesProvider.testseriesAnalysisModel
+                                                    .performance ??
+                                                Performance())
+                                            .overall ??
+                                        Overall())
+                                    .pass ??
+                                true,
                           ),
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                        ),
-                        icon: const Icon(Icons.leaderboard, size: 20),
-                        label: const Text("View Ranklist",
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                        onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => TestSeriesRankList(
-                              testId: widget.testid,
-                              maxMark:
-                                  "${((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).maxMarks}",
+                          const SizedBox(height: 18),
+                          
+                          // Modern Ranklist Button
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width - 40,
+                            child: ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primaryOrange,
+                                foregroundColor: Colors.white,
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                padding: const EdgeInsets.symmetric(vertical: 16),
+                              ),
+                              icon: const Icon(Icons.leaderboard, size: 20),
+                              label: const Text("View Ranklist",
+                                  style: TextStyle(fontWeight: FontWeight.bold)),
+                              onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TestSeriesRankList(
+                                    testId: widget.testid,
+                                    maxMark:
+                                        "${((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).maxMarks}",
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                          const SizedBox(height: 24),
+                          
+                          // Modern Stats Grid
+                          _ModernStatsGrid(testSeriesProvider: testSeriesProvider),
+                          
+                          const SizedBox(height: 20),
+                          
+                          // Modern Bar Chart Card
+                          _ModernBarChartCard(testSeriesProvider: testSeriesProvider),
+                          
+                          const SizedBox(height: 20),
+                          
+                          // Modern Summary Card
+                          _ModernSummaryCard(testSeriesProvider: testSeriesProvider),
+                          
+                          const SizedBox(height: 20),
+                          
+                          // Subject vs Time Analysis
+                          Text(
+                            "Subject vs Time Analysis",
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 24),
-
-                    // Modern Stats Grid
-                    _ModernStatsGrid(testSeriesProvider: testSeriesProvider),
-
-                    const SizedBox(height: 28),
-
-                    // Modern Bar Chart Card
-                    _ModernBarChartCard(testSeriesProvider: testSeriesProvider),
-
-                    const SizedBox(height: 28),
-
-                    // Modern Summary Card
-                    _ModernSummaryCard(testSeriesProvider: testSeriesProvider),
-
-                    const SizedBox(height: 28),
-
-                    // Subject vs Time Analysis
-                    Text(
-                      "Subject vs Time Analysis",
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
                     SizedBox(
                       height: 350, // Adjust height as needed for card size
                       child: ListView.separated(
+                        padding: EdgeInsets.symmetric(horizontal: 15),
                         scrollDirection: Axis.horizontal,
                         itemCount: ((testSeriesProvider.testseriesAnalysisModel
                                             .performance ??
@@ -253,20 +260,26 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                       ),
                     ),
 
-                    const SizedBox(height: 28),
+                    const SizedBox(height: 20),
 
                     // Subject vs Score Analysis
-                    Text(
-                      "Subject vs Score Analysis",
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          "Subject vs Score Analysis",
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 12),
                     SizedBox(
                       height: 350, // Adjust height as needed for card size
                       child: ListView.separated(
+                        padding: EdgeInsets.symmetric(horizontal: 15),
                         scrollDirection: Axis.horizontal,
                         itemCount: ((testSeriesProvider.testseriesAnalysisModel
                                             .performance ??
@@ -293,6 +306,7 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                         },
                       ),
                     ),
+                    SizedBox(height: 20,)
                   ],
                 ),
               ),
@@ -347,27 +361,61 @@ class _ModernTestReportCard extends StatelessWidget {
                       style: theme.textTheme.titleMedium
                           ?.copyWith(fontWeight: FontWeight.bold)),
                   const SizedBox(height: 6),
-                  Row(
+                  Wrap(
+                    spacing: 15,
                     children: [
-                      Icon(Icons.calendar_today,
-                          size: 16, color: AppColors.grey),
-                      const SizedBox(width: 6),
-                      Text(date, style: theme.textTheme.bodySmall),
-                      const SizedBox(width: 16),
-                      Icon(Icons.timer, size: 16, color: AppColors.grey),
-                      const SizedBox(width: 6),
-                      Text("$duration sec", style: theme.textTheme.bodySmall),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.calendar_today,
+                              size: 16, color: AppColors.grey),
+                          const SizedBox(width: 6),
+                          Text(date,
+                              style: theme.textTheme.bodySmall),
+                        ],
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.calendar_today,
+                              size: 16, color: AppColors.grey),
+                          const SizedBox(width: 6),
+                          Text("$duration sec",
+                              style: theme.textTheme.bodySmall),
+                        ],
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.timer, size: 16, color: AppColors.grey),
+                          const SizedBox(width: 6),
+                          Text("$questionno Questions",
+                              style: theme.textTheme.bodySmall),
+                        ],
+                      ),
                     ],
                   ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Icon(Icons.help_outline, size: 16, color: AppColors.grey),
-                      const SizedBox(width: 6),
-                      Text("$questionno Questions",
-                          style: theme.textTheme.bodySmall),
-                    ],
-                  ),
+                  // Row(
+                  //   children: [
+                  //     Icon(Icons.calendar_today,
+                  //         size: 16, color: AppColors.grey),
+                  //     const SizedBox(width: 6),
+                  //     Text(date, style: theme.textTheme.bodySmall),
+                  //     const SizedBox(width: 16),
+                  //     Icon(Icons.timer, size: 16, color: AppColors.grey),
+                  //     const SizedBox(width: 6),
+                  //     Text("$duration sec", style: theme.textTheme.bodySmall),
+                  //   ],
+                  // ),
+                  // const SizedBox(height: 8),
+                  // Row(
+                  //   children: [
+                  //     Icon(Icons.help_outline, size: 16, color: AppColors.grey),
+                  //     const SizedBox(width: 6),
+                  //     Text("$questionno Questions",
+                  //         style: theme.textTheme.bodySmall),
+                  //   ],
+                  // ),
                   const SizedBox(height: 8),
                   Container(
                     padding:

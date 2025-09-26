@@ -31,9 +31,8 @@ class _TestAttendedScreenState extends State<TestAttendedScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-    loadAttendedTestSeries();
-  });
-    
+      loadAttendedTestSeries();
+    });
   }
 
   Future<void> loadAttendedTestSeries() async {
@@ -46,7 +45,7 @@ class _TestAttendedScreenState extends State<TestAttendedScreen> {
     final formatter = DateFormat("dd MMMM, yyyy | hh:mm a");
     return formatter.format(dateTime);
   }
-  
+
   @override
   Widget build(BuildContext context) {
     final testSeriesProvider = context.watch<TestSeriesProvider>();
@@ -54,53 +53,55 @@ class _TestAttendedScreenState extends State<TestAttendedScreen> {
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        child: 
-        testSeriesProvider.isAttendedTestLoading
-        ?Center(child: CircularProgressIndicator())
-        :testSeriesProvider.attendedTestList.isEmpty
-        ? Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Lottie.asset("assets/lottie/nodata.json",
-                                height: 200),
-                            Text("No attended test found!"),
-                            SizedBox(height: 10),
-                          ],
-                        ),
+        child: testSeriesProvider.isAttendedTestLoading
+            ? Center(child: CircularProgressIndicator())
+            : testSeriesProvider.attendedTestList.isEmpty
+                ? Center(
+                    child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Lottie.asset("assets/lottie/nodata.json", height: 200),
+                      Text("No Attended Tests Found"),
+                      SizedBox(
+                        height: 40,
                       )
-        :Column(
-          children: [
-            Expanded(
-                child: ListView.separated(
-              itemCount: testSeriesProvider.attendedTestList.length,
-              separatorBuilder: (context, index) => SizedBox(
-                height: 10,
-              ),
-              itemBuilder: (context, index) => TestSeriesCard(
-                testid:
-                    (testSeriesProvider.attendedTestList[index].testId ?? "")
-                        .toString(),
-                title: (testSeriesProvider.attendedTestList[index].test ??
-                            Test(title: "Title"))
-                        .title ??
-                    "",
-                submissionDate: formatDateTime(
-                    testSeriesProvider.attendedTestList[index].submitTime ??
-                        ""),
-                duration: ((testSeriesProvider.attendedTestList[index].test ??
-                                Test(duration: 20))
-                            .duration ??
-                        "")
-                    .toString(),
-                questions: "30",
-                maxMarks: "100",
-                type: "main_test",
-                isAttended: true,
-              ),
-            )),
-          ],
-        ),
+                    ],
+                  ))
+                : Column(
+                    children: [
+                      Expanded(
+                          child: ListView.separated(
+                        itemCount: testSeriesProvider.attendedTestList.length,
+                        separatorBuilder: (context, index) => SizedBox(
+                          height: 10,
+                        ),
+                        itemBuilder: (context, index) => TestSeriesCard(
+                          testid: (testSeriesProvider
+                                      .attendedTestList[index].testId ??
+                                  "")
+                              .toString(),
+                          title: (testSeriesProvider
+                                          .attendedTestList[index].test ??
+                                      Test(title: "Title"))
+                                  .title ??
+                              "",
+                          submissionDate: formatDateTime(testSeriesProvider
+                                  .attendedTestList[index].submitTime ??
+                              ""),
+                          duration: ((testSeriesProvider
+                                              .attendedTestList[index].test ??
+                                          Test(duration: 20))
+                                      .duration ??
+                                  "")
+                              .toString(),
+                          questions: "30",
+                          maxMarks: "100",
+                          type: "main_test",
+                          isAttended: true,
+                        ),
+                      )),
+                    ],
+                  ),
       )),
     );
   }

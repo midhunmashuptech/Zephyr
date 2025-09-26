@@ -231,23 +231,13 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
                               onPressed: () {
                                 enrolledChapterDetailsProvider
                                     .setCurrentVideo(index);
-                                enrolledChapterDetailsProvider
-                                            .currentlyPlayingVideo.source ==
-                                        "youtube"
-                                    ? Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const YoutubeVideoPlayer(),
-                                        ),
-                                      )
-                                    : Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const VideoPlayScreen(),
-                                        ),
-                                      );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const VideoPlayScreen(),
+                                  ),
+                                );
                               },
                               videoTitle: enrolledChapterDetailsProvider
                                       .chapterVideos[index].title ??

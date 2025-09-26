@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:zephyr/constants/app_constants.dart';
-import 'package:zephyr/features/test/widget/rank_card.dart';
+import 'package:zephyr/features/test_series/widgets/rank_card.dart';
 import 'package:zephyr/features/test_series/provider/test_series_provider.dart';
 
 class TestSeriesRankList extends StatefulWidget {
@@ -148,7 +148,7 @@ class _TestSeriesRankListState extends State<TestSeriesRankList>
                         padding:
                             EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                         separatorBuilder: (context, index) =>
-                            SizedBox(height: 5),
+                            SizedBox(height: 0),
                         itemCount: testSeriesProvider.leaderBoardList.length,
                         itemBuilder: (context, index) {
                           final duration =
