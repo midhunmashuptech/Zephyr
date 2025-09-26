@@ -38,6 +38,7 @@ const courseEnrollmentsUrl = "${baseUrl}get-course-enrollments/";
 const enrolledChapterMaterialsUrl =
     "${baseUrl}get-enrollment-chapter-materials";
 const enrolledChapterTestUrl = "${baseUrl}get-enrollment-chapter-tests";
+const enrolledChapterAnalysisUrl = "${baseUrl}get-enrolled-chapter-analysis";
 const enrolledCourseDetailsUrl =
     "${baseUrl}get-subscribed-course-details?course_id=";
 

@@ -125,12 +125,12 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primaryBlue, // Set background color to blue
+      // backgroundColor: AppColors.white, // Set background color to blue
       body: Center(
         child: FadeTransition(
           opacity: _animation,
           child: Image.asset(
-            'assets/logo/zephyr_digital_logo_new.png', // Replace with your logo path
+            'assets/logo/zephyr_logo_app.png', // Replace with your logo path
             width: 300,
           ),
         ),

@@ -61,15 +61,14 @@ class _TestOngoingScreenState extends State<TestOngoingScreen> {
             ? Center(child: CircularProgressIndicator())
             : testSeriesProvider.ongoingTestsList.isEmpty
                 ? Center(
-                    child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 40.0),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Lottie.asset("assets/lottie/nodata.json", height: 200),
-                        Text("No Assignments Found"),
+                        Text("No Ongoing Test Series Available Now"),
+                        SizedBox(height: 40,)
                       ],
-                    ),
-                  ))
+                    ))
                 : Column(
                     children: [
                       Expanded(

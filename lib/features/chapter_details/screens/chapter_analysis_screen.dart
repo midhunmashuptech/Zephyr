@@ -1,143 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/chapter_details/provider/enrolled_chapter_details_provider.dart';
 import 'package:zephyr/features/chapter_details/screens/multi_radial_bar_chart.dart';
+import 'package:zephyr/features/enrolled_courses/provider/enrolled_course_provider.dart';
 
-class ChapterAnalysisScreen extends StatelessWidget {
+class ChapterAnalysisScreen extends StatefulWidget {
   const ChapterAnalysisScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF5F6FA),
-      appBar: AppBar(
-        backgroundColor: AppColors.white,
-        elevation: 0,
-        leading: const Icon(Icons.arrow_back, color: AppColors.black),
-        title: Row(
-          children: const [
-            Icon(Icons.analytics, color: AppColors.black),
-            SizedBox(width: 8),
-            Text(
-              "Chapter Analysis",
-              style: TextStyle(color:AppColors.black, fontWeight: FontWeight.w500),
-            ),
-          ],
-        ),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            /// ------------------ Complete Analysis ------------------
-            Center(
-              child: const Text(
-                "Overall Analysis",
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.black),
-              ),
-            ),
-            const SizedBox(height: 10),
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 200,
-                    child: Center(
-                      child: SfCircularChart(
-                        series: <CircularSeries>[
-                          DoughnutSeries<_ChartData, String>(
-                            dataSource: [
-                              _ChartData('Completed', 67, AppColors.primaryBlue),
-                              _ChartData('Not Completed', 33, AppColors.lightGrey),
-                            ],
-                            xValueMapper: (_ChartData data, _) => data.label,
-                            yValueMapper: (_ChartData data, _) => data.value,
-                            pointColorMapper: (_ChartData data, _) => data.color,
-                            radius: '100%',
-                            innerRadius: '70%',
-                            dataLabelSettings: const DataLabelSettings(isVisible: false),
-                          )
-                        ],
-                        annotations: <CircularChartAnnotation>[
-                          CircularChartAnnotation(
-                            widget: const Text(
-                              "67%",
-                              style: TextStyle(
-                                  fontSize: 22, fontWeight: FontWeight.bold),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+  State<ChapterAnalysisScreen> createState() => _ChapterAnalysisScreenState();
 
-                  /// Text below chart
-                  const SizedBox(height: 12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: const [
-                      _LegendText(label: "Completed", value: "67%", color: AppColors.primaryBlue),
-                      _LegendText(label: "Not Completed", value: "33%", color: AppColors.lightGrey),
-                    ],
-                  )
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            /// ------------------ Individual Analysis ------------------
-            const Center(
-              child: Text(
-                "Individual Analysis",
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.black),
-              ),
-            ),
-            const SizedBox(height: 16),
-
-            Row(
-              children: [
-                Expanded(
-                  child: _buildPieCard(
-                    title: "Video",
-                    completed: 80,
-                    notCompleted: 20,
-                    completedColor: AppColors.primaryGreen,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: _buildPieCard(
-                    title: "Study Materials",
-                    completed: 70,
-                    notCompleted: 30,
-                    completedColor: AppColors.primaryOrange,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-
-            AnswerStatusRadialChart()
-          ],
-        ),
-      ),
-    );
-  }
-
-  /// ------------------ Pie Card (Video / Study Material) ------------------
   static Widget _buildPieCard({
     required String title,
     required double completed,
@@ -183,12 +57,185 @@ class ChapterAnalysisScreen extends StatelessWidget {
           const SizedBox(height: 8),
           Column(
             children: [
-              _LegendText(label: "Completed", value: "${completed.toInt()}%", color: completedColor),
+              _LegendText(
+                  label: "Completed",
+                  value: "${completed.toInt()}%",
+                  color: completedColor),
               const SizedBox(height: 4),
-              _LegendText(label: "Incomplete", value: "${notCompleted.toInt()}%", color: AppColors.lightGrey),
+              _LegendText(
+                  label: "Incomplete",
+                  value: "${notCompleted.toInt()}%",
+                  color: AppColors.lightGrey),
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _ChapterAnalysisScreenState extends State<ChapterAnalysisScreen> {
+  EnrolledChapterDetailsProvider enrolledChapterDetailsProvider =
+      EnrolledChapterDetailsProvider();
+  @override
+  void initState() {
+    super.initState();
+    loadChapterAnalysis();
+  }
+
+  Future<void> loadChapterAnalysis() async {
+    final loadProvider = context.read<EnrolledChapterDetailsProvider>();
+    final enrollmentLoadProvider = context.read<EnrolledCourseProvider>();
+    await loadProvider.fetchEnrolledChapterAnalysis(
+        context: context,
+        enrollmentId:
+            (enrollmentLoadProvider.selectedEnrollment.enrollmentId ?? "0")
+                .toString(),
+        courseSubjectId:
+            (loadProvider.selectedSubject.courseSubjectId ?? 0).toString(),
+        courseChapterId:
+            (loadProvider.selectedChapter.courseChapterId ?? 0).toString());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    enrolledChapterDetailsProvider = context.watch<EnrolledChapterDetailsProvider>();
+    return Scaffold(
+      backgroundColor: const Color(0xFFF5F6FA),
+      appBar: AppBar(
+        backgroundColor: AppColors.white,
+        elevation: 0,
+        leading: const Icon(Icons.arrow_back, color: AppColors.black),
+        title: Row(
+          children: const [
+            Icon(Icons.analytics, color: AppColors.black),
+            SizedBox(width: 8),
+            Text(
+              "Chapter Analysis",
+              style: TextStyle(
+                  color: AppColors.black, fontWeight: FontWeight.w500),
+            ),
+          ],
+        ),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            /// ------------------ Complete Analysis ------------------
+            Center(
+              child: const Text(
+                "Overall Analysis",
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.black),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 200,
+                    child: Center(
+                      child: SfCircularChart(
+                        series: <CircularSeries>[
+                          DoughnutSeries<_ChartData, String>(
+                            dataSource: [
+                              _ChartData(
+                                  'Completed', enrolledChapterDetailsProvider.enrolledChapterAnalysis.totalAccessPercentage ?? 0.0, AppColors.primaryBlue),
+                              _ChartData(
+                                  'Not Completed', 100 - ( enrolledChapterDetailsProvider.enrolledChapterAnalysis.totalAccessPercentage ?? 0.0), AppColors.lightGrey),
+                            ],
+                            xValueMapper: (_ChartData data, _) => data.label,
+                            yValueMapper: (_ChartData data, _) => data.value,
+                            pointColorMapper: (_ChartData data, _) =>
+                                data.color,
+                            radius: '100%',
+                            innerRadius: '70%',
+                            dataLabelSettings:
+                                const DataLabelSettings(isVisible: false),
+                          )
+                        ],
+                        annotations: <CircularChartAnnotation>[
+                          CircularChartAnnotation(
+                            widget: Text(
+                              (enrolledChapterDetailsProvider.enrolledChapterAnalysis.totalAccessPercentage ?? 0.0).toString(),
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.bold),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  /// Text below chart
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _LegendText(
+                          label: "Completed",
+                          value: "${enrolledChapterDetailsProvider.enrolledChapterAnalysis.totalAccessPercentage ?? 0.0}%",
+                          color: AppColors.primaryBlue),
+                      _LegendText(
+                          label: "Not Completed",
+                          value: "${100 - (enrolledChapterDetailsProvider.enrolledChapterAnalysis.totalAccessPercentage ?? 0.0)}%",
+                          color: AppColors.lightGrey),
+                    ],
+                  )
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            /// ------------------ Individual Analysis ------------------
+            const Center(
+              child: Text(
+                "Individual Analysis",
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.black),
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            Row(
+              children: [
+                Expanded(
+                  child: ChapterAnalysisScreen._buildPieCard(
+                    title: "Video",
+                    completed: 80,
+                    notCompleted: 20,
+                    completedColor: AppColors.primaryGreen,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: ChapterAnalysisScreen._buildPieCard(
+                    title: "Study Materials",
+                    completed: 70,
+                    notCompleted: 30,
+                    completedColor: AppColors.primaryOrange,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+
+            AnswerStatusRadialChart()
+          ],
+        ),
       ),
     );
   }

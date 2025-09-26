@@ -1,6 +1,241 @@
+// import 'package:better_player/better_player.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter/services.dart';
+// import 'package:provider/provider.dart';
+// import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
+// import 'package:zephyr/constants/app_constants.dart';
+// import 'package:zephyr/features/chapter_details/provider/enrolled_chapter_details_provider.dart'
+//     show EnrolledChapterDetailsProvider;
+// import 'package:zephyr/features/chapter_details/widgets/chapter_video_card.dart';
+// import 'package:zephyr/features/chapter_details/widgets/comments_listing_screen.dart';
+
+// class VideoPlayScreen extends StatefulWidget {
+//   const VideoPlayScreen({super.key});
+
+//   @override
+//   State<VideoPlayScreen> createState() => _VideoPlayScreenState();
+// }
+
+// class _VideoPlayScreenState extends State<VideoPlayScreen>
+//     with SingleTickerProviderStateMixin {
+//   EnrolledChapterDetailsProvider enrolledChapterDetailsProvider =
+//       EnrolledChapterDetailsProvider();
+
+//   late TabController _tabController;
+
+//   BetterPlayerController? betterPlayerController;
+
+//   YoutubePlayerController? youtubeController;
+
+//   int selectedIndex = 0;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _tabController = TabController(length: 2, vsync: this);
+//     WidgetsBinding.instance.addPostFrameCallback((_) {
+//       initializePlayer(); // load first video after build
+//     });
+//   }
+
+//   /// Initializes the appropriate player based on the video source
+//   void initializePlayer() {
+//     final chapterVideoProvider = context.read<EnrolledChapterDetailsProvider>();
+//     final currentVideo = chapterVideoProvider.currentlyPlayingVideo;
+
+//     disposePlayers(); // Dispose old player before initializing a new one
+
+//     if (currentVideo.source?.toLowerCase() == "youtube") {
+//       final videoId =
+//           YoutubePlayer.convertUrlToId(currentVideo.hls ?? "") ?? "";
+//       youtubeController = YoutubePlayerController(
+//         initialVideoId: videoId,
+//         flags: const YoutubePlayerFlags(
+//             autoPlay: true, mute: false, controlsVisibleAtStart: true),
+//       );
+//     } else {
+//       betterPlayerController = BetterPlayerController(
+//         const BetterPlayerConfiguration(
+//           autoPlay: true,
+//           looping: false,
+//           aspectRatio: 16 / 9,
+//           fullScreenAspectRatio: 16 / 9,
+//           allowedScreenSleep: false,
+//           fit: BoxFit.contain,
+//           autoDispose: false,
+//         ),
+//         betterPlayerDataSource: BetterPlayerDataSource(
+//           BetterPlayerDataSourceType.network,
+//           currentVideo.hls ?? "",
+//         ),
+//       );
+//     }
+//     setState(() {});
+//   }
+
+//   /// Handles changing the video when user selects a new one
+//   void changeVideo(int index) {
+//     disposePlayers();
+//     final chapterVideoProvider = context.read<EnrolledChapterDetailsProvider>();
+//     chapterVideoProvider.changePlayingVideo(index);
+//     setState(() {
+//       selectedIndex = index;
+//     });
+//     initializePlayer(); // re-initialize with new video source
+//   }
+
+//   /// Dispose both players to avoid memory leaks
+//   void disposePlayers() {
+//     if (betterPlayerController != null) {
+//       betterPlayerController!.dispose();
+//       betterPlayerController = null;
+//     }
+//     if (youtubeController != null) {
+//       youtubeController!.dispose();
+//       youtubeController = null;
+//     }
+//   }
+
+//   @override
+//   void dispose() {
+//     disposePlayers();
+//     _tabController.dispose();
+//     super.dispose();
+//   }
+
+//   Widget build(BuildContext context) {
+//     enrolledChapterDetailsProvider =
+//         context.watch<EnrolledChapterDetailsProvider>();
+//     return WillPopScope(
+//       onWillPop: () async {
+//         // if device is in landscape, switch back to portrait instead of popping
+//         if (MediaQuery.of(context).orientation == Orientation.landscape) {
+//           await SystemChrome.setPreferredOrientations([
+//             DeviceOrientation.portraitUp,
+//             DeviceOrientation.portraitDown,
+//           ]);
+//           return false; // don't exit page yet
+//         }
+//         return true; // allow exit in portrait
+//       },
+//       child: Scaffold(
+//         body: OrientationBuilder(
+//           builder: (context, orientation) {
+//             final isLandscape = orientation == Orientation.landscape;
+
+//             if (isLandscape) {
+//               // LANDSCAPE → only video player fullscreen
+//               return SizedBox.expand(
+//                 child: enrolledChapterDetailsProvider
+//                             .currentlyPlayingVideo.source ==
+//                         "youtube"
+//                     ? (youtubeController != null
+//                         ? YoutubePlayer(
+//                             controller: youtubeController!,
+//                             showVideoProgressIndicator: true,
+//                           )
+//                         : const SizedBox())
+//                     : (betterPlayerController != null
+//                         ? BetterPlayer(controller: betterPlayerController!)
+//                         : const SizedBox()),
+//               );
+//             }
+
+//             // PORTRAIT → video player + UI
+//             return Column(
+//               children: [
+//                 AspectRatio(
+//                   aspectRatio: 16 / 9,
+//                   child: enrolledChapterDetailsProvider
+//                               .currentlyPlayingVideo.source ==
+//                           "youtube"
+//                       ? (youtubeController != null
+//                           ? YoutubePlayer(
+//                               controller: youtubeController!,
+//                               showVideoProgressIndicator: true,
+//                             )
+//                           : const Center(child: CircularProgressIndicator()))
+//                       : (betterPlayerController != null
+//                           ? BetterPlayer(controller: betterPlayerController!)
+//                           : const Center(child: CircularProgressIndicator())),
+//                 ),
+//                 // Example UI below player
+
+//                 Container(
+//                   height: 50,
+//                   decoration: BoxDecoration(
+//                     color: AppColors.white,
+//                     borderRadius: BorderRadius.circular(10),
+//                   ),
+//                   child: TabBar(
+//                     labelColor: AppColors.primaryBlue,
+//                     indicatorColor: AppColors.primaryOrange,
+//                     controller: _tabController,
+//                     tabs: const [
+//                       Text("Videos"),
+//                       Text("Comments"),
+//                     ],
+//                   ),
+//                 ),
+
+//                 // Tab Views
+//                 Expanded(
+//                   child: TabBarView(
+//                     controller: _tabController,
+//                     children: [
+//                       videosListingTab(),
+//                       const CommentsListingScreen(),
+//                     ],
+//                   ),
+//                 ),
+//               ],
+//             );
+//           },
+//         ),
+//       ),
+//     );
+//   }
+
+//   Widget videosListingTab() {
+//     return SingleChildScrollView(
+//       child: Padding(
+//         padding: const EdgeInsets.all(10.0),
+//         child: Column(
+//           children: List.generate(
+//             enrolledChapterDetailsProvider.chapterVideos.length,
+//             (index) {
+//               final video = enrolledChapterDetailsProvider.chapterVideos[index];
+
+//               return ChapterVideoCard(
+//                 currentlySelected: enrolledChapterDetailsProvider
+//                         .currentlyPlayingVideo.batchVideoId ==
+//                     video.batchVideoId,
+//                 onPressed: () => changeVideo(index),
+//                 videoTitle: video.title ?? "Video Title",
+//                 thumbnail: video.thumbnail ??
+//                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+//                 videoUrl: video.hls ?? "",
+//                 subtitle: "",
+//                 duration: (video.duration ?? 0.0).toStringAsFixed(2),
+//                 batchId: "${video.batchVideoId}",
+//               );
+//             },
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+
+
 import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/chapter_details/provider/enrolled_chapter_details_provider.dart'
     show EnrolledChapterDetailsProvider;
@@ -18,143 +253,176 @@ class _VideoPlayScreenState extends State<VideoPlayScreen>
     with SingleTickerProviderStateMixin {
   EnrolledChapterDetailsProvider enrolledChapterDetailsProvider =
       EnrolledChapterDetailsProvider();
-  bool isLoading = true;
-  late TabController _tabController;
-  late BetterPlayerController betterPlayerController;
-  int selectedIndex = 0; // Track selected video index
 
-  // final List<String> videoUrls = [
-  //   "https://media.istockphoto.com/id/1854905414/video/speed-ramp-male-player-in-red-outfit-outplaying-his-opponents-in-a-football-game.mp4?s=mp4-640x640-is&k=20&c=lFRmcGTDZxlqP6cBnJguufewDafJXljQscbPwVRcHuQ=",
-  //   "https://cdn.pixabay.com/video/2020/06/17/42420-431511648_large.mp4",
-  //   "https://d3sigpa2r6yn5i.cloudfront.net/transcoded/85DRa92D54G/video.m3u8",
-  //   // "https://d3sigpa2r6yn5i.cloudfront.net/transcoded/9SkEnE92d42/video.m3u8",
-  //   // "https://player.vimeo.com/external/931461126.m3u8?s=8d81b0a23217e40cc7904c52db9c607be07691c5&logging=false"
-  // ];
+  late TabController _tabController;
+
+  BetterPlayerController? betterPlayerController;
+
+  YoutubePlayerController? youtubeController;
+
+  int selectedIndex = 0;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    initializePlayer(); // Load first video initially
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      initializePlayer(); // load first video after build
+    });
   }
 
+  /// Initializes the appropriate player based on the video source
+  /// Only call this when actually changing videos, not on orientation changes
   void initializePlayer() {
     final chapterVideoProvider = context.read<EnrolledChapterDetailsProvider>();
-    betterPlayerController = BetterPlayerController(
-      BetterPlayerConfiguration(
-        autoPlay: true,
-        looping: false,
-        aspectRatio: 16 / 9,
-        fullScreenAspectRatio: 16 / 9, // Ensure proper fullscreen aspect ratio
-        allowedScreenSleep: false, // Prevents screen from sleeping
-      ),
-      betterPlayerDataSource: BetterPlayerDataSource(
-        BetterPlayerDataSourceType.network,
-        chapterVideoProvider.currentlyPlayingVideo.hls ?? "",
-      ),
-    );
+    final currentVideo = chapterVideoProvider.currentlyPlayingVideo;
+
+    disposePlayers(); // Dispose old player before initializing a new one
+
+    if (currentVideo.source?.toLowerCase() == "youtube") {
+      final videoId =
+          YoutubePlayer.convertUrlToId(currentVideo.hls ?? "") ?? "";
+      youtubeController = YoutubePlayerController(
+        initialVideoId: videoId,
+        flags: const YoutubePlayerFlags(
+            autoPlay: true, mute: false, controlsVisibleAtStart: true),
+      );
+    } else {
+      betterPlayerController = BetterPlayerController(
+        const BetterPlayerConfiguration(
+          autoPlay: true,
+          looping: false,
+          aspectRatio: 16 / 9,
+          fullScreenAspectRatio: 16 / 9,
+          allowedScreenSleep: false,
+          fit: BoxFit.contain,
+          autoDispose: false,
+        ),
+        betterPlayerDataSource: BetterPlayerDataSource(
+          BetterPlayerDataSourceType.network,
+          currentVideo.hls ?? "",
+        ),
+      );
+    }
+    setState(() {});
   }
 
+  /// Handles changing the video when user selects a new one
   void changeVideo(int index) {
-    debugPrint("Chapter Changed");
+    // Only dispose and reinitialize when actually changing videos
+    disposePlayers();
     final chapterVideoProvider = context.read<EnrolledChapterDetailsProvider>();
     chapterVideoProvider.changePlayingVideo(index);
-    betterPlayerController.setupDataSource(BetterPlayerDataSource(
-      BetterPlayerDataSourceType.network,
-      chapterVideoProvider.currentlyPlayingVideo.hls ?? "",
-    ));
-
     setState(() {
-      selectedIndex = index; // Update selected video index
+      selectedIndex = index;
     });
+    initializePlayer(); // re-initialize with new video source
+  }
+
+  /// Dispose both players to avoid memory leaks
+  void disposePlayers() {
+    if (betterPlayerController != null) {
+      betterPlayerController!.dispose();
+      betterPlayerController = null;
+    }
+    if (youtubeController != null) {
+      youtubeController!.dispose();
+      youtubeController = null;
+    }
   }
 
   @override
   void dispose() {
-    betterPlayerController.dispose();
+    disposePlayers();
     _tabController.dispose();
     super.dispose();
   }
 
-  @override
   Widget build(BuildContext context) {
     enrolledChapterDetailsProvider =
         context.watch<EnrolledChapterDetailsProvider>();
-    return SafeArea(
+    return WillPopScope(
+      onWillPop: () async {
+        // if device is in landscape, switch back to portrait instead of popping
+        if (MediaQuery.of(context).orientation == Orientation.landscape) {
+          await SystemChrome.setPreferredOrientations([
+            DeviceOrientation.portraitUp,
+            DeviceOrientation.portraitDown,
+          ]);
+          return false; // don't exit page yet
+        }
+        return true; // allow exit in portrait
+      },
       child: Scaffold(
-        body: enrolledChapterDetailsProvider.isVideosLoading
-            ? Center(child: CircularProgressIndicator())
-            : Column(
-                children: [
-                  // Video Player
-                  AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: BetterPlayer(controller: betterPlayerController),
-                  ),
+        body: OrientationBuilder(
+          builder: (context, orientation) {
+            final isLandscape = orientation == Orientation.landscape;
 
-                  // Video Title Bar
-                  Container(
-                    color: AppColors.lightOrange,
-                    height: 60,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(14.0),
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.7,
-                            child: Text(
-                              enrolledChapterDetailsProvider
-                                      .selectedChapter.chapterTitle ??
-                                  "Chapter Name",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.bookmark_add_rounded),
-                        )
-                      ],
-                    ),
-                  ),
+            if (isLandscape) {
+              // LANDSCAPE → only video player fullscreen
+              return SizedBox.expand(
+                child: _buildVideoPlayer(),
+              );
+            }
 
-                  // Tab Bar
-                  Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: TabBar(
-                      labelColor: AppColors.primaryBlue,
-                      indicatorColor: AppColors.primaryOrange,
-                      controller: _tabController,
-                      tabs: [
-                        Text("Videos"),
-                        Text("Comments"),
-                      ],
-                    ),
-                  ),
+            // PORTRAIT → video player + UI
+            return Column(
+              children: [
+                AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: _buildVideoPlayer(),
+                ),
+                // Example UI below player
 
-                  // Tab Views
-                  Expanded(
-                    child: TabBarView(
-                      controller: _tabController,
-                      children: [
-                        videosListingTab(),
-                        CommentsListingScreen(),
-                      ],
-                    ),
+                Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: AppColors.white,
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                ],
-              ),
+                  child: TabBar(
+                    labelColor: AppColors.primaryBlue,
+                    indicatorColor: AppColors.primaryOrange,
+                    controller: _tabController,
+                    tabs: const [
+                      Text("Videos"),
+                      Text("Comments"),
+                    ],
+                  ),
+                ),
+
+                // Tab Views
+                Expanded(
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [
+                      videosListingTab(),
+                      const CommentsListingScreen(),
+                    ],
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
+  }
+
+  /// Builds the appropriate video player widget without disposing/recreating controllers
+  Widget _buildVideoPlayer() {
+    if (enrolledChapterDetailsProvider.currentlyPlayingVideo.source?.toLowerCase() == "youtube") {
+      return youtubeController != null
+          ? YoutubePlayer(
+              controller: youtubeController!,
+              showVideoProgressIndicator: true,
+            )
+          : const Center(child: CircularProgressIndicator());
+    } else {
+      return betterPlayerController != null
+          ? BetterPlayer(controller: betterPlayerController!)
+          : const Center(child: CircularProgressIndicator());
+    }
   }
 
   Widget videosListingTab() {
@@ -163,34 +431,25 @@ class _VideoPlayScreenState extends State<VideoPlayScreen>
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: List.generate(
-              enrolledChapterDetailsProvider.chapterVideos.length, (index) {
-            debugPrint(
-                "Video ID: ${enrolledChapterDetailsProvider.currentlyPlayingVideo.batchVideoId}");
-            debugPrint(
-                "Video ID 2: ${enrolledChapterDetailsProvider.chapterVideos[index].batchVideoId}");
-            return ChapterVideoCard(
-              currentlySelected: enrolledChapterDetailsProvider
-                      .currentlyPlayingVideo.batchVideoId ==
-                  enrolledChapterDetailsProvider
-                      .chapterVideos[index].batchVideoId,
-              onPressed: () => changeVideo(index),
-              videoTitle:
-                  enrolledChapterDetailsProvider.chapterVideos[index].title ??
-                      "Video Title",
-              thumbnail: enrolledChapterDetailsProvider
-                      .chapterVideos[index].thumbnail ??
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
-              videoUrl:
-                  enrolledChapterDetailsProvider.chapterVideos[index].hls ?? "",
-              subtitle: "",
-              duration: (enrolledChapterDetailsProvider
-                          .chapterVideos[index].duration ??
-                      0.0)
-                  .toStringAsFixed(2),
-              batchId:
-                  "${enrolledChapterDetailsProvider.chapterVideos[index].batchVideoId}",
-            );
-          }),
+            enrolledChapterDetailsProvider.chapterVideos.length,
+            (index) {
+              final video = enrolledChapterDetailsProvider.chapterVideos[index];
+
+              return ChapterVideoCard(
+                currentlySelected: enrolledChapterDetailsProvider
+                        .currentlyPlayingVideo.batchVideoId ==
+                    video.batchVideoId,
+                onPressed: () => changeVideo(index),
+                videoTitle: video.title ?? "Video Title",
+                thumbnail: video.thumbnail ??
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                videoUrl: video.hls ?? "",
+                subtitle: "",
+                duration: (video.duration ?? 0.0).toStringAsFixed(2),
+                batchId: "${video.batchVideoId}",
+              );
+            },
+          ),
         ),
       ),
     );
