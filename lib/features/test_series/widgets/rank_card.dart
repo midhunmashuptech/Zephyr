@@ -54,12 +54,12 @@ class RankCard extends StatelessWidget {
                         ? LinearGradient(
                             colors: [
                               Color(0xFFD7CCC8),
-                              Color.fromARGB(255, 184, 174, 169)
+                              Color.fromARGB(255, 191, 133, 114)
                             ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           )
-                        : rank == 4
+                        : rank == userProvider.userDetails.id
                             ? const LinearGradient(
                                 colors: [
                                   AppColors.lightBlue,
@@ -125,7 +125,7 @@ class RankCard extends StatelessWidget {
                                     ? LinearGradient(
                                         colors: [
                                           Color(0xFFD7CCC8),
-                                          Color(0xFF8D6E63)
+                                          Color.fromARGB(255, 92, 68, 60)
                                         ],
                                         begin: Alignment.topLeft,
                                         end: Alignment.bottomRight,

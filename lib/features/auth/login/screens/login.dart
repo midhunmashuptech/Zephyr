@@ -64,14 +64,10 @@ class _LoginState extends State<Login> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Center(
-                  child: CircleAvatar(
-                    radius: 70,
-                    backgroundColor: Colors.transparent,
-                    backgroundImage:
-                        AssetImage('assets/logo/zephyr_digital_logo.png'),
-                  ),
-                ),
+                SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    child: Image.asset("assets/logo/zephyr_logo_app.png")),
+                    SizedBox(height: 30),
                 const Text(
                   "Welcome Back!",
                   style: TextStyle(fontSize: 23, fontWeight: FontWeight.w600),
