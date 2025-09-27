@@ -63,7 +63,7 @@ class _StudyMaterialsScreenState extends State<StudyMaterialsScreen> {
                     child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Lottie.asset("assets/lottie/empty_data.json", width: 250),
+                      Lottie.asset("assets/lottie/nodata.json", width: 250),
                       SizedBox(height: 10),
                       Text("No Study Materials Available"),
                     ],

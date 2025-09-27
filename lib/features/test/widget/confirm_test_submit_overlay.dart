@@ -31,10 +31,10 @@ class ConfirmTestSubmitOverlay extends StatelessWidget {
             color: AppColors.primaryOrange,
             textcolor: AppColors.white,
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (contex) => TestCompletionScreen()));
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (contex) => TestCompletionScreen()));
             },
           ),
           SizedBox(height: 10),

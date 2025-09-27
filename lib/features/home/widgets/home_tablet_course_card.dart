@@ -268,434 +268,6 @@ class HomeTabletCourseCard extends StatelessWidget {
                   ),
                 ),
               ),
-
-              // Commented
-              // Padding(
-              //   padding: const EdgeInsets.all(15),
-              //   child: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: [
-              //       SizedBox(
-              //         height: 45,
-              //         child: Text(
-              //           courseName,
-              //           style: TextStyle(
-              //             fontSize: 14,
-              //             fontWeight: FontWeight.w600,
-              //             color: AppColors.black,
-              //           ),
-              //           overflow: TextOverflow.ellipsis,
-              //           maxLines: 2,
-              //         ),
-              //       ),
-              //       Wrap(
-              //         crossAxisAlignment: WrapCrossAlignment.center,
-              //         spacing: 10,
-              //         runSpacing: 6,
-              //         children: [
-              //           Row(
-              //             mainAxisSize: MainAxisSize.min,
-              //             children: [
-              //               Icon(Icons.calendar_today,
-              //                   size: 16, color: AppColors.primaryBlue),
-              //               SizedBox(width: 5),
-              //               Text(
-              //                 'Starts on ${start.isEmpty || start == "null" ? "NA" : formatReadableDate(start)}',
-              //                 style: TextStyle(
-              //                   fontSize: 12,
-              //                   color: AppColors.grey,
-              //                   fontWeight: FontWeight.w500,
-              //                 ),
-              //               ),
-              //             ],
-              //           ),
-              //           Icon(Icons.arrow_forward,
-              //               size: 16, color: AppColors.primaryBlue),
-              //           Row(
-              //             mainAxisSize: MainAxisSize.min,
-              //             children: [
-              //               Icon(Icons.event,
-              //                   size: 16, color: AppColors.primaryBlue),
-              //               SizedBox(width: 5),
-              //               Text(
-              //                 "Ends on ${end.isEmpty || end == "null" ? "NA" : formatReadableDate(end)}",
-              //                 style: TextStyle(
-              //                   fontSize: 12,
-              //                   color: AppColors.grey,
-              //                   fontWeight: FontWeight.w500,
-              //                 ),
-              //               ),
-              //             ],
-              //           ),
-              //         ],
-              //       ),
-              //       SizedBox(height: 10),
-              //       Column(
-              //         children: [
-              //           Row(
-              //             mainAxisAlignment: MainAxisAlignment.start,
-              //             children: [
-              //               Expanded(
-              //                 child: Row(
-              //                   mainAxisSize: MainAxisSize.min,
-              //                   children: [
-              //                     Icon(Icons.live_tv,
-              //                         size: 18, color: AppColors.primaryBlue),
-              //                     SizedBox(width: 4),
-              //                     Text(
-              //                       "Live Lectures",
-              //                       style: TextStyle(
-              //                         fontSize: 12,
-              //                         color: AppColors.black,
-              //                         fontWeight: FontWeight.w500,
-              //                       ),
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ),
-              //               Expanded(
-              //                 child: Row(
-              //                   mainAxisSize: MainAxisSize.min,
-              //                   children: [
-              //                     Icon(Icons.play_circle_fill,
-              //                         size: 18, color: AppColors.primaryGreen),
-              //                     SizedBox(width: 4),
-              //                     Text(
-              //                       "Recorded Lectures",
-              //                       style: TextStyle(
-              //                         fontSize: 12,
-              //                         color: AppColors.black,
-              //                         fontWeight: FontWeight.w500,
-              //                       ),
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ),
-              //             ],
-              //           ),
-              //           SizedBox(height: 8),
-              //           Row(
-              //             mainAxisAlignment: MainAxisAlignment.start,
-              //             children: [
-              //               Expanded(
-              //                 child: Row(
-              //                   mainAxisSize: MainAxisSize.min,
-              //                   children: [
-              //                     Icon(Icons.assignment,
-              //                         size: 18, color: AppColors.primaryOrange),
-              //                     SizedBox(width: 4),
-              //                     Text(
-              //                       "DPP's & Quizzes",
-              //                       style: TextStyle(
-              //                         fontSize: 12,
-              //                         color: AppColors.black,
-              //                         fontWeight: FontWeight.w500,
-              //                       ),
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ),
-              //               Expanded(
-              //                 child: Row(
-              //                   mainAxisSize: MainAxisSize.min,
-              //                   children: [
-              //                     Icon(Icons.help_outline,
-              //                         size: 18, color: AppColors.primaryBlue),
-              //                     SizedBox(width: 4),
-              //                     Text(
-              //                       "Doubt Clearance",
-              //                       style: TextStyle(
-              //                         fontSize: 12,
-              //                         color: AppColors.black,
-              //                         fontWeight: FontWeight.w500,
-              //                       ),
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ),
-              //             ],
-              //           ),
-              //         ],
-              //       ),
-              //       SizedBox(height: 8),
-              //       Divider(
-              //         color: AppColors.lightGrey,
-              //         thickness: 1,
-              //         height: 1,
-              //       ),
-              //       SizedBox(height: 10),
-              //       LayoutBuilder(builder: (context, constraints) {
-              //         final isTablet = constraints.maxWidth < 300;
-              //         // debugPrint("${constraints.maxWidth} $isTablet");
-              //         return Row(
-              //           children: [
-              //             if (discountType == "amount" &&
-              //                 discount != null &&
-              //                 discount > 0) ...[
-              //               isTablet
-              //                   ? Column(
-              //                       crossAxisAlignment:
-              //                           CrossAxisAlignment.start,
-              //                       children: [
-              //                         Row(
-              //                           children: [
-              //                             Text(
-              //                               '₹$price',
-              //                               style: TextStyle(
-              //                                 fontWeight: FontWeight.w500,
-              //                                 fontSize: 12,
-              //                                 color: AppColors.grey,
-              //                                 decoration:
-              //                                     TextDecoration.lineThrough,
-              //                               ),
-              //                             ),
-              //                             SizedBox(width: 8),
-              //                             Text(
-              //                               finalPrice != null
-              //                                   ? '₹${finalPrice.toStringAsFixed(2).replaceAll(RegExp(r'\.00'), '')}'
-              //                                   : '₹-',
-              //                               style: TextStyle(
-              //                                 fontWeight: FontWeight.bold,
-              //                                 fontSize: 16,
-              //                                 color: AppColors.primaryBlue,
-              //                               ),
-              //                             ),
-              //                           ],
-              //                         ),
-              //                         Container(
-              //                           padding: const EdgeInsets.symmetric(
-              //                               horizontal: 10, vertical: 4),
-              //                           decoration: BoxDecoration(
-              //                             color: AppColors.primaryOrange
-              //                                 .withOpacity(0.9),
-              //                             borderRadius:
-              //                                 BorderRadius.circular(12),
-              //                             boxShadow: [
-              //                               BoxShadow(
-              //                                 color: Colors.black
-              //                                     .withOpacity(0.08),
-              //                                 blurRadius: 4,
-              //                                 offset: Offset(0, 2),
-              //                               ),
-              //                             ],
-              //                           ),
-              //                           child: Text(
-              //                             'Discount of ₹${discountValue ?? ''} applied',
-              //                             style: TextStyle(
-              //                               color: AppColors.white,
-              //                               fontWeight: FontWeight.w600,
-              //                               fontSize: 11,
-              //                             ),
-              //                           ),
-              //                         ),
-              //                       ],
-              //                     )
-              //                   : Expanded(
-              //                       child: Row(
-              //                         mainAxisAlignment:
-              //                             MainAxisAlignment.spaceBetween,
-              //                         children: [
-              //                           Row(
-              //                             children: [
-              //                               Text(
-              //                                 '₹$price',
-              //                                 style: TextStyle(
-              //                                   fontWeight: FontWeight.w500,
-              //                                   fontSize: 12,
-              //                                   color: AppColors.grey,
-              //                                   decoration:
-              //                                       TextDecoration.lineThrough,
-              //                                 ),
-              //                               ),
-              //                               SizedBox(width: 8),
-              //                               Text(
-              //                                 finalPrice != null
-              //                                     ? '₹${finalPrice.toStringAsFixed(2).replaceAll(RegExp(r'\.00'), '')}'
-              //                                     : '₹-',
-              //                                 style: TextStyle(
-              //                                   fontWeight: FontWeight.bold,
-              //                                   fontSize: 16,
-              //                                   color: AppColors.primaryBlue,
-              //                                 ),
-              //                               ),
-              //                             ],
-              //                           ),
-              //                           Container(
-              //                             padding: const EdgeInsets.symmetric(
-              //                                 horizontal: 10, vertical: 4),
-              //                             decoration: BoxDecoration(
-              //                               color: AppColors.primaryOrange
-              //                                   .withOpacity(0.9),
-              //                               borderRadius:
-              //                                   BorderRadius.circular(12),
-              //                               boxShadow: [
-              //                                 BoxShadow(
-              //                                   color: Colors.black
-              //                                       .withOpacity(0.08),
-              //                                   blurRadius: 4,
-              //                                   offset: Offset(0, 2),
-              //                                 ),
-              //                               ],
-              //                             ),
-              //                             child: Text(
-              //                               'Discount of ₹${discountValue ?? ''} applied',
-              //                               style: TextStyle(
-              //                                 color: AppColors.white,
-              //                                 fontWeight: FontWeight.w600,
-              //                                 fontSize: 11,
-              //                               ),
-              //                             ),
-              //                           ),
-              //                         ],
-              //                       ),
-              //                     ),
-              //             ] else ...[
-              //               Column(
-              //                 crossAxisAlignment: CrossAxisAlignment.start,
-              //                 children: [
-              //                   Text(
-              //                     '₹$price',
-              //                     style: TextStyle(
-              //                       fontWeight: FontWeight.bold,
-              //                       fontSize: 16,
-              //                       color: AppColors.primaryBlue,
-              //                     ),
-              //                   ),
-              //                   Container(
-              //                     padding: const EdgeInsets.symmetric(
-              //                         horizontal: 10, vertical: 4),
-              //                     decoration: BoxDecoration(
-              //                       borderRadius: BorderRadius.circular(12),
-              //                       // boxShadow: [
-              //                       //   BoxShadow(
-              //                       //     color: Colors.black.withOpacity(0.08),
-              //                       //     blurRadius: 4,
-              //                       //     offset: Offset(0, 2),
-              //                       //   ),
-              //                       // ],
-              //                     ),
-              //                     child: Text(
-              //                       '',
-              //                       style: TextStyle(
-              //                         color: AppColors.white,
-              //                         fontWeight: FontWeight.w600,
-              //                         fontSize: 11,
-              //                       ),
-              //                     ),
-              //                   ),
-              //                 ],
-              //               ),
-              //             ]
-              //           ],
-              //         );
-              //       }),
-              //       SizedBox(height: 10),
-              //       isEnrolled
-              //           ? SizedBox(
-              //               width: double.infinity,
-              //               child: ElevatedButton(
-              //                 style: ElevatedButton.styleFrom(
-              //                   backgroundColor: Colors.deepPurpleAccent,
-              //                   foregroundColor: Colors.white,
-              //                   elevation: 2,
-              //                   shadowColor:
-              //                       Colors.deepPurpleAccent.withOpacity(0.25),
-              //                   shape: RoundedRectangleBorder(
-              //                     borderRadius: BorderRadius.circular(8),
-              //                   ),
-              //                   padding:
-              //                       const EdgeInsets.symmetric(vertical: 12),
-              //                   textStyle: const TextStyle(
-              //                     fontWeight: FontWeight.bold,
-              //                     fontSize: 15,
-              //                   ),
-              //                 ),
-              //                 onPressed: () {
-              //                   Navigator.push(
-              //                     context,
-              //                     MaterialPageRoute(
-              //                       builder: (context) =>
-              //                           EnrolledCourseDetailScreen(
-              //                         courseId: courseId,
-              //                       ),
-              //                     ),
-              //                   );
-              //                 },
-              //                 child: Text("Start Learning",
-              //                     style:
-              //                         TextStyle(fontWeight: FontWeight.w600)),
-              //               ),
-              //             )
-              //           : Row(
-              //               children: [
-              //                 Expanded(
-              //                   child: OutlinedButton(
-              //                     style: OutlinedButton.styleFrom(
-              //                       backgroundColor: AppColors.primaryGreen
-              //                           .withOpacity(0.12),
-              //                       foregroundColor: AppColors.primaryGreen,
-              //                       side: BorderSide(
-              //                           color: AppColors.primaryGreen,
-              //                           width: 1.2),
-              //                       shape: RoundedRectangleBorder(
-              //                         borderRadius: BorderRadius.circular(8),
-              //                       ),
-              //                       padding:
-              //                           const EdgeInsets.symmetric(vertical: 8),
-              //                     ),
-              //                     onPressed: () {
-              //                       Navigator.push(
-              //                           context,
-              //                           MaterialPageRoute(
-              //                               builder: (context) =>
-              //                                   CourseDetailsScreen(
-              //                                     courseId: courseId,
-              //                                   )));
-              //                     },
-              //                     child: Text("Explore",
-              //                         style: TextStyle(
-              //                             fontWeight: FontWeight.w600)),
-              //                   ),
-              //                 ),
-              //                 SizedBox(width: 10),
-              //                 Expanded(
-              //                   child: ElevatedButton(
-              //                     style: ElevatedButton.styleFrom(
-              //                       backgroundColor:
-              //                           AppColors.primaryBlue.withOpacity(0.9),
-              //                       foregroundColor: Colors.white,
-              //                       elevation: 2,
-              //                       shadowColor:
-              //                           AppColors.primaryBlue.withOpacity(0.25),
-              //                       shape: RoundedRectangleBorder(
-              //                         borderRadius: BorderRadius.circular(8),
-              //                       ),
-              //                       padding: const EdgeInsets.symmetric(
-              //                           vertical: 10),
-              //                       textStyle: const TextStyle(
-              //                         fontWeight: FontWeight.bold,
-              //                         fontSize: 15,
-              //                       ),
-              //                     ),
-              //                     onPressed: () {
-              //                       Navigator.push(
-              //                           context,
-              //                           MaterialPageRoute(
-              //                               builder: (context) =>
-              //                                   CheckoutScreen(
-              //                                     courseId: courseId,
-              //                                   )));
-              //                     },
-              //                     child: Text("Subscribe",
-              //                         style: TextStyle(
-              //                             fontWeight: FontWeight.w600)),
-              //                   ),
-              //                 ),
-              //               ],
-              //             ),
-              //     ],
-              //   ),
-              // ),
             ],
           ),
 
@@ -704,248 +276,244 @@ class HomeTabletCourseCard extends StatelessWidget {
             padding: const EdgeInsets.all(15.0),
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
-              child: Expanded(
-                child: Row(
-                  children: [
-                    Row(
-                      children: [
-                        if (discountType == "amount" &&
-                            discount != null &&
-                            discount > 0) ...[
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    '₹$price',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 12,
-                                      color: AppColors.grey,
-                                      decoration: TextDecoration.lineThrough,
-                                    ),
+              child: Row(
+                children: [
+                  Row(
+                    children: [
+                      if (discountType == "amount" &&
+                          discount != null &&
+                          discount > 0) ...[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  '₹$price',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12,
+                                    color: AppColors.grey,
+                                    decoration: TextDecoration.lineThrough,
                                   ),
-                                  SizedBox(width: 8),
-                                  Text(
-                                    finalPrice != null
-                                        ? '₹${finalPrice.toStringAsFixed(2).replaceAll(RegExp(r'\.00'), '')}/-'
-                                        : '₹-',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                      color: AppColors.primaryBlue,
-                                    ),
+                                ),
+                                SizedBox(width: 8),
+                                Text(
+                                  finalPrice != null
+                                      ? '₹${finalPrice.toStringAsFixed(2).replaceAll(RegExp(r'\.00'), '')}/-'
+                                      : '₹-',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: AppColors.primaryBlue,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 4),
+                              decoration: BoxDecoration(
+                                color:
+                                    AppColors.primaryOrange.withOpacity(0.9),
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.08),
+                                    blurRadius: 4,
+                                    offset: Offset(0, 2),
                                   ),
                                 ],
                               ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 4),
-                                decoration: BoxDecoration(
-                                  color:
-                                      AppColors.primaryOrange.withOpacity(0.9),
-                                  borderRadius: BorderRadius.circular(12),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.08),
-                                      blurRadius: 4,
-                                      offset: Offset(0, 2),
+                              child: Text(
+                                'Discount of ₹${discountValue ?? ''} applied',
+                                style: TextStyle(
+                                  color: AppColors.white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 11,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      ] else ...[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              finalPrice != null
+                                  ? '₹${finalPrice.toStringAsFixed(2).replaceAll(RegExp(r'\.00'), '')}/-'
+                                  : '₹-',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                color: AppColors.primaryBlue,
+                              ),
+                            ),
+                            // Container(
+                            //   padding: const EdgeInsets.symmetric(
+                            //       horizontal: 10, vertical: 4),
+                            //   decoration: BoxDecoration(
+                            //     color:
+                            //         AppColors.primaryGreen.withOpacity(0.9),
+                            //     borderRadius: BorderRadius.circular(12),
+                            //     boxShadow: [
+                            //       BoxShadow(
+                            //         color: Colors.black.withOpacity(0.08),
+                            //         blurRadius: 4,
+                            //         offset: Offset(0, 2),
+                            //       ),
+                            //     ],
+                            //   ),
+                            //   child: Text(
+                            //     'Course fee amount',
+                            //     style: TextStyle(
+                            //       color: AppColors.white,
+                            //       fontWeight: FontWeight.w600,
+                            //       fontSize: 11,
+                            //     ),
+                            //   ),
+                            // ),
+              
+                            Text(
+                                'Course fee amount',
+                                style: TextStyle(
+                                  color: AppColors.primaryBlue,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 11,
+                                ),
+                              ),
+                          ],
+                        ),
+                      ]
+                    ],
+                  ),
+                  SizedBox(width: 10),
+              
+                  // Buttons
+                  Expanded(
+                    child: Row(
+                      children: [
+                        isEnrolled
+                            ? Expanded(
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        Colors.deepPurpleAccent,
+                                    foregroundColor: Colors.white,
+                                    elevation: 2,
+                                    shadowColor: Colors.deepPurpleAccent
+                                        .withOpacity(0.25),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(8),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 14),
+                                    textStyle: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            EnrolledCourseDetailScreen(
+                                          courseId: courseId,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Text("Start Learning",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600)),
+                                ),
+                              )
+                            : Expanded(
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: OutlinedButton(
+                                        style: OutlinedButton.styleFrom(
+                                          backgroundColor: AppColors
+                                              .primaryGreen
+                                              .withOpacity(0.12),
+                                          foregroundColor:
+                                              AppColors.primaryGreen,
+                                          side: BorderSide(
+                                              color: AppColors.primaryGreen,
+                                              width: 1.2),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          padding:
+                                              const EdgeInsets.symmetric(
+                                                  vertical: 8),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      CourseDetailsScreen(
+                                                        courseId: courseId,
+                                                      )));
+                                        },
+                                        child: Text("Explore",
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                                fontWeight:
+                                                    FontWeight.w600)),
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Expanded(
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: AppColors
+                                              .primaryBlue
+                                              .withOpacity(0.9),
+                                          foregroundColor: Colors.white,
+                                          elevation: 2,
+                                          shadowColor: AppColors.primaryBlue
+                                              .withOpacity(0.25),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          padding:
+                                              const EdgeInsets.symmetric(
+                                                  vertical: 10),
+                                          textStyle: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      CheckoutScreen(
+                                                        courseId: courseId,
+                                                      )));
+                                        },
+                                        child: Text("Subscribe",
+                                            style: TextStyle(
+                                                fontWeight:
+                                                    FontWeight.w600)),
+                                      ),
                                     ),
                                   ],
                                 ),
-                                child: Text(
-                                  'Discount of ₹${discountValue ?? ''} applied',
-                                  style: TextStyle(
-                                    color: AppColors.white,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 11,
-                                  ),
-                                ),
                               ),
-                            ],
-                          )
-                        ] else ...[
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                finalPrice != null
-                                    ? '₹${finalPrice.toStringAsFixed(2).replaceAll(RegExp(r'\.00'), '')}/-'
-                                    : '₹-',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                  color: AppColors.primaryBlue,
-                                ),
-                              ),
-                              // Container(
-                              //   padding: const EdgeInsets.symmetric(
-                              //       horizontal: 10, vertical: 4),
-                              //   decoration: BoxDecoration(
-                              //     color:
-                              //         AppColors.primaryGreen.withOpacity(0.9),
-                              //     borderRadius: BorderRadius.circular(12),
-                              //     boxShadow: [
-                              //       BoxShadow(
-                              //         color: Colors.black.withOpacity(0.08),
-                              //         blurRadius: 4,
-                              //         offset: Offset(0, 2),
-                              //       ),
-                              //     ],
-                              //   ),
-                              //   child: Text(
-                              //     'Course fee amount',
-                              //     style: TextStyle(
-                              //       color: AppColors.white,
-                              //       fontWeight: FontWeight.w600,
-                              //       fontSize: 11,
-                              //     ),
-                              //   ),
-                              // ),
-
-                              Text(
-                                  'Course fee amount',
-                                  style: TextStyle(
-                                    color: AppColors.primaryBlue,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 11,
-                                  ),
-                                ),
-                            ],
-                          ),
-                        ]
                       ],
                     ),
-                    SizedBox(width: 10),
-
-                    // Buttons
-                    Expanded(
-                      child: Expanded(
-                        child: Row(
-                          children: [
-                            isEnrolled
-                                ? Expanded(
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor:
-                                            Colors.deepPurpleAccent,
-                                        foregroundColor: Colors.white,
-                                        elevation: 2,
-                                        shadowColor: Colors.deepPurpleAccent
-                                            .withOpacity(0.25),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 14),
-                                        textStyle: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                EnrolledCourseDetailScreen(
-                                              courseId: courseId,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      child: Text("Start Learning",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w600)),
-                                    ),
-                                  )
-                                : Expanded(
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: OutlinedButton(
-                                            style: OutlinedButton.styleFrom(
-                                              backgroundColor: AppColors
-                                                  .primaryGreen
-                                                  .withOpacity(0.12),
-                                              foregroundColor:
-                                                  AppColors.primaryGreen,
-                                              side: BorderSide(
-                                                  color: AppColors.primaryGreen,
-                                                  width: 1.2),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                              ),
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 8),
-                                            ),
-                                            onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          CourseDetailsScreen(
-                                                            courseId: courseId,
-                                                          )));
-                                            },
-                                            child: Text("Explore",
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.w600)),
-                                          ),
-                                        ),
-                                        SizedBox(width: 10),
-                                        Expanded(
-                                          child: ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor: AppColors
-                                                  .primaryBlue
-                                                  .withOpacity(0.9),
-                                              foregroundColor: Colors.white,
-                                              elevation: 2,
-                                              shadowColor: AppColors.primaryBlue
-                                                  .withOpacity(0.25),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                              ),
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 10),
-                                              textStyle: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                            onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          CheckoutScreen(
-                                                            courseId: courseId,
-                                                          )));
-                                            },
-                                            child: Text("Subscribe",
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.w600)),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+                  )
+                ],
               ),
             ),
           ),
@@ -1015,22 +583,4 @@ String formatReadableDate(String isoDate) {
   } catch (e) {
     return isoDate;
   }
-}
-
-String _monthAbbreviation(int month) {
-  const months = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec'
-  ];
-  return (month >= 1 && month <= 12) ? months[month - 1] : '';
 }

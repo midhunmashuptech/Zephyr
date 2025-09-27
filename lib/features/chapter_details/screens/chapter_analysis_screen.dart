@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/chapter_details/model/enrolled_chapter_analysis_model.dart';
 import 'package:zephyr/features/chapter_details/provider/enrolled_chapter_details_provider.dart';
 import 'package:zephyr/features/chapter_details/screens/multi_radial_bar_chart.dart';
 import 'package:zephyr/features/enrolled_courses/provider/enrolled_course_provider.dart';
@@ -36,14 +37,25 @@ class ChapterAnalysisScreen extends StatefulWidget {
             child: SfCircularChart(
               margin: EdgeInsets.zero,
               series: <CircularSeries>[
-                PieSeries<_ChartData, String>(
+                DoughnutSeries<_ChartData, String>(
                   dataSource: data,
                   xValueMapper: (_ChartData d, _) => d.label,
                   yValueMapper: (_ChartData d, _) => d.value,
                   pointColorMapper: (_ChartData d, _) => d.color,
+                  radius: "75%",
+                  innerRadius: "72%",
                   dataLabelSettings: const DataLabelSettings(isVisible: false),
                 ),
               ],
+              annotations: <CircularChartAnnotation>[
+                          CircularChartAnnotation(
+                            widget: Text(
+                              "${completed.toInt()}%",
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.w700),
+                            ),
+                          )
+                        ],
             ),
           ),
           const SizedBox(height: 8),
@@ -105,7 +117,7 @@ class _ChapterAnalysisScreenState extends State<ChapterAnalysisScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.white,
         elevation: 0,
-        leading: const Icon(Icons.arrow_back, color: AppColors.black),
+        leading: BackButton(),
         title: Row(
           children: const [
             Icon(Icons.analytics, color: AppColors.black),
@@ -118,7 +130,9 @@ class _ChapterAnalysisScreenState extends State<ChapterAnalysisScreen> {
           ],
         ),
       ),
-      body: SingleChildScrollView(
+      body: enrolledChapterDetailsProvider.isAnalysisLoading
+      ? Center(child: CircularProgressIndicator())
+      : SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,9 +164,9 @@ class _ChapterAnalysisScreenState extends State<ChapterAnalysisScreen> {
                           DoughnutSeries<_ChartData, String>(
                             dataSource: [
                               _ChartData(
-                                  'Completed', enrolledChapterDetailsProvider.enrolledChapterAnalysis.totalAccessPercentage ?? 0.0, AppColors.primaryBlue),
+                                  'Completed', (enrolledChapterDetailsProvider.enrolledChapterAnalysis.totalAccessPercentage ?? 0.0).toInt().toDouble(), AppColors.primaryBlue),
                               _ChartData(
-                                  'Not Completed', 100 - ( enrolledChapterDetailsProvider.enrolledChapterAnalysis.totalAccessPercentage ?? 0.0), AppColors.lightGrey),
+                                  'Not Completed', (100 - (enrolledChapterDetailsProvider.enrolledChapterAnalysis.totalAccessPercentage ?? 0.0).toInt()).toDouble(), AppColors.lightGrey),
                             ],
                             xValueMapper: (_ChartData data, _) => data.label,
                             yValueMapper: (_ChartData data, _) => data.value,
@@ -166,8 +180,7 @@ class _ChapterAnalysisScreenState extends State<ChapterAnalysisScreen> {
                         ],
                         annotations: <CircularChartAnnotation>[
                           CircularChartAnnotation(
-                            widget: Text(
-                              (enrolledChapterDetailsProvider.enrolledChapterAnalysis.totalAccessPercentage ?? 0.0).toString(),
+                            widget: Text("${(enrolledChapterDetailsProvider.enrolledChapterAnalysis.totalAccessPercentage ?? 0.0).toInt()}%",
                               style: TextStyle(
                                   fontSize: 22, fontWeight: FontWeight.bold),
                             ),
@@ -184,11 +197,11 @@ class _ChapterAnalysisScreenState extends State<ChapterAnalysisScreen> {
                     children: [
                       _LegendText(
                           label: "Completed",
-                          value: "${enrolledChapterDetailsProvider.enrolledChapterAnalysis.totalAccessPercentage ?? 0.0}%",
+                          value: "${(enrolledChapterDetailsProvider.enrolledChapterAnalysis.totalAccessPercentage ?? 0.0).toInt()}%",
                           color: AppColors.primaryBlue),
                       _LegendText(
                           label: "Not Completed",
-                          value: "${100 - (enrolledChapterDetailsProvider.enrolledChapterAnalysis.totalAccessPercentage ?? 0.0)}%",
+                          value: "${100 - (enrolledChapterDetailsProvider.enrolledChapterAnalysis.totalAccessPercentage ?? 0.0).toInt()}%",
                           color: AppColors.lightGrey),
                     ],
                   )
@@ -215,8 +228,8 @@ class _ChapterAnalysisScreenState extends State<ChapterAnalysisScreen> {
                 Expanded(
                   child: ChapterAnalysisScreen._buildPieCard(
                     title: "Video",
-                    completed: 80,
-                    notCompleted: 20,
+                    completed: ((enrolledChapterDetailsProvider.enrolledChapterAnalysis.video ?? Video(percentage: 0)).percentage ?? 0).toDouble(),
+                    notCompleted: (100 - ((enrolledChapterDetailsProvider.enrolledChapterAnalysis.video ?? Video(percentage: 0)).percentage ?? 0)).toDouble(),
                     completedColor: AppColors.primaryGreen,
                   ),
                 ),
@@ -224,8 +237,8 @@ class _ChapterAnalysisScreenState extends State<ChapterAnalysisScreen> {
                 Expanded(
                   child: ChapterAnalysisScreen._buildPieCard(
                     title: "Study Materials",
-                    completed: 70,
-                    notCompleted: 30,
+                    completed: ((enrolledChapterDetailsProvider.enrolledChapterAnalysis.material ?? Video(percentage: 0)).percentage ?? 0).toDouble(),
+                    notCompleted: (100 - ((enrolledChapterDetailsProvider.enrolledChapterAnalysis.material ?? Video(percentage: 0)).percentage ?? 0)).toDouble(),
                     completedColor: AppColors.primaryOrange,
                   ),
                 ),

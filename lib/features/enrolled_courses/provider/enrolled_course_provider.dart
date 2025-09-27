@@ -167,8 +167,10 @@ class EnrolledCourseProvider extends ChangeNotifier {
   bool _isCourseDetailsLoading = false;
   bool get isCourseDetailsLoading => _isCourseDetailsLoading;
 
-  enrolledCourseDetailsModel.Data _selectedCourseDetails = enrolledCourseDetailsModel.Data();
-  enrolledCourseDetailsModel.Data get selectedCourseDetails => _selectedCourseDetails;
+  enrolledCourseDetailsModel.Data _selectedCourseDetails =
+      enrolledCourseDetailsModel.Data();
+  enrolledCourseDetailsModel.Data get selectedCourseDetails =>
+      _selectedCourseDetails;
 
   List<enrolledCourseDetailsModel.Chapters> getChapters(int index) {
     return (selectedCourseDetails.subjects ?? [])[index].chapters ?? [];
@@ -213,7 +215,8 @@ class EnrolledCourseProvider extends ChangeNotifier {
       showSnackBar("Error", "Something went wrong! please try again");
     } else {
       if (response.type == "success") {
-        _selectedCourseDetails = response.data ?? enrolledCourseDetailsModel.Data();
+        _selectedCourseDetails =
+            response.data ?? enrolledCourseDetailsModel.Data();
       } else {
         _selectedCourseDetails = enrolledCourseDetailsModel.Data();
       }
@@ -227,6 +230,7 @@ class EnrolledCourseProvider extends ChangeNotifier {
   Future<void> getCourseReviews(
       {required String courseId, required BuildContext context}) async {
     _isReviewsLoading = true;
+    _isReviewPosting = false;
     _isReviewPostingSuccess = false;
     clearUserRatingDetails();
     notifyListeners();
@@ -253,44 +257,49 @@ class EnrolledCourseProvider extends ChangeNotifier {
     }
   }
 
-  // Post Course Review
-  Future<void> postCourseReviews(
-      {required String courseId, required BuildContext context}) async {
-    _isReviewPosting = true;
+  // Post Course Review - Fixed Version
+Future<void> postCourseReviews(
+    {required String courseId, required BuildContext context}) async {
+  _isReviewPosting = true;
+  notifyListeners();
+
+  final response = await EnrolledCourseService().postCourseReview(
+      context: context,
+      courseId: courseId,
+      rating: userRating ?? "0",
+      review: userReview ?? "");
+
+  if (response == null) {
+    showSnackBar("error", "something went wrong");
+    _isReviewPosting = false;
+    _isReviewPostingSuccess = false;
     notifyListeners();
-
-    final response = await EnrolledCourseService().postCourseReview(
-        context: context,
-        courseId: courseId,
-        rating: userRating ?? "0",
-        review: userReview ?? "");
-
-    if (response == null) {
-      showSnackBar("error", "something went wrong");
+  } else {
+    if (response.type == "success") {
+      _isReviewPostingSuccess = true;
+      final userDetailsProvider =
+          Provider.of<UserDetailsProvider>(context, listen: false);
+      myReview = ReviewDetails(
+          userName: userDetailsProvider.userDetails.name ?? "My Name",
+          userImage: userDetailsProvider.userDetails.image ?? "",
+          reviewText: userReview ?? "",
+          timeAgo: DateFormat('yyyy.MM.dd').format(DateTime.now()),
+          rating: double.parse(userRating ?? "0.0"));
+      
       _isReviewPosting = false;
-      _isReviewPostingSuccess = false;
       notifyListeners();
-    } else {
-      if (response.type == "success") {
-        _isReviewPostingSuccess = true;
-        final userDetailsProvider =
-            Provider.of<UserDetailsProvider>(context, listen: false);
-        myReview = ReviewDetails(
-            userName: userDetailsProvider.userDetails.name ?? "My Name",
-            userImage: userDetailsProvider.userDetails.image ?? "",
-            reviewText: userReview ?? "",
-            timeAgo: DateFormat('yyyy.MM.dd').format(DateTime.now()),
-            rating: double.parse(userRating ?? "0.0"));
-        notifyListeners();
-        _isReviewPosting = false;
-        notifyListeners();
+      
+      // Solution 1: Add delay to ensure keyboard dismissal
+      FocusScope.of(context).unfocus();
+      await Future.delayed(const Duration(milliseconds: 300));
+      
+      if (context.mounted) {
         showDialog(
             context: context,
             builder: (context) {
               return Dialog(
                   child: Container(
                 width: MediaQuery.of(context).size.width,
-                // height: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                     color: AppColors.white,
                     borderRadius: BorderRadius.circular(17)),
@@ -302,12 +311,13 @@ class EnrolledCourseProvider extends ChangeNotifier {
                     children: [
                       Lottie.asset("assets/lottie/review.json",
                           height: 300, width: 300),
-                      Text(
+                      const Text(
                         "Thank You for Your Review!",
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 24),
                       ),
-                      Text(
+                      const Text(
                         "We appreciate you taking the time to share your feedback. Your input helps us improve and inspire more learners.",
                         textAlign: TextAlign.center,
                       ),
@@ -330,13 +340,14 @@ class EnrolledCourseProvider extends ChangeNotifier {
                 ),
               ));
             });
-      } else {
-        showSnackBar("error", "something went wrong");
-        _isReviewPosting = false;
-        notifyListeners();
       }
+    } else {
+      showSnackBar("error", "something went wrong");
+      _isReviewPosting = false;
+      notifyListeners();
     }
   }
+}
 }
 
 class ReviewDetails {

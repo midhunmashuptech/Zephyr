@@ -63,7 +63,8 @@ class _EditProfileState extends State<EditProfile> {
     final loadProvider = context.read<UserDetailsProvider>();
     final optionsProvider = context.read<AuthProvider>();
     final editProvider = context.read<EditProfileProvider>();
-    editProvider.loadingTrue();
+    
+    await editProvider.fetchUserDetailsBeforeEditing(context: context);
 
     await optionsProvider.fetchRegisrationDropdownOption();
     usernameController.text = loadProvider.userDetails.name ?? "";
@@ -101,6 +102,7 @@ class _EditProfileState extends State<EditProfile> {
     }
 
     editProvider.loadingFalse();
+    debugPrint("false");
   }
 
   Widget _buildTextField(
@@ -227,7 +229,7 @@ class _EditProfileState extends State<EditProfile> {
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Column(
                   children: [
-                          SizedBox(height: 10),
+                    SizedBox(height: 10),
                     Center(
                       child: Stack(
                         children: [
@@ -380,7 +382,6 @@ class _EditProfileState extends State<EditProfile> {
                             ),
                           ),
                           _buildSectionTitle("Academic Details"),
-                          
                           DropdownWidget(
                             label: 'Syllabus',
                             items: authProvider.syllabusDropdownOptions
@@ -388,7 +389,9 @@ class _EditProfileState extends State<EditProfile> {
                                 .toList(),
                             controller: syllabusController,
                           ),
-                          SizedBox(height: 10,),
+                          SizedBox(
+                            height: 10,
+                          ),
                           DropdownWidget(
                             label: 'Class Studying',
                             items: authProvider.classDropdownOptions
