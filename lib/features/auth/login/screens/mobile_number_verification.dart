@@ -111,13 +111,10 @@ class _MobileNumberVerificationState extends State<MobileNumberVerification> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CircleAvatar(
-                    radius: 95,
-                    backgroundColor: Colors.transparent,
-                    backgroundImage:
-                        AssetImage('assets/logo/zephyr_digital_logo.png'),
-                  ),
-                  const SizedBox(height: 60),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    child: Image.asset("assets/logo/zephyr_logo_app.png")),
+                  const SizedBox(height: 30),
                   Text(
                     showPasswordField
                         ? "Login to your account"

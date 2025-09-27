@@ -160,6 +160,7 @@ class TestSeriesProvider extends ChangeNotifier {
       if (response.type == "success") {
         _leaderBoardList = response.ranklist ?? [];
         notifyListeners();
+        debugPrint(leaderBoardList.length.toString());
         _isLeaderBoardLoading = false;
         notifyListeners();
       }
