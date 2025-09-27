@@ -53,15 +53,16 @@ class DrawerService {
     required String country,
     required String secondaryPhone,
   }) async {
+    debugPrint("$email $syllabusId");
     final jsonResponse =
         await ApiService().postRequest(url: updateUserDetailsUrl, fields: {
       "name": name,
-      // "email": email,
+      "email": email,
       "gender": gender,
       "dob": dob,
       "school": school,
       "class_studying": classStudying,
-      // "syllabus_id": syllabusId,
+      "syllabus_id": syllabusId,
       "address": address,
       "district": district,
       "state": state,

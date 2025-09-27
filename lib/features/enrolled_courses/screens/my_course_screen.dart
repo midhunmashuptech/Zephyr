@@ -25,9 +25,9 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
     loadCourses();
-  });
+  // });
     
   }
 

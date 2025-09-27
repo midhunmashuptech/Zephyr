@@ -131,7 +131,7 @@ class _SplashScreenState extends State<SplashScreen>
           opacity: _animation,
           child: Image.asset(
             'assets/logo/zephyr_logo_app.png', // Replace with your logo path
-            width: 300,
+            width: 200,
           ),
         ),
       ),

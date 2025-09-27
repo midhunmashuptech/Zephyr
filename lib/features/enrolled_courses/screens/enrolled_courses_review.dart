@@ -81,6 +81,7 @@ class _EnrolledCoursesReviewState extends State<EnrolledCoursesReview> {
   Widget build(BuildContext context) {
     enrolledCourseProvider = context.watch<EnrolledCourseProvider>();
     return Scaffold(
+  resizeToAvoidBottomInset: false,
       body: enrolledCourseProvider.isReviewsLoading
           ? Center(child: CircularProgressIndicator())
           : enrolledCourseProvider.courseReviews.isEmpty
@@ -302,7 +303,7 @@ class _EnrolledCoursesReviewState extends State<EnrolledCoursesReview> {
                                                               enrolledCourseProvider
                                                                   .postCourseReviews(
                                                                       courseId:
-                                                                          "1",
+                                                                          widget.courseId,
                                                                       context:
                                                                           context);
                                                             },

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/common/model/user.dart';
 import 'package:zephyr/common/provider/user_details_provider.dart';
+import 'package:zephyr/common/service/common_serive.dart';
 import 'package:zephyr/features/drawer/services/drawer_service.dart';
 
 class EditProfileProvider extends ChangeNotifier {
@@ -34,6 +35,27 @@ class EditProfileProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> fetchUserDetailsBeforeEditing(
+      {required BuildContext context}) async {
+    _isUpdating = false;
+    _isDataLoading = true;
+    notifyListeners();
+
+    final response = await CommonSerive().fetchUserDetails(context);
+    if (response == null) {
+      showSnackBar("Error", "Response null");
+    } else {
+      if (response.type != "success") {
+        showSnackBar("error", "something went wrong");
+      }
+    }
+  }
+
+  void updatingFalse() {
+    _isUpdating = false;
+    notifyListeners();
+  }
+
   String _username = "";
   String get username => _username;
 
@@ -47,6 +69,7 @@ class EditProfileProvider extends ChangeNotifier {
     print(_username);
     print(_emailAddress);
   }
+
   //Update User Details
   Future<void> updateDetails({
     required BuildContext context,
@@ -95,6 +118,7 @@ class EditProfileProvider extends ChangeNotifier {
       }
     }
   }
+
   //profile Picture
   Future<void> uploadProfileImage({
     required String filePath,

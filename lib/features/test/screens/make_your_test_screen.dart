@@ -193,7 +193,7 @@ class _MakeYourTestScreenState extends State<MakeYourTestScreen> {
                             width: MediaQuery.of(context).size.width * 0.8,
                             color: AppColors.primaryOrange,
                             textcolor: AppColors.white,
-                            onPressed: () async {
+                            onPressed: makeTestProvider.checkAllSelectedValues() ? () async {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => AttendAiTestScreen(
@@ -252,7 +252,7 @@ class _MakeYourTestScreenState extends State<MakeYourTestScreen> {
                               // makeTestProvider.printAllSelectedValues();
                               // await makeTestProvider
                               //     .prepareGeneratedQuiz(context);
-                            }),
+                            } : null),
                       ],
                     ),
               SizedBox(height: 30),

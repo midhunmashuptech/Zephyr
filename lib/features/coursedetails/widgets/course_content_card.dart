@@ -6,6 +6,7 @@ import 'package:zephyr/features/coursedetails/provider/course_provider.dart';
 import 'package:zephyr/features/coursedetails/screens/sample_chapter_pdf_viewer.dart';
 import 'package:zephyr/features/coursedetails/screens/sample_chapter_video_player.dart';
 import 'package:zephyr/features/payment/screens/checkout_screen.dart';
+import 'package:zephyr/features/test_series/screens/test_instructions_screen.dart';
 
 class CourseContentCard extends StatefulWidget {
   final String type;
@@ -73,7 +74,20 @@ class _CourseContentCardState extends State<CourseContentCard> {
                 builder: (contex) => SampleChapterPdfViewer(
                     title: widget.title,
                     url:widget.url)));
-          } else if (widget.type == "test") {}
+          } else if (widget.type == "test") {
+
+            // Navigator.pushReplacement(
+            //   context,
+            //   MaterialPageRoute(
+            //       builder: (context) => TestInstructionsScreen(
+            //             testId: batchId,
+            //             type: "practice_test",
+            //             duration: duration,
+            //             maxMarks: maxMarks,
+            //             title: title,
+            //             totalQuestions: totalQuestions,
+            //           )));
+          }
         } else {
           _showSubscribePopup(context);
         }

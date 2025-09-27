@@ -40,8 +40,8 @@ class MakeTestProvider extends ChangeNotifier {
   int? selectedSubject;
   int? selectedChapter;
   int? selectedTopic;
-  int? selectedQuesCount = 10;
-  String? selectedDifficultyLevel = "medium";
+  int? selectedQuesCount;
+  String? selectedDifficultyLevel;
 
   // Quiz Data
   List<Questions> _aiGeneratedQuiz = [];
@@ -66,12 +66,26 @@ class MakeTestProvider extends ChangeNotifier {
   }
 
   void printAllSelectedValues() {
-    print(selectedClass);
-    print(selectedSubject);
-    print(selectedChapter);
-    print(selectedTopic);
-    print(selectedQuesCount);
-    print(selectedDifficultyLevel);
+    debugPrint(selectedClass.toString());
+    debugPrint(selectedSubject.toString());
+    debugPrint(selectedChapter.toString());
+    debugPrint(selectedTopic.toString());
+    debugPrint(selectedQuesCount.toString());
+    debugPrint(selectedDifficultyLevel.toString());
+  }
+
+  bool checkAllSelectedValues() {
+    if ((selectedClass == null) ||
+        (selectedSubject == null) ||
+        (selectedSubject == null) ||
+        (selectedChapter == null) ||
+        (selectedTopic == null) ||
+        (selectedQuesCount == null) ||
+        (selectedDifficultyLevel == null)) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   void clearAllSelectedValues() {
@@ -79,8 +93,8 @@ class MakeTestProvider extends ChangeNotifier {
     selectedSubject = null;
     selectedChapter = null;
     selectedTopic = null;
-    selectedQuesCount = 10;
-    selectedDifficultyLevel = "medium";
+    selectedQuesCount = null;
+    selectedDifficultyLevel = null;
     _chapters = [];
     _topics = [];
     notifyListeners();
@@ -204,56 +218,56 @@ class MakeTestProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Prepare Quiz API
-  Future<void> prepareGeneratedQuiz(BuildContext context) async {
-    if (selectedSubject == null ||
-        selectedChapter == null ||
-        selectedTopic == null ||
-        selectedDifficultyLevel == null ||
-        selectedQuesCount == null) {
-      showSnackBar("Warning", "Fill all the Options");
-    } else {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => TestLoading()));
-    }
-  }
+  // // Prepare Quiz API
+  // Future<void> prepareGeneratedQuiz(BuildContext context) async {
+  //   if (selectedSubject == null ||
+  //       selectedChapter == null ||
+  //       selectedTopic == null ||
+  //       selectedDifficultyLevel == null ||
+  //       selectedQuesCount == null) {
+  //     showSnackBar("Warning", "Fill all the Options");
+  //   } else {
+  //     Navigator.push(
+  //         context, MaterialPageRoute(builder: (context) => TestLoading()));
+  //   }
+  // }
 
-  Future<void> generateQuiz(BuildContext context) async {
-    currentQuestion = 0;
-    _aiGeneratedQuiz = [];
-    notifyListeners();
+  // Future<void> generateQuiz(BuildContext context) async {
+  //   currentQuestion = 0;
+  //   _aiGeneratedQuiz = [];
+  //   notifyListeners();
 
-    final response = await MakeYourTestService().generateAiQuiz(
-        (subjects)
-                .firstWhere((subject) => subject.id == selectedSubject)
-                .title ??
-            "physics",
-        (chapters)
-                .firstWhere((chapter) => chapter.id == selectedChapter)
-                .title ??
-            "2 simensional",
-        (topics).firstWhere((topic) => topic.id == selectedTopic).title ??
-            "vectors",
-        selectedDifficultyLevel ?? "medium",
-        (selectedQuesCount ?? 10).toString());
+  //   final response = await MakeYourTestService().generateAiQuiz(
+  //       (subjects)
+  //               .firstWhere((subject) => subject.id == selectedSubject)
+  //               .title ??
+  //           "physics",
+  //       (chapters)
+  //               .firstWhere((chapter) => chapter.id == selectedChapter)
+  //               .title ??
+  //           "2 simensional",
+  //       (topics).firstWhere((topic) => topic.id == selectedTopic).title ??
+  //           "vectors",
+  //       selectedDifficultyLevel ?? "medium",
+  //       (selectedQuesCount ?? 10).toString());
 
-    if (response == null) {
-      showSnackBar("Error", "Something went wrong! please try again");
-    } else {
-      if (response.type == "success") {
-        print("success ${(response.questions ?? []).length}");
-        _aiGeneratedQuiz = response.questions ?? [];
-        currentQuestion = 0;
-        correctOption = aiGeneratedQuiz[0].correctOption;
+  //   if (response == null) {
+  //     showSnackBar("Error", "Something went wrong! please try again");
+  //   } else {
+  //     if (response.type == "success") {
+  //       print("success ${(response.questions ?? []).length}");
+  //       _aiGeneratedQuiz = response.questions ?? [];
+  //       currentQuestion = 0;
+  //       correctOption = aiGeneratedQuiz[0].correctOption;
 
-        notifyListeners();
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => TestQuizScreen()));
-      } else {
-        showSnackBar("Error", "Something went wrong! Try Again");
-        Navigator.pop(context);
-      }
-    }
-    notifyListeners();
-  }
+  //       notifyListeners();
+  //       Navigator.pushReplacement(
+  //           context, MaterialPageRoute(builder: (context) => TestQuizScreen()));
+  //     } else {
+  //       showSnackBar("Error", "Something went wrong! Try Again");
+  //       Navigator.pop(context);
+  //     }
+  //   }
+  //   notifyListeners();
+  // }
 }
