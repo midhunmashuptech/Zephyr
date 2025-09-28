@@ -26,6 +26,7 @@ const resetPasswordAuthUrl = "${baseUrl}reset-password";
 const getActiveCoursesUrl = "${baseUrl}get-active-course";
 const getFeaturedCourseUrl = "${baseUrl}get-featured-courses";
 const getCategoryBasedCourseUrl = "${baseUrl}get-category-based-courses";
+const getBannerImagesUrl = "${baseUrl}get-home-banners";
 
 // get User Details API's
 const getUserDetailsUrl = "${baseUrl}get-user-details";

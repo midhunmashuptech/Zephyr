@@ -3,6 +3,7 @@ import 'package:zephyr/api_files/api_service.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/constants/config.dart';
 import 'package:zephyr/features/home/model/active_course_model.dart';
+import 'package:zephyr/features/home/model/banner_images_model.dart';
 import 'package:zephyr/features/home/model/category_based_course_model.dart';
 import 'package:zephyr/features/home/model/featured_course_model.dart';
 
@@ -52,6 +53,23 @@ class HomePageService {
       final categoryBasedCourseModel = CategoryBasedCourseModel.fromJson(responseJson);
       if (categoryBasedCourseModel.type == "success") {
         return categoryBasedCourseModel;
+      }
+    }
+      return null;
+  }
+
+  //Featured Courses
+  Future<BannerImagesModel?> getBannerImages(
+      {required BuildContext context}) async {
+
+    final responseJson =
+        await ApiService().getRequest(url: getBannerImagesUrl);
+    if (responseJson == null) {
+      showSnackBar("Error", "Something went wrong");
+    } else {
+      final bannerImagesModel = BannerImagesModel.fromJson(responseJson);
+      if (bannerImagesModel.type == "success") {
+        return bannerImagesModel;
       }
     }
       return null;

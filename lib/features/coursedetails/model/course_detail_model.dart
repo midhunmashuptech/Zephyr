@@ -368,30 +368,38 @@ class Materials {
 }
 
 class PracticeTests {
-  int? chapterContentId;
-  String? title;
-  bool? free;
-  int? id;
-  String? type;
+	int? chapterContentId;
+	String? title;
+	bool? free;
+	int? id;
+	String? type;
+	int? duration;
+	int? questionCount;
+	int? maxMarks;
 
-  PracticeTests(
-      {this.chapterContentId, this.title, this.free, this.id, this.type});
+	PracticeTests({this.chapterContentId, this.title, this.free, this.id, this.type, this.duration, this.questionCount, this.maxMarks});
 
-  PracticeTests.fromJson(Map<String, dynamic> json) {
-    chapterContentId = json['chapter_content_id'];
-    title = json['title'];
-    free = json['free'];
-    id = json['id'];
-    type = json['type'];
-  }
+	PracticeTests.fromJson(Map<String, dynamic> json) {
+		chapterContentId = json['chapter_content_id'];
+		title = json['title'];
+		free = json['free'];
+		id = json['id'];
+		type = json['type'];
+		duration = json['duration'];
+		questionCount = json['question_count'];
+		maxMarks = json['max_marks'];
+	}
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['chapter_content_id'] = this.chapterContentId;
-    data['title'] = this.title;
-    data['free'] = this.free;
-    data['id'] = this.id;
-    data['type'] = this.type;
-    return data;
-  }
+	Map<String, dynamic> toJson() {
+		final Map<String, dynamic> data = new Map<String, dynamic>();
+		data['chapter_content_id'] = this.chapterContentId;
+		data['title'] = this.title;
+		data['free'] = this.free;
+		data['id'] = this.id;
+		data['type'] = this.type;
+		data['duration'] = this.duration;
+		data['question_count'] = this.questionCount;
+		data['max_marks'] = this.maxMarks;
+		return data;
+	}
 }

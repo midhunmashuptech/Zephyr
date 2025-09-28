@@ -132,6 +132,15 @@ class ApiService {
           return body; // fallback if not JSON
         }
 
+      case 409:
+        debugPrint("Resource not found Error: $statusCode");
+        debugPrint("Resource not found Error Message: $body");
+        try {
+          return json.decode(body);
+        } catch (_) {
+          return body; // fallback if not JSON
+        }
+
       case 500:
       case 502:
       case 503:

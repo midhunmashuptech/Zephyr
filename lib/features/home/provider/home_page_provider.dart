@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/features/home/model/active_course_model.dart';
+import 'package:zephyr/features/home/model/banner_images_model.dart';
 import 'package:zephyr/features/home/model/category_based_course_model.dart'
     as category_based_courses_model;
 import 'package:zephyr/features/home/model/featured_course_model.dart'
@@ -28,6 +29,12 @@ class HomePageProvider extends ChangeNotifier {
       category_based_courses_model.AllCourses();
   category_based_courses_model.AllCourses get selectedCategoryCourses =>
       _selectedCategoryCourses;
+
+  bool _isBannerImagesLoading = false;
+  bool get isBannerImagesLoading => _isBannerImagesLoading;
+
+  List<Banners> _bannerImages = [];
+  List<Banners> get bannerImages => _bannerImages;
 
   void changeCategory(int categoryId) {
     _selectedCategory = _categoryBasedCourses
@@ -57,12 +64,42 @@ class HomePageProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Banner Images
+  Future<void> fetchBannerImages(BuildContext context) async {
+    _isBannerImagesLoading = true;
+    notifyListeners();
+
+    final response = await HomePageService().getBannerImages(context: context);
+    if (response == null) {
+      showSnackBar("Error", "Something went wrong! please try again");
+      _bannerImages = [];
+      _isBannerImagesLoading = false;
+      notifyListeners();
+    } else {
+      if (response.type == "success") {
+        _bannerImages = response.banners ?? [];
+        notifyListeners();
+
+        _isBannerImagesLoading = false;
+        notifyListeners();
+      } else {
+        showSnackBar("Error", "Something went wrong! please try again");
+        _bannerImages = [];
+        notifyListeners();
+
+        _isBannerImagesLoading = false;
+        notifyListeners();
+      }
+    }
+  }
+
   //Active Courses
   Future<void> fetchActiveCouses(BuildContext context) async {
     _isActiveCoursesLoading = true;
     _activeCourses = [];
     _isFeaturedCourseLoading = true;
     _isCategoryCourseLoading = true;
+    _isBannerImagesLoading = true;
     _featuredCourses = [];
     notifyListeners();
 

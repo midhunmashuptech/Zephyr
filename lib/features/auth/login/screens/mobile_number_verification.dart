@@ -200,7 +200,7 @@ class _MobileNumberVerificationState extends State<MobileNumberVerification> {
                       ],
                     ),
                   ],
-                  const SizedBox(height: 28),
+                  const SizedBox(height: 10),
                   isLoading
                       ? const Center(child: CircularProgressIndicator())
                       : CustomButton(
@@ -221,6 +221,7 @@ class _MobileNumberVerificationState extends State<MobileNumberVerification> {
                                   ? () => checkMobileNumber()
                                   : null),
                         ),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),

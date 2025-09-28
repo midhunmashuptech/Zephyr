@@ -1,10 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_controller.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:iconify_flutter_plus/icons/mi.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/common/provider/user_details_provider.dart';
 import 'package:zephyr/common/screens/test_screen.dart';
 import 'package:zephyr/common/widgets/custom_search_bar.dart';
@@ -31,6 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
   UserDetailsProvider userDetailsProvider = UserDetailsProvider();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  int _current = 0;
+  final CarouselSliderController _controller = CarouselSliderController();
+
   List<Course> courses = [];
   List<Course> filteredCourses = [];
   String? searchValue;
@@ -39,16 +46,32 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
     loadActiveCourses();
-  });
   }
 
   Future<void> loadActiveCourses() async {
-    final homePageProvider = context.read<HomePageProvider>();
-    await homePageProvider.fetchActiveCouses(context);
-    await homePageProvider.fetchFeaturedCourses(context: context);
-    await homePageProvider.fetchCategoryBasedCourses(context: context);
+    if (!mounted) return; // Check if widget is still mounted
+
+    try {
+      final homePageProvider = context.read<HomePageProvider>();
+
+      // Execute API calls
+      await homePageProvider.fetchActiveCouses(context);
+      if (!mounted) return; // Check after each async call
+
+      await homePageProvider.fetchFeaturedCourses(context: context);
+      if (!mounted) return;
+
+      await homePageProvider.fetchBannerImages(context);
+      if (!mounted) return;
+
+      await homePageProvider.fetchCategoryBasedCourses(context: context);
+    } catch (e) {
+      if (mounted) {
+        // Handle error appropriately
+        showSnackBar("Error", e.toString());
+      }
+    }
   }
 
   void filterCourses() {
@@ -148,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => HomeCardTestScreen()));
+                                  builder: (context) => Notifications()));
                         },
                         icon: Iconify(Mdi.bell_notification, size: 30))
                   ],
@@ -165,6 +188,130 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ),
+            ),
+            SliverToBoxAdapter(child: SizedBox(height: 20)),
+
+            SliverToBoxAdapter(
+              child: homePageProvider.isBannerImagesLoading
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Shimmer.fromColors(
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[100]!,
+                        child: Container(
+                          height: 180,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                      ),
+                    )
+                  : homePageProvider.bannerImages.isNotEmpty
+                      ? Column(
+                          children: [
+                            CarouselSlider.builder(
+                              carouselController: _controller,
+                              itemCount: homePageProvider.bannerImages.length,
+                              itemBuilder: (context, index, realIndex) {
+                                final bannerImage =
+                                    homePageProvider.bannerImages[index];
+                                return Container(
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.1),
+                                        spreadRadius: 1,
+                                        blurRadius: 8,
+                                        offset: const Offset(0, 4),
+                                      ),
+                                    ],
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: CachedNetworkImage(
+                                      imageUrl: bannerImage.image ?? "",
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) =>
+                                          Shimmer.fromColors(
+                                        baseColor: Colors.grey[300]!,
+                                        highlightColor: Colors.grey[100]!,
+                                        child: Container(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey[200],
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                        child: const Center(
+                                          child: Icon(
+                                            Icons.image_not_supported,
+                                            color: Colors.grey,
+                                            size: 50,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                              options: CarouselOptions(
+                                height: 180,
+                                viewportFraction: 0.8,
+                                enlargeCenterPage: true,
+                                enableInfiniteScroll:
+                                    homePageProvider.bannerImages.length > 1,
+                                autoPlay:
+                                    homePageProvider.bannerImages.length > 1,
+                                autoPlayInterval: const Duration(seconds: 4),
+                                autoPlayAnimationDuration:
+                                    const Duration(milliseconds: 800),
+                                autoPlayCurve: Curves.fastOutSlowIn,
+                                onPageChanged: (index, reason) {
+                                  setState(() {
+                                    _current = index;
+                                  });
+                                },
+                              ),
+                            ),
+                            const SizedBox(height: 15),
+                            // Dot indicator
+                            if (homePageProvider.bannerImages.length > 1)
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: homePageProvider.bannerImages
+                                    .asMap()
+                                    .entries
+                                    .map((entry) {
+                                  return GestureDetector(
+                                    onTap: () =>
+                                        _controller.animateToPage(entry.key),
+                                    child: Container(
+                                      width: _current == entry.key ? 12.0 : 8.0,
+                                      height: 8.0,
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 3.0),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: _current == entry.key
+                                            ? AppColors.primaryBlue
+                                            : AppColors.primaryBlue
+                                                .withOpacity(0.3),
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                          ],
+                        )
+                      : const SizedBox.shrink(),
             ),
             SliverToBoxAdapter(child: SizedBox(height: 20)),
             SliverToBoxAdapter(
@@ -184,10 +331,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: 100),
                     )
                   : SizedBox(
-                      height: 310,
+                      height: 330,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        padding: EdgeInsets.only(left: 20, right: 20),
+                        padding:
+                            EdgeInsets.only(left: 20, right: 20, bottom: 20),
                         itemCount: homePageProvider.featuredCourses.length,
                         itemBuilder: (context, index) => Padding(
                           padding: const EdgeInsets.only(right: 10),
@@ -202,7 +350,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
             ),
-            SliverToBoxAdapter(child: SizedBox(height: 20)),
+
+            SliverToBoxAdapter(child: SizedBox(height: 10)),
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -285,15 +434,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                   );
                                 }
                                 return ListView.builder(
-                                        shrinkWrap: true,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        itemCount: homePageProvider
-                                            .activeCourses.length,
-                                        itemBuilder: (context, index) {
-                                          final courseData = homePageProvider
-                                              .activeCourses[index];
-                                          return isTablet
-                                          ? Padding(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount:
+                                      homePageProvider.activeCourses.length,
+                                  itemBuilder: (context, index) {
+                                    final courseData =
+                                        homePageProvider.activeCourses[index];
+                                    return isTablet
+                                        ? Padding(
                                             padding: const EdgeInsets.only(
                                                 bottom: 12.0),
                                             child: HomeTabletCourseCard(
@@ -326,7 +475,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               type: courseData.type ?? "N/A",
                                             ),
                                           )
-                                          : Padding(
+                                        : Padding(
                                             padding: const EdgeInsets.only(
                                                 bottom: 12.0),
                                             child: HomeCourseCard(
@@ -359,8 +508,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                               type: courseData.type ?? "N/A",
                                             ),
                                           );
-                                        },
-                                      );
+                                  },
+                                );
                               } else {
                                 final selectedCourses = homePageProvider
                                         .selectedCategoryCourses.courses ??
