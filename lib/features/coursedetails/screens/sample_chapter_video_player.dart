@@ -77,6 +77,16 @@ class _SampleChapterVideoPlayerState extends State<SampleChapterVideoPlayer> {
                 ],
               ),
             ),
+
+            Expanded(child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.7,
+                  child: Text(
+                    "Subscribe this course to access more contents and Continue learning", textAlign: TextAlign.center, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),)),
+              ],
+            ))
           ],
         ),
       ),

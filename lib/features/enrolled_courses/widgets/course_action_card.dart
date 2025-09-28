@@ -54,13 +54,17 @@ class _CourseActionCardState extends State<CourseActionCard> {
                   )),
             ),
             Center(
-                child: Text(
-              widget.title,
-              style: TextStyle(
-                  color: AppColors.white,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 22),
-            ))
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                                widget.title,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                    color: AppColors.white,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 22),
+                              ),
+                ))
           ],
         ),
       ),

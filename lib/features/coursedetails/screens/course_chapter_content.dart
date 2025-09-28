@@ -113,7 +113,10 @@ class _CourseChapterContentState extends State<CourseChapterContent> {
                                                         .videos ??
                                                     [])[index]
                                                 .free ??
-                                            false,
+                                            false, 
+                                        content_id: (courseProvider.selectedChapter
+                                                        .videos ??
+                                                    [])[index].chapterContentId.toString(),
                                       ),
                                   separatorBuilder: (context, index) =>
                                       SizedBox(height: 5),
@@ -162,6 +165,9 @@ class _CourseChapterContentState extends State<CourseChapterContent> {
                                                     [])[index]
                                                 .free ??
                                             false,
+                                        content_id: (courseProvider.selectedChapter
+                                                        .materials ??
+                                                    [])[index].chapterContentId.toString(),
                                       ),
                                   separatorBuilder: (context, index) =>
                                       SizedBox(height: 5),
@@ -198,18 +204,24 @@ class _CourseChapterContentState extends State<CourseChapterContent> {
                                   physics: NeverScrollableScrollPhysics(),
                                   itemBuilder: (context, index) =>
                                       CourseContentCard(
-                                        type: "test",
+                                        type: "practice_test",
                                         url: "",
                                         title: (courseProvider.selectedChapter.practiceTests ?? [])[index].title ?? "Practise Test Title",
                                         subtitle:
                                             'Tap attend the Practise Test',
+                                            duration: (courseProvider.selectedChapter.practiceTests ?? [])[index].duration ?? 0,
+                                            maxMark: (courseProvider.selectedChapter.practiceTests ?? [])[index].maxMarks ?? 0,
+                                            questionCount: (courseProvider.selectedChapter.practiceTests ?? [])[index].questionCount ?? 0,
                                         icon: Icons.assessment,
                                         bgcolor: AppColors.primaryOrange,
                                         isFree: (courseProvider.selectedChapter
                                                         .practiceTests ??
                                                     [])[index]
                                                 .free ??
-                                            false,
+                                            false, 
+                                        content_id: (courseProvider.selectedChapter
+                                                        .practiceTests ??
+                                                    [])[index].chapterContentId.toString(),
                                       ),
                                   separatorBuilder: (context, index) =>
                                       SizedBox(height: 5),

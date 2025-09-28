@@ -12,20 +12,25 @@ class CourseContentCard extends StatefulWidget {
   final String type;
   final String title;
   final String url;
+  final String content_id;
   final String subtitle;
   final Color bgcolor;
   final IconData icon;
   final bool isFree;
+  final int? maxMark;
+  final int? questionCount;
+  final int? duration;
 
   const CourseContentCard(
       {required this.type,
       required this.title,
       required this.url,
+      required this.content_id,
       required this.subtitle,
       required this.icon,
       required this.bgcolor,
       required this.isFree,
-      super.key});
+      super.key, this.maxMark, this.questionCount, this.duration});
 
   @override
   State<CourseContentCard> createState() => _CourseContentCardState();
@@ -72,21 +77,19 @@ class _CourseContentCardState extends State<CourseContentCard> {
           } else if (widget.type == "material") {
             Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
                 builder: (contex) => SampleChapterPdfViewer(
-                    title: widget.title,
-                    url:widget.url)));
+                    title: widget.title, url: widget.url)));
           } else if (widget.type == "test") {
-
-            // Navigator.pushReplacement(
-            //   context,
-            //   MaterialPageRoute(
-            //       builder: (context) => TestInstructionsScreen(
-            //             testId: batchId,
-            //             type: "practice_test",
-            //             duration: duration,
-            //             maxMarks: maxMarks,
-            //             title: title,
-            //             totalQuestions: totalQuestions,
-            //           )));
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => TestInstructionsScreen(
+                          testId: widget.content_id,
+                          type: widget.type,
+                          duration: widget.duration ?? 0,
+                          maxMarks: widget.maxMark ?? 0,
+                          title: widget.title,
+                          totalQuestions: widget.questionCount ?? 0,
+                        )));
           }
         } else {
           _showSubscribePopup(context);

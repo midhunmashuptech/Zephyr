@@ -1,16 +1,76 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:zephyr/constants/app_constants.dart';
+import 'package:zephyr/features/chapter_details/model/enrolled_chapter_analysis_model.dart';
+import 'package:zephyr/features/chapter_details/provider/enrolled_chapter_details_provider.dart';
 
-class AnswerStatusRadialChart extends StatelessWidget {
-  final List<_ChartData> chartData = [
-    _ChartData("Unanswered", 20, AppColors.primaryRed, "20"),
-    _ChartData("Wrong", 30, AppColors.primaryOrange, "30"),
-    _ChartData("Correct", 50, AppColors.primaryGreen, "50"),
-  ];
+class AnswerStatusRadialChart extends StatefulWidget {
+  @override
+  State<AnswerStatusRadialChart> createState() =>
+      _AnswerStatusRadialChartState();
+}
+
+class _AnswerStatusRadialChartState extends State<AnswerStatusRadialChart> {
+  EnrolledChapterDetailsProvider enrolledChapterDetailsProvider =
+      EnrolledChapterDetailsProvider();
+
+  // final List<_ChartData> chartData = [
+  //   _ChartData("Unanswered", 20, AppColors.primaryRed, "20"),
+  //   _ChartData("Wrong", 30, AppColors.primaryOrange, "30"),
+  //   _ChartData("Correct", 50, AppColors.primaryGreen, "50"),
+  // ];
 
   @override
   Widget build(BuildContext context) {
+    enrolledChapterDetailsProvider = context.watch();
+    final totalCorrect = (((enrolledChapterDetailsProvider
+                            .enrolledChapterAnalysis.practiceTotals ??
+                        PracticeTotals())
+                    .count ??
+                Count())
+            .totalCorrect ??
+        0);
+    final totalInorrect = (((enrolledChapterDetailsProvider
+                            .enrolledChapterAnalysis.practiceTotals ??
+                        PracticeTotals())
+                    .count ??
+                Count())
+            .totalIncorrect ??
+        0);
+    final totalUnanswered = (((enrolledChapterDetailsProvider
+                            .enrolledChapterAnalysis.practiceTotals ??
+                        PracticeTotals())
+                    .count ??
+                Count())
+            .totalUnanswered ??
+        0);
+    final totalUnattended = (((enrolledChapterDetailsProvider
+                            .enrolledChapterAnalysis.practiceTotals ??
+                        PracticeTotals())
+                    .count ??
+                Count())
+            .totalUnattended ??
+        0);
+    final totalCount =
+        (totalCorrect + totalInorrect + totalUnanswered + totalUnattended) == 0 ? 1 : (totalCorrect + totalInorrect + totalUnanswered + totalUnattended);
+
+    final chartData = [
+      _ChartData(
+          "Unanswered",
+          ((totalUnanswered * 100) / totalCount).toDouble(),
+          AppColors.primaryRed,
+          "${((totalUnanswered * 100) / totalCount).toInt()}"),
+      _ChartData(
+          "Unattended",
+          ((totalUnattended * 100) / totalCount).toDouble(),
+          AppColors.primaryBlue,
+          "${((totalUnattended * 100) / totalCount).toInt()}"),
+      _ChartData("Incorrect", ((totalInorrect * 100) / totalCount).toDouble(),
+          AppColors.primaryOrange, "${((totalInorrect * 100) / totalCount).toInt()}"),
+      _ChartData("Correct", ((totalCorrect * 100) / totalCount).toDouble(),
+          AppColors.primaryGreen, "${((totalCorrect * 100) / totalCount).toInt()}"),
+    ];
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -53,8 +113,8 @@ class AnswerStatusRadialChart extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          
-           Text(
+
+          Text(
             "Practice Tests",
             style: TextStyle(
               fontSize: 16,
@@ -66,61 +126,61 @@ class AnswerStatusRadialChart extends StatelessWidget {
           const SizedBox(height: 16),
 
           // Legend texts below chart
-          Wrap(
-            spacing: 30,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      width: 10,
-                      height: 10,
-                      decoration: BoxDecoration(
-                        color: AppColors.grey,
-                        shape: BoxShape.circle,
+          Wrap(spacing: 30, alignment: WrapAlignment.center, children: [
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(vertical: 4),
+            //   child: Row(
+            //     mainAxisSize: MainAxisSize.min,
+            //     children: [
+            //       Container(
+            //         width: 10,
+            //         height: 10,
+            //         decoration: BoxDecoration(
+            //           color: AppColors.grey,
+            //           shape: BoxShape.circle,
+            //         ),
+            //       ),
+            //       const SizedBox(width: 8),
+            //       Text(
+            //         "Total : ${100}",
+            //         style: const TextStyle(
+            //           fontSize: 14,
+            //           fontWeight: FontWeight.w500,
+            //           color: AppColors.black,
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            ...List.generate(
+                chartData.length,
+                (index) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            width: 10,
+                            height: 10,
+                            decoration: BoxDecoration(
+                              color: chartData[index].color,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            "${chartData[index].label} : ${chartData[index].text}",
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.black,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      "Total : ${100}",
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.black,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              ...List.generate(chartData.length, (index) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      width: 10,
-                      height: 10,
-                      decoration: BoxDecoration(
-                        color: chartData[index].color,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      "${chartData[index].label} : ${chartData[index].text}",
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.black,
-                      ),
-                    ),
-                  ],
-                ),
-              ))
-            ]
-          ),
+                    ))
+          ]),
+          SizedBox(height: 5,)
         ],
       ),
     );

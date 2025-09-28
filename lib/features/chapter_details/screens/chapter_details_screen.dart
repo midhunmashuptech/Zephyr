@@ -6,6 +6,7 @@ import 'package:iconify_flutter_plus/icons/bxs.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/chapter_details/provider/enrolled_chapter_details_provider.dart';
 import 'package:zephyr/features/chapter_details/screens/chapter_analysis_screen.dart';
@@ -45,24 +46,31 @@ class _ChapterDetailsScreenState extends State<ChapterDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    // Schedule after first frame
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      loadVideos();
-    });
+    loadVideos();
   }
 
   Future<void> loadVideos() async {
-    final loadProvider = context.read<EnrolledChapterDetailsProvider>();
-    final enrollmentLoadProvider = context.read<EnrolledCourseProvider>();
-    await loadProvider.getChapterVideos(
-        context: context,
-        enrollmentId:
-            (enrollmentLoadProvider.selectedEnrollment.enrollmentId ?? "0")
-                .toString(),
-        courseSubjectId:
-            (loadProvider.selectedSubject.courseSubjectId ?? 0).toString(),
-        courseChapterId:
-            (loadProvider.selectedChapter.courseChapterId ?? 0).toString());
+    if (!mounted) return;
+
+    try {
+      final loadProvider = context.read<EnrolledChapterDetailsProvider>();
+      final enrollmentLoadProvider = context.read<EnrolledCourseProvider>();
+      await loadProvider.getChapterVideos(
+          context: context,
+          enrollmentId:
+              (enrollmentLoadProvider.selectedEnrollment.enrollmentId ?? "0")
+                  .toString(),
+          courseSubjectId:
+              (loadProvider.selectedSubject.courseSubjectId ?? 0).toString(),
+          courseChapterId:
+              (loadProvider.selectedChapter.courseChapterId ?? 0).toString());
+      if (!mounted) return;
+    } catch (e) {
+      if (mounted) {
+        // Handle error appropriately
+        showSnackBar("Error", e.toString());
+      }
+    }
   }
 
   @override

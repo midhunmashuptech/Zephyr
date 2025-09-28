@@ -34,9 +34,7 @@ class _TestOngoingScreenState extends State<TestOngoingScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
       loadOngoingTests();
-    });
   }
 
   Future<void> loadOngoingTests() async {

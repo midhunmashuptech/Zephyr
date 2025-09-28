@@ -25,10 +25,7 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
   @override
   void initState() {
     super.initState();
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
     loadCourses();
-  // });
-    
   }
 
   Future<void> loadCourses() async {
@@ -84,7 +81,7 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
                     ),
                     Expanded(
                         child: CourseActionCard(
-                      title: 'Make a Test',
+                      title: 'Ai Test',
                       bgcolor: AppColors.greenCourseActionGradient,
                       icon: HugeIcons.strokeRoundedTestTube01,
                       iconColor: AppColors.primaryGreen,
