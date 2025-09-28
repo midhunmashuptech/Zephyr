@@ -23,161 +23,184 @@ class MyCourseCard extends StatelessWidget {
                 builder: (context) => EnrolledCourseDetailScreen(
                     courseId: course.courseId.toString())));
       },
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: Card(
-          color: AppColors.white,
-          clipBehavior: Clip.hardEdge,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
-                children: [
-                  CachedNetworkImage(
-                    height: 200,
-                    width: double.infinity,
-                    imageUrl: course.courseThumbnail ??
-                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
-                    fit: BoxFit.cover,
-                    placeholder: (_, __) => Shimmer.fromColors(
-                      baseColor: AppColors.grey,
-                      highlightColor: AppColors.lightGrey,
-                      child: Container(height: 200, color: AppColors.white),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      height: 100,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
-                          colors: [
-                            switch (index % 3) {
-                              0 => AppColors.primaryBlue,
-                              1 => AppColors.primaryGreen,
-                              2 => AppColors.primaryOrange,
-                              int() => AppColors.black,
-                            },
-                            Colors.transparent,
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(bottom: 10, right: 20, child: courseStarRating())
-                ],
+      child: Container(
+        decoration: BoxDecoration(
+          color: const Color(0xFFF8F9FB),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: const Color(0xFFDEE3EA),
+            width: 1.2,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFB0B8C1).withOpacity(0.13),
+              blurRadius: 18,
+              spreadRadius: 2,
+              offset: const Offset(0, 8),
+            ),
+            BoxShadow(
+              color: const Color(0xFFDEE3EA).withOpacity(0.08),
+              blurRadius: 4,
+              spreadRadius: 1,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        clipBehavior: Clip.hardEdge,
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: CachedNetworkImage(
+                height: 320,
+                width: double.infinity,
+                imageUrl: course.courseThumbnail ??
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                fit: BoxFit.cover,
+                placeholder: (_, __) => Shimmer.fromColors(
+                  baseColor: const Color(0xFFE3E6ED),
+                  highlightColor: const Color(0xFFF8F9FB),
+                  child: Container(height: 320, color: const Color(0xFFF8F9FB)),
+                ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 18.0, vertical: 16.0),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(16),
+                    bottomRight: Radius.circular(16),
+                  ),
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [
+                      const Color(0xFF2D3A4A).withOpacity(0.82),
+                      Colors.transparent,
+                    ],
+                  ),
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    LayoutBuilder(
-                      builder: (context, constraints) {
-                        return SizedBox(
-                          width: constraints.maxWidth,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Row(
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 20,
-                                      backgroundColor:
-                                          AppColors.primaryBlue.withAlpha(30),
-                                      child: Iconify(
-                                        Fa.graduation_cap,
-                                        size: 18,
-                                        color: AppColors.primaryBlue,
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      // Ensure text gets the max available space
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            course.courseTitle ?? "",
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w600),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 22,
+                          backgroundColor:
+                              const Color(0xFF2D3A4A).withOpacity(0.08),
+                          child: Iconify(
+                            Fa.graduation_cap,
+                            size: 20,
+                            color: const Color(0xFF2D3A4A),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            course.courseTitle ?? "",
+                            style: const TextStyle(
+                              fontSize: 19,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.black54,
+                                  offset: Offset(0, 2),
+                                  blurRadius: 6,
                                 ),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              EnrolledCourseDetailScreen(
-                                                  courseId: course.courseId
-                                                      .toString())));
-                                },
-                                icon: Icon(Icons.arrow_forward_ios_rounded),
-                                iconSize: 24,
-                              ),
-                            ],
+                              ],
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                        );
-                      },
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        EnrolledCourseDetailScreen(
+                                            courseId:
+                                                course.courseId.toString())));
+                          },
+                          icon: const Icon(Icons.arrow_forward_ios_rounded,
+                              color: Color(0xFFDEE3EA)),
+                          iconSize: 22,
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 16),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0, vertical: 10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Iconify(Bxs.videos, size: 16),
-                                  SizedBox(width: 5),
-                                  Text("${course.contentCount} Videos")
+                    const SizedBox(height: 18),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Iconify(Bxs.videos, size: 17, color: Colors.white),
+                            const SizedBox(width: 6),
+                            Text(
+                              "${course.contentCount} Videos",
+                              style: const TextStyle(
+                                fontSize: 15,
+                                color: Color(0xFFDEE3EA),
+                                shadows: [
+                                  Shadow(
+                                    color: Colors.black38,
+                                    offset: Offset(0, 1),
+                                    blurRadius: 4,
+                                  ),
                                 ],
                               ),
-                              Row(
-                                children: [
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.3,
-                                    child: LinearProgressIndicator(
-                                      value: (course.progress ?? 0) / 100,
-                                      minHeight: 10,
-                                      color: AppColors.primaryGreen,
-                                      backgroundColor: AppColors.grey,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: 120,
+                              child: LinearProgressIndicator(
+                                value: (course.progress ?? 0) / 100,
+                                minHeight: 9,
+                                color: const Color(0xFF3CB371),
+                                backgroundColor: const Color(0xFFE3E6ED),
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              "${(course.progress ?? 0)}%",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                                shadows: [
+                                  Shadow(
+                                    color: Colors.black54,
+                                    offset: Offset(0, 1),
+                                    blurRadius: 4,
                                   ),
-                                  SizedBox(width: 10),
-                                  Text("${(course.progress ?? 0)}%")
                                 ],
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    )
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: courseStarRating(),
+                    ),
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

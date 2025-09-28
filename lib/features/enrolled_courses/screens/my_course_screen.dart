@@ -81,7 +81,7 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
                     ),
                     Expanded(
                         child: CourseActionCard(
-                      title: 'Ai Test',
+                      title: 'Create Your Own Test',
                       bgcolor: AppColors.greenCourseActionGradient,
                       icon: HugeIcons.strokeRoundedTestTube01,
                       iconColor: AppColors.primaryGreen,
@@ -126,34 +126,37 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
                 height: 10,
               ),
               enrolledCourseProvider.isCourseLoading
-              ? SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.3,
-                        child: Center(
-                            child: Lottie.asset("assets/lottie/loading.json",
-                                height: 100),
-                          ))
-             : enrolledCourseProvider.filteredCourses.isEmpty
-                  ? Center(
-                      child: Column(
-                        children: [
-                          Lottie.asset("assets/lottie/nodata.json",
-                              height: 200),
-                          SizedBox(
-                            height: 10,
+                  ? SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      child: Center(
+                        child: Lottie.asset("assets/lottie/loading.json",
+                            height: 100),
+                      ))
+                  : enrolledCourseProvider.filteredCourses.isEmpty
+                      ? Center(
+                          child: Column(
+                            children: [
+                              Lottie.asset("assets/lottie/nodata.json",
+                                  height: 200),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text("No Subscribed Course Found")
+                            ],
                           ),
-                          Text("No Subscribed Course Found")
-                        ],
-                      ),
-                    )
-                  : ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: enrolledCourseProvider.filteredCourses.length,
-                      itemBuilder: (context, index) {
-                        return MyCourseCard(
-                            index: index, course: enrolledCourseProvider.filteredCourses[index]);
-                      },
-                    ),
+                        )
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount:
+                              enrolledCourseProvider.filteredCourses.length,
+                          itemBuilder: (context, index) {
+                            return MyCourseCard(
+                                index: index,
+                                course: enrolledCourseProvider
+                                    .filteredCourses[index]);
+                          },
+                        ),
               SizedBox(
                 height: 15,
               ),
