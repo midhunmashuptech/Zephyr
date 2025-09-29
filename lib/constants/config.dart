@@ -81,6 +81,9 @@ const generateAiQuizUrl = "${baseUrl}generate-ai-practice-quiz";
 const getCourseReviewsUrl = "${baseUrl}get-course-reviews/";
 const postCourseReviewUrl = "${baseUrl}post-course-reviews";
 
+//Notification API's
+const notificationsUrl = "${baseUrl}get-all-notifications";
+
 // quiz related endpoints
 const attendTest =
     "${webBaseUrl}quiz/attend-test"; // test id will be appended attend-test/{type}/{userid}/{testid}

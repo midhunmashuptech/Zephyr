@@ -104,8 +104,7 @@ class DrawerService {
         Map<String, dynamic> jsonResponse = jsonDecode(responseData);
         var uploadProfileImageModel =
             UploadProfileImageModel.fromJson(jsonResponse);
-        if (uploadProfileImageModel.type == 'success') {
-        } 
+        if (uploadProfileImageModel.type == 'success') {}
         return uploadProfileImageModel;
       } else {
         return null;
@@ -129,7 +128,7 @@ class DrawerService {
     if (timelineActivitiesModel.type == "success") {
       return timelineActivitiesModel;
     } else {
-    return null;
+      return null;
     }
   }
 
@@ -142,13 +141,15 @@ class DrawerService {
         url: postTimelineActivityUrl,
         fields: {"content_type": contentType, "content_id": contentId});
 
+    print(responseJson);
+
     final postTimelineActivityModel =
         PostTimelineActivityModel.fromJson(responseJson);
+    print(postTimelineActivityModel.type);
 
     if (postTimelineActivityModel.type == "success") {
       return postTimelineActivityModel;
-    } else {
-    }
+    } else {}
     return null;
   }
 }
