@@ -21,7 +21,6 @@ class LoginService {
     required String phone,
     required String password,
   }) async {
-    print(countryCode + " " + phone + " " + password);
 
     final request = http.MultipartRequest('POST', Uri.parse(loginUrl));
     request.fields.addAll({
@@ -31,27 +30,6 @@ class LoginService {
     });
 
     final response = await request.send();
-
-    // final responseJson = await _apiService.authPostRequest(
-    //   url: loginUrl,
-    //   fields: {
-    //     "country_code": countryCode.substring(1),
-    //     "phone": phone,
-    //     "password": password,
-    //   },
-    // );
-
-    // if (responseJson == null || responseJson.isEmpty) {
-    //   showSnackBar("Error", "Json Error");
-    //   return null;
-    // } else {
-    //   final loginModel = LoginModel.fromJson(responseJson);
-    //   if (loginModel.type == "success") {
-    //     return loginModel;
-    //   }
-    //   return null;
-    // }
-
     if (response.statusCode == 200) {
       final responseBody = await response.stream.bytesToString();
       final responseJson = json.decode(responseBody);
@@ -61,7 +39,7 @@ class LoginService {
         return loginModel;
       } else {
         showSnackBar("Invalid Credentials",
-            loginModel.message ?? "Your password is incorrect!");
+            loginModel.message ?? "Your password is Incorrect!");
       }
     } else if (response.statusCode == 401) {
       final responseBody = await response.stream.bytesToString();
@@ -69,7 +47,7 @@ class LoginService {
 
       final loginModel = LoginModel.fromJson(responseJson);
       showSnackBar(loginModel.message ?? "Invalid Credentials",
-          "Your password is incorrect!");
+          "Your password is Incorrect!");
     }
     return null;
   }
@@ -143,7 +121,7 @@ class LoginService {
     final resetPasswordLoginModel =
         ResetPasswordLoginModel.fromJson(responseJson);
     if (resetPasswordLoginModel.type == "success") {
-      showSnackBar("success", "reset successful");
+      showSnackBar("success", "Reset Password Successful");
     }
     return resetPasswordLoginModel;
   }
@@ -157,7 +135,6 @@ class LoginService {
         url: sendresetPasswordUrl,
         fields: {"phone": phone, "country_code": countryCode});
     if (responseJson == null) {
-      showSnackBar("Error", "Something went wrong");
       return null;
     } else {
       final sendResetPasswordModel =
@@ -172,12 +149,10 @@ class LoginService {
       required String countryCode,
       required String otp,
       required BuildContext context}) async {
-    debugPrint("otp "+otp);
     final responseJson = await ApiService().authPostRequest(
         url: verifyResetPasswordUrl,
         fields: {"phone": phone, "country_code": countryCode, "otp": otp});
     if (responseJson == null) {
-      showSnackBar("Error", "Something went wrong");
       return null;
     } else {
       final verifyResetPasswordModel =

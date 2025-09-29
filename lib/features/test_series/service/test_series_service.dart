@@ -15,13 +15,12 @@ class TestSeriesService {
     final responseJson =
         await ApiService().getRequest(url: ongoingTestSeriesUrl);
     if (responseJson == null) {
-      showSnackBar("error", "Something went wrong");
+      return null;
     } else {
       final ongoingTestSeriesModel =
           OngoingTestSeriesModel.fromJson(responseJson);
       return ongoingTestSeriesModel;
     }
-    return null;
   }
 
   //Upcoming Test Series
@@ -30,14 +29,12 @@ class TestSeriesService {
     final responseJson =
         await ApiService().getRequest(url: upcomingTestSeriesUrl);
     if (responseJson == null) {
-      showSnackBar("Error", "Something went wrong");
+      return null;
     } else {
       final upcomingTestSeriesModel =
           UpcomingTestSeriesModel.fromJson(responseJson);
-      showSnackBar("Success", "upcoming test series loaded");
       return upcomingTestSeriesModel;
     }
-    return null;
   }
 
   //Attended Test Series
@@ -46,43 +43,39 @@ class TestSeriesService {
     final responseJson =
         await ApiService().getRequest(url: attendedTestSeriesUrl);
     if (responseJson == null) {
-      showSnackBar("Error", "Something went wrong");
+      return null;
     } else {
       final attendedTestSeriesModel =
           AttendedTestSeriesModel.fromJson(responseJson);
-      showSnackBar("Success", "Successfully loaded Attended Test Series");
       return attendedTestSeriesModel;
     }
-    return null;
   }
 
   //Attended Test Series
   Future<TestseriesAnalysisModel?> getTestSeriesAnalysis(
       {required BuildContext context, required String testId}) async {
-    final responseJson =
-        await ApiService().postRequest(url: testSeriesAnalysisUrl, fields: {"test_id": testId});
+    final responseJson = await ApiService()
+        .postRequest(url: testSeriesAnalysisUrl, fields: {"test_id": testId});
     if (responseJson == null) {
-      showSnackBar("Error", "Something went wrong");
+      return null;
     } else {
-      final testSeriesAnalysisModel = TestseriesAnalysisModel.fromJson(responseJson);
-      showSnackBar("Success", "Successfully loaded Test Series Analysis");
+      final testSeriesAnalysisModel =
+          TestseriesAnalysisModel.fromJson(responseJson);
       return testSeriesAnalysisModel;
-}
-    return null;
+    }
   }
+
   //Test Series LeaderBoard
   Future<TestSeriesLeaderBoardModel?> getLeaderBoard(
       {required BuildContext context, required String testId}) async {
     final responseJson =
         await ApiService().getRequest(url: "$testSeriesLeaderBoardUrl$testId");
     if (responseJson == null) {
-      showSnackBar("Error", "Something went wrong");
+      return null;
     } else {
       final testSeriesLeaderBoardModel =
           TestSeriesLeaderBoardModel.fromJson(responseJson);
-      showSnackBar("Success", "Successfully loaded leaderboard");
       return testSeriesLeaderBoardModel;
     }
-    return null;
   }
 }

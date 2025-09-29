@@ -25,7 +25,6 @@ class EnrolledChapterDetailsService {
     );
 
     if (responseJson == null || responseJson.isEmpty) {
-      showSnackBar("Error", "Json Error");
       return null;
     } else {
       final enrolledChapterVideosModel =
@@ -50,14 +49,12 @@ class EnrolledChapterDetailsService {
       "course_chapter_id": courseChapterId
     });
     if (responseJson == null) {
-      showSnackBar("Error", "Failed loading enrolled chapter materials");
+      return null;
     } else {
       final enrolledChapterMaterials =
           EnrolledChapterMaterialsModel.fromJson(responseJson);
-      showSnackBar("success", "Successfully loaded enrolled chapter materials");
       return enrolledChapterMaterials;
     }
-    return null;
   }
 
   //Enrolled Chapter Tests
@@ -73,14 +70,12 @@ class EnrolledChapterDetailsService {
       "course_chapter_id": courseChapterId
     });
     if (responseJson == null) {
-      showSnackBar("Error", "Something went wrong");
+      return null;
     } else {
       final enrolledChapterTestModel =
           EnrolledChapterTestModel.fromJson(responseJson);
-      showSnackBar("Success", "Successfully loaded enrolled chapter tests");
       return enrolledChapterTestModel;
     }
-    return null;
   }
 
   //Enrolled Chapter Tests
@@ -89,21 +84,19 @@ class EnrolledChapterDetailsService {
       required String enrollmentId,
       required String courseSubjectId,
       required String courseChapterId}) async {
-    final responseJson =
-        await ApiService().postRequest(url: enrolledChapterAnalysisUrl, fields: {
+    final responseJson = await ApiService()
+        .postRequest(url: enrolledChapterAnalysisUrl, fields: {
       "enrollment_id": enrollmentId,
       "course_subject_id": courseSubjectId,
       "course_chapter_id": courseChapterId
     });
 
     if (responseJson == null) {
-      showSnackBar("Error", "Something went wrong");
+      return null;
     } else {
       final enrolledChapterAnalysisModel =
           EnrolledChapterAnalysisModel.fromJson(responseJson);
-      showSnackBar("Success", "Successfully Chapter Analysis");
       return enrolledChapterAnalysisModel;
     }
-    return null;
   }
 }

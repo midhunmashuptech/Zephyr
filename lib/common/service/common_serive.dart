@@ -21,7 +21,7 @@ class CommonSerive {
       final userDetailModel = UserDetailsModel.fromJson(responseJson);
       if (userDetailModel.type == "success") {
         final userProvider = context.read<UserDetailsProvider>();
-        showSnackBar("Success", "User details succesfully fetched");
+        showSnackBar("Success", "User details succesfully loaded");
         userProvider.setUserDetails(userDetailModel.user ?? User());
         return userDetailModel;
       } else {

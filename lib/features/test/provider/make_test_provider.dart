@@ -5,8 +5,6 @@ import 'package:zephyr/features/test/model/ai_quiz_model.dart';
 import 'package:zephyr/features/test/model/chapter_options_model.dart';
 import 'package:zephyr/features/test/model/class_subject_options_model.dart';
 import 'package:zephyr/features/test/model/topic_options_model.dart';
-import 'package:zephyr/features/test/screens/test_loading.dart';
-import 'package:zephyr/features/test/screens/test_quiz_screen.dart';
 import 'package:zephyr/features/test/service/make_your_test_service.dart';
 
 class MakeTestProvider extends ChangeNotifier {
@@ -217,57 +215,4 @@ class MakeTestProvider extends ChangeNotifier {
     _isTopicOptionsLoading = false;
     notifyListeners();
   }
-
-  // // Prepare Quiz API
-  // Future<void> prepareGeneratedQuiz(BuildContext context) async {
-  //   if (selectedSubject == null ||
-  //       selectedChapter == null ||
-  //       selectedTopic == null ||
-  //       selectedDifficultyLevel == null ||
-  //       selectedQuesCount == null) {
-  //     showSnackBar("Warning", "Fill all the Options");
-  //   } else {
-  //     Navigator.push(
-  //         context, MaterialPageRoute(builder: (context) => TestLoading()));
-  //   }
-  // }
-
-  // Future<void> generateQuiz(BuildContext context) async {
-  //   currentQuestion = 0;
-  //   _aiGeneratedQuiz = [];
-  //   notifyListeners();
-
-  //   final response = await MakeYourTestService().generateAiQuiz(
-  //       (subjects)
-  //               .firstWhere((subject) => subject.id == selectedSubject)
-  //               .title ??
-  //           "physics",
-  //       (chapters)
-  //               .firstWhere((chapter) => chapter.id == selectedChapter)
-  //               .title ??
-  //           "2 simensional",
-  //       (topics).firstWhere((topic) => topic.id == selectedTopic).title ??
-  //           "vectors",
-  //       selectedDifficultyLevel ?? "medium",
-  //       (selectedQuesCount ?? 10).toString());
-
-  //   if (response == null) {
-  //     showSnackBar("Error", "Something went wrong! please try again");
-  //   } else {
-  //     if (response.type == "success") {
-  //       print("success ${(response.questions ?? []).length}");
-  //       _aiGeneratedQuiz = response.questions ?? [];
-  //       currentQuestion = 0;
-  //       correctOption = aiGeneratedQuiz[0].correctOption;
-
-  //       notifyListeners();
-  //       Navigator.pushReplacement(
-  //           context, MaterialPageRoute(builder: (context) => TestQuizScreen()));
-  //     } else {
-  //       showSnackBar("Error", "Something went wrong! Try Again");
-  //       Navigator.pop(context);
-  //     }
-  //   }
-  //   notifyListeners();
-  // }
 }

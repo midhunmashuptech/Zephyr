@@ -62,7 +62,7 @@ class TimelineProvider extends ChangeNotifier {
       showSnackBar("Error", "Error Posting Timeline Activity");
     } else {
       if (response.type == "success") {
-        debugPrint("Suxxefully Posting Timeline Activity");
+        debugPrint("Successfully Posting Timeline Activity");
       } else {
         showSnackBar("Error", "Something went wrong! ${response.type}");
       }

@@ -25,6 +25,7 @@ class CourseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+//Course Details
   Future<void> getCourseDetails(
       {required String courseId, required BuildContext context}) async {
     _isLoading = true;
@@ -33,7 +34,7 @@ class CourseProvider extends ChangeNotifier {
     final response = await CourseDetailsService()
         .fetchCourseDetails(context: context, courseId: courseId);
     if (response == null) {
-      showSnackBar("error", "something went wrong");
+      showSnackBar("Error", "Something went wrong.Please try again later");
       _isLoading = false;
       notifyListeners();
     } else {
@@ -43,13 +44,13 @@ class CourseProvider extends ChangeNotifier {
         _isLoading = false;
         notifyListeners();
       } else {
-        showSnackBar("error", "something went wrong");
         _isLoading = false;
         notifyListeners();
       }
     }
   }
 
+//Course Review
   Future<void> getCourseReviews(
       {required String courseId, required BuildContext context}) async {
     _isReviewsLoading = true;
@@ -60,7 +61,7 @@ class CourseProvider extends ChangeNotifier {
         .fetchCourseReviews(context: context, courseId: courseId);
 
     if (response == null) {
-      showSnackBar("error", "something went wrong");
+      showSnackBar("Error", "Something went wrong.Please try again later");
       _isReviewsLoading = false;
       notifyListeners();
     } else {

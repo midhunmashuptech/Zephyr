@@ -65,9 +65,7 @@ class EnrolledCourseProvider extends ChangeNotifier {
       (review) => review.userId == userDetailsProvider.userDetails.id,
       orElse: () => Reviews(id: -1),
     );
-    print(result.id);
     if (result.id != -1) {
-      print("My Review available!");
       _isReviewPostingSuccess = true;
       myReview = ReviewDetails(
           userName: userDetailsProvider.userDetails.name ?? "My Name",
@@ -108,7 +106,6 @@ class EnrolledCourseProvider extends ChangeNotifier {
     if (response == null) {
       showSnackBar("Error", "Something went wrong! please try again");
     } else {
-      print(response.type ?? "None");
       if (response.type == "success") {
         _chapterList = (response.chapters ?? [])
             .map((chapter) => chapter.chapterTitle ?? "")
@@ -270,7 +267,7 @@ Future<void> postCourseReviews(
       review: userReview ?? "");
 
   if (response == null) {
-    showSnackBar("error", "something went wrong");
+    showSnackBar("Error", "Something went wrong");
     _isReviewPosting = false;
     _isReviewPostingSuccess = false;
     notifyListeners();

@@ -63,6 +63,7 @@ class EnrolledChapterDetailsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+//Enrolled Chapter Videos
   Future<void> getChapterVideos(
       {required BuildContext context,
       required String enrollmentId,
@@ -71,33 +72,24 @@ class EnrolledChapterDetailsProvider extends ChangeNotifier {
     _isVideosLoading = true;
     _chapterVideos = [];
     notifyListeners();
-    showSnackBar("test", "loading initiated");
-    debugPrint("loading initiated");
 
     final response = await EnrolledChapterDetailsService()
         .getEnrolledChapterVideos(context,
             enrollmentId: enrollmentId,
             courseSubjectId: courseSubjectId,
             courseChapterId: courseChapterId);
-    showSnackBar("test", "response");
 
     if (response == null) {
       showSnackBar("Error", "Something went wrong! please try again");
-      debugPrint("response null");
     } else {
-      showSnackBar("test", response.type ?? "");
-      debugPrint(response.type ?? "None");
       if (response.type == "success") {
         _chapterVideos = response.videos ?? [];
         _isVideosLoading = false;
         notifyListeners();
-        showSnackBar("test", "$isVideosLoading");
-        debugPrint("successfully loaded");
       } else {
         _chapterVideos = [];
         _isVideosLoading = false;
         notifyListeners();
-        showSnackBar("test", "danger");
       }
       WidgetsBinding.instance.addPostFrameCallback((_) {
         notifyListeners();
@@ -126,14 +118,12 @@ class EnrolledChapterDetailsProvider extends ChangeNotifier {
     if (response == null) {
       _isMaterialLoading = false;
       notifyListeners();
-      showSnackBar("Failed", "Failed fetching enrolled chapter materials");
+      showSnackBar("Failed", "Error loading enrolled chapter materials");
     } else {
       if (response.type == "success") {
         _enrolledChapterMaterials = response.materials ?? [];
         notifyListeners();
         _isMaterialLoading = false;
-        showSnackBar("Success",
-            "successfully fetched enrolled chapter materials $isMaterialLoading");
         notifyListeners();
       }
     }
@@ -154,14 +144,13 @@ class EnrolledChapterDetailsProvider extends ChangeNotifier {
             courseSubjectId: courseSubjectId,
             courseChapterId: courseChapterId);
     if (response == null) {
-      showSnackBar("Error", "Failed to Fetch Enrolled Chapter Tests");
+      showSnackBar("Error", "Failed to load Enrolled Chapter Tests");
       _isTestsLoading = false;
       notifyListeners();
     } else {
       if (response.type == "success") {
         _enrolledChapterTests = response.tests ?? [];
         notifyListeners();
-        showSnackBar("Success", "Successfully Fetched enrolled Chapter Tests");
         _isTestsLoading = false;
         notifyListeners();
       }
@@ -191,13 +180,11 @@ class EnrolledChapterDetailsProvider extends ChangeNotifier {
       if (response.type == "success") {
         _enrolledChapterAnalysis = response.analysis ?? Analysis();
         notifyListeners();
-        showSnackBar("Success", "Successfully Fetched enrolled Chapter Analysis");
         _isAnalysisLoading = false;
         notifyListeners();
       } else {
         _isAnalysisLoading = false;
         notifyListeners();
-        showSnackBar("Error", "Failed to Fetch Enrolled Chapter Analysis");
       }
     }
   }

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
@@ -66,8 +65,6 @@ class EditProfileProvider extends ChangeNotifier {
     _username = name;
     _emailAddress = email;
     notifyListeners();
-    print(_username);
-    print(_emailAddress);
   }
 
   //Update User Details
@@ -113,10 +110,10 @@ class EditProfileProvider extends ChangeNotifier {
         showSnackBar("success", "Successfully updated the details");
         _isUpdating = false;
         notifyListeners();
-      } else {
-        showSnackBar("error", "something went wrong");
       }
     }
+    _isUpdating = false;
+    notifyListeners();
   }
 
   //profile Picture

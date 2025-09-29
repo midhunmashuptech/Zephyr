@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:zephyr/api_files/api_service.dart';
-import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/constants/config.dart';
 import 'package:zephyr/features/home/model/active_course_model.dart';
 import 'package:zephyr/features/home/model/banner_images_model.dart';
@@ -14,7 +13,6 @@ class HomePageService {
         await ApiService().getRequest(url: getActiveCoursesUrl);
 
     if (responseJson == null || responseJson.isEmpty) {
-      showSnackBar("Error", "Json Error");
       return null;
     } else {
       final activeCourseModel = ActiveCourseModel.fromJson(responseJson);
@@ -32,7 +30,6 @@ class HomePageService {
     final responseJson =
         await ApiService().getRequest(url: getFeaturedCourseUrl);
     if (responseJson == null) {
-      showSnackBar("Error", "Something went wrong");
     } else {
       final featuredCourseModel = FeaturedCourseModel.fromJson(responseJson);
       if (featuredCourseModel.type == "success") {
@@ -48,7 +45,6 @@ class HomePageService {
     final responseJson =
         await ApiService().getRequest(url: getCategoryBasedCourseUrl);
     if (responseJson == null) {
-      showSnackBar("Error", "Something went wrong");
     } else {
       final categoryBasedCourseModel = CategoryBasedCourseModel.fromJson(responseJson);
       if (categoryBasedCourseModel.type == "success") {
@@ -65,7 +61,6 @@ class HomePageService {
     final responseJson =
         await ApiService().getRequest(url: getBannerImagesUrl);
     if (responseJson == null) {
-      showSnackBar("Error", "Something went wrong");
     } else {
       final bannerImagesModel = BannerImagesModel.fromJson(responseJson);
       if (bannerImagesModel.type == "success") {

@@ -57,13 +57,12 @@ class TestSeriesProvider extends ChangeNotifier {
     if (response == null) {
       _isOngoingTestLoading = false;
       notifyListeners();
-      showSnackBar("Error", "Error fetching Ongoing Tests");
+      showSnackBar("Error", "Error Loading Ongoing Tests");
     } else {
       if (response.type == "success") {
         _ongoingTestsList = response.testSeries ?? [];
         debugPrint(ongoingTestsList.length.toString());
         notifyListeners();
-        showSnackBar("Success", "Successfully fetched Ongoing Tests");
         _isOngoingTestLoading = false;
         notifyListeners();
       }
@@ -78,14 +77,13 @@ class TestSeriesProvider extends ChangeNotifier {
     final response =
         await TestSeriesService().getUpcomingTestSeries(context: context);
     if (response == null) {
-      showSnackBar("Error", "Error Fetching Upcoming Tests");
+      showSnackBar("Error", "Error Loading Upcoming Tests");
       _isUpcomingTestLoading = false;
       notifyListeners();
     } else {
       if (response.type == "success") {
         _upcomingTestsList = response.testSeries ?? [];
         notifyListeners();
-        showSnackBar("Success", "Successfully Fetched Upcoming Tests");
         _isUpcomingTestLoading = false;
         notifyListeners();
       }
@@ -101,19 +99,19 @@ class TestSeriesProvider extends ChangeNotifier {
         await TestSeriesService().getAttendedTestSeries(context: context);
 
     if (response == null) {
-      showSnackBar("Error", "Error fetching attended Test Series");
+      showSnackBar("Error", "Error Loading attended Test Series");
       _isAttendedTestLoading = false;
       notifyListeners();
     } else {
       if (response.type == "success") {
         _attendedTestList = response.testSeries ?? [];
         notifyListeners();
-        showSnackBar("Success", "Successfully fetched attended Test Series");
         _isAttendedTestLoading = false;
         notifyListeners();
       }
     }
   }
+
 
   // Test Series Analysis
   Future<void> fetchTestSeriesAnalysis(
@@ -132,11 +130,10 @@ class TestSeriesProvider extends ChangeNotifier {
       if (response.type == "success") {
         _testseriesAnalysisModel = response;
         notifyListeners();
-        showSnackBar("Success", "Successfully fetched Test Series Analysis");
         _isAnalysisLoading = false;
         _isResultPublished = true;
         notifyListeners();
-      } else {
+      } else if (response.type == "error") {
         _isAnalysisLoading = false;
         _isResultPublished = false;
         notifyListeners();
@@ -153,7 +150,7 @@ class TestSeriesProvider extends ChangeNotifier {
     final response = await TestSeriesService()
         .getLeaderBoard(context: context, testId: testId);
     if (response == null) {
-      showSnackBar("Error", "Error Fetching LeaderBoard");
+      showSnackBar("Error", "Error Loading LeaderBoard");
       _isLeaderBoardLoading = false;
       notifyListeners();
     } else {
