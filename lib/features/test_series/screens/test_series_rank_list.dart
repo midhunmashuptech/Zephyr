@@ -6,20 +6,21 @@ import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/test_series/model/testseries_leaderboard_model.dart';
 import 'package:zephyr/features/test_series/screens/test_leaderboard_tab.dart';
 import 'package:zephyr/features/test_series/screens/test_ranktable_tab.dart';
-import 'package:zephyr/features/test_series/widgets/rank_card.dart';
 import 'package:zephyr/features/test_series/provider/test_series_provider.dart';
 
 class TestSeriesRankList extends StatefulWidget {
+  final String testTitle;
   final String testId;
   final String maxMark;
   const TestSeriesRankList(
-      {required this.testId, required this.maxMark, super.key});
+      {required this.testId, required this.maxMark, required this.testTitle, super.key});
 
   @override
   State<TestSeriesRankList> createState() => _TestSeriesRankListState();
 }
 
-class _TestSeriesRankListState extends State<TestSeriesRankList> with TickerProviderStateMixin {
+class _TestSeriesRankListState extends State<TestSeriesRankList>
+    with TickerProviderStateMixin {
   TestSeriesProvider testSeriesProvider = TestSeriesProvider();
   UserDetailsProvider userDetailsProvider = UserDetailsProvider();
   late AnimationController _animationController;
@@ -74,7 +75,7 @@ class _TestSeriesRankListState extends State<TestSeriesRankList> with TickerProv
                     children: [
                       SizedBox(height: 80),
                       Text(
-                        "You have been placed among 20\nparticipants in this exam at",
+                        widget.testTitle,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 18,
@@ -117,7 +118,8 @@ class _TestSeriesRankListState extends State<TestSeriesRankList> with TickerProv
                                 // Animated rank number
                                 ScaleTransition(
                                   scale: _scaleAnimation,
-                                  child: Text("${testSeriesProvider.leaderBoardList.firstWhere((student) => student.userId == userDetailsProvider.userDetails.id, orElse: () => Ranklist(rank: 0)).rank}",
+                                  child: Text(
+                                      "${testSeriesProvider.leaderBoardList.firstWhere((student) => student.userId == userDetailsProvider.userDetails.id, orElse: () => Ranklist(rank: 0)).rank}",
                                       style: TextStyle(
                                           color: AppColors.white,
                                           fontSize: 35,

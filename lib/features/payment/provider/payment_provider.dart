@@ -46,7 +46,7 @@ class PaymentProvider extends ChangeNotifier {
       } else if (response.isActive == false) {
         _razorpayModel = response;
         notifyListeners();
-        showSnackBar("error", "Something Went Wrong");
+        // showSnackBar("error", "Something Went Wrong");
 
         await Future.delayed(Duration(seconds: 4), () {
           Get.offAll(BottomNavScreen());

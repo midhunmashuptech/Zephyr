@@ -7,14 +7,11 @@ import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/common/provider/user_details_provider.dart';
-import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/test_series/model/testseries_analysis_model.dart';
 import 'package:zephyr/features/test_series/provider/test_series_provider.dart';
 import 'package:zephyr/features/test_series/screens/test_series_rank_list.dart';
 import 'package:zephyr/features/test_series/screens/test_series_solutions_screen.dart';
-import 'package:zephyr/features/test_series/widgets/test_detail_widget.dart';
-import 'package:zephyr/features/test_series/widgets/test_report_card.dart';
 
 class TestReviewScreen extends StatefulWidget {
   final String type;
@@ -102,13 +99,17 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
             ? const Center(child: CircularProgressIndicator())
             : !(testSeriesProvider.isResultPublished)
                 ? Center(
-                    child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Lottie.asset("assets/lottie/chart.json", height: 200),
                         SizedBox(
                           height: 10,
                         ),
-                        Text("Test Analysis not yet published.\nPlease try again later!",textAlign: TextAlign.center,)
+                        Text(
+                          "Test Analysis not yet published.\nPlease try again later!",
+                          textAlign: TextAlign.center,
+                        )
                       ],
                     ),
                   )
@@ -214,6 +215,7 @@ class _TestReviewScreenState extends State<TestReviewScreen> {
                                         testId: widget.testid,
                                         maxMark:
                                             "${((testSeriesProvider.testseriesAnalysisModel.performance ?? Performance()).overall ?? Overall()).maxMarks}",
+                                        testTitle: widget.title,
                                       ),
                                     ),
                                   ),

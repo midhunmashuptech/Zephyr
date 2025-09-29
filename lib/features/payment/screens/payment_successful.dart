@@ -22,7 +22,7 @@ class _PaymentSuccessfulState extends State<PaymentSuccessful> {
   }
 
   Future<void> navigateBack() async {
-    await Future.delayed(Duration(seconds: 3)).then((_) => Get.offAll(BottomNavScreen()));
+    await Future.delayed(Duration(seconds: 5)).then((_) => Get.offAll(BottomNavScreen()));
   }
 
   @override
@@ -66,14 +66,14 @@ class _PaymentSuccessfulState extends State<PaymentSuccessful> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Lottie.asset("assets/lottie/plane.json",
-                          width: MediaQuery.of(context).size.width * .7,
-                          repeat: false),
+                          width: MediaQuery.of(context).size.width * .7),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * .8,
                         child: Text(
                             "Currently not accepting any course enrollment at the moment. Please Try agin Later or We will notify you once it become ready!",
+                            textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontWeight: FontWeight.w500, fontSize: 16)),
+                                fontWeight: FontWeight.w500, fontSize: 14)),
                       )
                     ],
                   ),

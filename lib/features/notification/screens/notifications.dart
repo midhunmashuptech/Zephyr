@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:zephyr/features/notification/provider/notification_provider.dart';
 import 'package:zephyr/features/notification/widgets/notification_card.dart';
@@ -70,7 +71,30 @@ class _NotificationsState extends State<Notifications> {
                   ),
                 ],
               ),
-              ListView.separated(
+              notificationProvider.isNotificationsLoading
+              ? Center(child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.5,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(),
+                  ],
+                ),
+              ))
+              : notificationProvider.notificationsList.isEmpty
+              ? Center(
+                          child: Column(
+                            children: [
+                              Lottie.asset("assets/lottie/nodata.json",
+                                  height: 200),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text("No New Notifications!")
+                            ],
+                          ),
+                        )
+              : ListView.separated(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   separatorBuilder: (contex, _) => SizedBox(height: 5),

@@ -19,13 +19,18 @@ class NotificationProvider extends ChangeNotifier {
     if (response == null) {
       showSnackBar("Error",
           "Couldn't load Notifications at this moment.Please try again later");
-      _isNotificationsLoading = true;
+      _notificationsList = [];
+      _isNotificationsLoading = false;
       notifyListeners();
     } else {
       if (response.type == "success") {
         _notificationsList = response.notifications ?? [];
         notifyListeners();
-        _isNotificationsLoading = true;
+        _isNotificationsLoading = false;
+        notifyListeners();
+      } else {
+        _notificationsList = [];
+        _isNotificationsLoading = false;
         notifyListeners();
       }
     }
