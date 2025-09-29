@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:zephyr/constants/app_constants.dart';
 
@@ -24,7 +25,9 @@ class NotificationCard extends StatelessWidget {
       ),
       child: Container(
         decoration: BoxDecoration(
-          gradient: AppColors.orangeGradient,
+          color: AppColors.white,
+          border: BoxBorder.all(color: AppColors.grey,),
+          // gradient: AppColors.orangeGradient,
           borderRadius: BorderRadius.circular(10)
         ),
         child: Column(
@@ -46,7 +49,7 @@ class NotificationCard extends StatelessWidget {
                         ? 150
                         : MediaQuery.of(context).size.width * 0.5,
                     clipBehavior: Clip.hardEdge,
-                    child: Image.asset(image,fit: BoxFit.fill),
+                    child: CachedNetworkImage(imageUrl: image,fit: BoxFit.fill),
                   ),
                 ),
                 Expanded(

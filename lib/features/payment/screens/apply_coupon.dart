@@ -19,11 +19,7 @@ class Coupons {
 }
 
 class _ApplyCouponState extends State<ApplyCoupon> {
-  List<Coupons> coupons = [
-    Coupons(couponText: "Flat 149/- OFF", couponCode: "#FLAT50OF"),
-    Coupons(couponText: "Flat 299/- OFF", couponCode: "#FLAT299OF"),
-    Coupons(couponText: "Flat 99/- OFF", couponCode: "#FLAT99OF"),
-  ];
+  List<Coupons> coupons = [];
   List<Coupons> filteredCoupons = [];
   String? selectedValue;
   String? searchValue;
