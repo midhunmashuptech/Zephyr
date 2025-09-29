@@ -77,6 +77,9 @@ const getChapterOptionsUrl = "${baseUrl}get-chapters";
 const getTopicOptionsUrl = "${baseUrl}get-topics";
 const generateAiQuizUrl = "${baseUrl}generate-ai-practice-quiz";
 
+// Payment API's
+const getRazorpayKeyUrl = "${baseUrl}get-razorpay-key";
+
 // Review API's
 const getCourseReviewsUrl = "${baseUrl}get-course-reviews/";
 const postCourseReviewUrl = "${baseUrl}post-course-reviews";
@@ -90,7 +93,7 @@ const attendAiTest =
 const viewTestSolution = "${webBaseUrl}quiz/view-solution";
 
 // WebView endpoint
-const testUrl = "${webviewBaseUrl}events";
-const termsAndCondition = "${webviewBaseUrl}contact";
-const helpAndSupport = "${webviewBaseUrl}contact";
-const aboutUs = "${webviewBaseUrl}about";
+const testUrl = "${webBaseUrl}events";
+const termsAndCondition = "${webBaseUrl}contact";
+const helpAndSupport = "${webBaseUrl}contact";
+const aboutUs = "${webBaseUrl}about-us";
