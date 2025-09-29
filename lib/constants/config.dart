@@ -97,6 +97,8 @@ const viewTestSolution = "${webBaseUrl}quiz/view-solution";
 
 // WebView endpoint
 const testUrl = "${webBaseUrl}events";
-const termsAndCondition = "${webBaseUrl}contact";
+const termsAndCondition = "${webBaseUrl}terms-and-conditions";
 const helpAndSupport = "${webBaseUrl}contact";
 const aboutUs = "${webBaseUrl}about-us";
+const privacyPolicy = "${webBaseUrl}privacy-policy";
+const refundPolicy = "${webBaseUrl}refund-policy";

@@ -160,4 +160,7 @@ class LoginService {
       return verifyResetPasswordModel;
     }
   }
+
+  //Logout
+  
 }

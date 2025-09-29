@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:zephyr/common/provider/user_details_provider.dart';
 import 'package:zephyr/common/screens/error_screen.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/auth/login/screens/mobile_number_verification.dart';
 import 'package:zephyr/features/drawer/screens/about_us.dart';
 import 'package:zephyr/features/drawer/screens/edit_profile.dart';
-import 'package:zephyr/features/drawer/screens/help_and_support.dart';
+import 'package:zephyr/features/drawer/screens/privacy_policy.dart';
 import 'package:zephyr/features/drawer/screens/profile_screen.dart';
+import 'package:zephyr/features/drawer/screens/refund_policy.dart';
 import 'package:zephyr/features/drawer/screens/terms_and_conditions.dart';
 import 'package:zephyr/features/drawer/screens/timeline_screen.dart';
 
@@ -25,13 +27,6 @@ class DrawerWidget extends StatelessWidget {
     return Drawer(
       child: Stack(
         children: [
-          // LayoutGradient(
-          //   gradient: LinearGradient(
-          //     colors: [Colors.deepPurpleAccent, Colors.purpleAccent],
-          //     begin: Alignment.topCenter,
-          //     end: Alignment.bottomCenter,
-          //   ),
-          // ),
           SafeArea(
             child: Padding(
               padding:
@@ -52,7 +47,7 @@ class DrawerWidget extends StatelessWidget {
                           BoxShadow(
                             color: AppColors.black.withOpacity(0.08),
                             blurRadius: 12,
-                            offset: Offset(0, 6),
+                            offset: const Offset(0, 6),
                           ),
                         ],
                       ),
@@ -69,7 +64,7 @@ class DrawerWidget extends StatelessWidget {
                                       ? CachedNetworkImageProvider(user.image!)
                                       : null,
                               child: user.image == null || user.image!.isEmpty
-                                  ? Icon(Icons.person,
+                                  ? const Icon(Icons.person,
                                       size: 32, color: AppColors.primaryBlue)
                                   : null,
                             ),
@@ -79,7 +74,7 @@ class DrawerWidget extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
+                                const Text(
                                   "Hello,",
                                   style: TextStyle(
                                     fontSize: 15,
@@ -89,7 +84,7 @@ class DrawerWidget extends StatelessWidget {
                                 ),
                                 Text(
                                   user.name ?? "",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black87,
@@ -101,7 +96,7 @@ class DrawerWidget extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Icon(Icons.chevron_right, color: Colors.white54),
+                          const Icon(Icons.chevron_right, color: Colors.white54),
                         ],
                       ),
                     ),
@@ -110,7 +105,7 @@ class DrawerWidget extends StatelessWidget {
                   // Drawer Items
                   Expanded(
                     child: ListView(
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       children: [
                         _ModernDrawerItem(
                           icon: Icons.edit,
@@ -142,10 +137,9 @@ class DrawerWidget extends StatelessWidget {
                         _ModernDrawerItem(
                           icon: Icons.help_outline,
                           label: "Help & Support",
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (_) => HelpAndSupport()),
-                          ),
+                          onTap: () {
+                            _showHelpAndSupportDialog(context);
+                          },
                         ),
                         _ModernDrawerItem(
                           icon: Icons.info_outline,
@@ -155,8 +149,24 @@ class DrawerWidget extends StatelessWidget {
                             MaterialPageRoute(builder: (_) => AboutUs()),
                           ),
                         ),
+                        _ModernDrawerItem(
+                          icon: Icons.receipt_long,
+                          label: "Refund Policy",
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => RefundPolicy()),
+                          ),
+                        ),
+                        _ModernDrawerItem(
+                          icon: Icons.security,
+                          label: "Privacy Policy",
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => PrivacyPolicy()),
+                          ),
+                        ),
                         const SizedBox(height: 12),
-                        Divider(
+                        const Divider(
                             color: Colors.white24,
                             thickness: 1,
                             indent: 8,
@@ -172,33 +182,31 @@ class DrawerWidget extends StatelessWidget {
                               builder: (_) => AlertDialog(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(16)),
-                                title: Text("Sign out?"),
-                                content: Text(
+                                title: const Text("Sign out?"),
+                                content: const Text(
                                   "You will be signed out of your account. To continue, you’ll need to log in again.",
                                 ),
                                 actions: [
                                   TextButton(
                                     onPressed: () => Navigator.pop(context),
-                                    child: Text("Cancel"),
+                                    child: const Text("Cancel"),
                                   ),
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      // backgroundColor: AppColors.grey,
-                                      overlayColor: AppColors.lightBlue
-                                    ),
+                                        overlayColor: AppColors.lightBlue),
                                     onPressed: () async {
-                                      FlutterSecureStorage _secureStorage =
-                                          FlutterSecureStorage();
-                                      await _secureStorage.delete(key: "token");
+                                      FlutterSecureStorage secureStorage =
+                                          const FlutterSecureStorage();
+                                      await secureStorage.delete(key: "token");
                                       Get.offAll(MobileNumberVerification());
                                     },
-                                    child: Text("Logout"),
+                                    child: const Text("Logout"),
                                   ),
                                 ],
                               ),
                             );
                           },
-                        ), 
+                        ),
                         _ModernDrawerItem(
                           icon: Icons.delete_forever,
                           label: "Delete Account",
@@ -215,7 +223,7 @@ class DrawerWidget extends StatelessWidget {
                   // App Version or Footer
                   Padding(
                     padding: const EdgeInsets.only(top: 12.0),
-                    child: Text(
+                    child: const Text(
                       "Zephyr v1.0.0",
                       style: TextStyle(
                         color: Colors.white38,
@@ -230,6 +238,111 @@ class DrawerWidget extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void _showHelpAndSupportDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: true, // allow tap outside to close
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.7,
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 22.0, horizontal: 25),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Contact Us",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.black,
+                        ),
+                      ),
+                      const SizedBox(width: 5),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  decoration: const BoxDecoration(
+                    color: AppColors.lightGrey,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("Email",
+                            style: TextStyle(color: AppColors.black)),
+                        GestureDetector(
+                          onTap: () async {
+                            final Uri emailLaunchUri = Uri(
+                              scheme: 'mailto',
+                              path: 'info@zephyrdigital.in',
+                            );
+                            if (await canLaunchUrl(emailLaunchUri)) {
+                              await launchUrl(emailLaunchUri);
+                            }
+                          },
+                          child: const Text(
+                            "info@zephyrdigital.in",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
+                                color: AppColors.primaryBlue,
+                                ),
+                          ),
+                        ),
+                        SizedBox(height: 15,),
+                        const Text("Mobile Number",
+                            style: TextStyle(color: AppColors.black)),
+                        GestureDetector(
+                          onTap: () async {
+                            final Uri phoneUri = Uri(
+                              scheme: 'tel',
+                              path: '+919645474080',
+                            );
+                            if (await canLaunchUrl(phoneUri)) {
+                              await launchUrl(phoneUri);
+                            }
+                          },
+                          child: const Text(
+                            "+91 9645474080",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
+                                color: AppColors.primaryBlue,
+                                ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
@@ -250,13 +363,13 @@ class _ModernDrawerItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       leading: Container(
         decoration: BoxDecoration(
           color: (color ?? AppColors.primaryBlue).withOpacity(0.12),
           borderRadius: BorderRadius.circular(10),
         ),
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: Icon(icon, color: color ?? Colors.black, size: 24),
       ),
       title: Text(
