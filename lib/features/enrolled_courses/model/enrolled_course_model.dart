@@ -57,7 +57,7 @@ class Subscriptions {
     batchId = json['batch_id'];
     batchTitle = json['batch_title'];
     enrollmentId = json['enrollment_id'];
-    ratings = json['ratings'];
+    ratings = double.parse(json['ratings'].toString());
     contentCount = json['content_count'];
     progress = json['progress'];
   }

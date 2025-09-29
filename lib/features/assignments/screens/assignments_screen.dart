@@ -64,6 +64,7 @@ class _AssignmentsScreenState extends State<AssignmentsScreen> {
                           child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 40.0),
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Lottie.asset("assets/lottie/nodata.json",
                                   height: 200),

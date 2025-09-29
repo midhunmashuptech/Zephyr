@@ -52,7 +52,7 @@ class MyCourseCard extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: CachedNetworkImage(
-                height: 320,
+                height: MediaQuery.of(context).size.width * 0.5,
                 width: double.infinity,
                 imageUrl: course.courseThumbnail ??
                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
@@ -80,7 +80,7 @@ class MyCourseCard extends StatelessWidget {
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                     colors: [
-                      const Color(0xFF2D3A4A).withOpacity(0.82),
+                      const Color.fromARGB(255, 0, 0, 0),
                       Colors.transparent,
                     ],
                   ),
@@ -93,11 +93,11 @@ class MyCourseCard extends StatelessWidget {
                         CircleAvatar(
                           radius: 22,
                           backgroundColor:
-                              const Color(0xFF2D3A4A).withOpacity(0.08),
+                              const Color(0xFF2D3A4A).withAlpha(100),
                           child: Iconify(
                             Fa.graduation_cap,
                             size: 20,
-                            color: const Color(0xFF2D3A4A),
+                            color: AppColors.white,
                           ),
                         ),
                         const SizedBox(width: 12),
@@ -136,7 +136,7 @@ class MyCourseCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 18),
+                    const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -191,11 +191,11 @@ class MyCourseCard extends StatelessWidget {
                         )
                       ],
                     ),
-                    const SizedBox(height: 10),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: courseStarRating(),
-                    ),
+                    // const SizedBox(height: 10),
+                    // Align(
+                    //   alignment: Alignment.bottomRight,
+                    //   child: courseStarRating(),
+                    // ),
                   ],
                 ),
               ),
