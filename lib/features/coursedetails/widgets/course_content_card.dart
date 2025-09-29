@@ -20,6 +20,7 @@ class CourseContentCard extends StatefulWidget {
   final int? maxMark;
   final int? questionCount;
   final int? duration;
+  final String? source;
 
   const CourseContentCard(
       {required this.type,
@@ -30,7 +31,11 @@ class CourseContentCard extends StatefulWidget {
       required this.icon,
       required this.bgcolor,
       required this.isFree,
-      super.key, this.maxMark, this.questionCount, this.duration});
+      super.key,
+      this.source,
+      this.maxMark,
+      this.questionCount,
+      this.duration});
 
   @override
   State<CourseContentCard> createState() => _CourseContentCardState();
@@ -73,6 +78,7 @@ class _CourseContentCardState extends State<CourseContentCard> {
                 builder: (contex) => SampleChapterVideoPlayer(
                       videoUrl: widget.url,
                       videoName: widget.title,
+                      source: widget.source ?? "",
                     )));
           } else if (widget.type == "material") {
             Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(

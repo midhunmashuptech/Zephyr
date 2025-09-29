@@ -108,6 +108,9 @@ class _CourseChapterContentState extends State<CourseChapterContent> {
                                             "Video Title",
                                         subtitle: 'Tap to play the video',
                                         icon: Icons.videocam,
+                                        source: (courseProvider.selectedChapter
+                                                        .videos ??
+                                                    [])[index].source,
                                         bgcolor: AppColors.primaryBlue,
                                         isFree: (courseProvider.selectedChapter
                                                         .videos ??

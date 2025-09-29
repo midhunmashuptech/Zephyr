@@ -145,11 +145,12 @@ class _MyCourseScreenState extends State<MyCourseScreen> {
                             ],
                           ),
                         )
-                      : ListView.builder(
+                      : ListView.separated(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemCount:
                               enrolledCourseProvider.filteredCourses.length,
+                          separatorBuilder: (context, index) => SizedBox(height: 10),
                           itemBuilder: (context, index) {
                             return MyCourseCard(
                                 index: index,
