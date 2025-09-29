@@ -33,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   HomePageProvider homePageProvider = HomePageProvider();
   UserDetailsProvider userDetailsProvider = UserDetailsProvider();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  TextEditingController searchController = TextEditingController();
 
   int _current = 0;
   final CarouselSliderController _controller = CarouselSliderController();
@@ -53,10 +54,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     try {
       final homePageProvider = context.read<HomePageProvider>();
-
-      // Execute API calls
-      await homePageProvider.fetchActiveCouses(context);
-      if (!mounted) return; // Check after each async call
 
       await homePageProvider.fetchFeaturedCourses(context: context);
       if (!mounted) return;
@@ -153,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       style: TextStyle(fontSize: 13)),
                                   Text(
                                     userDetailsProvider.userDetails.name ??
-                                        "User",
+                                        "User Name",
                                     style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600),
@@ -183,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: CustomSearchBar(
                   color: AppColors.primaryBlue,
                   onChanged: (value) {
-                    homePageProvider.filterActiveCourses(value);
+                    homePageProvider.filterCourses(value);
                   },
                 ),
               ),
@@ -329,25 +326,34 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Lottie.asset("assets/lottie/loading.json",
                           height: 100),
                     )
-                  : SizedBox(
-                      height: 330,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        padding:
-                            EdgeInsets.only(left: 20, right: 20, bottom: 20),
-                        itemCount: homePageProvider.featuredCourses.length,
-                        itemBuilder: (context, index) => Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: FeaturedCourseCard(
-                            isEnrolled: homePageProvider
-                                    .featuredCourses[index].isEnrolled ??
-                                false,
-                            course: homePageProvider.featuredCourses[index],
-                            index: index,
+                  : homePageProvider.filteredFeaturedCourses.isEmpty
+                      ? SizedBox(
+                          height: 50,
+                          child: Center(
+                              child: Text("No Featured Courses Avilable")),
+                        )
+                      : SizedBox(
+                          height: 330,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            padding: EdgeInsets.only(
+                                left: 20, right: 20, bottom: 20),
+                            itemCount:
+                                homePageProvider.filteredFeaturedCourses.length,
+                            itemBuilder: (context, index) => Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: FeaturedCourseCard(
+                                isEnrolled: homePageProvider
+                                        .filteredFeaturedCourses[index]
+                                        .isEnrolled ??
+                                    false,
+                                course: homePageProvider
+                                    .filteredFeaturedCourses[index],
+                                index: index,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
             ),
 
             SliverToBoxAdapter(child: SizedBox(height: 10)),
@@ -384,7 +390,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         category.id ?? 0),
                                                 child: CategoryWidget(
                                                     isSelected: homePageProvider
-                                                            .selectedCategory ==
+                                                            .selectedCategory
+                                                            .id ==
                                                         category.id,
                                                     categoryName:
                                                         category.title ??
@@ -400,7 +407,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       homePageProvider.isCategoryCourseLoading
                           ? "All Courses for you"
-                          : "${homePageProvider.selectedCategoryCourses.title} Courses for you",
+                          : homePageProvider.selectedCategory.title ==
+                                  "All courses"
+                              ? "All Courses for you"
+                              : "${homePageProvider.selectedCategory.title} Courses for you",
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
@@ -410,204 +420,90 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Lottie.asset("assets/lottie/loading.json",
                                 height: 100),
                           )
-                        : LayoutBuilder(
-                            builder: (context, constraints) {
-                              final isTablet = constraints.maxWidth > 500;
-                              // debugPrint("${constraints.maxWidth} $isTablet");
-                              if (homePageProvider.selectedCategoryCourses.id ==
-                                  0) {
-                                if (homePageProvider.activeCourses.isEmpty) {
-                                  return Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 40.0),
-                                      child: Column(
-                                        children: [
-                                          Lottie.asset(
-                                              "assets/lottie/nodata.json",
-                                              height: 200),
-                                          Text("No Matching Courses found!"),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                }
-                                return ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemCount:
-                                      homePageProvider.activeCourses.length,
-                                  itemBuilder: (context, index) {
-                                    final courseData =
-                                        homePageProvider.activeCourses[index];
-                                    return isTablet
-                                        ? Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 12.0),
-                                            child: HomeTabletCourseCard(
-                                              index: index,
-                                              courseId:
-                                                  courseData.id.toString(),
-                                              courseName: courseData.title ??
-                                                  "Course Name",
-                                              courseRating:
-                                                  (courseData.averageRating ??
-                                                          0.0)
-                                                      .toString(),
-                                              isEnrolled:
-                                                  courseData.isEnrolled ??
-                                                      false,
-                                              thumbnail: courseData.thumbnail ??
-                                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
-                                              discountType:
-                                                  courseData.discountType ??
-                                                      "0",
-                                              discountValue:
-                                                  courseData.discountValue ??
-                                                      "0",
-                                              price: courseData.price ?? "0.00",
-                                              start: courseData.start ?? "N/A",
-                                              end: courseData.end ?? "N/A",
-                                              duration:
-                                                  courseData.duration ?? 0,
-                                              level: courseData.level ?? "N/A",
-                                              type: courseData.type ?? "N/A",
-                                            ),
-                                          )
-                                        : Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 12.0),
-                                            child: HomeCourseCard(
-                                              index: index,
-                                              courseId:
-                                                  courseData.id.toString(),
-                                              courseName: courseData.title ??
-                                                  "Course Name",
-                                              courseRating:
-                                                  (courseData.averageRating ??
-                                                          0.0)
-                                                      .toString(),
-                                              isEnrolled:
-                                                  courseData.isEnrolled ??
-                                                      false,
-                                              thumbnail: courseData.thumbnail ??
-                                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
-                                              discountType:
-                                                  courseData.discountType ??
-                                                      "0",
-                                              discountValue:
-                                                  courseData.discountValue ??
-                                                      "0",
-                                              price: courseData.price ?? "0.00",
-                                              start: courseData.start ?? "N/A",
-                                              end: courseData.end ?? "N/A",
-                                              duration:
-                                                  courseData.duration ?? 0,
-                                              level: courseData.level ?? "N/A",
-                                              type: courseData.type ?? "N/A",
-                                            ),
-                                          );
-                                  },
-                                );
-                              } else {
-                                final selectedCourses = homePageProvider
-                                        .selectedCategoryCourses.courses ??
-                                    [];
-                                if (selectedCourses.isEmpty) {
-                                  return Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 40.0),
-                                      child: Column(
-                                        children: [
-                                          Lottie.asset(
-                                              "assets/lottie/nodata.json",
-                                              height: 200),
-                                          Text("No Matching Courses found!"),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                }
-                                return ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemCount: selectedCourses.length,
-                                  itemBuilder: (context, index) {
-                                    final courseData = selectedCourses[index];
+                        : LayoutBuilder(builder: (context, constraints) {
+                            final isTablet = constraints.maxWidth > 500;
+                            final selectedCourses = homePageProvider
+                                .filteredSelectedCategoryCourses;
+                            if (selectedCourses.isEmpty) {
+                              return Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 40.0),
+                                  child: Column(
+                                    children: [
+                                      Lottie.asset("assets/lottie/nodata.json",
+                                          height: 200),
+                                      Text("No Matching Courses found!"),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: selectedCourses.length,
+                              itemBuilder: (context, index) {
+                                final courseData = selectedCourses[index];
 
-                                    return isTablet
-                                        ? Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 12.0),
-                                            child: HomeTabletCourseCard(
-                                              index: index,
-                                              courseId:
-                                                  courseData.id.toString(),
-                                              courseName: courseData.title ??
-                                                  "Course Name",
-                                              courseRating:
-                                                  (courseData.averageRating ??
-                                                          0.0)
-                                                      .toString(),
-                                              isEnrolled:
-                                                  courseData.isEnrolled ??
-                                                      false,
-                                              thumbnail: courseData.thumbnail ??
-                                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
-                                              discountType:
-                                                  courseData.discountType ??
-                                                      "0",
-                                              discountValue:
-                                                  courseData.discountValue ??
-                                                      "0",
-                                              price: courseData.price ?? "0.00",
-                                              start: courseData.start ?? "N/A",
-                                              end: courseData.end ?? "N/A",
-                                              duration:
-                                                  courseData.duration ?? 0,
-                                              level: courseData.level ?? "N/A",
-                                              type: courseData.type ?? "N/A",
-                                            ),
-                                          )
-                                        : Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 12.0),
-                                            child: HomeCourseCard(
-                                              index: index,
-                                              courseId:
-                                                  courseData.id.toString(),
-                                              courseName: courseData.title ??
-                                                  "Course Name",
-                                              courseRating:
-                                                  (courseData.averageRating ??
-                                                          0.0)
-                                                      .toString(),
-                                              isEnrolled:
-                                                  courseData.isEnrolled ??
-                                                      false,
-                                              thumbnail: courseData.thumbnail ??
-                                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
-                                              discountType:
-                                                  courseData.discountType ??
-                                                      "0",
-                                              discountValue:
-                                                  courseData.discountValue ??
-                                                      "0",
-                                              price: courseData.price ?? "0.00",
-                                              start: courseData.start ?? "N/A",
-                                              end: courseData.end ?? "N/A",
-                                              duration:
-                                                  courseData.duration ?? 0,
-                                              level: courseData.level ?? "N/A",
-                                              type: courseData.type ?? "N/A",
-                                            ),
-                                          );
-                                  },
-                                );
-                              }
-                            },
-                          ),
+                                return isTablet
+                                    ? Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 12.0),
+                                        child: HomeTabletCourseCard(
+                                          index: index,
+                                          courseId: courseData.id.toString(),
+                                          courseName:
+                                              courseData.title ?? "Course Name",
+                                          courseRating:
+                                              (courseData.averageRating ?? 0.0)
+                                                  .toString(),
+                                          isEnrolled:
+                                              courseData.isEnrolled ?? false,
+                                          thumbnail: courseData.thumbnail ??
+                                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                                          discountType:
+                                              courseData.discountType ?? "0",
+                                          discountValue:
+                                              courseData.discountValue ?? "0",
+                                          price: courseData.price ?? "0.00",
+                                          start: courseData.start ?? "N/A",
+                                          end: courseData.end ?? "N/A",
+                                          duration: courseData.duration ?? 0,
+                                          level: courseData.level ?? "N/A",
+                                          type: courseData.type ?? "N/A",
+                                        ),
+                                      )
+                                    : Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 12.0),
+                                        child: HomeCourseCard(
+                                          index: index,
+                                          courseId: courseData.id.toString(),
+                                          courseName:
+                                              courseData.title ?? "Course Name",
+                                          courseRating:
+                                              (courseData.averageRating ?? 0.0)
+                                                  .toString(),
+                                          isEnrolled:
+                                              courseData.isEnrolled ?? false,
+                                          thumbnail: courseData.thumbnail ??
+                                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
+                                          discountType:
+                                              courseData.discountType ?? "0",
+                                          discountValue:
+                                              courseData.discountValue ?? "0",
+                                          price: courseData.price ?? "0.00",
+                                          start: courseData.start ?? "N/A",
+                                          end: courseData.end ?? "N/A",
+                                          duration: courseData.duration ?? 0,
+                                          level: courseData.level ?? "N/A",
+                                          type: courseData.type ?? "N/A",
+                                        ),
+                                      );
+                              },
+                            );
+                          })
                   ],
                 ),
               ),

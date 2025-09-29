@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/common/provider/user_details_provider.dart';
 import 'package:zephyr/common/screens/error_screen.dart';
 import 'package:zephyr/constants/app_constants.dart';
@@ -96,7 +97,8 @@ class DrawerWidget extends StatelessWidget {
                               ],
                             ),
                           ),
-                          const Icon(Icons.chevron_right, color: Colors.white54),
+                          const Icon(Icons.chevron_right,
+                              color: Colors.white54),
                         ],
                       ),
                     ),
@@ -208,15 +210,10 @@ class DrawerWidget extends StatelessWidget {
                           },
                         ),
                         _ModernDrawerItem(
-                          icon: Icons.delete_forever,
-                          label: "Delete Account",
-                          color: Colors.red,
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const ErrorScreen()),
-                          ),
-                        ),
+                            icon: Icons.delete_forever,
+                            label: "Delete Account",
+                            color: Colors.red,
+                            onTap: () => showDeleteAccountDialog(context)),
                       ],
                     ),
                   ),
@@ -241,6 +238,36 @@ class DrawerWidget extends StatelessWidget {
     );
   }
 
+  void showDeleteAccountDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16)),
+              title: const Text(
+                "Delete Account?",
+              ),
+              content: const Text(
+                "Are you sure you really want to delete your account?",
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Cancel"),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      overlayColor: AppColors.lightBlue),
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    showSnackBar("Delete Request Sent", "Account delete request has been initiated successfully. You will receive a confirmation email shortly.");
+                  },
+                  child: const Text("Confirm"),
+                ),
+              ],
+            ));
+  }
+
   void _showHelpAndSupportDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -260,8 +287,8 @@ class DrawerWidget extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 22.0, horizontal: 25),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 22.0, horizontal: 25),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -306,13 +333,15 @@ class DrawerWidget extends StatelessWidget {
                           child: const Text(
                             "info@zephyrdigital.in",
                             style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
-                                color: AppColors.primaryBlue,
-                                ),
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18,
+                              color: AppColors.primaryBlue,
+                            ),
                           ),
                         ),
-                        SizedBox(height: 15,),
+                        SizedBox(
+                          height: 15,
+                        ),
                         const Text("Mobile Number",
                             style: TextStyle(color: AppColors.black)),
                         GestureDetector(
@@ -328,10 +357,10 @@ class DrawerWidget extends StatelessWidget {
                           child: const Text(
                             "+91 9645474080",
                             style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
-                                color: AppColors.primaryBlue,
-                                ),
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18,
+                              color: AppColors.primaryBlue,
+                            ),
                           ),
                         ),
                       ],

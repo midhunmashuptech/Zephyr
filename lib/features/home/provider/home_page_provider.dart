@@ -22,13 +22,19 @@ class HomePageProvider extends ChangeNotifier {
   List<category_based_courses_model.AllCourses> get categoryBasedCourses =>
       _categoryBasedCourses;
 
-  int _selectedCategory = 0;
-  int get selectedCategory => _selectedCategory;
-
-  category_based_courses_model.AllCourses _selectedCategoryCourses =
+  category_based_courses_model.AllCourses _selectedCategory =
       category_based_courses_model.AllCourses();
-  category_based_courses_model.AllCourses get selectedCategoryCourses =>
+  category_based_courses_model.AllCourses get selectedCategory =>
+      _selectedCategory;
+
+  List<category_based_courses_model.Courses> _selectedCategoryCourses = [];
+  List<category_based_courses_model.Courses> get selectedCategoryCourses =>
       _selectedCategoryCourses;
+
+  List<category_based_courses_model.Courses> _filteredSelectedCategoryCourses =
+      [];
+  List<category_based_courses_model.Courses>
+      get filteredSelectedCategoryCourses => _filteredSelectedCategoryCourses;
 
   bool _isBannerImagesLoading = false;
   bool get isBannerImagesLoading => _isBannerImagesLoading;
@@ -38,11 +44,18 @@ class HomePageProvider extends ChangeNotifier {
 
   void changeCategory(int categoryId) {
     _selectedCategory = _categoryBasedCourses
-            .firstWhere((category) => category.id == categoryId)
-            .id ??
-        0;
-    _selectedCategoryCourses = _categoryBasedCourses
         .firstWhere((category) => category.id == categoryId);
+    _selectedCategoryCourses = _categoryBasedCourses
+            .firstWhere((category) => category.id == categoryId)
+            .courses ??
+        [];
+    notifyListeners();
+
+    _filteredSelectedCategoryCourses = selectedCategoryCourses
+        .where((course) => (course.title ?? "")
+            .toLowerCase()
+            .contains((searchedValue).toLowerCase()))
+        .toList();
     notifyListeners();
   }
 
@@ -55,8 +68,22 @@ class HomePageProvider extends ChangeNotifier {
   List<featured_model.Courses> _featuredCourses = [];
   List<featured_model.Courses> get featuredCourses => _featuredCourses;
 
-  void filterActiveCourses(String? searchValue) {
-    _filteredActiveCourses = activeCourses
+  List<featured_model.Courses> _filteredFeaturedCourses = [];
+  List<featured_model.Courses> get filteredFeaturedCourses =>
+      _filteredFeaturedCourses;
+
+  String searchedValue = "";
+
+  void filterCourses(String? searchValue) {
+    searchedValue = searchValue ?? "";
+    _filteredSelectedCategoryCourses = selectedCategoryCourses
+        .where((course) => (course.title ?? "")
+            .toLowerCase()
+            .contains((searchValue ?? "").toLowerCase()))
+        .toList();
+    notifyListeners();
+
+    _filteredFeaturedCourses = featuredCourses
         .where((course) => (course.title ?? "")
             .toLowerCase()
             .contains((searchValue ?? "").toLowerCase()))
@@ -93,45 +120,48 @@ class HomePageProvider extends ChangeNotifier {
     }
   }
 
-  //Active Courses
-  Future<void> fetchActiveCouses(BuildContext context) async {
-    _isActiveCoursesLoading = true;
-    _activeCourses = [];
-    _isFeaturedCourseLoading = true;
-    _isCategoryCourseLoading = true;
-    _isBannerImagesLoading = true;
-    _featuredCourses = [];
-    notifyListeners();
+  // //Active Courses
+  // Future<void> fetchActiveCouses(BuildContext context) async {
+  //   _isActiveCoursesLoading = true;
+  //   _activeCourses = [];
+  //   _isFeaturedCourseLoading = true;
+  //   _isCategoryCourseLoading = true;
+  //   _isBannerImagesLoading = true;
+  //   _featuredCourses = [];
+  //   notifyListeners();
 
-    final response = await HomePageService().getActiveCourses(context);
-    if (response == null) {
-      showSnackBar("Error", "Something went wrong! please try again");
-      _activeCourses = [];
-      _filteredActiveCourses = [];
-      _isActiveCoursesLoading = false;
-      notifyListeners();
-    } else {
-      if (response.type == "success") {
-        _activeCourses = response.course ?? [];
-        _filteredActiveCourses = response.course ?? [];
-        notifyListeners();
+  //   final response = await HomePageService().getActiveCourses(context);
+  //   if (response == null) {
+  //     showSnackBar("Error", "Something went wrong! please try again");
+  //     _activeCourses = [];
+  //     _filteredActiveCourses = [];
+  //     _isActiveCoursesLoading = false;
+  //     notifyListeners();
+  //   } else {
+  //     if (response.type == "success") {
+  //       _activeCourses = response.course ?? [];
+  //       _filteredActiveCourses = response.course ?? [];
+  //       notifyListeners();
 
-        _isActiveCoursesLoading = false;
-        notifyListeners();
-      } else {
-        _activeCourses = [];
-        _filteredActiveCourses = [];
-        notifyListeners();
+  //       _isActiveCoursesLoading = false;
+  //       notifyListeners();
+  //     } else {
+  //       _activeCourses = [];
+  //       _filteredActiveCourses = [];
+  //       notifyListeners();
 
-        _isActiveCoursesLoading = false;
-        notifyListeners();
-      }
-    }
-  }
+  //       _isActiveCoursesLoading = false;
+  //       notifyListeners();
+  //     }
+  //   }
+  // }
 
   //Featured Courses
   Future<void> fetchFeaturedCourses({required BuildContext context}) async {
     _isFeaturedCourseLoading = true;
+    _isCategoryCourseLoading = true;
+    _isBannerImagesLoading = true;
+    searchedValue = "";
     notifyListeners();
     final response =
         await HomePageService().getfeaturedCourse(context: context);
@@ -142,6 +172,7 @@ class HomePageProvider extends ChangeNotifier {
     } else {
       if (response.type == "success") {
         _featuredCourses = response.courses ?? [];
+        _filteredFeaturedCourses = featuredCourses;
         _isFeaturedCourseLoading = false;
         notifyListeners();
 
@@ -162,6 +193,7 @@ class HomePageProvider extends ChangeNotifier {
 
     if (response == null) {
       showSnackBar("Error", "Error Fetching Featured Courses");
+      _categoryBasedCourses = [];
       _isCategoryCourseLoading = false;
       notifyListeners();
     } else {
@@ -169,8 +201,9 @@ class HomePageProvider extends ChangeNotifier {
         _categoryBasedCourses = response.allCourses ?? [];
         _categoryBasedCourses
             .sort((a, b) => (a.title ?? "").compareTo(b.title ?? ""));
-        _selectedCategory = _categoryBasedCourses[0].id ?? 0;
-        _selectedCategoryCourses = _categoryBasedCourses[0];
+        _selectedCategory = _categoryBasedCourses[0];
+        _selectedCategoryCourses = (_categoryBasedCourses[0]).courses ?? [];
+        _filteredSelectedCategoryCourses = _selectedCategoryCourses;
         notifyListeners();
         _isCategoryCourseLoading = false;
         notifyListeners();

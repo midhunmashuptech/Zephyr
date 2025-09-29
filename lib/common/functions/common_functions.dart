@@ -11,9 +11,9 @@ void showSnackBar(
     title,
     message,
     snackPosition: SnackPosition.TOP,
-    backgroundColor: AppColors.primaryBlue.withAlpha(10),
+    backgroundColor: AppColors.lightOrange,
     colorText: Colors.black,
-    margin: EdgeInsets.symmetric(vertical: 10),
+    margin: EdgeInsets.all(10),
     titleText: Text(
       title,
       style: TextStyle(fontWeight: FontWeight.w600),
