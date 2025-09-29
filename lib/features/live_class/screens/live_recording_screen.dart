@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/live_class/model/recording_live_model.dart';
 import 'package:zephyr/features/live_class/provider/live_provider.dart';
+import 'package:zephyr/features/live_class/screens/live_recording_view_screen.dart';
 import 'package:zephyr/features/live_class/widgets/live_class_card.dart';
 import 'package:zephyr/features/live_class/widgets/live_class_card_with_thumbnail.dart';
 
@@ -23,10 +24,9 @@ class _LiveRecordingScreenState extends State<LiveRecordingScreen> {
   @override
   void initState() {
     super.initState();
- WidgetsBinding.instance.addPostFrameCallback((_) {
-    loadRecordings(DateTime.now());
-  });
-    
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      loadRecordings(DateTime.now());
+    });
   }
 
   Future<void> loadRecordings(DateTime date) async {
@@ -161,29 +161,95 @@ class _LiveRecordingScreenState extends State<LiveRecordingScreen> {
                         // shrinkWrap: true,
                         // physics: NeverScrollableScrollPhysics(),
                         itemCount: liveProvider.recordingLive.length,
-                        itemBuilder: (context, index) => liveProvider.recordingLive[index].isFeatured == 1
-                            ? LiveClassCardWithThumbnail(
-                                className: liveProvider.recordingLive[index].title ??
-                                    "Class Name",
-                                tutorName:
-                                    (liveProvider.recordingLive[index].faculty ??
+                        itemBuilder: (context, index) => liveProvider
+                                    .recordingLive[index].isFeatured ==
+                                1
+                            ? GestureDetector(
+                                onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LiveRecordingViewScreen(
+                                            videoName: liveProvider
+                                                    .recordingLive[index]
+                                                    .title ??
+                                                "Live Title",
+                                            videoUrl: liveProvider
+                                                        .recordingLive[index]
+                                                        .recordingSource ==
+                                                    "youtube"
+                                                ? liveProvider
+                                                        .recordingLive[index]
+                                                        .videoid ??
+                                                    ""
+                                                : liveProvider.recordingLive[index].hls ??
+                                                    "",
+                                            source: liveProvider
+                                                    .recordingLive[index]
+                                                    .recordingSource ??
+                                                "tpstreams"))),
+                                child: LiveClassCardWithThumbnail(
+                                    className: liveProvider
+                                            .recordingLive[index].title ??
+                                        "Class Name",
+                                    tutorName: (liveProvider
+                                                    .recordingLive[index]
+                                                    .faculty ??
                                                 Faculty(name: "Tutor name"))
                                             .name ??
                                         "",
-                                startDate: liveProvider.recordingLive[index].start ??
-                                    "",
-                                enddate:
-                                    liveProvider.recordingLive[index].end ?? "",
-                                imageUrl: liveProvider.recordingLive[index].thumbnail ??
-                                    "",
-                                currenttab: "Recordings")
-                            : LiveClassCard(
-                                className: liveProvider.recordingLive[index].title ?? "Class Name",
-                                tutorName: (liveProvider.recordingLive[index].faculty ?? Faculty(name: "Tutor name")).name ?? "",
-                                startDate: liveProvider.recordingLive[index].start ?? "",
-                                enddate: liveProvider.recordingLive[index].end ?? "",
-                                imageUrl: liveProvider.recordingLive[index].thumbnail ?? "https://blog.kapdec.com/hubfs/Imported_Blog_Media/3784896.jpg",
-                                currenttab: "Recordings"),
+                                    startDate: liveProvider
+                                            .recordingLive[index].start ??
+                                        "",
+                                    enddate:
+                                        liveProvider.recordingLive[index].end ??
+                                            "",
+                                    imageUrl: liveProvider
+                                            .recordingLive[index].thumbnail ??
+                                        "",
+                                    currenttab: "Recordings"),
+                              )
+                            : GestureDetector(
+                              onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LiveRecordingViewScreen(
+                                            videoName: liveProvider
+                                                    .recordingLive[index]
+                                                    .title ??
+                                                "Live Title",
+                                            videoUrl: liveProvider
+                                                        .recordingLive[index]
+                                                        .recordingSource ==
+                                                    "youtube"
+                                                ? liveProvider
+                                                        .recordingLive[index]
+                                                        .videoid ??
+                                                    ""
+                                                : liveProvider.recordingLive[index].hls ??
+                                                    "",
+                                            source: liveProvider
+                                                    .recordingLive[index]
+                                                    .recordingSource ??
+                                                "tpstreams"))),
+                              child: LiveClassCard(
+                                  className:
+                                      liveProvider.recordingLive[index].title ??
+                                          "Class Name",
+                                  tutorName:
+                                      (liveProvider.recordingLive[index].faculty ??
+                                                  Faculty(name: "Tutor name"))
+                                              .name ??
+                                          "",
+                                  startDate: liveProvider
+                                          .recordingLive[index].start ??
+                                      "",
+                                  enddate:
+                                      liveProvider.recordingLive[index].end ?? "",
+                                  imageUrl: liveProvider
+                                          .recordingLive[index].thumbnail ??
+                                      "https://blog.kapdec.com/hubfs/Imported_Blog_Media/3784896.jpg",
+                                  currenttab: "Recordings"),
+                            ),
                         separatorBuilder: (context, index) => SizedBox(
                           height: 5,
                         ),

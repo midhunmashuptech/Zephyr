@@ -106,7 +106,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 10, vertical: 5),
                                         decoration: BoxDecoration(
-                                          color: paymentProvider.courseData == "online"
+                                          color: paymentProvider.courseData ==
+                                                  "online"
                                               ? AppColors.primaryGreen
                                                   .withOpacity(0.9)
                                               : AppColors.primaryBlue
@@ -123,7 +124,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                           ],
                                         ),
                                         child: Text(
-                                          (paymentProvider.courseData.type ?? "").isNotEmpty
+                                          (paymentProvider.courseData.type ??
+                                                      "")
+                                                  .isNotEmpty
                                               ? "${(paymentProvider.courseData.type ?? "")[0].toUpperCase()}${(paymentProvider.courseData.type ?? "").substring(1)} Class"
                                               : "",
                                           style: TextStyle(
@@ -401,18 +404,22 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           ],
                         ),
                         SizedBox(height: 10),
-                        CustomButton(
+                        paymentProvider.isRazorpayKeyLoading
+                        ? Center(child: CircularProgressIndicator())
+                        : CustomButton(
                           text: "Make Payment",
                           color: AppColors.primaryBlue,
                           textcolor: AppColors.white,
                           onPressed: selectedMethod == null
                               ? null
-                              : () {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              PaymentSuccessful()));
+                              : () async {
+                                  await paymentProvider
+                                      .getRazorpayKey(context)
+                                      .then((_) => Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  PaymentSuccessful())));
                                 },
                         ),
                         SizedBox(height: 10),
