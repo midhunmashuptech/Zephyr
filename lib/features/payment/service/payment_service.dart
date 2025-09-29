@@ -7,10 +7,8 @@ class PaymentService {
   Future<RazorpayModel?> getRazorpayKey({required BuildContext context}) async {
     final responseJson = await ApiService().getRequest(url: getRazorpayKeyUrl);
     if (responseJson == null) {
-      print("Razorpay: $responseJson");
       return null;
     } else {
-      print("Razorpay: $responseJson");
       final ongoingLiveModel = RazorpayModel.fromJson(responseJson);
       return ongoingLiveModel;
     }
