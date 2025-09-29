@@ -23,14 +23,30 @@ class FeaturedCourseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 280,
-      child: Card(
-        elevation: 10,
-        shadowColor: Colors.black.withOpacity(0.3),
-        color: AppColors.white,
-        clipBehavior: Clip.hardEdge,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+      child: Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8F9FB), // Elegant off-white background
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(
+          color: const Color(0xFFDEE3EA), // Soft, elegant border
+          width: 1.5,
         ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFFB0B8C1).withOpacity(0.13),
+            blurRadius: 24,
+            spreadRadius: 2,
+            offset: const Offset(0, 10),
+          ),
+          BoxShadow(
+            color: const Color(0xFFDEE3EA).withOpacity(0.08),
+            blurRadius: 8,
+            spreadRadius: 1,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      clipBehavior: Clip.hardEdge,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -117,10 +133,6 @@ class _CourseImage extends StatelessWidget {
           child: Container(
             height: 100,
             decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(5),
-                bottomRight: Radius.circular(5),
-              ),
               gradient: LinearGradient(
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
