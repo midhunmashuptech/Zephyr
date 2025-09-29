@@ -1,8 +1,11 @@
 //Base URL for  all API calls
 const baseUrl = "https://zephyrdigital.in/api/";
 
-// Base URL for webview
+// Base URL for test webviews
 const webBaseUrl = "https://zephyrdigital.in/";
+
+// Base URL for webviews
+const webviewBaseUrl = "https://zephyrentrance.in/";
 
 // Authentication API Endpoints
 const verifyPhoneUrl = "${baseUrl}verify-phone";
@@ -87,7 +90,7 @@ const attendAiTest =
 const viewTestSolution = "${webBaseUrl}quiz/view-solution";
 
 // WebView endpoint
-const testUrl = "${webBaseUrl}events";
-const termsAndCondition = "${webBaseUrl}contact";
-const helpAndSupport = "${webBaseUrl}contact";
-const aboutUs = "${webBaseUrl}about";
+const testUrl = "${webviewBaseUrl}events";
+const termsAndCondition = "${webviewBaseUrl}contact";
+const helpAndSupport = "${webviewBaseUrl}contact";
+const aboutUs = "${webviewBaseUrl}about";
