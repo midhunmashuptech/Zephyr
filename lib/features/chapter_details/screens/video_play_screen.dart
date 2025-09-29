@@ -29,6 +29,9 @@ class _VideoPlayScreenState extends State<VideoPlayScreen>
   YoutubePlayerController? youtubeController;
 
   int selectedIndex = 0;
+  
+  bool _isDisposing = false;
+  bool _isInitializing = false;
 
   @override
   void initState() {
@@ -40,86 +43,177 @@ class _VideoPlayScreenState extends State<VideoPlayScreen>
   }
 
   /// Initializes the appropriate player based on the video source
-  void initializePlayer() {
+  Future<void> initializePlayer() async {
+    if (_isInitializing || _isDisposing) return;
+    
+    _isInitializing = true;
+    
     final chapterVideoProvider = context.read<EnrolledChapterDetailsProvider>();
     final currentVideo = chapterVideoProvider.currentlyPlayingVideo;
 
     // Dispose old players before initializing new ones
-    disposePlayers();
+    await disposePlayers();
 
-    if (currentVideo.source?.toLowerCase() == "youtube") {
-      final videoId =
-          YoutubePlayer.convertUrlToId(currentVideo.hls ?? "") ?? "";
-      youtubeController = YoutubePlayerController(
-        initialVideoId: videoId,
-        flags: const YoutubePlayerFlags(
-            autoPlay: true, mute: false, controlsVisibleAtStart: true),
-      );
-    } else {
-      betterPlayerController = BetterPlayerController(
-        const BetterPlayerConfiguration(
-          autoPlay: true,
-          looping: false,
-          aspectRatio: 16 / 9,
-          fullScreenAspectRatio: 16 / 9,
-          allowedScreenSleep: false,
-          fit: BoxFit.contain,
-          autoDispose: false,
-        ),
-        betterPlayerDataSource: BetterPlayerDataSource(
-          BetterPlayerDataSourceType.network,
-          currentVideo.hls ?? "",
-        ),
-      );
+    // Add a small delay to ensure disposal is complete
+    await Future.delayed(const Duration(milliseconds: 100));
+
+    if (!mounted) {
+      _isInitializing = false;
+      return;
     }
-    
-    // Force rebuild after controller is created
-    if (mounted) {
-      setState(() {});
+
+    try {
+      if (currentVideo.source?.toLowerCase() == "youtube") {
+        final videoId =
+            YoutubePlayer.convertUrlToId(currentVideo.hls ?? "") ?? "";
+        youtubeController = YoutubePlayerController(
+          initialVideoId: videoId,
+          flags: const YoutubePlayerFlags(
+              autoPlay: true, mute: false, controlsVisibleAtStart: true),
+        );
+      } else {
+        // Create BetterPlayer with proper configuration
+        betterPlayerController = BetterPlayerController(
+          const BetterPlayerConfiguration(
+            autoPlay: true,
+            looping: false,
+            aspectRatio: 16 / 9,
+            fullScreenAspectRatio: 16 / 9,
+            allowedScreenSleep: false,
+            fit: BoxFit.contain,
+            autoDispose: false, // Set to false to control disposal manually
+            handleLifecycle: true,
+            controlsConfiguration: BetterPlayerControlsConfiguration(
+              enablePlayPause: true,
+              enableMute: true,
+              enableFullscreen: true,
+              enableProgressBar: true,
+              enableSkips: false,
+            ),
+          ),
+          betterPlayerDataSource: BetterPlayerDataSource(
+            BetterPlayerDataSourceType.network,
+            currentVideo.hls ?? "",
+            notificationConfiguration: BetterPlayerNotificationConfiguration(
+              showNotification: false,
+            ),
+          ),
+        );
+      }
+      
+      _isInitializing = false;
+      
+      // Force rebuild after controller is created
+      if (mounted) {
+        setState(() {});
+      }
+    } catch (e) {
+      debugPrint("Error initializing player: $e");
+      _isInitializing = false;
     }
   }
 
   /// Handles changing the video when user selects a new one
-  void changeVideo(int index) async {
-    final chapterVideoProvider = context.read<EnrolledChapterDetailsProvider>();
+  Future<void> changeVideo(int index) async {
+    // Prevent changing to the same video
+    if (selectedIndex == index) {
+      debugPrint("Video already selected, skipping change");
+      return;
+    }
     
-    // Pause current video before disposing
-    if (betterPlayerController != null) {
-      await betterPlayerController!.pause();
+    // Prevent multiple simultaneous changes
+    if (_isDisposing || _isInitializing) {
+      debugPrint("Player busy, skipping video change");
+      return;
     }
-    if (youtubeController != null) {
-      youtubeController!.pause();
-    }
+
+    final chapterVideoProvider = context.read<EnrolledChapterDetailsProvider>();
     
     // Update the selected video in provider
     chapterVideoProvider.changePlayingVideo(index);
     
-    setState(() {
-      selectedIndex = index;
-    });
+    if (mounted) {
+      setState(() {
+        selectedIndex = index;
+      });
+    }
     
     // Initialize new player (which will dispose old ones first)
-    initializePlayer();
+    await initializePlayer();
   }
 
   /// Dispose both players to avoid memory leaks
-  void disposePlayers() {
-    if (betterPlayerController != null) {
-      betterPlayerController!.pause();
-      betterPlayerController!.dispose();
-      betterPlayerController = null;
-    }
-    if (youtubeController != null) {
-      youtubeController!.pause();
-      youtubeController!.dispose();
-      youtubeController = null;
+  Future<void> disposePlayers() async {
+    if (_isDisposing) return;
+    
+    _isDisposing = true;
+
+    try {
+      // Dispose BetterPlayer
+      if (betterPlayerController != null) {
+        final controller = betterPlayerController;
+        betterPlayerController = null; // Set to null immediately
+        
+        try {
+          // Check if controller is still valid before operations
+          if (controller?.isVideoInitialized() == true) {
+            await controller?.pause();
+          }
+          
+          // Dispose without waiting for async operations
+          controller?.dispose(forceDispose: true);
+          
+        } catch (e) {
+          debugPrint("Error disposing BetterPlayer: $e");
+        }
+      }
+
+      // Dispose YouTube player
+      if (youtubeController != null) {
+        final controller = youtubeController;
+        youtubeController = null; // Set to null immediately
+        
+        try {
+          if (controller?.value.isReady == true) {
+            controller?.pause();
+          }
+          controller?.dispose();
+        } catch (e) {
+          debugPrint("Error disposing YouTubePlayer: $e");
+        }
+      }
+      
+      // Small delay to ensure disposal completes
+      await Future.delayed(const Duration(milliseconds: 100));
+      
+    } catch (e) {
+      debugPrint("Error in disposePlayers: $e");
+    } finally {
+      _isDisposing = false;
     }
   }
 
   @override
   void dispose() {
-    disposePlayers();
+    // Dispose tab controller first
     _tabController.dispose();
+    
+    // Force synchronous disposal of players
+    try {
+      betterPlayerController?.dispose(forceDispose: true);
+    } catch (e) {
+      debugPrint("Error in BetterPlayer dispose: $e");
+    }
+    
+    try {
+      youtubeController?.dispose();
+    } catch (e) {
+      debugPrint("Error in YouTube dispose: $e");
+    }
+    
+    betterPlayerController = null;
+    youtubeController = null;
+    
     super.dispose();
   }
 
@@ -196,17 +290,31 @@ class _VideoPlayScreenState extends State<VideoPlayScreen>
 
   /// Builds the appropriate video player widget without disposing/recreating controllers
   Widget _buildVideoPlayer() {
+    // Show loading while initializing or disposing
+    if (_isInitializing || _isDisposing) {
+      return Container(
+        color: Colors.black,
+        child: const Center(child: CircularProgressIndicator()),
+      );
+    }
+
     if (enrolledChapterDetailsProvider.currentlyPlayingVideo.source?.toLowerCase() == "youtube") {
       return youtubeController != null
           ? YoutubePlayer(
               controller: youtubeController!,
               showVideoProgressIndicator: true,
             )
-          : const Center(child: CircularProgressIndicator());
+          : Container(
+              color: Colors.black,
+              child: const Center(child: CircularProgressIndicator()),
+            );
     } else {
       return betterPlayerController != null
           ? BetterPlayer(controller: betterPlayerController!)
-          : const Center(child: CircularProgressIndicator());
+          : Container(
+              color: Colors.black,
+              child: const Center(child: CircularProgressIndicator()),
+            );
     }
   }
 
@@ -219,12 +327,14 @@ class _VideoPlayScreenState extends State<VideoPlayScreen>
             enrolledChapterDetailsProvider.chapterVideos.length,
             (index) {
               final video = enrolledChapterDetailsProvider.chapterVideos[index];
+              final isCurrentlySelected = enrolledChapterDetailsProvider
+                      .currentlyPlayingVideo.batchVideoId ==
+                  video.batchVideoId;
 
               return ChapterVideoCard(
-                currentlySelected: enrolledChapterDetailsProvider
-                        .currentlyPlayingVideo.batchVideoId ==
-                    video.batchVideoId,
-                onPressed: () => changeVideo(index),
+                currentlySelected: isCurrentlySelected,
+                // Only call changeVideo if not currently selected
+                onPressed: isCurrentlySelected ? (){} : () => changeVideo(index),
                 videoTitle: video.title ?? "Video Title",
                 thumbnail: video.thumbnail ??
                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK8hrpymVlFVUacFKLqwlFVUacFKLqwlFhCNnu2hVBhAeXQ&usqp=CAU",
