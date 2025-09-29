@@ -45,7 +45,7 @@ class Analysis {
     practiceTotals = json['practice_totals'] != null
         ? new PracticeTotals.fromJson(json['practice_totals'])
         : null;
-    totalAccessPercentage = json['totalAccessPercentage'];
+    totalAccessPercentage = double.parse(json['totalAccessPercentage'].toString());
   }
 
   Map<String, dynamic> toJson() {

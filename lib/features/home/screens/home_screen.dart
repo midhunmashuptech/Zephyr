@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/common/provider/user_details_provider.dart';
-import 'package:zephyr/common/screens/test_screen.dart';
 import 'package:zephyr/common/widgets/custom_search_bar.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/data_class/course.dart';

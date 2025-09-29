@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:zephyr/api_files/api_service.dart';
-import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/constants/config.dart';
 import 'package:zephyr/features/enrolled_courses/model/course_enrollments_model.dart';
 import 'package:zephyr/features/enrolled_courses/model/enrolled_course_detail_model.dart';
@@ -19,7 +18,6 @@ class EnrolledCourseService {
         await _apiService.getRequest(url: courseEnrollmentsUrl + courseId);
 
     if (responseJson == null || responseJson.isEmpty) {
-      showSnackBar("Error", "Json Error");
       return null;
     } else {
       final courseEnrollmentsModel =
@@ -47,7 +45,6 @@ class EnrolledCourseService {
     );
 
     if (responseJson == null || responseJson.isEmpty) {
-      showSnackBar("Error", "Json Error");
       return null;
     } else {
       final enrolledChapterModel = EnrolledChapterModel.fromJson(responseJson);
@@ -65,7 +62,6 @@ class EnrolledCourseService {
     final responseJson = await _apiService.getRequest(url: enrolledCourseUrl);
 
     if (responseJson == null || responseJson.isEmpty) {
-      showSnackBar("Error", "Json Error");
       return null;
     } else {
       final enrolledCourseModel = EnrolledCourseModel.fromJson(responseJson);
@@ -82,13 +78,11 @@ class EnrolledCourseService {
     required String courseId,
     required BuildContext context,
   }) async {
-    debugPrint("Fetching Enrolled Course");
     final responseJson = await _apiService.getRequest(
       url: enrolledCourseDetailsUrl + courseId,
     );
 
     if (responseJson == null || responseJson.isEmpty) {
-      showSnackBar("Error", "Json Error");
       return null;
     } else {
       final courseDetailModel =
@@ -100,8 +94,6 @@ class EnrolledCourseService {
     }
   }
 
-  // Get course reviews in course details page
-
   // Post course review
   Future<PostCourseReviewModel?> postCourseReview(
       {required BuildContext context,
@@ -112,7 +104,6 @@ class EnrolledCourseService {
         url: postCourseReviewUrl,
         fields: {"course_id": courseId, "rating": rating, "review": review});
     if (responseJson == null || responseJson.isEmpty) {
-      showSnackBar("error", "something went wrong");
       return null;
     } else {
       final postCourseReviewModel =

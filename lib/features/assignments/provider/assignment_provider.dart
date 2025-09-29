@@ -39,14 +39,13 @@ class AssignmentProvider extends ChangeNotifier {
     notifyListeners();
     final response = await AssignmentService().getAssignments(context: context);
     if (response == null) {
-      showSnackBar("Error", "Error Fetching Assignments");
+      showSnackBar("Error", "Error Loading Assignments");
       _isAssignmentsLoading = false;
       notifyListeners();
     } else {
       if (response.type == "success") {
         _assignmentList = response.assignments ?? [];
         notifyListeners();
-        showSnackBar("Success", "Successfully Fetched Assignments");
         _isAssignmentsLoading = false;
         notifyListeners();
       }
@@ -63,14 +62,13 @@ class AssignmentProvider extends ChangeNotifier {
     final response = await AssignmentService()
         .getAssignmentDetails(context: context, assignmentId: assignmentId);
     if (response == null) {
-      showSnackBar("Error", "Error Fetching Assignment Details");
+      showSnackBar("Error", "Error Loading Assignment Details");
       _isAssignmentDetailsLoading = false;
       notifyListeners();
     } else {
       if (response.type == "success") {
         _assignmentDetails = response.assignmentDetails ?? AssignmentDetails();
         notifyListeners();
-        showSnackBar("Success", "Successfully Fetched Assignment Details");
         _isAssignmentDetailsLoading = false;
         notifyListeners();
       }
@@ -96,7 +94,8 @@ class AssignmentProvider extends ChangeNotifier {
         _isAssignmentSubmitting = false;
         notifyListeners();
         Navigator.pop(context);
-      } else if(response.type == "error" && response.message == "You have already submitted this assignment."){
+      } else if (response.type == "error" &&
+          response.message == "You have already submitted this assignment.") {
         showSnackBar("Success", "Assignment already submitted!");
         _isAssignmentSubmitting = false;
         notifyListeners();

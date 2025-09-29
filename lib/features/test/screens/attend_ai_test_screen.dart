@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:zephyr/common/screens/bottom_nav_screen.dart';
+import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/constants/config.dart';
 
 class AttendAiTestScreen extends StatefulWidget {
@@ -104,7 +105,7 @@ class _AttendAiTestScreenState extends State<AttendAiTestScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
-      child: Scaffold(
+      child: Scaffold(backgroundColor: AppColors.white,
         body: Stack(
           children: [
             Padding(
@@ -112,21 +113,24 @@ class _AttendAiTestScreenState extends State<AttendAiTestScreen> {
               child: WebViewWidget(controller: _webViewController),
             ),
             if (_isLoading)
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                        width: MediaQuery.of(context).size.width * .5,
-                        child: Lottie.asset("assets/lottie/test_loading.json")),
-                    SizedBox(
-                      height: 9,
-                    ),
-                    Text(
-                      "Preparing your questions\nthis may take a few seconds.",
-                      textAlign: TextAlign.center,
-                    )
-                  ],
+              Container(
+                color: AppColors.white,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width * .5,
+                          child: Lottie.asset("assets/lottie/test_loading.json")),
+                      SizedBox(
+                        height: 9,
+                      ),
+                      Text(
+                        "Preparing your questions\nthis may take a few seconds.",
+                        textAlign: TextAlign.center,
+                      )
+                    ],
+                  ),
                 ),
               ),
             Positioned(

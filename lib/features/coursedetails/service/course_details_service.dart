@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:zephyr/api_files/api_service.dart';
-import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/constants/config.dart';
 import 'package:zephyr/features/coursedetails/model/course_detail_model.dart';
 import 'package:zephyr/features/coursedetails/model/get_course_reviews_model.dart';
@@ -11,7 +10,6 @@ class CourseDetailsService {
     final responseJson = await ApiService()
         .postRequest(url: courseDetailUrl, fields: {"course_id": courseId});
     if (responseJson == null || responseJson.isEmpty) {
-      showSnackBar("error", "something went wrong");
       return null;
     } else {
       final courseDetailModel = CourseDetailModel.fromJson(responseJson);
@@ -27,7 +25,6 @@ class CourseDetailsService {
     final responseJson =
         await ApiService().getRequest(url: "$getCourseReviewsUrl$courseId");
     if (responseJson == null || responseJson.isEmpty) {
-      showSnackBar("error", "something went wrong");
       return null;
     } else {
       final fetchedCourseReviewsModel =

@@ -59,17 +59,17 @@ class _AnswerStatusRadialChartState extends State<AnswerStatusRadialChart> {
       _ChartData(
           "Unanswered",
           ((totalUnanswered * 100) / totalCount).toDouble(),
-          AppColors.primaryRed,
-          "${((totalUnanswered * 100) / totalCount).toInt()}"),
+          AppColors.primaryBlue,
+          "${((totalUnanswered * 100) / totalCount).toInt()}%"),
       _ChartData(
           "Unattended",
           ((totalUnattended * 100) / totalCount).toDouble(),
-          AppColors.primaryBlue,
-          "${((totalUnattended * 100) / totalCount).toInt()}"),
+          AppColors.primaryOrange,
+          "${((totalUnattended * 100) / totalCount).toInt()}%"),
       _ChartData("Incorrect", ((totalInorrect * 100) / totalCount).toDouble(),
-          AppColors.primaryOrange, "${((totalInorrect * 100) / totalCount).toInt()}"),
+          AppColors.primaryRed, "${((totalInorrect * 100) / totalCount).toInt()}%"),
       _ChartData("Correct", ((totalCorrect * 100) / totalCount).toDouble(),
-          AppColors.primaryGreen, "${((totalCorrect * 100) / totalCount).toInt()}"),
+          AppColors.primaryGreen, "${((totalCorrect * 100) / totalCount).toInt()}%"),
     ];
     return Container(
       padding: const EdgeInsets.all(16),

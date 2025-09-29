@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:zephyr/api_files/api_service.dart';
-import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/constants/config.dart';
 import 'package:zephyr/features/auth/registration/model/registration_dropdown_options_model.dart';
 import 'package:zephyr/features/auth/registration/model/registration_model.dart';
@@ -15,7 +14,6 @@ class RegistrationService {
     );
 
     if (responseJson == null || responseJson.isEmpty) {
-      showSnackBar("Error", "Json Error");
       return null;
     } else {
       final dropdownOptionsModel =
@@ -58,7 +56,6 @@ class RegistrationService {
       },
     );
     if (responseJson == null || responseJson.isEmpty) {
-      showSnackBar("error", "Json Error");
       return null;
     } else {
       final registrationModel = RegistrationModel.fromJson(responseJson);
@@ -79,13 +76,11 @@ class RegistrationService {
         url: sendRegistrationOtpUrl,
         fields: {"phone": phone, "country_code": countryCode});
     if (responseJson == null) {
-      showSnackBar("Error", "Error loading otp");
       return null;
     } else {
       
       final sendRegistrationOtpModel =
           SendRegistrationOtpModel.fromJson(responseJson);
-      showSnackBar("Success", "Successfully loaded Otp");
       return sendRegistrationOtpModel;
     }
   }
@@ -101,12 +96,10 @@ class RegistrationService {
         url: verifyRegistrationOtpUrl,
         fields: {"phone": phone, "country_code": countryCode, "otp": otp});
     if (responseJson == null) {
-      showSnackBar("Error", "Something went wrong");
       return null;
     } else {
       final verifyRegistrationOtpModel =
           VerifyRegistrationOtpModel.fromJson(responseJson);
-      showSnackBar("Success", "Successfully Verified");
       return verifyRegistrationOtpModel;
     }
   }

@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
@@ -14,7 +13,6 @@ import 'package:zephyr/features/auth/login/screens/mobile_number_verification.da
 import 'package:zephyr/features/auth/login/screens/reset_password_login.dart';
 import 'package:zephyr/features/auth/registration/model/registration_dropdown_options_model.dart'
     as dropdown_model;
-import 'package:zephyr/features/auth/registration/model/verify_registration_otp_model.dart';
 import 'package:zephyr/features/auth/registration/model/verify_reset_password_model.dart';
 import 'package:zephyr/features/auth/service/login_service.dart';
 import 'package:intl_phone_field/phone_number.dart';
@@ -121,7 +119,7 @@ class AuthProvider extends ChangeNotifier {
         syllabus: selectedSyllabusId.toString(),
         password: registrationPassword);
     if (response == null) {
-      showSnackBar("error", "Something went wrong! please try again");
+      showSnackBar("Error", "Something went wrong! Please try again");
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -289,12 +287,11 @@ class AuthProvider extends ChangeNotifier {
 
     final response = await RegistrationService().getRegisterDropdownOptions();
     if (response == null) {
-      showSnackBar("Error", "Something went wrong! Try again");
+      showSnackBar("Error", "Something went wrong! Try again later");
     } else {
       if (response.type == "success") {
         _classDropdownOptions = response.classStudying ?? [];
         _syllabusDropdownOptions = response.syllabuses ?? [];
-        print("Syllabus: ${syllabusDropdownOptions.length}");
       } else {
         _classDropdownOptions = [];
         _syllabusDropdownOptions = [];
@@ -317,14 +314,12 @@ class AuthProvider extends ChangeNotifier {
         countryCode: countryCode,
         password: password);
     if (response == null) {
-      showSnackBar("error", "Failed to reset Password");
+      showSnackBar("Failed", "Failed to reset Password");
       _isPwdReset = false;
       notifyListeners();
     } else {
       if (response.type == "success") {
-        showSnackBar("success", "password reset successful");
-        print(countryCode);
-        print(phoneNumber);
+        showSnackBar("Success", "Password reset successful");
         Get.offAll(Login(
             phoneNumber: phoneNumber,
             countryCode: countryCode,
@@ -352,7 +347,7 @@ class AuthProvider extends ChangeNotifier {
       if (response.type == "success") {
         _otpStatus = "sent";
         debugPrint(response.otp.toString());
-        showSnackBar("Otp Sent", "successfully sent the otp");
+        showSnackBar("Otp Sent", "Successfully sent the otp to the given number");
         _isotpSend = false;
         notifyListeners();
       } else {
@@ -382,7 +377,7 @@ class AuthProvider extends ChangeNotifier {
       return null;
     } else {
       if (response.type == "success") {
-        showSnackBar("Otp Verified", "Successfully verified otp");
+        showSnackBar("Otp Verified", "Verification Successfull");
         _otpStatus = "success";
         _isOtpVerified = false;
         notifyListeners();
@@ -429,7 +424,7 @@ class AuthProvider extends ChangeNotifier {
       if (response.type == "success") {
         _otpStatus = "sent";
         debugPrint(response.otp.toString());
-        showSnackBar("Otp Sent", "Successfully resent the otp");
+        showSnackBar("Otp Sent", "Successfully resent the otp to the given number");
 
         // ✅ Start countdown after success
         startResendTimer();
@@ -514,7 +509,7 @@ class AuthProvider extends ChangeNotifier {
   bool _isResendRegOtpLoading = false;
   bool get isResetRegOtpLoading => _isResendRegOtpLoading;
 
-  //ReSend Registration OTP
+  //Resend Registration OTP
   Future<void> resendRegOtp({required BuildContext context}) async {
     if (!canRegResendOtp) return;
     _isResendRegOtpLoading = true;
@@ -526,11 +521,11 @@ class AuthProvider extends ChangeNotifier {
     if (response == null) {
       _isResendRegOtpLoading = false;
       notifyListeners();
-      showSnackBar("Error", "Couldnt Sent OTP");
+      showSnackBar("Error", "Can't resend Otp");
     } else {
       if (response.type == "success") {
         debugPrint(response.otp.toString());
-        showSnackBar("Otp Sent", "Successfully resent the otp");
+        showSnackBar("Otp Sent", "Successfully resend the otp");
         // ✅ Start countdown after success
         regResendTimer();
         _isResendRegOtpLoading = false;
@@ -552,7 +547,7 @@ class AuthProvider extends ChangeNotifier {
     if (response == null) {
       _isRegOtpSending = false;
       notifyListeners();
-      showSnackBar("Error", "Something went wrong");
+      showSnackBar("Error", "Something went wrong.Please try again later");
     } else {
       if (response.type == "success") {
         debugPrint(response.otp.toString());
@@ -578,15 +573,15 @@ class AuthProvider extends ChangeNotifier {
       _isRegOtpVerified = false;
       _isRegOtpVerifying = false;
       notifyListeners();
-      showSnackBar("Error", "Verification Error");
+      showSnackBar("Error", "Can't Verify OTP");
     } else {
       if (response.type == "success") {
-        showSnackBar("Success", "Successfully verified Registration OTP");
+        showSnackBar("Success", "Successfully verified OTP");
         _isRegOtpVerified = true;
         _isRegOtpVerifying = false;
         notifyListeners();
       } else {
-        showSnackBar("Error", "Error Verifying Registration OTP");
+        showSnackBar("Error", "Error Verifying OTP");
         _isRegOtpVerifying = false;
         _isRegOtpVerified = false;
         notifyListeners();

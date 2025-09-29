@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:zephyr/common/functions/common_functions.dart';
 import 'package:zephyr/common/provider/user_details_provider.dart';
 import 'package:zephyr/common/widgets/custom_button.dart';
 import 'package:zephyr/constants/app_constants.dart';
@@ -63,10 +65,10 @@ class _EditProfileState extends State<EditProfile> {
     final loadProvider = context.read<UserDetailsProvider>();
     final optionsProvider = context.read<AuthProvider>();
     final editProvider = context.read<EditProfileProvider>();
-    
-    await editProvider.fetchUserDetailsBeforeEditing(context: context);
 
+    await editProvider.fetchUserDetailsBeforeEditing(context: context);
     await optionsProvider.fetchRegisrationDropdownOption();
+
     usernameController.text = loadProvider.userDetails.name ?? "";
     emailController.text = loadProvider.userDetails.email ?? "";
     mobileController.text = loadProvider.userDetails.phone ?? "";
@@ -102,21 +104,22 @@ class _EditProfileState extends State<EditProfile> {
     }
 
     editProvider.loadingFalse();
-    debugPrint("false");
   }
 
-  Widget _buildTextField(
-      {required TextEditingController controller,
-      required String label,
-      IconData? icon,
-      bool readOnly = false,
-      TextInputType? keyboardType,
-      String? hintText,
-      Widget? suffixIcon,
-      int maxLines = 1,
-      Color? fillColor,
-      bool enabled = true,
-      String? errorText}) {
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String label,
+    IconData? icon,
+    bool readOnly = false,
+    TextInputType? keyboardType,
+    String? hintText,
+    Widget? suffixIcon,
+    int maxLines = 1,
+    Color? fillColor,
+    bool enabled = true,
+    String? errorText,
+    List<TextInputFormatter>? inputFormatters,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextField(
@@ -125,6 +128,7 @@ class _EditProfileState extends State<EditProfile> {
         keyboardType: keyboardType,
         maxLines: maxLines,
         enabled: enabled,
+        inputFormatters: inputFormatters,
         style: TextStyle(
           color: enabled ? Colors.black : AppColors.grey,
           fontWeight: FontWeight.w500,
@@ -200,10 +204,8 @@ class _EditProfileState extends State<EditProfile> {
     authProvider = context.watch<AuthProvider>();
 
     return Scaffold(
-      // backgroundColor: AppColors.background,
       appBar: AppBar(
         elevation: 0,
-        // backgroundColor: AppColors.background,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: AppColors.black),
           onPressed: () => Navigator.of(context).pop(),
@@ -389,9 +391,7 @@ class _EditProfileState extends State<EditProfile> {
                                 .toList(),
                             controller: syllabusController,
                           ),
-                          SizedBox(
-                            height: 10,
-                          ),
+                          SizedBox(height: 10),
                           DropdownWidget(
                             label: 'Class Studying',
                             items: authProvider.classDropdownOptions
@@ -426,6 +426,10 @@ class _EditProfileState extends State<EditProfile> {
                             label: "Secondary Phone",
                             icon: Icons.phone_android,
                             keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                              LengthLimitingTextInputFormatter(10),
+                            ],
                           ),
                           _buildTextField(
                             controller: mobileController,
@@ -442,45 +446,69 @@ class _EditProfileState extends State<EditProfile> {
                               : CustomButton(
                                   text: "Update",
                                   onPressed: () {
+                                    final phone =
+                                        secondaryMobileController.text.trim();
+                                    final email = emailController.text.trim();
+
+                                    // Validate secondary phone
+                                    if (phone.isNotEmpty &&
+                                        !RegExp(r'^[0-9]{10}$')
+                                            .hasMatch(phone)) {
+                                      showSnackBar("Warning",
+                                          "Secondary phone must be exactly 10 digits");
+                                      return;
+                                    }
+
+                                    // Validate email
+                                    if (email.isNotEmpty &&
+                                        !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                            .hasMatch(email)) {
+                                      showSnackBar("Warning",
+                                          "Enter a valid email address");
+                                      return;
+                                    }
+
+                                    // ✅ Passed validation
                                     editProfileProvider.updateDetails(
-                                        context: context,
-                                        name: usernameController.text,
-                                        email: emailController.text,
-                                        gender:
-                                            editProfileProvider.checkedOption ??
-                                                "",
-                                        dob: dobController.text,
-                                        school: schoolController.text,
-                                        classStudying:
-                                            authProvider.classDropdownOptions
-                                                .firstWhere(
-                                                  (classes) =>
-                                                      classes.title ==
-                                                      classController.text,
-                                                  orElse: () =>
-                                                      ClassStudying(id: 0),
-                                                )
-                                                .id
-                                                .toString(),
-                                        syllabusId:
-                                            authProvider.syllabusDropdownOptions
-                                                .firstWhere(
-                                                  (syllabus) =>
-                                                      syllabus.title ==
-                                                      syllabusController.text,
-                                                  orElse: () => Syllabus(id: 0),
-                                                )
-                                                .id
-                                                .toString(),
-                                        address: addressController.text,
-                                        district: districtController.text,
-                                        state: stateController.text,
-                                        country: countryController.text,
-                                        secondaryPhone:
-                                            secondaryMobileController.text);
+                                      context: context,
+                                      name: usernameController.text,
+                                      email: email,
+                                      gender:
+                                          editProfileProvider.checkedOption ??
+                                              "",
+                                      dob: dobController.text,
+                                      school: schoolController.text,
+                                      classStudying: authProvider
+                                          .classDropdownOptions
+                                          .firstWhere(
+                                            (classes) =>
+                                                classes.title ==
+                                                classController.text,
+                                            orElse: () => ClassStudying(id: 0),
+                                          )
+                                          .id
+                                          .toString(),
+                                      syllabusId:
+                                          authProvider.syllabusDropdownOptions
+                                              .firstWhere(
+                                                (syllabus) =>
+                                                    syllabus.title ==
+                                                    syllabusController.text,
+                                                orElse: () => Syllabus(id: 0),
+                                              )
+                                              .id
+                                              .toString(),
+                                      address: addressController.text,
+                                      district: districtController.text,
+                                      state: stateController.text,
+                                      country: countryController.text,
+                                      secondaryPhone: phone,
+                                    );
+
                                     editProfileProvider.setUpdatedProfile(
-                                        usernameController.text,
-                                        emailController.text);
+                                      usernameController.text,
+                                      email,
+                                    );
                                   },
                                   color: AppColors.primaryOrange,
                                   textcolor: AppColors.white,

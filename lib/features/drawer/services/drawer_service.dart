@@ -18,7 +18,6 @@ class DrawerService {
   //Reset Password
   Future<PasswordResetModel> resetPassword(
       BuildContext context, String newPassword) async {
-    print(newPassword);
     final responseJson = await _apiService.postRequest(
         url: resetPasswordUrl, fields: {"new_password": newPassword});
 
@@ -79,7 +78,7 @@ class DrawerService {
     }
   }
 
-  //Upload Profile Picture
+  //Update Profile Picture
   Future<UploadProfileImageModel?> uploadProfileImage({
     required String filePath,
     required BuildContext context,
@@ -106,13 +105,9 @@ class DrawerService {
         var uploadProfileImageModel =
             UploadProfileImageModel.fromJson(jsonResponse);
         if (uploadProfileImageModel.type == 'success') {
-          showSnackBar("Success", 'Image uploaded successfully');
-        } else {
-          showSnackBar("Failed", "Failed to upload image");
-        }
+        } 
         return uploadProfileImageModel;
       } else {
-        print('Error: ${response.reasonPhrase}');
         return null;
       }
     } catch (e) {
@@ -132,14 +127,10 @@ class DrawerService {
     final timelineActivitiesModel =
         TimelineActivityModel.fromJson(responseJson);
     if (timelineActivitiesModel.type == "success") {
-      showSnackBar("Success",
-          timelineActivitiesModel.type ?? "Succesfully fetched timeline");
       return timelineActivitiesModel;
     } else {
-      showSnackBar(
-          "Error", "Something went wrong! ${timelineActivitiesModel.type}");
-    }
     return null;
+    }
   }
 
   // Post a timeline activity
@@ -147,7 +138,6 @@ class DrawerService {
       BuildContext context,
       {required String contentType,
       required String contentId}) async {
-    debugPrint(contentType + contentId);
     final responseJson = await _apiService.postRequest(
         url: postTimelineActivityUrl,
         fields: {"content_type": contentType, "content_id": contentId});
@@ -156,12 +146,8 @@ class DrawerService {
         PostTimelineActivityModel.fromJson(responseJson);
 
     if (postTimelineActivityModel.type == "success") {
-      showSnackBar("Success",
-          "Succesfully posted to timeline! ${postTimelineActivityModel.type}");
       return postTimelineActivityModel;
     } else {
-      showSnackBar(
-          "Error", "Something went wrong! ${postTimelineActivityModel.type}");
     }
     return null;
   }

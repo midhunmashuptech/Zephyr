@@ -43,7 +43,7 @@ class LiveProvider extends ChangeNotifier {
     notifyListeners();
     final response = await LiveService().getOnGoingLive(context: context);
     if (response == null) {
-      showSnackBar("Error", "Error Fetching Ongoing Live Classes");
+      showSnackBar("Error", "Error Loading Ongoing Live Classes");
       _isOngoingLoading = false;
       notifyListeners();
     } else {
@@ -67,14 +67,13 @@ class LiveProvider extends ChangeNotifier {
     notifyListeners();
     final response = await LiveService().getUpcomingLive(context: context);
     if (response == null) {
-      showSnackBar("Error", "Error Fetching the ongoing live classes");
+      showSnackBar("Error", "Something went wrong.Please try again later");
       _isUpcomingLoading = false;
       notifyListeners();
     } else {
       if (response.type == "success") {
         _upcomingLive = response.liveClasses ?? [];
         notifyListeners();
-        showSnackBar("Success", "Succesfully fetched UpComing Live Classes");
         _isUpcomingLoading = false;
         notifyListeners();
       }
@@ -98,7 +97,6 @@ class LiveProvider extends ChangeNotifier {
       if (response.type == "success") {
         _recordingLive = response.liveClasses ?? [];
         notifyListeners();
-        showSnackBar("Success", "Successfully fetched recorded Live Classes");
         _isRecordingLoading = false;
         notifyListeners();
       }
