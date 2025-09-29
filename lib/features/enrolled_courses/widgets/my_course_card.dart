@@ -64,6 +64,9 @@ class MyCourseCard extends StatelessWidget {
                 ),
               ),
             ),
+
+            Positioned(top: 10, left: 10, child: courseStarRating()),
+
             Positioned(
               bottom: 0,
               left: 0,
@@ -191,11 +194,6 @@ class MyCourseCard extends StatelessWidget {
                         )
                       ],
                     ),
-                    // const SizedBox(height: 10),
-                    // Align(
-                    //   alignment: Alignment.bottomRight,
-                    //   child: courseStarRating(),
-                    // ),
                   ],
                 ),
               ),
@@ -213,23 +211,30 @@ class MyCourseCard extends StatelessWidget {
     final halfStarCount = decimalPart >= 0.5 ? 1 : 0;
     final emptyStarCount = 5 - fullStarCount - halfStarCount;
 
-    return Row(
-      children: [
-        ...List.generate(fullStarCount, (index) {
-          return Icon(Icons.star, size: 18, color: AppColors.ratingYellow);
-        }),
-        ...List.generate(halfStarCount, (index) {
-          return Icon(Icons.star_half, size: 18, color: AppColors.ratingYellow);
-        }),
-        ...List.generate(emptyStarCount, (index) {
-          return Icon(Icons.star_outline,
-              size: 18, color: AppColors.ratingYellow);
-        }),
-        SizedBox(width: 5),
-        Text("4.4",
-            style:
-                TextStyle(fontWeight: FontWeight.w600, color: AppColors.white))
-      ],
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.35),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        children: [
+          ...List.generate(fullStarCount, (index) {
+            return Icon(Icons.star, size: 18, color: AppColors.ratingYellow);
+          }),
+          ...List.generate(halfStarCount, (index) {
+            return Icon(Icons.star_half, size: 18, color: AppColors.ratingYellow);
+          }),
+          ...List.generate(emptyStarCount, (index) {
+            return Icon(Icons.star_outline,
+                size: 18, color: AppColors.ratingYellow);
+          }),
+          SizedBox(width: 5),
+          Text("4.4",
+              style:
+                  TextStyle(fontWeight: FontWeight.w600, color: AppColors.white))
+        ],
+      ),
     );
   }
 }

@@ -52,14 +52,30 @@ class HomeCourseCard extends StatelessWidget {
     double? finalPrice =
         (original != null && discount != null) ? (original - discount) : null;
 
-    return Card(
-      elevation: 10,
-      shadowColor: Colors.black.withOpacity(0.30),
-      color: AppColors.white,
-      clipBehavior: Clip.hardEdge,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5),
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8F9FB), // Elegant off-white background
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(
+          color: const Color(0xFFDEE3EA), // Soft, elegant border
+          width: 1.5,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFFB0B8C1).withOpacity(0.13),
+            blurRadius: 24,
+            spreadRadius: 2,
+            offset: const Offset(0, 10),
+          ),
+          BoxShadow(
+            color: const Color(0xFFDEE3EA).withOpacity(0.08),
+            blurRadius: 8,
+            spreadRadius: 1,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
+      clipBehavior: Clip.hardEdge,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -126,8 +142,8 @@ class HomeCourseCard extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
                     color: isEnrolled
-                        ? AppColors.primaryGreen.withOpacity(0.9)
-                        : AppColors.primaryBlue.withOpacity(0.9),
+                        ? const Color(0xFF3CB371)
+                        : const Color(0xFF2D3A4A),
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
@@ -166,7 +182,7 @@ class HomeCourseCard extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.black,
+                      color: Color(0xFF2D3A4A),
                     ),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
@@ -181,31 +197,31 @@ class HomeCourseCard extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(Icons.calendar_today,
-                            size: 16, color: AppColors.primaryBlue),
+                            size: 16, color: const Color(0xFF3CB371)),
                         SizedBox(width: 5),
                         Text(
                           'Starts on ${start.isEmpty || start == "null" ? "NA" : formatReadableDate(start)}',
                           style: TextStyle(
                             fontSize: 12,
-                            color: AppColors.grey,
+                            color: Color(0xFF7B8493),
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                       ],
                     ),
                     Icon(Icons.arrow_forward,
-                        size: 16, color: AppColors.primaryBlue),
+                        size: 16, color: const Color(0xFF7B8493)),
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(Icons.event,
-                            size: 16, color: AppColors.primaryBlue),
+                            size: 16, color: const Color(0xFF3CB371)),
                         SizedBox(width: 5),
                         Text(
                           "Ends on ${end.isEmpty || end == "null" ? "NA" : formatReadableDate(end)}",
                           style: TextStyle(
                             fontSize: 12,
-                            color: AppColors.grey,
+                            color: Color(0xFF7B8493),
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -223,8 +239,11 @@ class HomeCourseCard extends StatelessWidget {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(Icons.live_tv,
-                                  size: 18, color: AppColors.primaryBlue),
+                              Icon(
+                                Icons.live_tv,
+                                size: 18,
+                                color: const Color(0xFF2D3A4A),
+                              ),
                               SizedBox(width: 4),
                               Text(
                                 "Live Lectures",
@@ -242,7 +261,7 @@ class HomeCourseCard extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Icon(Icons.play_circle_fill,
-                                  size: 18, color: AppColors.primaryGreen),
+                                  size: 18, color: const Color(0xFF3CB371)),
                               SizedBox(width: 4),
                               Text(
                                 "Recorded Lectures",
@@ -284,7 +303,7 @@ class HomeCourseCard extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Icon(Icons.help_outline,
-                                  size: 18, color: AppColors.primaryBlue),
+                                  size: 18, color: const Color(0xFF2D3A4A)),
                               SizedBox(width: 4),
                               Text(
                                 "Doubt Clearance",
@@ -327,7 +346,7 @@ class HomeCourseCard extends StatelessWidget {
                                         style: TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 12,
-                                          color: AppColors.grey,
+                                          color: Color(0xFF7B8493),
                                           decoration:
                                               TextDecoration.lineThrough,
                                         ),
@@ -340,7 +359,7 @@ class HomeCourseCard extends StatelessWidget {
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16,
-                                          color: AppColors.primaryBlue,
+                                          color: Color(0xFF2D3A4A),
                                         ),
                                       ),
                                     ],
@@ -396,7 +415,7 @@ class HomeCourseCard extends StatelessWidget {
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16,
-                                            color: AppColors.primaryBlue,
+                                            color: Color(0xFF2D3A4A),
                                           ),
                                         ),
                                       ],
@@ -438,31 +457,31 @@ class HomeCourseCard extends StatelessWidget {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
-                                color: AppColors.primaryBlue,
+                                color: Color(0xFF2D3A4A),
                               ),
                             ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 4),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                // boxShadow: [
-                                //   BoxShadow(
-                                //     color: Colors.black.withOpacity(0.08),
-                                //     blurRadius: 4,
-                                //     offset: Offset(0, 2),
-                                //   ),
-                                // ],
-                              ),
-                              child: Text(
-                                '',
-                                style: TextStyle(
-                                  color: AppColors.white,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 11,
-                                ),
-                              ),
-                            ),
+                            // Container(
+                            //   padding: const EdgeInsets.symmetric(
+                            //       horizontal: 10, vertical: 4),
+                            //   decoration: BoxDecoration(
+                            //     borderRadius: BorderRadius.circular(12),
+                            //     // boxShadow: [
+                            //     //   BoxShadow(
+                            //     //     color: Colors.black.withOpacity(0.08),
+                            //     //     blurRadius: 4,
+                            //     //     offset: Offset(0, 2),
+                            //     //   ),
+                            //     // ],
+                            //   ),
+                            //   child: Text(
+                            //     '',
+                            //     style: TextStyle(
+                            //       color: AppColors.white,
+                            //       fontWeight: FontWeight.w600,
+                            //       fontSize: 11,
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                       ]
@@ -475,18 +494,21 @@ class HomeCourseCard extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.deepPurpleAccent,
+                            backgroundColor: AppColors.primaryBlue,
                             foregroundColor: Colors.white,
-                            elevation: 2,
-                            shadowColor:
-                                Colors.deepPurpleAccent.withOpacity(0.25),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
+                            elevation: 0,
+                            side: const BorderSide(
+                              color: AppColors.primaryBlue,
+                              width: 1.5,
                             ),
-                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            shadowColor: Colors.transparent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 14),
                             textStyle: const TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 15,
+                              fontSize: 16,
                             ),
                           ),
                           onPressed: () {
@@ -539,7 +561,7 @@ class HomeCourseCard extends StatelessWidget {
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
-                                    AppColors.primaryBlue.withOpacity(0.9),
+                                    AppColors.primaryOrange.withOpacity(0.9),
                                 foregroundColor: Colors.white,
                                 elevation: 2,
                                 shadowColor:

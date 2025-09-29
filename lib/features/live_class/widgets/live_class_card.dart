@@ -187,14 +187,7 @@ class LiveClassCard extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                if (currenttab == "Recordings")
-                                  IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(
-                                        Icons.download,
-                                        color: AppColors.primaryBlue,
-                                      ))
-                                else if (currenttab == "Upcoming")
+                                if (currenttab == "Upcoming")
                                   IconButton(
                                       onPressed: () {
                                         NotificationService()
