@@ -38,10 +38,11 @@ class _AssignmentsScreenState extends State<AssignmentsScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(
-                height: 30,
+                height: 20,
               ),
               Row(
                 children: [
+                  BackButton(),
                   SizedBox(width: 10),
                   HugeIcon(
                     icon: HugeIcons.strokeRoundedAssignments,

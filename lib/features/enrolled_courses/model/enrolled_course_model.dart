@@ -11,20 +11,9 @@ class EnrolledCourseModel {
     if (json['subscriptions'] != null) {
       subscriptions = <Subscriptions>[];
       json['subscriptions'].forEach((v) {
-        subscriptions!.add(new Subscriptions.fromJson(v));
+        subscriptions!.add(Subscriptions.fromJson(v));
       });
     }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['type'] = this.type;
-    data['message'] = this.message;
-    if (this.subscriptions != null) {
-      data['subscriptions'] =
-          this.subscriptions!.map((v) => v.toJson()).toList();
-    }
-    return data;
   }
 }
 
@@ -36,6 +25,9 @@ class Subscriptions {
   String? batchTitle;
   int? enrollmentId;
   double? ratings;
+  int? videoCount;
+  int? pdfCount;
+  int? practiceTestCount;
   int? contentCount;
   int? progress;
 
@@ -47,6 +39,9 @@ class Subscriptions {
       this.batchTitle,
       this.enrollmentId,
       this.ratings,
+      this.videoCount,
+      this.pdfCount,
+      this.practiceTestCount,
       this.contentCount,
       this.progress});
 
@@ -57,22 +52,11 @@ class Subscriptions {
     batchId = json['batch_id'];
     batchTitle = json['batch_title'];
     enrollmentId = json['enrollment_id'];
-    ratings = double.parse(json['ratings'].toString());
+    ratings = json['ratings'];
+    videoCount = json['video_count'];
+    pdfCount = json['pdf_count'];
+    practiceTestCount = json['practice_test_count'];
     contentCount = json['content_count'];
     progress = json['progress'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['course_title'] = this.courseTitle;
-    data['course_thumbnail'] = this.courseThumbnail;
-    data['course_id'] = this.courseId;
-    data['batch_id'] = this.batchId;
-    data['batch_title'] = this.batchTitle;
-    data['enrollment_id'] = this.enrollmentId;
-    data['ratings'] = this.ratings;
-    data['content_count'] = this.contentCount;
-    data['progress'] = this.progress;
-    return data;
   }
 }
