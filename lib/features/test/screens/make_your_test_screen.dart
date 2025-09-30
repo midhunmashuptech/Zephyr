@@ -58,6 +58,7 @@ class _MakeYourTestScreenState extends State<MakeYourTestScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: 20),
+                Row(children: [BackButton()]),
                 Center(
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.75,

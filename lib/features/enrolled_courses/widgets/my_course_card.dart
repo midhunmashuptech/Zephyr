@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/bxs.dart';
 import 'package:iconify_flutter_plus/icons/fa.dart';
+import 'package:iconify_flutter_plus/icons/healthicons.dart';
+import 'package:iconify_flutter_plus/icons/ic.dart';
+import 'package:iconify_flutter_plus/icons/ion.dart';
+import 'package:iconify_flutter_plus/icons/mdi.dart';
+import 'package:iconify_flutter_plus/icons/ph.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:zephyr/constants/app_constants.dart';
 import 'package:zephyr/features/enrolled_courses/model/enrolled_course_model.dart';
@@ -64,16 +69,13 @@ class MyCourseCard extends StatelessWidget {
                 ),
               ),
             ),
-
             Positioned(top: 10, left: 10, child: courseStarRating()),
-
             Positioned(
               bottom: 0,
               left: 0,
               right: 0,
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 18.0, vertical: 16.0),
+                height: MediaQuery.of(context).size.width * 0.4,
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(16),
@@ -87,19 +89,40 @@ class MyCourseCard extends StatelessWidget {
                       Colors.transparent,
                     ],
                   ),
+                ),)),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(16),
+                    bottomRight: Radius.circular(16),
+                  ),
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [
+                      const Color.fromARGB(255, 0, 0, 0),
+                      const Color.fromARGB(0, 0, 0, 0),
+                    ],
+                  ),
                 ),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 18.0, vertical: 16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
                         CircleAvatar(
-                          radius: 22,
+                          radius: 18,
                           backgroundColor:
                               const Color(0xFF2D3A4A).withAlpha(100),
                           child: Iconify(
                             Fa.graduation_cap,
-                            size: 20,
+                            size: 16,
                             color: AppColors.white,
                           ),
                         ),
@@ -108,8 +131,8 @@ class MyCourseCard extends StatelessWidget {
                           child: Text(
                             course.courseTitle ?? "",
                             style: const TextStyle(
-                              fontSize: 19,
-                              fontWeight: FontWeight.w700,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
                               color: Colors.white,
                               shadows: [
                                 Shadow(
@@ -135,38 +158,84 @@ class MyCourseCard extends StatelessWidget {
                           },
                           icon: const Icon(Icons.arrow_forward_ios_rounded,
                               color: Color(0xFFDEE3EA)),
-                          iconSize: 22,
+                          iconSize: 18,
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
                           children: [
-                            Iconify(Bxs.videos, size: 17, color: Colors.white),
-                            const SizedBox(width: 6),
-                            Text(
-                              "${course.contentCount} Videos",
-                              style: const TextStyle(
-                                fontSize: 15,
-                                color: Color(0xFFDEE3EA),
-                                shadows: [
-                                  Shadow(
-                                    color: Colors.black38,
-                                    offset: Offset(0, 1),
-                                    blurRadius: 4,
+                            Row(
+                              children: [
+                                Iconify(Ic.videocam, size: 17, color: Colors.white),
+                                const SizedBox(width: 6),
+                                Text(
+                                  "${course.videoCount}",
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    color: Color(0xFFDEE3EA),
+                                    shadows: [
+                                      Shadow(
+                                        color: Colors.black38,
+                                        offset: Offset(0, 1),
+                                        blurRadius: 4,
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(width: 10),
+                            Row(
+                              children: [
+                                Iconify(Ion.document_text, size: 17, color: Colors.white),
+                                const SizedBox(width: 6),
+                                Text(
+                                  "${course.pdfCount}",
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    color: Color(0xFFDEE3EA),
+                                    shadows: [
+                                      Shadow(
+                                        color: Colors.black38,
+                                        offset: Offset(0, 1),
+                                        blurRadius: 4,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(width: 10),
+                            Row(
+                              children: [
+                                Iconify(Healthicons.i_exam_multiple_choice, size: 17, color: Colors.white),
+                                const SizedBox(width: 6),
+                                Text(
+                                  "${course.practiceTestCount}",
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    color: Color(0xFFDEE3EA),
+                                    shadows: [
+                                      Shadow(
+                                        color: Colors.black38,
+                                        offset: Offset(0, 1),
+                                        blurRadius: 4,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
+
                         Row(
                           children: [
                             SizedBox(
-                              width: 120,
+                              width: MediaQuery.of(context).size.width * 0.25,
                               child: LinearProgressIndicator(
                                 value: (course.progress ?? 0) / 100,
                                 minHeight: 9,
@@ -205,7 +274,7 @@ class MyCourseCard extends StatelessWidget {
   }
 
   Widget courseStarRating() {
-    double rating = double.parse("4.4");
+    double rating = course.ratings ?? 0.0;
     final fullStarCount = rating.floor();
     final decimalPart = rating - fullStarCount;
     final halfStarCount = decimalPart >= 0.5 ? 1 : 0;
@@ -223,16 +292,17 @@ class MyCourseCard extends StatelessWidget {
             return Icon(Icons.star, size: 18, color: AppColors.ratingYellow);
           }),
           ...List.generate(halfStarCount, (index) {
-            return Icon(Icons.star_half, size: 18, color: AppColors.ratingYellow);
+            return Icon(Icons.star_half,
+                size: 18, color: AppColors.ratingYellow);
           }),
           ...List.generate(emptyStarCount, (index) {
             return Icon(Icons.star_outline,
                 size: 18, color: AppColors.ratingYellow);
           }),
           SizedBox(width: 5),
-          Text("4.4",
-              style:
-                  TextStyle(fontWeight: FontWeight.w600, color: AppColors.white))
+          Text("$rating",
+              style: TextStyle(
+                  fontWeight: FontWeight.w600, color: AppColors.white))
         ],
       ),
     );
